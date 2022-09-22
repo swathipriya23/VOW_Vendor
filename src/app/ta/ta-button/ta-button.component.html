@@ -1,0 +1,25 @@
+<div>
+
+
+    
+    <form [formGroup]="tabuttonForm" (ngSubmit)="submitForm()">
+        <table>
+            <tr>
+                        
+                <td>
+                   <mat-form-field  style="width: 175px;">
+                        <mat-label>Approve Reason</mat-label>
+                        <input  matInput placeholder="comments for Approve" formControlName="appcomment"  autocomplete="off"  required>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-icon style="color: blueviolet;" (click)="approvelevel()">done</mat-icon>
+                </td>
+                <td>
+                    <mat-icon style="color: blueviolet;" (click)="onCancelClick">cancel</mat-icon>
+                </td>
+            </tr>
+            </table>
+            </form>
+           
+            </div>

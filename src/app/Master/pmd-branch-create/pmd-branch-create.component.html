@@ -1,0 +1,73 @@
+<div style="margin-left: 25px; margin-right: 80%; margin-top: 1%; width: 100%;">
+    <h1  style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">
+        PMD Branch Create
+    </h1>
+    <hr>
+    <div>
+        <form [formGroup]="PMDForm" (ngSubmit)="PMDSubmit()">
+            <table>
+                <h2>Branch Details</h2>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <td>
+                            <mat-form-field style="width: 175px; margin-left: 50px;">
+                                <mat-label>Branch</mat-label>
+                                <input class="toolbar-search" type="text" matInput autocomplete="off" matInput [matAutocomplete]="checkerbranch" #branchidInput formControlName="branch" style="width: 250px;" />
+                                <mat-placeholder>Branch</mat-placeholder>
+                                <mat-autocomplete #checkerbranch="matAutocomplete" #branch (opened)="autocompleteScroll_branch()">
+                                    <mat-option *ngIf="isLoading">Loading..</mat-option>
+                                    <ng-container>
+                                        <mat-option *ngFor="let d of branchdata" [value]="d.name" (focusout)="checker_branchs(d)">
+                                            {{d.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                    </div>
+                </div>
+                <h2>Location</h2>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <td>
+                            <mat-form-field style="width: 175px; margin-left: 50px;">
+                                <mat-label>Location Name</mat-label>
+                                <input matInput placeholder="Location Name" autocomplete="off" formControlName="location" required />
+                            </mat-form-field>
+                        </td>
+                    </div>
+                    <div class="col-sm-3">
+                        <td>
+                            <mat-form-field style="width: 175px; margin-left: 50px;">
+                                <mat-label>GST No</mat-label>
+                                <input matInput placeholder="GST No" autocomplete="off" formControlName="gst_number" pattern="[0-9]{2,3}" required />
+                                <mat-error> Length b/w 2 to 3 Characters</mat-error>
+                            </mat-form-field>
+                        </td>
+                    </div>
+                    <div class="col-sm-3" style="padding-top: 10px;">
+                        <td>
+                            <mat-radio-group [formControl]="gst_number" style="width: 175px; margin-left: 50px;">
+                                <mat-radio-button *ngFor="let a of status" [value]="a" (change)="radioChange($event,a.value)">
+                                    {{a.value}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </td>
+                    </div>
+                    <div class="col-sm-3">
+                        <td>
+                            <mat-form-field style="width: 175px; margin-left: 50px;">
+                                <mat-label> Remarks</mat-label>
+                                <textarea matInput placeholder=" Remarks" autocomplete="off" formControlName="remarks"></textarea>
+                            </mat-form-field>
+                        </td>
+                    </div>
+                </div>
+            </table>
+            <div style="margin-bottom: 5%; margin-left: 50px;">
+                <button type="submit" style="border-radius: 40px;" class="btn btn-outline-primary" [disabled]="PMDForm.invalid">Submit</button>
+                <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary" style="border-radius: 40px; margin-left: 10px;">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

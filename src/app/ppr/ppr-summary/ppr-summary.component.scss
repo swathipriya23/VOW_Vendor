@@ -1,0 +1,62 @@
+// .tablescroll{
+    // height:400px;
+    // width:95%;
+    // overflow:auto;
+    // overflow: scroll;
+    // overflow:visible;
+    // display: block;
+  // }
+
+  .tableFixHead          { overflow: auto; height: 400px; }
+// .tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+
+// /* Just common table stuff. Really. */
+// table  { border-collapse: collapse; width: 100%;font-size: 13px; }
+// th, td { padding: 14px 16px; }
+// th     { background:#DDEFDD; }
+
+.example-section {
+  margin: 12px 0;
+}
+
+.example-margin {
+  margin: 0 12px;
+}
+.full_modal-dialog {
+  width: 98% !important;
+  height: 92% !important;
+  min-width: 98% !important;
+  min-height: 92% !important;
+  max-width: 98% !important;
+  max-height: 92% !important;
+  padding: 0 !important;
+}
+
+.full_modal-content {
+  height: 99% !important;
+  min-height: 99% !important;
+  max-height: 99% !important;
+}
+::ng-deep .cdk-overlay-container {
+  z-index: 1300 !important;
+}
+.my-custom-scrollbar {
+  position: relative;
+  height: 200px;
+  overflow: auto;
+  }
+  .table-wrapper-scroll-y {
+  display: block;
+  }
+  #commonstyle{
+    border:15px none #f6f6f6
+    }
+  
+    tr:nth-child(even) {background: #EDF8FA}
+    tr:nth-child(odd) {background: #FFF}
+  table,th,td{
+    text-align: left;
+  font-size: 13px;
+
+    // padding: 5px;
+  }

@@ -1,0 +1,455 @@
+<div class="container">
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+            <h3> Changes </h3>
+        </div>
+        <div class="col-md-7 text-right">
+            <!-- <button type="button" class="btn btn-primary" style="border-radius: 10px;margin-left: 10px;"
+                (click)="Cancel()">Cancel</button> -->
+                <button type="button"  class="btn btn-light" 
+                style="border-radius: 7px;margin-left: 25px;
+                 border-color: black;
+                background-color: white;" (click)="Cancel()">Cancel</button>
+        </div>
+    </div>
+    <div>
+        <div class="timeline">
+            <ul>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+
+                <li>
+                    <div class="content">
+                        <p><code> Code</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.code!=modificationdata.old_data.code'>
+                                {{modificationdata.new_data.code}}</span></p>
+                        <p><code> Name</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.name!=modificationdata.old_data.name'>
+                                {{modificationdata.new_data.name | titlecase}}</span></p>
+                        <p><code> Relationship Category</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.group.text!=modificationdata.old_data.group.text'>
+                                {{modificationdata.new_data.group.text | titlecase}}</span></p>
+                        <p><code> Vendor Category</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.custcategory_id.name!=modificationdata.old_data.custcategory_id.name'>
+                                {{modificationdata.new_data.custcategory_id.name | titlecase}}</span></p>
+                        <p><code> Organization Type</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.orgtype.text!=modificationdata.old_data.orgtype.text'>
+                                {{modificationdata.new_data.orgtype.text | titlecase}}</span></p>
+
+                        <p><code> Website</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.website!=modificationdata.old_data.website'>
+                                {{modificationdata.new_data.website}}</span></p>
+                        <p><code> Criticality</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.type.text!=modificationdata.old_data.type.text'>
+                                {{modificationdata.new_data.type.text | titlecase}}</span></p>
+
+
+                        <p><code> GST Category</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.composite.text!=modificationdata.old_data.composite.text'>
+                                {{modificationdata.new_data.composite.text | titlecase}}</span></p>
+                        <p><code> Classification</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.classification.text!=modificationdata.old_data.classification.text'>
+                                {{modificationdata.new_data.classification.text | titlecase}}</span></p>
+
+
+                        <p><code> PAN No</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.panno!=modificationdata.old_data.panno'>
+                                {{modificationdata.new_data.panno}}</span></p>
+                        <!-- <p><code> Gst No</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.gstno!=modificationdata.old_data.gstno'>
+                                {{modificationdata.new_data.gstno}}</span></p> -->
+
+
+                        <p><code> Company Reg No</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.comregno!=modificationdata.old_data.comregno'>
+                                {{modificationdata.new_data.comregno}}</span></p>
+                        <!-- <p><code> Aadhar No</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.adhaarno!=modificationdata.old_data.adhaarno'>
+                                {{modificationdata.new_data.adhaarno}}</span></p> -->
+                        
+                                
+                                <p><code>Description</code>:&nbsp;<span
+                                    [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.description!=modificationdata.old_data.description'>
+                                    {{modificationdata.new_data.description | titlecase}}</span></p>
+                                    <!-- <p><code>Type of RisK</code>:&nbsp;<span
+                                        [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.risktype.text!=modificationdata.old_data.risktype.text'>
+                                        {{modificationdata.new_data.risktype.text | titlecase}}</span></p>
+                                    <p><code>Risk Description</code>:&nbsp;<span
+                                        [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.risktype_description!=modificationdata.old_data.risktype_description'>
+                                        {{modificationdata.new_data.risktype_description | titlecase}}</span></p>
+                                        <p><code>Risk Mitigant</code>:&nbsp;<span
+                                            [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.risk_mitigant!=modificationdata.old_data.risk_mitigant'>
+                                            {{modificationdata.new_data.risk_mitigant | titlecase}}</span></p>
+                                            <p><code>Review mechanism of risk mitigation</code>:&nbsp;<span
+                                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.risk_mitigant_review!=modificationdata.old_data.risk_mitigant_review'>
+                                                {{modificationdata.new_data.risk_mitigant_review | titlecase}}</span></p>
+                                                 -->
+
+
+
+                        <p><code>Active Contract</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.activecontract!=modificationdata.old_data.activecontract'
+                                *ngIf="modificationdata.new_data.activecontract=='True'">Yes</span><span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.activecontract!=modificationdata.old_data.activecontract'
+                                *ngIf="modificationdata.new_data.activecontract=='False'">No</span></p>
+                        <p><code> Contract Reason</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.nocontract_reason!=modificationdata.old_data.nocontract_reason'>
+                                {{modificationdata.new_data.nocontract_reason | titlecase}}</span></p>
+                        <p><code> Contract From</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contractdate_from!=modificationdata.old_data.contractdate_from'>
+                                {{modificationdata.new_data.contractdate_from | date:'dd-MM-yyyy'}}</span></p>
+                        <p><code> Contract To</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contractdate_to!=modificationdata.old_data.contractdate_to'>
+                                {{modificationdata.new_data.contractdate_to | date:'dd-MM-yyyy'}}</span></p>
+                        <p><code> Renewal Date</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.renewal_date!=modificationdata.old_data.renewal_date'>
+                                {{modificationdata.new_data.renewal_date | date:'dd-MM-yyyy'}}</span></p>
+                        <p><code> Renewal Trigger Email days</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.emaildays!=modificationdata.old_data.emaildays'>
+                                {{modificationdata.new_data.emaildays}}</span></p>
+                        <p><code> Actual Spend</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.actualspend!=modificationdata.old_data.actualspend'>
+                                {{modificationdata.new_data.actualspend}}</span></p>
+                        <p><code> Approximate Spend</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.aproxspend!=modificationdata.old_data.aproxspend'>
+                                {{modificationdata.new_data.aproxspend}}</span></p>
+                        <p><code>RM Name</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.rm_id.full_name!=modificationdata.old_data.rm_id.full_name'>
+                                {{modificationdata.new_data.rm_id.full_name | titlecase}}</span></p>
+
+
+                        <p><code> Remarks</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.remarks!=modificationdata.old_data.remarks'>
+                                {{modificationdata.new_data.remarks | titlecase}}</span></p>
+
+
+
+                        <p><code> Main Status</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.mainstatus_name!=modificationdata.old_data.mainstatus_name'>
+                                {{modificationdata.new_data.mainstatus_name | titlecase}}</span></p>
+                        <p><code> Request Status</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.requeststatus_name!=modificationdata.old_data.requeststatus_name'>
+                                {{modificationdata.new_data.requeststatus_name | titlecase}}</span></p>
+                        <p><code> Vendor Status</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.vendor_status_name!=modificationdata.old_data.vendor_status_name'>
+                                {{modificationdata.new_data.vendor_status_name | titlecase}}</span></p>
+
+
+                        <p><code>Year</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.profile.year!=modificationdata.old_data.profile.year'>
+                                {{modificationdata.new_data.profile.year}}</span></p>
+                        <p><code> Associate Year</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.profile.associate_year!=modificationdata.old_data.profile.associate_year'>
+                                {{modificationdata.new_data.profile.associate_year}}</span></p>
+                        <!-- <p><code>Award Details</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.profile.award_details!=modificationdata.old_data.profile.award_details'>
+                                {{modificationdata.new_data.profile.award_details}}</span></p>
+                        <p><code> Permanent Employee</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.profile.permanent_employee!=modificationdata.old_data.profile.permanent_employee'>
+                                {{modificationdata.new_data.profile.permanent_employee}}</span></p>
+                        <p><code> Temporary Employee</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.profile.temporary_employee!=modificationdata.old_data.profile.temporary_employee'>
+                                {{modificationdata.new_data.profile.temporary_employee}}</span></p>
+                        <p><code>Total Employee</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.profile.total_employee!=modificationdata.old_data.profile.total_employee'>
+                                {{modificationdata.new_data.profile.total_employee}}</span></p> -->
+                        <p><code>Branch Count</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.profile.branch!=modificationdata.old_data.profile.branch'>
+                                {{modificationdata.new_data.profile.branch}}</span></p>
+                        <!-- <p><code>Factory</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.profile.factory!=modificationdata.old_data.profile.factory'>
+                                {{modificationdata.new_data.profile.factory}}</span></p> -->
+                        <p><code> Remarks</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.profile.remarks!=modificationdata.old_data.profile.remarks'>
+                                {{modificationdata.new_data.profile.remarks | titlecase}}</span></p>
+
+                        <p><code> Director Count</code>:&nbsp;<span
+                                    [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.director_count!=modificationdata.old_data.director_count'>
+                                    {{modificationdata.new_data.director_count}}</span></p>
+                        <Address>
+                            <code>Address</code>:&nbsp;
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.address.line1!=modificationdata.old_data.address.line1'>{{
+                                modificationdata.new_data.address.line1 | titlecase}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.address.line2!=modificationdata.old_data.address.line2'>{{
+                                modificationdata.new_data.address.line2 | titlecase}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.address.line3!=modificationdata.old_data.address.line3'>{{
+                                modificationdata.new_data.address.line3 | titlecase}}</span>,
+
+
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.address.city_id.name!=modificationdata.old_data.address.city_id.name'>{{
+                                modificationdata.new_data.address.city_id.name | titlecase}}</span>,
+
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.address.district_id.name!=modificationdata.old_data.address.district_id.name'>{{
+                                modificationdata.new_data.address.district_id.name | titlecase}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.address.pincode_id.no!=modificationdata.old_data.address.pincode_id.no'>{{
+                                modificationdata.new_data.address.pincode_id.no}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.address.state_id.name!=modificationdata.old_data.address.state_id.name'>{{
+                                modificationdata.new_data.address.state_id.name | titlecase}}</span>
+                        </Address>
+
+                        <Address>
+                            <code>Contact</code>:&nbsp;
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contact.name!=modificationdata.old_data.contact.name'>
+                                {{ modificationdata.new_data.contact.name | titlecase}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contact.designation!=modificationdata.old_data.contact.designation'>{{
+                                modificationdata.new_data.contact.designation | titlecase}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contact.email!=modificationdata.old_data.contact.email'>{{
+                                modificationdata.new_data.contact.email}}</span>,
+                            <!-- <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contact.type_id.name!=modificationdata.old_data.contact.type_id.name'>
+                                {{ modificationdata.new_data.contact.type_id.name}}</span>, -->
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contact.landline!=modificationdata.old_data.contact.landline'>{{
+                                modificationdata.new_data.contact.landline}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contact.landline1!=modificationdata.old_data.contact.landline1'>{{
+                                modificationdata.new_data.contact.landline1}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contact.mobile!=modificationdata.old_data.contact.mobile'>
+                                {{ modificationdata.new_data.contact.mobile}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contact.mobile2!=modificationdata.old_data.contact.mobile2'>
+                                {{ modificationdata.new_data.contact.mobile2}}</span>,
+                            <!-- <span
+                                [class.changes]='modificationdata.new_data.modify_status==1 &&  modificationdata.new_data.contact.dob!=modificationdata.old_data.contact.dob'>
+                                dob:{{ modificationdata.new_data.contact.dob | date:'dd-MMM-yyyy'}}</span>, -->
+
+
+
+
+                        </Address>
+
+
+                        <div class="table-responsive" style="width: 98%;margin-top: 10px;overflow-x: hidden;">
+            
+                            <table class="table" id ='commonstyle'>
+                            <thead class="table_header" >
+                                <tr>
+                                <th>Sl.no</th>
+                                <th>Director Name</th>
+                                <th>Pan Number</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr *ngFor="let directornew of directorNameListnew; let i = index; ">
+                                    <td>{{i+1}}</td>
+                                    <td>{{directornew.name}}</td>
+                                    <td>{{directornew.d_pan}}</td>
+                                    <!-- <td [class.changes]='director.name!=director.name'>{{due.direction}}</td>
+                                    <td [class.changes]='director.remarks!=director.old_remarks'>{{due.remarks}}</td> -->
+                                </tr>
+                          </tbody>
+                        </table>
+                        <div *ngIf="directorNameListnew ?.length == 0">
+                            <h3>Sorry data not found!.. </h3>
+                        </div>
+                        </div>
+
+
+                    </div>
+                </li>
+                <li>
+                    <div class="content" *ngIf="modificationdata.action==2">
+                        <p><code> Code</code>:&nbsp;
+
+                            {{modificationdata.old_data.code}}</p>
+                        <p><code> Name</code>:&nbsp;
+
+                            {{modificationdata.old_data.name | titlecase}}</p>
+                        <p><code> Relationship Category</code>:&nbsp;
+
+                            {{modificationdata.old_data.group.text | titlecase}}</p>
+
+                        <p><code> Vendor Category</code>:&nbsp;
+
+                            {{modificationdata.old_data.custcategory_id.name | titlecase}}</p>
+
+                        <p><code> Organization Type</code>:&nbsp;
+
+                            {{modificationdata.old_data.orgtype.text | titlecase}}</p>
+
+                        <p><code> Website</code>:&nbsp;
+
+                            {{modificationdata.old_data.website}}</p>
+                        <p><code> Criticality</code>:&nbsp;
+
+                            {{modificationdata.old_data.type.text | titlecase}}</p>
+                        <p><code> GST Category</code>:&nbsp;
+
+                            {{modificationdata.old_data.composite.text | titlecase}}</p>
+
+                        <p><code> Classification</code>:&nbsp;
+
+                            {{modificationdata.old_data.classification.text | titlecase}}</p>
+                        <p><code> PAN No</code>:&nbsp;
+
+                            {{modificationdata.old_data.panno}}</p>
+                        <!-- <p><code> Gst No</code>:&nbsp;
+
+                            {{modificationdata.old_data.gstno}}</p> -->
+                        <p><code> Company Reg No</code>:&nbsp;
+
+                            {{modificationdata.old_data.comregno}}</p>
+<!-- 
+                        <p><code> Aadhar No</code>:&nbsp;
+
+                            {{modificationdata.old_data.adhaarno}}</p> -->
+                        <p><code>Description</code>:&nbsp;
+
+                            {{modificationdata.old_data.description | titlecase}}</p>
+                        <!-- <p><code>Type of Risk</code>:&nbsp;
+
+                                {{modificationdata.old_data.risktype.text | titlecase}}</p>    
+                        <p><code>Risk Description</code>:&nbsp;
+
+                            {{modificationdata.old_data.risktype_description | titlecase}}</p>
+                        <p><code>Risk Mitigant</code>:&nbsp;
+
+                            {{modificationdata.old_data.risk_mitigant | titlecase}}</p> 
+                        <p><code>Review mechanism of risk mitigation</code>:&nbsp;
+
+                                {{modificationdata.old_data.risk_mitigant_review | titlecase}}</p>        -->
+                        <p><code>Active Contract </code>:&nbsp;<span
+                                *ngIf="modificationdata.old_data.activecontract=='True'">Yes</span><span
+                                *ngIf="modificationdata.old_data.activecontract=='False'">No</span></p>
+                        <p><code> Contract Reason</code>:&nbsp;
+
+                            {{modificationdata.old_data.nocontract_reason | titlecase}}</p>
+                        <p><code> Contract From</code>:&nbsp;
+
+                            {{modificationdata.old_data.contractdate_from | date:'dd-MM-yyyy'}}</p>
+                        <p><code> Contract To</code>:&nbsp;
+
+                            {{modificationdata.old_data.contractdate_to | date:'dd-MM-yyyy'}}</p>
+                        <p><code> Renewal Date</code>:&nbsp;
+
+                            {{modificationdata.old_data.renewal_date | date:'dd-MM-yyyy'}}</p>
+                        <p><code> Renewal Trigger Email days</code>:&nbsp;
+
+                            {{modificationdata.old_data.emaildays}}</p>
+
+                        <p><code> Actual Spend</code>:&nbsp;{{modificationdata.old_data.actualspend}}</p>
+                        <p><code> Approximate Spend</code>:&nbsp;{{modificationdata.old_data.aproxspend}}</p>
+
+
+                        <p><code>RM Name</code>:&nbsp;
+
+                            {{modificationdata.old_data.rm_id.full_name | titlecase}}</p>
+                        <p><code> Remarks</code>:&nbsp;
+
+                            {{modificationdata.old_data.remarks | titlecase}}</p>
+                        <p><code> Main Status</code>:&nbsp;
+
+                            {{modificationdata.old_data.mainstatus_name | titlecase}}</p>
+                        <p><code> Request Status</code>:&nbsp;
+
+                            {{modificationdata.old_data.requeststatus_name | titlecase}}</p>
+                        <p><code> Vendor Status</code>:&nbsp;
+
+                            {{modificationdata.old_data.vendor_status_name | titlecase}}</p>
+                        <p><code>Year</code>:&nbsp;
+
+                            {{modificationdata.old_data.profile.year}}</p>
+                        <p><code> Associate Year</code>:&nbsp;
+
+                            {{modificationdata.old_data.profile.associate_year}}</p>
+                        <!-- <p><code>Award Details</code>:&nbsp;
+
+                            {{modificationdata.old_data.profile.award_details}}</p>
+
+                        <p><code> Permanent Employee</code>:&nbsp;
+
+                            {{modificationdata.old_data.profile.permanent_employee}}</p>
+                        <p><code> Temporary Employee</code>:&nbsp;
+
+                            {{modificationdata.old_data.profile.temporary_employee}}</p>
+                        <p><code>Total Employee</code>:&nbsp;
+
+                            {{modificationdata.old_data.profile.total_employee}}</p> -->
+                        <p><code>Branch Count</code>:&nbsp;
+
+                            {{modificationdata.old_data.profile.branch}}</p>
+                        <!-- <p><code>Factory</code>:&nbsp;
+
+                            {{modificationdata.old_data.profile.factory}}</p> -->
+                        <p><code> Remarks</code>:&nbsp;
+
+                            {{modificationdata.old_data.profile.remarks | titlecase}}</p>
+                        <p><code> Director Count</code>:&nbsp;
+
+                                {{modificationdata.old_data.director_count}}</p>
+
+
+                        <Address>
+                            <code>Address</code>:&nbsp;
+                            {{ modificationdata.old_data.address.line1 | titlecase}},
+                            {{ modificationdata.old_data.address.line2 | titlecase}},
+                            {{ modificationdata.old_data.address.line3 | titlecase}},
+                            {{modificationdata.old_data.address.city_id.name | titlecase}},
+                            {{ modificationdata.old_data.address.district_id.name | titlecase}},
+                            {{ modificationdata.old_data.address.pincode_id.no}},
+                            {{ modificationdata.old_data.address.state_id.name | titlecase }}
+                        </Address>
+                        <Address>
+                            <code>Contact</code>:&nbsp;
+
+                            <span> {{ modificationdata.old_data.contact.name | titlecase}}</span>,
+                            <span>{{ modificationdata.old_data.contact.designation | titlecase}}</span>,
+                            <span>{{ modificationdata.old_data.contact.email}}</span>,
+                            <!-- <span> {{ modificationdata.old_data.contact.type_id.name}}</span>, -->
+                            <span>{{ modificationdata.old_data.contact.landline}}</span>,
+                            <span>{{ modificationdata.old_data.contact.landline1}}</span>,
+                            <span> {{ modificationdata.old_data.contact.mobile}}</span>,
+                            <span> {{ modificationdata.old_data.contact.mobile2}}</span>,
+                            <!-- <span> dob:{{ modificationdata.old_data.contact.dob | date:'dd-MMM-yyyy'}}</span>, -->
+
+
+                        </Address>
+
+                        <div class="table-responsive" style="width: 98%;margin-top: 10px;overflow-x: hidden;">
+            
+                            <table class="table" id ='commonstyle'>
+                            <thead class="table_header" >
+                                <tr>
+                                <th>Sl.no</th>
+                                <th>Director Name</th>
+                                <th>Pan Number</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr *ngFor="let directorold of directorNameListold; let i = index; ">
+                                    <td>{{i+1}}</td>
+                                    <td>{{directorold.name}}</td>
+                                    <td>{{directorold.d_pan}}</td>
+                                    <!-- <td [class.changes]='director.name!=director.name'>{{due.direction}}</td>
+                                    <td [class.changes]='director.remarks!=director.old_remarks'>{{due.remarks}}</td> -->
+                                </tr>
+                          </tbody>
+                        </table>
+                        <div *ngIf="directorNameListold ?.length == 0">
+                            <h3>Sorry data not found!.. </h3>
+                        </div>
+                        </div>
+
+                    </div>
+                </li>
+
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+</div>

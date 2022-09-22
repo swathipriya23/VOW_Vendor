@@ -1,0 +1,255 @@
+<!-- <p>asset-category-create works!</p> -->
+<!-- <div style="margin-left: 50px;margin-right: 80%;margin-top: 1%; width: 100%;">
+    <h3>
+        Asset category Edit Form
+    </h3>
+    <div>
+        <form [formGroup]="assetcateditform" (ngSubmit)="assetcateditForm()">
+            <table>
+                <div> -->
+<!-- <tr>
+                        <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>Apcategory</mat-label>
+                                <input placeholder="Select Apcategory" matInput formControlName="apcategory"
+                                    [matAutocomplete]="apcattype">
+                                <mat-autocomplete #apcattype="matAutocomplete" [displayWith]="displayapcat">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let apcategory of apcategoryList"
+                                        (focusout)="landlordbankbranchnames(apcategory)" 
+
+                                         [value]="apcategory">
+                                            {{apcategory.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 15px;">
+                                <mat-label>Sub Category_ID</mat-label>
+                                <input matInput placeholder="Sub Category" formControlName="subcategory_id" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>Subcategory</mat-label>
+                                <input placeholder="Select Subcategory" matInput formControlName="subcatname"
+                                    [matAutocomplete]="subcattype">
+                                <mat-autocomplete #subcattype="matAutocomplete" [displayWith]="displaysubcat">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let subcategory of subcategoryList"
+
+                                         [value]="subcategory">
+                                            {{subcategory.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 60px;">
+                                <mat-label>LifeTime</mat-label>
+                                <input matInput placeholder="LifeTime"  autocomplete="off" formControlName="lifetime" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 60px;">
+                                <mat-label>Depreciation Type</mat-label>
+                                <input matInput placeholder="Depreciation Type" formControlName="deptype" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                
+                     </tr> -->
+<!-- <tr> -->
+<!-- <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>ITC Depreciation rate</mat-label>
+                                <input matInput placeholder="ITC Depreciation rate"  autocomplete="off" formControlName="deprate_itc" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 15px;">
+                                <mat-label>CA Depreciation rate</mat-label>
+                                <input matInput placeholder="CA Depreciation rate" formControlName="deprate_ca" autocomplete="off" required>
+                            </mat-form-field>
+                        </td> -->
+<!-- <td>
+                            <mat-form-field style="width: 175px;margin-left: 60px;">
+                                <mat-label>Management Depreciation rate</mat-label>
+                                <input matInput placeholder="Management Depreciation rate"  autocomplete="off" formControlName="deprate_mgmt" required>
+                            </mat-form-field>
+                        </td> -->
+<!-- <td>
+                            <mat-form-field style="width: 175px;margin-left: 60px;">
+                                <mat-label>Barcode</mat-label>
+                                <input matInput placeholder="Barcode" formControlName="barcoderequired" autocomplete="off" required>
+                            </mat-form-field>
+                        </td> -->
+
+<!-- </tr>
+                     <tr> -->
+<!-- <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>Apcategory</mat-label>
+                                <input placeholder="Select Apcategory" matInput formControlName="apcatnodep_mgmt"
+                                    [matAutocomplete]="apcattype">
+                                <mat-autocomplete #apcattype="matAutocomplete" [displayWith]="displayapscat">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let apcategory of apcategoryList"
+                                        (focusout)="landlordbankbranchnames(apcategory)" 
+
+                                         [value]="apcategory">
+                                            {{apcategory.id}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>Subcategory</mat-label>
+                                <input placeholder="Select Subcategory" matInput formControlName="apscatnodep_mgmt"
+                                    [matAutocomplete]="subcattype">
+                                <mat-autocomplete #subcattype="matAutocomplete" [displayWith]="displaysubscat">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let subcategory of subcategoryList"
+
+                                         [value]="subcategory">
+                                            {{subcategory.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td> -->
+<!-- <td>
+                            <mat-form-field style="width: 175px;margin-left: 60px;">
+                                <mat-label>Mgmt Dept GL</mat-label>
+                                <input matInput placeholder="Mgmt Dept GL" formControlName="depgl_mgmt" autocomplete="off" required>
+                            </mat-form-field>
+                        </td> -->
+
+<!-- </tr>
+                     <tr> -->
+<!-- <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>Apcategory</mat-label>
+                                <input placeholder="Select Apcategory" matInput formControlName="apcatnodepres_mgmt"
+                                    [matAutocomplete]="apcattype">
+                                <mat-autocomplete #apcattype="matAutocomplete" [displayWith]="displayapsscat">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let apcategory of apcategoryList"
+                                        (focusout)="landlordbankbranchnames(apcategory)" 
+
+                                         [value]="apcategory">
+                                            {{apcategory.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>Subcategory</mat-label>
+                                <input placeholder="Select Subcategory" matInput formControlName="apscatnodepres_mgmt"
+                                    [matAutocomplete]="subcattype">
+                                <mat-autocomplete #subcattype="matAutocomplete" [displayWith]="displaysubsscat">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let subcategory of subcategoryList"
+
+                                         [value]="subcategory">
+                                            {{subcategory.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td> -->
+<!-- <td>
+                            <mat-form-field style="width: 175px;margin-left: 15px;">
+                                <mat-label>Mgmt Dept GL</mat-label>
+                                <input matInput placeholder="Mgmt Dept GL" formControlName="depgl_mgmt" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 60px;">
+                                <mat-label>Mgmt Dept Reserve GL</mat-label>
+                                <input matInput placeholder="Mgmt Dept Reserve GL" formControlName="depresgl_mgmt" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+
+                     </tr> -->
+<!-- <tr>
+                        <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>Remarks</mat-label>
+                                <input matInput placeholder="Remarks" formControlName="remarks" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+
+                     </tr> -->
+<!-- </div>
+            </table> -->
+<!-- <div style="margin-bottom: 5%;"> -->
+<!-- <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary">Submit</button>
+                    <button type="button"  class="btn btn-outline-primary" 
+                    style="border-radius: 40px;margin-left: 10px;" (click)="onCancelClick()"
+                    >Cancel</button> -->
+<!-- </div> -->
+<!-- </form>
+    </div>
+
+
+</div>  -->
+
+
+<!-- <pre>
+    {{ assetcateditform.value | json }}
+</pre> -->
+
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h2>
+        Asset category Edit Form </h2>
+    <div>
+        <form [formGroup]="assetcateditform" (ngSubmit)="assetcateditForm()">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 15px;">
+                                <mat-label>Mgmt Dept GL</mat-label>
+                                <input matInput placeholder="Mgmt Dept GL" formControlName="depgl_mgmt"
+                                    autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 60px;">
+                                <mat-label>Mgmt Dept Reserve GL</mat-label>
+                                <input matInput placeholder="Mgmt Dept Reserve GL" formControlName="depresgl_mgmt"
+                                    autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+
+
+
+                    </tr>
+                </div>
+            </table>
+            <div style="margin-bottom: 5%;">
+                <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                    class="btn btn-outline-primary">Submit</button>
+                <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                    style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+            </div>
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+::ng-deep { .cdk-global-overlay-wrapper, .cdk-overlay-container { z-index: 9999!important; } }
+#commonstyle{
+    border:15px none #F6F6F6;
+    vertical-align: middle;
+    tr:nth-child(odd) {background: #EDF8FA}
+    tr:nth-child(even) {background: #FFF}
+    }
+    .header{
+        font-weight: bold;
+        font-family: "Montserrat";
+      }

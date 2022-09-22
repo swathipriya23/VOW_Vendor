@@ -1,0 +1,51 @@
+.container {
+    display:flex;
+    justify-content:flex-start;
+    flex-direction: row;
+  }
+  
+  .div1 {
+    position: relative;
+    width:200vw;
+    height:200vh;
+    background: lightblue;
+    flex-grow:0;
+  }
+  
+  .div2 {
+    position: relative;
+    width:200vw;
+    height:200vh;
+    background: rgb(115, 156, 204);
+    flex-grow:0;
+  }
+  
+  .div3 {
+    position: relative;
+    width:200vw;
+    height:200vh;
+    background: pink;
+    flex-grow:0;
+  }
+
+ .card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 0.25rem;
+}
+
+.table-bordered {
+    border: 2px solid #dee6e0;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 0rem;
+    color: #212529;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 0.10rem;
+}

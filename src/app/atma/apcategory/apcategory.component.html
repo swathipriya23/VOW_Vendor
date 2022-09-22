@@ -1,0 +1,139 @@
+<!-- <div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h2>
+        AP Category Form
+    </h2>
+        <div>
+        <form [formGroup]="apCategoryForm" (ngSubmit)="apcategoryCreateForm()" autocomplete="off">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-form-field>
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 50px;">
+                                <mat-label>Number</mat-label>
+                                <input matInput placeholder="No" formControlName="no" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>   
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 0px;margin-top: 15px;">
+                                <mat-label>GLNumber</mat-label>
+                                <input matInput placeholder="GLNo" formControlName="glno" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 50px;">
+                                <mat-label>Is Asset</mat-label>
+                                <mat-select formControlName="isasset">
+                                    <mat-option *ngFor="let asset of assetlist" [value]="asset.name">
+                                        {{asset.show}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+            <button type="button" (click)="onCancelClick()"class="btn btn-outline-primary"
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button> -->
+            <!-- <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary" [disabled] = "disableSubmit">Submit</button> -->
+        <!-- </form>
+    </div>
+</div> -->
+
+<div style="margin-left: 5px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h1 style="margin-left: 30px;font-size:20px;font-family:Times New Roman;font-weight:bold;color:blue;">
+        AP Category Form
+    </h1><hr>
+        <div>
+        <form [formGroup]="apCategoryForm" (ngSubmit)="apcategoryCreateForm()">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>AP Category Name</mat-label>
+                                <input matInput placeholder="Category Name" formControlName="name" autocomplete="off" required (keypress)="kyenbdata($event)">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>AP Category No</mat-label>
+                                <input type="number" matInput placeholder="Ap Cat N0" formControlName="no" autocomplete="off" (keypress)="kyenbdata($event)"
+                                minlength="2" maxlength="3" size="45"
+                                pattern="[0-9]{2,3}"
+                                required>
+                                <mat-error> Length b/w 2 to 3 Characters</mat-error>
+                            </mat-form-field>
+                        </td>
+                        <!-- <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>Category Code</mat-label>
+                                <input type="number" matInput formControlName="code" autocomplete="off">
+                            </mat-form-field>
+                        </td> -->
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>Expense</mat-label>
+                                <input #expInput placeholder="Select Expense" matInput formControlName="expense_id" (keypress)="kyenbdata($event)"
+                                    [matAutocomplete]="exp">
+                               
+                                <mat-autocomplete #exp="matAutocomplete" [displayWith]="displayFnexp" (opened)="autocompleteexpScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let expense of expenseList" [value]="expense">{{expense.head}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>   
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 0px;margin-top: 15px;">
+                                <mat-label>GL No</mat-label>
+                                <input type="number" (keypress)="omit_special_num($event)" matInput placeholder="GLNo" formControlName="glno" autocomplete="off" [maxlength]="16" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>Is this an Asset or not</mat-label>
+                                <mat-select formControlName="isasset">
+                                    <mat-option *ngFor="let asset of assetlist" [value]="asset.name">
+                                        {{asset.show}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px; margin-left: 50px;">
+                                <mat-label>Choose is OD/IT</mat-label>
+                                <mat-select formControlName="isodit">
+                                    <mat-option *ngFor="let isodit of oditList" [value]="isodit.id">{{isodit.text}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary" 
+                >Submit</button>
+            <button type="button" (click)="onCancelClick()"class="btn btn-outline-danger"
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+
+        </form>
+    </div>
+</div>
+
+<!-- <pre>
+    {{apCategoryForm.value | json}}
+</pre> -->     

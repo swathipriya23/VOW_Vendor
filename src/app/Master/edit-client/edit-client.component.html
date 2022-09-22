@@ -1,0 +1,52 @@
+<div class="container" style="margin-top: 2%;">
+    <h1 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">Client Edit</h1>
+</div>
+<div class="container">
+    <form [formGroup]="clientform">
+        <div class="row">
+            <!-- <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Client Code</mat-label>
+                    <input type="text" matInput formControlName="code" required>
+                </mat-form-field>
+            </div> -->
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Client Name</mat-label>
+                    <input type="text" matInput formControlName="name" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width" style="width: 250px;">
+                    <mat-label>RM Name</mat-label>
+                    <input class="toolbar-search" type="text" matInput autocomplete="off" matInput [matAutocomplete]="rmname" #rmidInput formControlName="rm" style="width:250px" required>
+                    <mat-placeholder>RM Name</mat-placeholder>
+                    <mat-autocomplete #rmname="matAutocomplete" #rm (opened)="autocompleteScroll_rm()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of rmdata" [value]="d.full_name" (focusout)="rmd(d)">
+                                {{d.full_name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field style="width: 300px;">
+                    <mat-label>Client Identification Number(CIN)</mat-label>
+                    <input maxlength="21" matInput formControlName="cin" required (keypress)="keypressd($event)">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field style="width: 300px;">
+                    <mat-label>Nimbus Ref No</mat-label>
+                    <input maxlength="16" matInput formControlName="nimbus" (keypress)="keypressd($event)">
+                </mat-form-field>
+            </div>
+            <button type="button" (click)="getsubmitform()" class="btn btn-outline-success" style="border-radius: 40px;height: 40px;">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" (click)="onclickcancel()" class="btn btn-outline-danger" style="border-radius: 40px;height: 40px;">Cancel</button>
+        </div>
+    </form>
+</div>

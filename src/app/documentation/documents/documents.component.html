@@ -1,0 +1,26 @@
+<div class="Container" style="margin-left: 20px;">
+    <nav>
+        <div class="nav nav-tabs" style="margin-top: 1%;">
+            <span class="nav-item nav-link " data-toggle="tab" (click)="subModuleData(sub)" role="tab"
+                *ngFor="let sub of docList">
+                {{sub.name}}
+            </span>
+        </div>
+    </nav>
+
+</div>
+
+
+
+<div *ngIf="isSGTab">
+    <h2 style="margin-left: 50px;">Security Guard User Manual</h2>
+
+    <button type="button" class="btn btn-outline-success" (click)="downloadSGuserManual()"
+        style="border-radius:40px;margin-left: 500px;" tooltipClass="Add-tooltip" ngbTooltip="Download"
+        placement="top">
+        <span class="fa fa-download">
+        </span>
+    </button>
+
+
+</div>

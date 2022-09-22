@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+        <h3>  Changes </h3>
+        </div>
+ <div class="col-md-7 text-right">
+  <button type="button" class="btn btn-light"  style="border-radius: 7px;margin-left: 10px;
+  border-color: black;
+  background-color: white;"
+      (click)="Cancel()">Cancel</button>
+      </div></div>
+    <div>
+        <div class="timeline">
+            <ul>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+                <li><div class="content">
+                    <p><code>Type of Risk</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.risktype_id!=modificationdata.old_data.risktype_id'> {{modificationdata.new_data.risktype_id.name | titlecase}}</span></p>
+                    <p><code>Risk Description</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.risktype_description!=modificationdata.old_data.risktype_description'>{{ modificationdata.new_data.risktype_description | titlecase}}</span></p>
+                    <p><code>Risk Mitigant</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.risk_mitigant!=modificationdata.old_data.risk_mitigant'> {{ modificationdata.new_data.risk_mitigant | titlecase}}</span></p>
+                    <p><code>Review mechanism of risk mitigation</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.risk_mitigant_review!=modificationdata.old_data.risk_mitigant_review'> {{ modificationdata.new_data.risk_mitigant_review | titlecase}}</span></p>    
+                </div>
+                </li>
+                <li>
+                    <div class="content" *ngIf="modificationdata.action==2">
+                        <p><code>Type of Risk</code>:&nbsp;{{ modificationdata.old_data.risktype_id.name | titlecase}}</p>
+                        <p><code>Risk Description</code>:&nbsp;{{ modificationdata.old_data.risktype_description | titlecase}}</p>
+                        <p><code>Risk Mitigant</code>:&nbsp;{{ modificationdata.old_data.risk_mitigant |titlecase}}</p>
+                        <p><code>Review mechanism of risk mitigation</code>:&nbsp;{{ modificationdata.old_data.risk_mitigant_review | titlecase}}</p> 
+                    </div>
+                </li>
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+</div>

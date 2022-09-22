@@ -1,0 +1,47 @@
+.table_header {
+  
+    text-align: center;
+    font-size: 13px;
+}
+
+.filter-btn {
+    margin-left: 30px;
+}
+th{
+    text-align:center;
+    font-size: 14px;
+  }
+  tbody td {
+    padding: 0.5em 0.1em 1.1em;
+}
+body {
+    font-family: "Roboto", "Open Sans", sans-serif;
+    background-color: #272727;
+    color: #fff;
+  }
+  
+  .loading-dots {
+    text-align: center;
+    z-index: 5;
+  
+    .dot {
+      display: inline;
+     
+      top: -1em;
+      font-size: 3.5em;
+      opacity: 0;
+      animation: showHideDot 2.5s ease-in-out infinite;
+  
+      &.one { animation-delay: 0.2s; }
+      &.two { animation-delay: 0.4s; }
+      &.three { animation-delay: 0.6s; }
+    }
+  }
+  
+  @keyframes showHideDot {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    60% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  

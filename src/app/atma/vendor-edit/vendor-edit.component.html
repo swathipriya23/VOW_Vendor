@@ -1,0 +1,872 @@
+
+<div style="background-color: #f6f6f6" >
+<mat-card style="margin-top: 13px;margin-left: 20px;margin-right: 20px;margin-bottom: 20px;" >
+<div style="margin-left: 5px;margin-right: 80%;margin-top: 1%; width: 100%;">
+    <h2 class="header">
+        Vendor Edit Form
+    </h2>
+    <hr>
+    <div>
+        <form [formGroup]="vendorEditForm" (ngSubmit)="editVendorForm()" autocomplete="off">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-label>Vendor<label style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 224%;">
+                                
+                                <input matInput class="matformfieldinputstyle"  [readonly] ="true" [ngModel]="inputvendor"
+                                (ngModelChange)="inputvendor = $event.toUpperCase()" formControlName="name" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-label>Vendor Code<label style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field style="width: 250px;" appearance="outline" class="matformfieldstyle" >
+                                
+                                <input matInput  class="matformfieldinputstyle" [readonly] ="true" formControlName="code" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                        <!-- <td>
+                            <mat-form-field style="width: 250px;margin-left: 60px;" (click)="groupclick()">
+                                <mat-label>Relationship Category</mat-label>
+                                <mat-select formControlName="group">
+                                    <mat-option *ngFor="let group of groupList" [value]="group.id">{{group.text}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td> -->
+                        <td>
+                            <mat-label style="margin-left: 60px;" >Relationship Category<label style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;" (click)="categoryname()">
+                                
+                                <input #categoryInput class="matformfieldinputstyle" matInput formControlName="group"
+                                [matAutocomplete]="categorytype" required>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #categorytype="matAutocomplete" [displayWith]="displayFncategory" >
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let group of groupList" [value]="group">{{group.text}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>  
+                        <!-- <td>
+                            <mat-form-field style="width: 250px;margin-left: 60px;" (click)="custclick()">
+                                <mat-label>Relationship Subcategory</mat-label>
+                                <mat-select formControlName="custcategory_id">
+                                    <mat-option *ngFor="let custcategory of custcategoryList" [value]="custcategory.id">{{custcategory.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td> -->
+                        <td>
+                            <mat-label style="margin-left: 60px;" >Vendor Category<label style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle"  style="width: 250px;margin-left: 60px;" (click)="subcategoryname()">
+                                
+                                <input #subcategoryInput class="matformfieldinputstyle"  matInput formControlName="custcategory_id"
+                                [matAutocomplete]="subcategory"required>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #subcategory="matAutocomplete" [displayWith]="displayFnsubcategory" >
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let custcategory of custcategoryList" [value]="custcategory">{{custcategory.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+
+                        
+                        <!-- <td>
+                            <mat-form-field style="width: 250px;margin-left: 60px;">
+                                <mat-label>PAN Number</mat-label>
+                                <input matInput placeholder="panno" formControlName="panno" (focusout)="validationPAN($event)" [ngModel]="inputPanValue" 
+                                (ngModelChange)="inputPanValue = $event.toUpperCase()" maxlength="10" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 60px;">
+                                <mat-label>GST Number</mat-label>
+                                <input matInput placeholder="gstno" formControlName="gstno" [ngModel]="inputGstValue" 
+                                (ngModelChange)="inputGstValue = $event.toUpperCase()" autocomplete="off" (focusout)="validationGstNo($event)" maxlength="15" required>
+                            </mat-form-field>
+                        </td> -->
+                    </tr>
+                    <tr> 
+                       
+                        <td>
+                            <mat-label>Organization Type<label style="color: red;" >*</label></mat-label><br>
+
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;" (click)="orgtypename()">
+                                <input #orgtypesInput class="matformfieldinputstyle"  matInput formControlName="orgtype"
+                                [matAutocomplete]="orgtype" required>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #orgtype="matAutocomplete" [displayWith]="displayFnorgtypes" >
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let orgtype of orgtypeList" [value]="orgtype">{{orgtype.text}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-label style="margin-left: 60px;" >Website</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                
+                                <input type = "text" matInput  class="matformfieldinputstyle" formControlName="website" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <!-- <td>
+                            <mat-form-field style="width: 250px;margin-left: 60px;" (click)="typeclick()">
+                                <mat-label>Vendor Type</mat-label>
+                                <mat-select formControlName="type">
+                                    <mat-option *ngFor="let type of typeList" [value]="type.id">{{type.text}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>   -->
+                        <td>
+                            <mat-label style="margin-left: 60px;" >Vendor Type<label style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;" (click)="typename()">
+                                
+                                <input #typesInput  class="matformfieldinputstyle" matInput formControlName="classification"
+                                [matAutocomplete]="ventype" required>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #ventype="matAutocomplete" [displayWith]="displayFntypes" >
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let type of typeList" (focusout)="selectVendorType(type)" [value]="type">{{type.text}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>    
+                    </tr>
+                    <tr>
+                        <!-- <td>
+                            <mat-form-field style="width: 250px;" (click)="compositeclick()">
+                                <mat-label>GST Category</mat-label>
+                                <mat-select formControlName="composite">
+                                    <mat-option *ngFor="let composite of compositeList" [value]="composite.id">{{composite.text}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td> -->
+                        <td>
+                            <mat-label>GST Category<label style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;" (click)="compositename()">
+                                
+                                <input #gstInput  class="matformfieldinputstyle" matInput formControlName="composite"
+                                [matAutocomplete]="gstcat" required>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #gstcat="matAutocomplete" [displayWith]="displayFngst" >
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let composite of compositeList" (focusout)="compositeFocusOut(composite)" [value]="composite">{{composite.text}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <!-- <td>
+                            <mat-form-field style="width: 250px;margin-left: 60px;" (click)="classificationclick()">
+                                <mat-label>Classification</mat-label>
+                                <mat-select formControlName="classification">
+                                    <mat-option *ngFor="let classification of classificationList" [value]="classification.id">{{classification.text}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td> -->
+                        <td>
+                            <mat-label style="margin-left: 60px;" >Criticality<label style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;" (click)="classifyname()">
+                                
+                                <input #classifyInput class="matformfieldinputstyle"  matInput formControlName="type"
+                                [matAutocomplete]="classify" required>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #classify="matAutocomplete" [displayWith]="displayFnclassify" >
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let classification of classificationList" [value]="classification">{{classification.text}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-label style="margin-left: 60px;" >PAN Number<label *ngIf="this.panFlag" style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                
+                                <input matInput  class="matformfieldinputstyle" formControlName="panno" [ngModel]="inputPanValue" 
+                                (ngModelChange)="inputPanValue = $event.toUpperCase()" (keydown.space)="$event.preventDefault();"   (keyup)="validationPAN($event)" maxlength="10" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-label style="margin-left: 60px;" > PAN INFO</mat-label><br>
+                            <mat-form-field appearance="outline"  class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                               
+                                <input type = "text" matInput  class="matformfieldinputstyle" [value]="panvalname" [readonly]='true'>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- <td>
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>GST Number</mat-label>
+                                <input matInput placeholder="gstno" formControlName="gstno" [ngModel]="inputGstValue"
+                                (ngModelChange)="inputGstValue = $event.toUpperCase()"   (focusout)="validationGstNo($event)" autocomplete="off" maxlength="15" >
+                            </mat-form-field>
+                        </td> -->
+                        <td>
+                            <mat-label>Company Reg No</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px">
+                                
+                                <input matInput  class="matformfieldinputstyle" formControlName="comregno"  type="text"   (keypress)="namevalidation($event)" autocomplete="off" >
+                            </mat-form-field>
+                        </td>  
+                        <!-- <td>
+                            <mat-label style="margin-left: 60px;" >Aadhar Number</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                
+                                <input type = "text" matInput class="matformfieldinputstyle"  formControlName="adhaarno" autocomplete="off"
+                                     (keypress)="numberOnly($event)" maxlength="12" >
+                            </mat-form-field>
+                        </td>   -->
+                        <td>
+                            <mat-label style="margin-left: 60px;" >Description</mat-label><br>
+                            <mat-form-field class="matformfieldstyle" style="margin-left: 60px;width: 250px;" appearance="outline">
+
+                                <input matInput  class="matformfieldinputstyle"
+                                    formControlName="description" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-label style="margin-left: 60px;">Remarks</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                
+                                <input matInput  class="matformfieldinputstyle" formControlName="remarks" autocomplete="off" >
+                            </mat-form-field>
+                        </td>
+                        
+                                
+                        <!-- <td>
+                            <mat-label style="margin-left: 60px;" >Description</mat-label><br>
+                            <mat-form-field class="matformfieldstyle" style="margin-left: 60px;width: 250px;" appearance="outline">
+
+                                <input matInput  class="matformfieldinputstyle"
+                                    formControlName="description" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-label style="margin-left: 60px;">Type Of Risk(S)<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field class="matformfieldstyle" style="width: 250px;margin-left: 60px;" appearance="outline">
+                                <mat-select  class="matformfieldinputstyle" formControlName="risktype">
+                                    <mat-option *ngFor="let mode of RiskList" [value]="mode.id">{{mode.value}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td> -->
+                    </tr>
+                    <!-- <tr>
+                        <td>
+                            <mat-label>Type Of Risk(S)<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field class="matformfieldstyle" style="width: 250px;" appearance="outline">
+                                <mat-select  class="matformfieldinputstyle" formControlName="risktype">
+                                    <mat-option *ngFor="let mode of RiskList" [value]="mode.id">{{mode.text}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            
+                        </td>
+                        <td>
+                            <mat-label style="margin-left: 60px;">Risk Description<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field class="matformfieldstyle" style="width: 250px;margin-left: 60px;" appearance="outline">
+
+                                <input matInput  class="matformfieldinputstyle"
+                                    formControlName="risktype_description" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-label style="margin-left: 60px;" >Risk Mitigant<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field class="matformfieldstyle" style="margin-left: 60px;width: 250px;" appearance="outline">
+
+                                <input matInput  class="matformfieldinputstyle"
+                                    formControlName="risk_mitigant" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        
+                    </tr> -->
+                    <tr>
+                        <!-- <td>
+                            <mat-label>Review mechanism of risk mitigation<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field class="matformfieldstyle" style="width: 250px;" appearance="outline">
+
+                                <input matInput  class="matformfieldinputstyle"
+                                    formControlName="risk_mitigant_review" autocomplete="off">
+                            </mat-form-field>
+                        </td> -->
+                        <td style="width: 25%;vertical-align: middle ;"  >
+                            <!-- <label class="container"> <input type="checkbox" formControlName="activecontract" (click)="onClick()"
+                                 data-md-icheck [checked]="Contract" 
+                                (change)="Contract = !Contract"/>Contract
+                                <span class="checkmark"></span>
+                            </label> -->
+
+                            <div class="container"  *ngIf="checkboxForregular">
+                                <div class="round">
+                                  <input type="checkbox"  formControlName="activecontract" (click)="onClick()"
+                                  data-md-icheck [checked]="Contract" 
+                                 (change)="Contract = !Contract" id="checkbox" />
+                                  <label for="checkbox"  ></label>
+                                </div>
+                            </div><p style="margin-left: 50px;" >Contract</p>
+                        </td>
+                        <td>
+                            <mat-label style="margin-left: 60px;">Contract From</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                
+                                <input matInput #autocomplete readonly class="matformfieldinputstyle" [matDatepicker]="picker2"   formControlName="contractdate_from"  [(ngModel)]="fromdate" 
+                                (dateChange)="autocomplete.value =fromDateSelection($event.value)">
+                                <mat-datepicker-toggle class="maticonsize"  matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-label style="margin-left: 60px;" >Contract To</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                
+                                <input matInput readonly [matDatepicker]="picker3" class="matformfieldinputstyle"  formControlName="contractdate_to" [(ngModel)]="todate">
+                                <mat-datepicker-toggle class="maticonsize" matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                <mat-datepicker #picker3></mat-datepicker>
+                            </mat-form-field>
+                        </td> 
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-label>Renewal Date</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                
+                                <input matInput readonly [matDatepicker]="picker4"  class="matformfieldinputstyle"   formControlName="renewal_date" [(ngModel)]="renewaldate">
+                                <mat-datepicker-toggle matSuffix class="maticonsize" [for]="picker4"></mat-datepicker-toggle>
+                                <mat-datepicker #picker4></mat-datepicker>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-label style="margin-left: 60px;">Renewal Trigger Email days<label *ngIf="this.yesflag" style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                
+                                <input matInput  class="matformfieldinputstyle" formControlName="emaildays" autocomplete="off"
+                                     (keypress)="numberOnly($event)" maxlength="10">
+                            </mat-form-field>
+                        </td> 
+                        <td>
+                            <mat-label style="margin-left: 60px;" >Reason for no contract<label *ngIf="this.reason_flag" style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                
+                                <input matInput  class="matformfieldinputstyle" formControlName="nocontract_reason"  type="text" (keypress)="addressvalidation($event)" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                         
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-label>Approximate Spend</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                
+                                <input matInput  class="matformfieldinputstyle" formControlName="aproxspend" autocomplete="off"
+                                (keypress)="keyPressNumbersDecimal($event)" maxlength="10" >
+                                 <mat-icon matSuffix class="maticonsize">currency_rupee</mat-icon>
+                            </mat-form-field>
+                        </td> 
+                        <td>
+                            <mat-label style="margin-left: 60px;" >Actual Spend</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                
+                                <input matInput  class="matformfieldinputstyle" formControlName="actualspend" autocomplete="off"
+                                (keypress)="keyPressNumbersDecimal($event)" maxlength="10" >
+                                    <mat-icon matSuffix class="maticonsize">currency_rupee</mat-icon>
+                            </mat-form-field>
+                        </td> 
+                        <td>
+                            <mat-label style="margin-left: 60px;">RM Name<label style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;" (click)="rmname()">
+                                
+                                <input #rmInput  class="matformfieldinputstyle" matInput formControlName="rm_id"
+                                [matAutocomplete]="rmemp" required>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #rmemp="matAutocomplete" [displayWith]="displayFnRm" (opened)="autocompleteRMScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let employee of employeeList" [value]="employee">{{employee.full_name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td> 
+                        <!-- <td>
+                            <mat-label style="margin-left: 60px;">Partner Count</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                
+                                <input matInput  class="matformfieldinputstyle" formControlName="director_count" autocomplete="off"
+                                (click)="directorCount()" (keypress)="numberOnly($event)" maxlength="15" >
+                            </mat-form-field>
+                        </td> -->
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-label>Partner Count</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                
+                                <input matInput  class="matformfieldinputstyle" formControlName="director_count" autocomplete="off"
+                                (click)="directorCount()" (keypress)="numberOnly($event)" maxlength="15" >
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <!-- <tr>   -->
+                        <!-- <td>
+                            <mat-label>Remarks</mat-label><br>
+                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                
+                                <input matInput  class="matformfieldinputstyle" formControlName="remarks" autocomplete="off" >
+                            </mat-form-field>
+                        </td> -->
+                        
+                        <div [formGroup]="vendorEditForm.controls.director">
+                            <tr>
+                            <td>
+                                <mat-label >Director Name </mat-label><br>
+                                <mat-form-field style="width: 250px;" appearance="outline" class="matformfieldstyle" >
+                                    
+                                    <input matInput formControlName="name" #name class="matformfieldinputstyle" type="text"   (keypress)="namevalidation($event)" autocomplete="off">
+                                </mat-form-field>
+                            </td>
+                            <!-- <td>
+                                <mat-label style="margin-left: 60px;">Authorised Signatories</mat-label><br>
+                                <mat-form-field style="width: 250px;margin-left: 60px;" class="matformfieldstyle" appearance="outline">
+
+                                    <input matInput formControlName="d_sign" class="matformfieldinputstyle" #sign
+                                        type="text" (keypress)="namevalidation($event)" autocomplete="off">
+                                </mat-form-field>
+                            </td> -->
+                            <td>
+                                    <mat-label style="margin-left: 60px;">Pan Number</mat-label><br>
+                                    <mat-form-field style="width: 250px;margin-left: 60px;" class="matformfieldstyle" appearance="outline">
+        
+                                        <input matInput formControlName="d_pan" class="matformfieldinputstyle" #pan
+                                            type="text" (keypress)="namevalidation($event)" autocomplete="off">
+                                    </mat-form-field>
+                            </td>
+                            <td>
+                                <button type="button" style="margin-top: 55px;border-radius: 10px;margin-left: 60px;border-color: #f5c68b;
+                                background-color: #f5c68b;" class="btn btn-light"
+                                [disabled]="addButton" (click)="addDirectorName()"><i class="fa fa-plus-circle"></i>Add</button>
+    
+                            </td>
+                            </tr>
+                            <!-- <tr>
+                                <td>
+                                    <mat-label>Sanctions Screening Conducted</mat-label><br>
+                                    <mat-form-field class="matformfieldstyle" style="width: 250px;" appearance="outline">
+                                        <mat-select  class="matformfieldinputstyle" formControlName="d_sanctions">
+                                            <mat-option *ngFor="let san of sanction" [value]="san">{{san.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-label style="margin-left: 60px;">Match Found</mat-label><br>
+                                    <mat-form-field class="matformfieldstyle" style="width: 250px;margin-left: 60px;" appearance="outline">
+                                        <mat-select  class="matformfieldinputstyle" formControlName="d_match">
+                                            <mat-option *ngFor="let match of matchfound" [value]="match">{{match.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <button type="button" style="margin-top: 55px;border-radius: 10px;margin-left: 60px;border-color: #f5c68b;
+                                    background-color: #f5c68b;" class="btn btn-light"
+                                    [disabled]="addButton" (click)="addDirectorName()"><i class="fa fa-plus-circle"></i>Add</button>
+        
+                                </td>
+                            </tr> -->
+                        </div>
+                       
+                     <!-- </tr> -->
+                </div>
+                <div *ngIf="directorNameList?.length != 0" class="table-responsive" style="width: 75%;margin-top: 1%;overflow-x: hidden;">
+                            <table class="table" id ='commonstyle'>
+                                <thead class="table_header">
+                            <tr>
+                                    <th>Director Name</th>
+                                    <!-- <th>Authorised Signatories</th> -->
+                                    <th>Pan Number</th>
+                                    <!-- <th>Sanctions Screening Conducted</th> -->
+                                    <!-- <th>Match Found</th> -->
+                                    <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let directorName of directorNameList;index as i">
+                                <td>{{ directorName.name | titlecase}}</td>
+                                <!-- <td>{{ directorName.d_sign | titlecase}}</td> -->
+                                <td>{{ directorName.d_pan }}</td>
+                                <!-- <td>{{ directorName.d_sanctions.name }}</td> -->
+                                <!-- <td>{{ directorName.d_match.name }}</td> -->
+                                <td>
+                                    <mat-icon style="color: gray;cursor: pointer;" (click)="directorNameDelete(i)">
+                                        delete</mat-icon>
+                                </td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h2 class="header">Address</h2>
+                                <div [formGroup]="vendorEditForm.controls.address">
+                                    <tr>
+                                        <td>
+                                            <mat-label>Address 1<label style="color: red;" >*</label></mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                                
+                                                <input matInput  type="text" class="matformfieldinputstyle"  formControlName="line1"   (keypress)="addressvalidation($event)" autocomplete="off" required>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-label style="margin-left: 60px;" >Address 2</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput class="matformfieldinputstyle"  type="text"  formControlName="line2"   (keypress)="addressvalidation($event)" autocomplete="off"
+                                                    >
+                                            </mat-form-field>
+                                        </td>                                   
+                                        <td>
+                                            <mat-label style="margin-left: 60px;" >Address 3</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle"  type="text"  formControlName="line3"   (keypress)="addressvalidation($event)" autocomplete="off"
+                                                    >
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <mat-label>Pin Code<label style="color: red;" >*</label></mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;" (click)="pincodename()">
+                                                
+                                                <input #pinCodeInput  class="matformfieldinputstyle" maxlength="6" matInput formControlName="pincode_id" autocomplete="off"
+                                                    [matAutocomplete]="pintype" required>
+                                                    <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                                                <mat-autocomplete #pintype="matAutocomplete" [displayWith]="displayFnpin" (opened)="pinCodeScroll()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                    <ng-container *ngIf="!isLoading">
+                                                        <mat-option *ngFor="let pin of pinCodeList" (focusout)="pinCode(pin)" [value]="pin">
+                                                            {{pin.no}}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <mat-label  >City<label style="color: red;" >*</label></mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;" (click)="cityname()">
+                                                
+                                                <input #cityInput matInput formControlName="city_id" class="matformfieldinputstyle" maxlength="6" autocomplete="off" 
+                                                [matAutocomplete]="autocit" required>
+                                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                                                <mat-autocomplete #autocit="matAutocomplete" [displayWith]="displaycit" (opened)="cityScroll()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                        <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let city of cityList" (focusout)="citys(city)" [value]="city">{{city.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-label style="margin-left: 60px;" >District<label style="color: red;" >*</label></mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;" (click)="districtname()">
+                                                
+                                                <input #districtInput class="matformfieldinputstyle" matInput formControlName="district_id" autocomplete="off"
+                                                [matAutocomplete]="autodis" required>
+                                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                                                <mat-autocomplete #autodis="matAutocomplete" [displayWith]="displaydis" (opened)="districtScroll()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                        <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let district of districtList" (focusout)="districts(district)" [value]="district">{{district.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-label style="margin-left: 60px;" >State<label style="color: red;" >*</label></mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;" (click)="statename()">
+                                            
+                                            <input #stateInput  class="matformfieldinputstyle" matInput formControlName="state_id" autocomplete="off"
+                                                [matAutocomplete]="statetype" required>
+                                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                                            <mat-autocomplete #statetype="matAutocomplete" [displayWith]="displayFnstate" (opened)="stateScroll()">
+                                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let state of stateList" (focusout)="states(state)" [value]="state">
+                                                        {{state.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h2 class="header">Contact</h2>
+                                <div [formGroup]="vendorEditForm.controls.contact">
+                                    <tr>
+                                        <td>
+                                            <mat-label>Designation<label style="color: red;" >*</label></mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                                
+                                                <!-- <input #designationInput class="matformfieldinputstyle"  matInput formControlName="designation_id" autocomplete="off"
+                                                [matAutocomplete]="desg" required>
+                                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                                            <mat-autocomplete #desg="matAutocomplete" [displayWith]="displayFnDesg" (opened)="designationScroll()">
+                                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let designation of designationList" [value]="designation">{{designation.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-autocomplete> -->
+                                            <input matInput class="matformfieldinputstyle"  formControlName="designation" type="text" autocomplete="off" required>
+                                            </mat-form-field>
+                                        </td>
+                                        <!-- <td>
+                                            <mat-form-field style="width: 250px;margin-left: 60px;">
+                                                <mat-label>Type</mat-label>
+                                                <input #contactInput placeholder="Select Type" matInput formControlName="type_id" autocomplete="off"
+                                                [matAutocomplete]="contactType">
+                                            <mat-autocomplete #contactType="matAutocomplete" [displayWith]="displayFnContactType" (opened)="contactScroll()">
+                                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let contact of contactTypeList" [value]="contact">{{contact.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td> -->
+                                        <td>
+                                            <mat-label style="margin-left: 60px;" >Name<label style="color: red;" >*</label></mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" autocomplete="off"  type="text"   (keypress)="namevalidation($event)" formControlName="name"  required>       
+                                            </mat-form-field>
+                                        </td> 
+                                        <!-- <td>
+                                            <mat-label style="margin-left: 60px;" >Date Of Birth</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput readonly class="matformfieldinputstyle" [matDatepicker]="picker1"  
+                                                 [max] = "futureDays"
+                                                formControlName="dob">
+                                                <mat-datepicker-toggle class="maticonsize" matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </mat-form-field>
+                                        </td>  -->
+                                        <td>
+                                            <mat-label style="margin-left: 60px;">Email</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input type="email" class="matformfieldinputstyle" matInput formControlName="email" autocomplete="off" />
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>    
+                                    <tr>        
+                                        <td>
+                                            <mat-label>Landline 1</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="landline" autocomplete="off"
+                                                  (keypress)="numberOnly($event)"  maxlength="10" >
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-label style="margin-left: 60px;" >Landline 2</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="landline2"
+                                                 (keypress)="numberOnly($event)" maxlength="10"   autocomplete="off" >
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-label style="margin-left: 60px;">Mobile 1</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="mobile" autocomplete="off"
+                                                pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td> 
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <mat-label >Mobile 2</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="mobile2" autocomplete="off"
+                                                pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h2 class="header">Profile</h2>
+                                <div [formGroup]="vendorEditForm.controls.profile">
+                                    <tr>
+                                        <td>
+                                            <mat-label>Year</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="year" autocomplete="off"
+                                                    (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-label style="margin-left: 60px;" >Associate Year</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="associate_year" autocomplete="off"
+                                                    (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td>
+                                        <!-- <td>
+                                            <mat-label style="margin-left: 60px;" >Award Details</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="award_details"
+                                                    autocomplete="off" >
+                                            </mat-form-field>
+                                        </td> -->
+                                        <td>
+                                            <mat-label style="margin-left: 60px;">Branch Count<label style="color: red;" >*</label></mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="branch" autocomplete="off"
+                                                    (keypress)="numberOnly($event)" maxlength="10" required>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                    <!-- <tr>     
+                                        <td>
+                                            <mat-label>Permanent Employee</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;"> 
+                                               
+                                                <input matInput  class="matformfieldinputstyle" formControlName="permanent_employee"
+                                                (keypress)="numberOnly($event)" (change)="totalFromPermanentEmployee($event)"  [(ngModel)]="permanentEmployee" autocomplete="off" >
+                                            </mat-form-field>
+                                        </td>     
+                                        <td>
+                                            <mat-label style="margin-left: 60px;" >Temporary Employee</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="temporary_employee"
+                                                (keypress)="numberOnly($event)" (change)="totalFromTemporaryEmployee($event)" [(ngModel)]="temporaryEmployee" autocomplete="off" >
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-label style="margin-left: 60px;" >Total Employee</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                               
+                                                <input matInput  class="matformfieldinputstyle"  formControlName="total_employee" [readonly] = "true"
+                                                (keypress)="numberOnly($event)" [(ngModel)]="totalEmployee" autocomplete="off" >
+                                            </mat-form-field>
+                                        </td>
+                                    </tr> -->
+                                    <tr>
+                                        <!-- <td>
+                                            <mat-label style="margin-left: 60px;" >Factory Count</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="factory" autocomplete="off"
+                                                    (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td> -->
+                                        <td>
+                                            <mat-label>Remarks</mat-label><br>
+                                            <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                                
+                                                <input matInput  class="matformfieldinputstyle" formControlName="remarks" autocomplete="off" >
+                                            </mat-form-field>
+                                        </td> 
+                                    </tr>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+             </table>
+            <!-- <div style="margin-bottom: 5%;"> -->
+                <!-- <button type="button"  class="btn btn-outline-primary" (click)="onCancelClick()" skipLocationChange
+                    style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+                <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                    class="btn btn-outline-primary">Submit</button>     -->
+                <!-- <button type="button"  class="btn btn-light" (click)="onCancelClick()" skipLocationChange
+                style="border-radius: 7px;margin-left: 10px;
+                border-color: black;
+                background-color: white;">Cancel</button>
+                <button type="submit" style="border-radius: 10px;margin-left: 10px;
+                border-color: #f5c68b;
+                background-color: #f5c68b;"
+                    class="btn btn-light">Submit</button>         
+            </div> -->
+        </form>
+    </div>
+</div>
+</mat-card>
+
+<div style="margin-bottom: 5%;margin-left: 50px ;">
+    <!-- <button type="button"  class="btn btn-outline-primary" (click)="onCancelClick()" skipLocationChange
+        style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+    <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+        class="btn btn-outline-primary">Submit</button>     -->
+    <button type="button"  class="btn btn-light" (click)="onCancelClick()" skipLocationChange
+    style="border-radius: 7px;margin-left: 10px;
+    border-color: black;
+    background-color: white;">Cancel</button>
+    <button type="submit" style="border-radius: 10px;margin-left: 10px;
+    border-color: #f5c68b;
+    background-color: #f5c68b;"
+        class="btn btn-light" (click)="editVendorForm()" >Submit</button>         
+</div>
+
+</div>
+
+
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>
+

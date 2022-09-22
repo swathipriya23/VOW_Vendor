@@ -1,0 +1,102 @@
+
+<div class="Container" style="margin-left: 40px;">
+    <div class="table-responsive" style="margin-top: 1%;width: 90%; -ms-overflow-style: none;">
+        <button type="button" class="btn btn-outline-success"data-toggle="modal" data-target="#createmodalforholidaydeim"
+        style="border-radius:40px;margin-left: 670px"><span class="fa fa-plus"></span>
+           HolidayDiem</button>
+    
+    <div class="container">
+      <div class="row">
+        <div class="table-responsive" >
+            <table class="table table-bordered" fixed-header
+            style="width: 95%;margin-top: 10px;margin-left:30px;overflow-x: hidden;">
+        <thead class="table_header" style="text-align: left;">
+        <tr>
+        <th style="text-align: center;">S.No</th>
+        <th style="text-align: center;">Salarygrade</th>
+        <th style="text-align: center;">City</th>
+        <th style="text-align: center;">Amount</th>
+        <th style="text-align: center;">Applicable To</th>
+        <th style="text-align: center;">Action</th>
+        
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let holidaydiem of getHolidayDiemList; index as i">
+            <td style="text-align: center;">{{i+1}}</td>
+            <td style="text-align: center;">{{holidaydiem.salarygrade}}</td> 
+            <td style="text-align: center;">{{holidaydiem.city}}</td>
+            <td style="text-align: center;">{{holidaydiem.amount}}</td>
+            <td style="text-align: center;">{{holidaydiem.applicableto}}</td>
+            <td style="text-align: center;"><button mat-icon-button matTooltip="Delete" class="iconbutton" (click)="deletediem(holidaydiem.id)"
+                color="primary">
+            <mat-icon style="color: gray;" aria-label="Delete">delete</mat-icon>
+            </button>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+        
+    </div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+        id="createmodalforholidaydeim">
+        <div class="modal-dialog modal-xl" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background:rgba(23, 204, 23, 0.288);">
+                    <h2 class="modal-title" style="color:black ;">Holidaydeim</h2>
+                    <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div style="margin-left: 70px;margin-right: 80%;margin-top: 2%; width: 40%;">
+
+                    <form #taholidaydiemForm="ngForm" >
+                        <table>
+                            <div>
+                                <tr>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;">
+                                            <mat-label>Salarygrade</mat-label>
+                                            <input  matInput placeholder="salarygrade"  name="salarygrade" [(ngModel)]="holidaydiemmodel.salarygrade"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                            <mat-label>City</mat-label>
+                                            <input  matInput placeholder="city"  name="city" [(ngModel)]="holidaydiemmodel.city"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td> 
+                                    <td>
+                                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                            <mat-label>Amount</mat-label>
+                                            <input  matInput placeholder="amount"  name="amount" [(ngModel)]="holidaydiemmodel.amount"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                    <tr>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;">
+                                            <mat-label>Applicable To</mat-label>
+                                            <input  matInput placeholder="applicableto"  name="applicableto" [(ngModel)]="holidaydiemmodel.applicableto"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                            </div>
+                        </table>
+                        <tr>
+                            <div style="margin-bottom: 5%;">
+                                <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary" (click)="submitForm()"
+                                >Submit</button>
+                                <button type="button"  class="btn btn-outline-primary" (click)="OnCancelclick()" data-dismiss="modal"
+                                    style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+                            </div>
+                        </tr>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

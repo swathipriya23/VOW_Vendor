@@ -1,0 +1,1400 @@
+<!-- <div style="margin-top: 13px;margin-left: 20px;margin-right: 20px;margin-bottom: 20px;" class="contactBackground" > -->
+<div style="background-color:#F6F6F6;" >
+<mat-card style="margin:20px 12px 20px 20px;" class="mat-elevation-z0"  >
+<div style="margin-left: 15px;">
+
+    <div>
+        <p style="font-size: 22px;">Branch Details</p>
+        <hr>
+
+        <div style="float: right;margin-right: 5%;">
+            <button *ngIf="vendor_flag" mat-button [matMenuTriggerFor]="menu" id="primarybtn" type="button"
+            class="btn btn-light">Action</button>
+          <mat-menu #menu="matMenu" style="width:150px">
+            <div>
+              <button type="button" mat-menu-item  (click)="activity_view()" (click)="addActivity()" data-toggle="modal"
+                data-target="#addActivitypopup">Activity</button>
+              <button type="button" mat-menu-item (click)="payment_view()" (click)="branchpayadd()" data-toggle="modal"
+              data-target="#bpform" >Branch Payment</button>
+              <button type="button" mat-menu-item (click)="ActDetail_view()"(click)="addActivityDetail()"  data-toggle="modal"
+                data-target="#addADpopup">Activity Detail</button>
+              <button type="button" mat-menu-item (click)="catelog_view()" (click)="addCatalog()"  data-toggle="modal"
+               data-target="#addCatelogpopup">Catalog</button>
+            </div>
+          </mat-menu>   
+        </div>
+
+        
+
+        <!-- <section class="container pt-3 mb-3">
+            <div class="row pt-5 mt-30">
+
+                <div class="col-lg-4 col-sm-6 mb-30 pb-5">
+                    <a class="card">
+                        <div>
+                            <h3 class="card-title">Contact</h3>
+                            <p class="card-text"> Name <span
+                                    style="color: black;margin-left: 72px;"><span>:</span>&nbsp;&nbsp;
+                                    {{ contactName}}
+                                </span></p>
+
+                            <p class="card-text "> Email <span
+                                    style="color: black;margin-left: 75px;"><span>:</span>&nbsp;&nbsp;{{ contactEmail}}
+                                </span></p>
+
+                            <p class="card-text "> DOB <span
+                                    style="color: black;margin-left: 80px;"><span>:</span>&nbsp;&nbsp;{{ contactDOB | date:'dd-MMM-yyyy'}}
+                                </span></p>
+
+                            <p class="card-text"> Wedding Date <span
+                                    style="color: black;margin-left: 12px;"><span>:</span>&nbsp;&nbsp;{{ contactWeddingDate | date:'dd-MMM-yyyy'}}
+                                </span></p>
+
+                            <p class="card-text"> Designation <span style="color: black;margin-left: 31px;"
+                                    justify-content-md-start><span>:</span>&nbsp;&nbsp; {{ contactDesignation}}
+                                </span></p> -->
+
+
+
+
+                            <!-- <p class="card-text"> Type <span style="color: black;margin-left: 81px;"><span>:</span>&nbsp;&nbsp;{{ contactType}}
+                                </span></p> -->
+
+                            <!-- <p class="card-text "> Line1 <span
+                                    style="color: black;margin-left: 77px;"><span>:</span>&nbsp;&nbsp;{{ contactLine1}}
+                                </span></p>
+
+                            <p class="card-text "> Line2 <span
+                                    style="color: black;margin-left: 76px;"><span>:</span>&nbsp;&nbsp;{{ contactLine2}}
+                                </span></p>
+
+                            <p class="card-text"> Mobile1 <span
+                                    style="color: black;margin-left: 59px;"><span>:</span>&nbsp;&nbsp;{{ contacMobile1}}
+                                </span></p>
+
+                            <p class="card-text "> Mobile2 <span
+                                    style="color: black;margin-left: 59px;"><span>:</span>&nbsp;&nbsp;{{ contacMobile2}}
+                                </span></p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6 mb-30 pb-5"> -->
+                    <!-- <a class="card"> -->
+                    <!-- <div class="card" style="height: 117%;">
+                        <h3 class="card-title">Address</h3>
+                        <p class="card-text"> <span style="color: black;">
+                                {{addressLine1}},{{addressLine2}},{{addressLine3}}
+                            </span></p>
+                        <p class="card-text"> <span style="color: black;">
+                                {{addressCity}},{{addressDistrict}},
+                            </span></p>
+                        <p class="card-text "> <span style="color: black;">
+                                {{addressState}},{{addressPincode}}
+                            </span></p>
+                    </div> -->
+                    <!-- </a> -->
+                <!-- </div>
+            </div>
+        </section> -->
+    </div>
+    <div style="margin-top:65px" >         
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel [expanded]="true" >
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title style="font-weight: bold;" >
+                        Contact
+                    </mat-panel-title>
+                    <mat-panel-description style="color: black;margin-left: 113px;">
+                    
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div style="margin-left: -18px;" >            
+                    <p class="card-text"> Name <span
+                            style="color: black;margin-left: 69px;">&nbsp;&nbsp;
+                            {{ contactName }}
+                        </span></p>
+
+                    <p class="card-text "> Email <span
+                            style="color: black;margin-left: 76px;">&nbsp;&nbsp;{{ contactEmail}}
+                        </span></p>
+
+                    <!-- <p class="card-text "> DOB <span
+                            style="color: black;margin-left: 89px;">&nbsp;&nbsp;{{ contactDOB | date:'dd-MMM-yyyy'}}
+                        </span></p>
+
+                    <p class="card-text"> Wedding Date <span
+                            style="color: black;margin-left: 18px;">&nbsp;&nbsp;{{ contactWeddingDate | date:'dd-MMM-yyyy'}}
+                        </span></p> -->
+
+                    <p class="card-text"> Designation <span style="color: black;margin-left: 26px;"
+                            justify-content-md-start>&nbsp;&nbsp; {{ contactDesignation }}
+                        </span></p>
+
+
+
+
+                    <!-- <p class="card-text"> Type <span style="color: black;margin-left: 81px;"><span>:</span>&nbsp;&nbsp;{{ contactType}}
+                        </span></p> -->
+
+                    <p class="card-text "> Lindline1 <span
+                            style="color: black;margin-left: 54px;">&nbsp;&nbsp;{{ contactLine1 }}
+                        </span></p>
+
+                    <p class="card-text "> Lindline2 <span
+                            style="color: black;margin-left: 52px;">&nbsp;&nbsp;{{ contactLine2 }}
+                        </span></p>
+
+                    <p class="card-text"> Mobile1 <span
+                            style="color: black;margin-left: 64px;">&nbsp;&nbsp;{{ contacMobile1}}
+                        </span></p>
+
+                    <p class="card-text "> Mobile2 <span
+                            style="color: black;margin-left: 61px;">&nbsp;&nbsp;{{ contacMobile2}}
+                        </span></p>
+                    </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+        </div>
+        <div style="margin-top: 0.8%;" >
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel>
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title style="font-weight: bold;" >
+                        Address
+                    </mat-panel-title>
+                    <mat-panel-description style="color: black;margin-left: 113px;">
+                    
+                    </mat-panel-description>
+                    <br>
+                    
+                </mat-expansion-panel-header>
+                <div style="margin-left: -18px;" >
+                
+                <p class="card-text"> <span style="color: black;">
+                    {{addressLine1 | titlecase}},{{addressLine2 | titlecase}},{{addressLine3 | titlecase}}
+                </span></p>
+                <p class="card-text"> <span style="color: black;">
+                    {{addressCity }},{{addressDistrict }},
+                </span></p>
+                <p class="card-text "> <span style="color: black;">
+                    {{addressState }},{{addressPincode}}
+                </span></p>
+                    
+            </div>
+                
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <br>
+
+    <!-- <div style="margin-left: -63px;margin-top: 1%;">
+        <mat-form-field style="width: 250px;margin-left: 60px;" appearance="fill">
+            <input type="text" placeholder="Search" aria-label="Number" matInput [formControl]="myControl"
+                [matAutocomplete]="auto">
+                <button matSuffix mat-button><mat-icon >search</mat-icon></button>
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option (onSelectionChange)="tabchange($event)" *ngFor="let option of filteredOptions | async"
+                    [value]="option">
+                    {{option}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div> -->
+    <div style="float: right;margin-right: 1%;">
+        <!-- <mat-form-field style="width: 200px;">
+            <mat-label>View Tab</mat-label>
+            <mat-select [(ngModel)]="dropDownTag">
+                <mat-option  (onSelectionChange)="tabchange($event)"
+                *ngFor="let status of TabArray" [value]="status">
+                    {{status}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field> -->
+        
+        <mat-label>View Tab</mat-label><br>
+        <mat-form-field class="matformfieldstyle" style="width: 200px;" appearance="outline">
+            <mat-select  class="matformfieldinputstyle" [(ngModel)]="dropDownTag">
+                <mat-option  (onSelectionChange)="tabchange($event)"
+                  *ngFor="let status of TabArray" [value]="status">
+                    {{status}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+   
+
+    <div *ngIf="activitySummary">
+
+        <!-- <div *ngIf="isActivity">
+            <button type="button" class="btn btn-outline-success" (click)="addActivity()"
+                style="border-radius:40px;margin-left: 50px"><span class="fa fa-plus"></span>
+                Add</button>
+        </div> -->
+        <div>
+            <div *ngIf="isActivityForm">
+                <!-- <app-branchactivity (onCancel)="activityCancel()" (onSubmit)="activitySubmit()"></app-branchactivity> -->
+             <div class="modal fade" id="addActivitypopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Activity Form</p>
+                  <button type="button" #closebuttonactivity class="close" (click)="activityCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-branchactivity (onCancel)="activityCancel()" (onSubmit)="activitySubmit()"></app-branchactivity>
+                </div>
+              </div>
+            </div>
+             </div>
+            </div>
+        </div>
+        <div *ngIf="isActivity">
+            <!-- <div class=" row col-md-10 ">
+                <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                    <button type="button" class="btn btn-outline-success" (click)="addActivity()"
+                        style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span
+                            class="fa fa-plus"></span>
+                        Add</button>
+                </div>
+            </div> -->
+            <p style="margin-top: 20px;font-size: 22px;"> Activity Summary</p>
+            <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <th>S.No</th>
+                            <th>Activity Name</th>
+                            <th>Activity Type</th>
+                            <th>Description</th>
+                            <th>Activity Status</th>
+                            <th>RM Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let activity of activityList; index as i">
+                            <td> {{(presentpage - 1)*pageSize +i+1 }} </td>
+                            <!-- <td (click)="activityView(activity)" style="cursor: pointer;color:blue;">{{ activity.name}}
+                            </td> -->
+                            <td (click)="activityView(activity)" style="cursor: pointer;color:blue;">{{ activity.name}}
+                            </td>
+                            <td>{{ activity.type | titlecase}}</td>
+                            <td>{{ activity.description | titlecase}}</td>
+                            <td>{{ activity.activity_status | titlecase}}</td>
+                            <td>{{ activity.rm | titlecase}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="activityList ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+                <div class="row" *ngIf="isActivityPagination">
+                    <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                        <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                            (click)="previousClickActivity()">
+                            <mat-icon>arrow_back</mat-icon>
+                        </button> {{presentpage}}
+                        <button mat-icon-button [disabled]="has_next === false" color="primary"
+                            (click)="nextClickActivity()">
+                            <mat-icon>arrow_forward</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <div *ngIf="activity_modify">
+                    <p style="font-size: 22px;">Activity Modification Summary</p>
+                    <table class="table" id ='commonstyle'>
+                        <thead class="table_header" >
+                            <tr>
+                                <th>S.No</th>
+                                <th>Activity Name</th>
+                                <th>Activity Type</th>
+                                <th>Description</th>
+                                <th>Activity Status</th>
+                                <th>RM Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let j of activity_data; index as i">
+
+                                <td> {{i+1}} </td>
+                                <td *ngIf="j.modify_status==1" (click)="activityView(j)"
+                                    style="cursor: pointer;color:blue;"> {{ j.name | titlecase}}</td>
+                                <td *ngIf="j.modify_status==2 || j.modify_status==0"> {{ j.name | titlecase}}</td>
+                                <td>{{ j.type | titlecase}}</td>
+                                <td>{{ j.description | titlecase }}</td>
+                                <td>{{ j.activity_status | titlecase}}</td>
+                                <td>{{ j.rm | titlecase}}</td>
+                                <td *ngIf="j.modify_status==1">Create</td>
+                                <td *ngIf="j.modify_status==2">Update</td>
+                                <td *ngIf="j.modify_status==0">Delete</td>
+                                <!-- <td>
+                                    <button mat-icon-button matTooltip=" Edit" class="iconbutton"
+                                        (click)="contractEditForm(j)" color="primary">
+                                        <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </td> -->
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="activity_data ?.length == 0" style="margin-left: 42%;">
+                        <h3>Sorry data not found!.. </h3>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div *ngIf="istax"> -->
+
+    <!-- <button type="button" class="btn btn-outline-success"
+            style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;" (click)="taxadd()"><span
+                class="fa fa-plus"></span> Add
+        </button>
+    </div> -->
+    <!-- tax -->
+    <div>
+        <span *ngIf="Branchtaxadd">
+            <app-branch-tax (onCancel)="branchtaxaddcancl()" (onSubmit)="branchtaxaddsbt()"></app-branch-tax>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="branchtax_RMView">
+            <app-branchtaxmodification (onCancel)="branchtaxaddcancl()"></app-branchtaxmodification>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="taxedit">
+            <app-branch-tax (onCancel)="taxeditcancel()" (onSubmit)="taxeditsubt()"></app-branch-tax>
+        </span>
+    </div>
+    <div>
+        <br>
+        <span *ngIf="istax">
+
+            <div class=" row col-md-10 ">
+                <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                    <button type="button" class="btn btn-outline-success" (click)="taxadd()"
+                        style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span
+                            class="fa fa-plus"></span>
+                        Add</button>
+                </div>
+            </div>
+            <h2>Summary</h2>
+            <br />
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <table class="table   table-hover ">
+                    <thead>
+                        <tr class="header_cls">
+                            <!-- <th>S.No</th>
+                            <th>Supplier Branch</th>
+                            <th>PAN No.</th>
+                            <th>Tax</th>
+                            <th>Sub Tax</th>
+                            <th>Tax Rate</th>
+                            <th>View</th>
+                            <th>Action</th> -->
+                            <th>S.No</th>
+                            <!-- <th>Supplier Branch</th> -->
+                            <th>PAN No</th>
+                            <th>Tax</th>
+                            <th>Sub Tax</th>
+                            <!-- <th>Tax Rate</th> -->
+                            <th>View</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let tax of products ;index as i">
+                            <td>{{i+1}}</td>
+                            <!-- <td>{{ tax.branch_id.name}}</td> -->
+                            <td>{{ tax.panno }}</td>
+                            <td>{{tax.tax.name}}</td>
+                            <td>{{tax.subtax.name}}</td>
+                            <!-- <td>{{tax.taxrate.rate}}</td> -->
+
+                            <td>
+                                <button mat-icon-button matTooltip="view" class="iconbutton"
+                                    (click)="RMView_branchtax({'new_data':tax})" color="primary">
+                                    <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                                </button>
+                            </td>
+                            <td>
+                                <span *ngIf=" vendor_flag==true">
+                                    <button *ngIf="tax.modify_ref_id>0" mat-icon-button matTooltip=" Edit"
+                                        class="iconbutton" (click)="Taxedit(tax)" [disabled]="true" color="primary">
+                                        <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                    <button *ngIf="tax.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit"
+                                        class="iconbutton" (click)="Taxedit(tax)" color="primary">
+                                        <mat-icon style="color:green;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf=" vendor_flag==false">
+                                    <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="Taxedit(tax)"
+                                        [disabled]="true" color="primary">
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+
+
+
+                                <button *ngIf="tax.isexcempted=='Y'" mat-icon-button matTooltip="attachment"
+                                    (click)="downattach(tax)" class="iconbutton" color="primary">
+                                    <mat-icon class="enabled_icon" aria-label="attachment">photo_album</mat-icon>
+                                </button>
+                                <button *ngIf="tax.isexcempted=='N'" mat-icon-button matTooltip="attachment"
+                                    class="iconbutton" color="primary">
+                                    <mat-icon class="disabled_icon" aria-label="attachment">photo_album</mat-icon>
+                                </button>
+
+
+                                <span *ngIf=" vendor_flag==true">
+                                    <button *ngIf="tax.modify_ref_id>0" mat-icon-button class="iconbutton"
+                                        [disabled]="true" (click)="delete_tax(tax.id)" color="primary">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                    <button *ngIf="tax.modify_ref_id=='-1'" mat-icon-button class="iconbutton"
+                                        (click)="delete_tax(tax.id)" color="primary">
+                                        <mat-icon class="enabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf=" vendor_flag==false">
+                                    <button mat-icon-button class="iconbutton" (click)="delete_tax(tax.id)"
+                                        color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+
+                </table>
+
+                <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+                    <button mat-icon-button [disabled]="has_previous_tax === false" color="primary"
+                        (click)="previousClick()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpage}}
+                    <button mat-icon-button [disabled]="has_next_tax === false" color="primary" (click)="nextClick()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="tax_modify">
+                <h2>Modification Summary</h2>
+                <table class="table">
+                    <thead class="table_header">
+                        <tr>
+                            <!-- <th>S.No</th>
+                            <th>Supplier Branch</th>
+                            <th>PAN No.</th>
+                            <th>Tax</th>
+                            <th>Sub Tax</th>
+                            <th>Tax Rate</th>
+                            <th>Status</th>
+                            <th>Action</th> -->
+                            <th>S.No</th>
+                            <!-- <th>Supplier Branch</th> -->
+                            <th>PAN No</th>
+                            <th>Tax</th>
+                            <th>Sub Tax</th>
+                            <!-- <th>Tax Rate</th> -->
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let j of tax_data; index as i">
+
+                            <td> {{i+1}} </td>
+                            <!-- <td>{{ j.branch_id.name}}</td> -->
+                            <td>{{ j.panno }}</td>
+                            <td>{{j.tax.name}}</td>
+                            <td>{{j.subtax.name}}</td>
+                            <!-- <td>{{j.subtax.id}}</td> -->
+
+                            <td *ngIf="j.modify_status==1">Create</td>
+                            <td *ngIf="j.modify_status==2">Update</td>
+                            <td *ngIf="j.modify_status==0">Delete</td>
+                            <td>
+                                <span *ngIf="j.modify_ref_id !=j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="Taxedit(j)"
+                                        color="primary" [disabled]="true">
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_ref_id ==j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="Taxedit(j)"
+                                        color="primary">
+                                        <mat-icon style="color:green;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id != true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="Taxedit(j)"
+                                        color="primary">
+                                        <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id ==true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="Taxedit(j)"
+                                        color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+
+                                <button mat-icon-button matTooltip="attachment" class="iconbutton" color="primary">
+                                    <mat-icon style="color: gray;" aria-label="attachment">photo_album</mat-icon>
+                                </button>
+
+                                <span *ngIf="j.modify_status!=0">
+                                    <button mat-icon-button class="iconbutton" (click)="delete_tax(j.id)"
+                                        color="primary">
+                                        <mat-icon class="enabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==0">
+                                    <button mat-icon-button class="iconbutton" (click)="delete_tax(j.id)"
+                                        color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="tax_data ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+
+            </div>
+
+        </span>
+
+    </div>
+    <!-- tax -->
+
+    <!-- <div *ngIf="ispayment">
+        <h2>Summary</h2>
+        <div *ngIf="vendor_flag">
+            <button type="button" class="btn btn-outline-success"
+                style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;" (click)="branchpayadd()"><span
+                    class="fa fa-plus"></span> Add
+            </button>
+        </div>
+    </div> -->
+    <div>
+        <div *ngIf="paymentaddform">
+            <!-- <app-branch-payment (onCancel)="paymentaddcancel()" (onSubmit)="paymentaddsumbmit()">
+            </app-branch-payment> -->
+            <div class="modal fade" id="bpform" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Branch Payment Form</p>
+                  <button type="button" #closebuttonbranchPayment class="close" (click)="paymentaddcancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    
+                        <app-branch-payment (onCancel)="paymentaddcancel()" (onSubmit)="paymentaddsumbmit()"></app-branch-payment>
+
+                </div>
+              </div>
+            </div>
+             </div>
+             <!-- <ng-template #branchpayRef>
+                <app-branch-payment (onCancel)="paymentaddcancel()" (onSubmit)="paymentaddsumbmit()"></app-branch-payment>
+             </ng-template> -->
+        </div>
+    </div>
+    <div>
+        <div *ngIf="payment_RMView">
+            <!-- <app-paymentmodification (onCancel)="paymentaddcancel()"></app-paymentmodification> -->
+            <div class="modal fade" id="viewPaymentpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Branch Payment Changes</p>
+                  <button type="button" #closebuttonbranchPaymentvieew class="close" (click)="paymentrmviewcancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-paymentmodification (onCancel)="paymentrmviewcancel()"></app-paymentmodification>
+                </div>
+              </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div>
+        <div *ngIf="paymenteditform">
+            <!-- <app-paymentedit (onCancel)="paymentcancel()" (onSubmit)="paymentsumbmit()"></app-paymentedit> -->
+            <div class="modal fade" id="editPaymentpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Branch Payment Edit Form</p>
+                  <button type="button" #closebuttonbranchPaymentedit class="close" (click)="paymentcancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-paymentedit (onCancel)="paymentcancel()" (onSubmit)="paymentsumbmit()"></app-paymentedit>
+                </div>
+              </div>
+            </div>
+             </div>
+        </div>
+    </div>
+    <div *ngIf="ispayment">
+
+        <!-- <br>
+
+        <div class="table-responsive" style="width: 80%;margin-top: 1%;overflow-x: hidden;">
+            <table class="styled-table">
+                <thead class="tableheader"> -->
+        <p style="margin-top: 20px;font-size: 22px;"> Branch Payment Summary</p>
+            <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                    <tr>
+                        <th>S.No</th>
+                        <th>Supplier Branch</th>
+                        <th>Paymode</th>
+                        <th>Bank</th>
+                        <th>Account Number</th>
+                        <th>Beneficiary Name</th>
+                        <th>View</th>
+                        <th>Edit</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let branch of getBranchList; index as i">
+                        <td scope="row">{{ (presentpage_payment-1)*pageSize+i+1 }}</td>
+                        <td>{{branch.supplierbranch_id.name | titlecase}}</td>
+                        <td>{{ branch.paymode_id.name | titlecase }}</td>
+                        <td>{{ branch.bank_id.name | titlecase }}</td>
+                        <td>{{ branch.account_no }}</td>
+                        <td>{{ branch.beneficiary | titlecase }}</td>
+                        <td>
+                            <button mat-icon-button matTooltip="view" class="iconbutton"
+                                (click)="RMView_branchpayment({'new_data':branch})" data-toggle="modal"
+                                data-target="#viewPaymentpopup" color="primary">
+                                <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                            </button>
+                        <td *ngIf=" vendor_flag==true">
+
+                            <button *ngIf="branch.modify_ref_id>0" mat-icon-button matTooltip=" Edit" class="iconbutton"
+                                 data-toggle="modal" data-target="#editPaymentpopup"
+                                (click)="editbranch(branch)"  [disabled]="true" color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button *ngIf="branch.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit"
+                             data-toggle="modal" data-target="#editPaymentpopup"
+                                class="iconbutton" (click)="editbranch(branch)" color="primary">
+                                <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                            </button>
+
+
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="editbranch(branch)" 
+                                [disabled]="true" color="primary" data-toggle="modal" data-target="#editPaymentpopup" >
+                                <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                        <!-- 
+                        <td *ngIf=" vendor_flag==true">
+                           
+
+                            <span  *ngIf="branch.modify_ref_id=='-1'">
+                                <button mat-icon-button class="iconbutton"   (click)="deletebranchpay(branch)"
+                                    color="primary">
+                                    <mat-icon class="enabled_icon">delete</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="branch.modify_ref_id>=0">
+                                <button mat-icon-button class="iconbutton" (click)="deletebranchpay(branch)"
+                                    color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon">delete</mat-icon>
+                                </button>
+                            </span>
+                        </td> 
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button  class="iconbutton"
+                                    (click)="deletebranchpay(branch)" color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon">delete</mat-icon>
+                            </button>          
+                        </td> -->
+
+                        <td align="center " *ngIf=" vendor_flag==true">
+                            <span *ngIf="branch.modify_ref_id>0">
+                                <span *ngIf='branch.is_active==true' class="material-icons editlink  active"
+                                    title="Click to inactive" role="button"  tabindex="0">wb_sunny
+                                </span>
+
+                                <span *ngIf='branch.is_active==false' 
+                                    class="material-icons editlink  inactive" title="Click to active" role="button"
+                                    tabindex="0">wb_sunny
+                                </span>
+                            </span>
+                            <span *ngIf="branch.modify_ref_id=='-1'">
+                                <span *ngIf='branch.is_active==true' class="material-icons editlink  active"
+                                    title="Click to inactive" role="button" tabindex="0"
+                                    (click)="activeto_inactive(branch)">wb_sunny
+                                </span>
+
+                                <span *ngIf='branch.is_active==false' class="material-icons editlink  inactive"
+                                    title="Click to active" (click)="activeto_inactive(branch)" role="button"
+                                    tabindex="0">wb_sunny
+                                </span>
+                            </span>
+
+                        </td>
+                        <td align="center " *ngIf=" vendor_flag==false">
+                            <span *ngIf='branch.is_active==true' class="material-icons editlink  active"
+                                title="Click to inactive" role="button"  tabindex="0">wb_sunny
+                            </span>
+
+                            <span *ngIf='branch.is_active==false'
+                                class="material-icons editlink  inactive" title="Click to active" role="button"
+                                tabindex="0">wb_sunny
+                            </span>
+                        </td>
+
+                    </tr>
+                    <tr *ngIf="getBranchList ?.length == 0">
+                        <td colspan="9">No Records Found.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row" *ngIf="isPaymentPagination">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous_payment === false" color="primary"
+                        (click)="previousClickbranch()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{presentpage_payment}}
+                    <button mat-icon-button [disabled]=" has_next_payment === false" color="primary"
+                        (click)="nextClickbranch()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- <div *ngIf="payment_modify">
+                <h2>Modification Summary</h2>
+                <table class="styled-table">
+                    <thead class="tableheader"> -->
+           <div *ngIf="payment_modify">
+                <p style="font-size: 22px;">Branch Payment Modification Summary</p>
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <th>S.No</th>
+                            <th>Supplier Branch</th>
+                            <th>Paymode</th>
+                            <th>Bank</th>
+                            <th>Account Number</th>
+                            <th>Beneficiary Name</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let j of payment_data; index as i">
+
+                            <td> {{i+1}} </td>
+                            <td>{{j.supplier | titlecase}}</td>
+                            <td>{{ j.paymode_id.name | titlecase }}</td>
+                            <td>{{ j.bank_id.name | titlecase }}</td>
+                            <td>{{ j.account_no }}</td>
+                            <td>{{ j.beneficiary  | titlecase}}</td>
+                            <td *ngIf="j.modify_status==1">Create</td>
+                            <td *ngIf="j.modify_status==2">Edit</td>
+                            <td *ngIf="j.modify_status==0">Delete</td>
+                            <!-- <td *ngIf="j.modify_status==3">Active/Inactive</td> -->
+                            <td *ngIf="j.modify_status==3">
+                                <span *ngIf="!j.is_active">Inactive</span>
+                                <span *ngIf="j.is_active">Active</span>
+                            <td>
+                                <!-- <button mat-icon-button matTooltip=" Edit" class="iconbutton"
+                                    (click)="editbranch(j)" color="primary">
+                                    <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                                </button> -->
+                                <span *ngIf="j.modify_ref_id !=j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="editbranch(j)" 
+                                        color="primary" [disabled]="true" data-toggle="modal" data-target="#editPaymentpopup" >
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_ref_id ==j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="editbranch(j)" 
+                                        color="primary" data-toggle="modal" data-target="#editPaymentpopup" >
+                                        <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                    </button> 
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id != true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="editbranch(j)" 
+                                        color="primary" data-toggle="modal" data-target="#editPaymentpopup" >
+                                        <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id ==true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="editbranch(j)"
+                                        color="primary" [disabled]="true" data-toggle="modal" data-target="#editPaymentpopup" >
+                                        <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+
+                            </td>
+
+                            <td>
+                                <span *ngIf="j.modify_status!=0">
+                            <td align="center">
+                                <span *ngIf='j.is_active==true' class="material-icons editlink  active"
+                                    title="Click to inactive" role="button" tabindex="0"
+                                    (click)="activeto_inactive(j)">wb_sunny
+                                </span>
+
+                                <span *ngIf='j.is_active==false' class="material-icons editlink  inactive"
+                                    title="Click to active" (click)="activeto_inactive(j)" role="button"
+                                    tabindex="0">wb_sunny
+                                </span>
+                            </td>
+                            </span>
+
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="payment_data ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- activity detail screen -->
+
+    <div>
+        <span *ngIf="isActivityDetailForm">
+            <!-- <app-activitydetail (onCancel)="activityDetailCancel()" (onSubmit)="activityDetailSubmit()">
+            </app-activitydetail> -->
+            <div class="modal fade" id="addADpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Activity Detail Form</p>
+                  <button type="button" #closebuttonactivityDetail class="close" (click)="activityDetailCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-activitydetail (onCancel)="activityDetailCancel()" (onSubmit)="activityDetailSubmit()">
+                    </app-activitydetail> 
+                </div>
+              </div>
+            </div>
+            </div>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isActivityDetailEditForm">
+            <!-- <app-activitydetail-edit (onCancel)="activityDetailEditCancel()" (onSubmit)="activityDetailEditSubmit()">
+            </app-activitydetail-edit> -->
+            <div class="modal fade" id="editAD_popup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Activity Detail Form</p>
+                  <button type="button" #closebuttonactivityDetailedit class="close" (click)="activityDetailEditCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-activitydetail-edit (onCancel)="activityDetailEditCancel()" (onSubmit)="activityDetailEditSubmit()">
+                    </app-activitydetail-edit>
+                </div>
+              </div>
+            </div>
+            </div>
+        </span>
+    </div>
+    <div *ngIf="isActivityDetail">
+        <!-- <div class=" row col-md-10 ">
+            <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                <button *ngIf="isActivityDetail" type="button" class="btn btn-outline-success"
+                    (click)="addActivityDetail()" style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span
+                        class="fa fa-plus"></span>
+                    Add</button>
+
+               
+            </div>
+        </div> -->
+        <p style="margin-top: 20px;font-size: 22px;"> Activity Detail Summary</p>
+        <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+        <!-- <div class="table-responsive" style="width: 80%;margin-top: 1%;overflow-x: hidden;">
+            <table class="styled-table">
+                <thead class="tableheader"> -->
+                    <tr>
+                        <th>S.No</th>
+                        <th>Code</th>
+                        <th>Detail Name</th>
+                        <th>Raisor</th>
+                        <th>Approver</th>
+                        <th>Remarks</th>
+                        <th>Action</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let activityDetail of activityDetailList; index as i">
+                        <td> {{(presentpage - 1)*pageSize +i+1 }} </td>
+                        <td>{{ activityDetail.code}}</td>
+                        <!-- <td (click)="catalogData(activityDetail)" style="cursor: pointer;color:blue;">
+                            {{ activityDetail.detailname}}</td> -->
+                        <td>
+                                {{ activityDetail.detailname | titlecase}}</td>
+                        <td>{{ activityDetail.raisor.full_name | titlecase}}</td>
+                        <td>{{ activityDetail.approver.full_name | titlecase}}</td>
+                        <td>{{ activityDetail.remarks | titlecase}}</td>
+                        <td *ngIf=" vendor_flag==true">
+                            <button *ngIf="activityDetail.modify_ref_id>0" mat-icon-button matTooltip=" Edit"
+                                class="iconbutton" data-toggle="modal"
+                                data-target="#editAD_popup" (click)="activityDetailEditForm(activityDetail)" [disabled]="true"
+                                color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button *ngIf="activityDetail.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit"
+                                class="iconbutton" data-toggle="modal"
+                                data-target="#editAD_popup" (click)="activityDetailEditForm(activityDetail)" color="primary">
+                                <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton"
+                                (click)="activityDetailEditForm(activityDetail)" data-toggle="modal"
+                                data-target="#editAD_popup" [disabled]="true" color="primary">
+                                <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==true">
+                            <button *ngIf="activityDetail.modify_ref_id>0" mat-icon-button class="iconbutton"
+                                [disabled]="true" (click)="deleteActivityDetail(activityDetail)" color="primary">
+                                <mat-icon style="color: gray;">delete</mat-icon>
+                            </button>
+                            <button *ngIf="activityDetail.modify_ref_id=='-1'" mat-icon-button class="iconbutton"
+                                (click)="deleteActivityDetail(activityDetail)" color="primary">
+                                <mat-icon style="color:black;">delete</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button class="iconbutton" (click)="deleteActivityDetail(activityDetail)"
+                                color="primary" [disabled]="true">
+                                <mat-icon class="disabled_icon">delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="activityDetailList ?.length == 0" style="margin-left: 42%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+            <div class="row" *ngIf="isActivityDetailPagination">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClickActivityDetail()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button> {{presentpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary"
+                        (click)="nextClickActivityDetail()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="activitydetail_modify">
+                <p style="font-size: 22px;">Activity Detail Modification Summary</p>
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <th>S.No</th>
+                            <th>Code</th>
+                            <th>Detail Name</th>
+                            <th>Raisor</th>
+                            <th>Approver</th>
+                            <th>Remarks</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let j of activitydetail_data; index as i">
+
+                            <td> {{i+1}} </td>
+                            <td> {{ j.code}}</td>
+                            <td *ngIf="j.modify_status==1">{{ j.detailname | titlecase}}</td>
+                            <!-- <td *ngIf="j.modify_status==1" (click)="catalogList(j)" style="cursor: pointer;color:blue;">{{ j.detailname}}</td> -->
+                            <td *ngIf="j.modify_status==2 || j.modify_status==0" > {{ j.detailname | titlecase}}</td>
+                            <td>{{ j.raisor.full_name | titlecase}}</td>
+                            <td>{{ j.approver.full_name | titlecase}}</td>
+                            <td>{{ j.remarks | titlecase}}</td>
+                            <td *ngIf="j.modify_status==1">Create</td>
+                            <td *ngIf="j.modify_status==2">Update</td>
+                            <td *ngIf="j.modify_status==0">Delete</td>
+                            <td>
+                                <span *ngIf="j.modify_ref_id !=j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="activityDetailEditForm(j)" data-toggle="modal"
+                                        data-target="#editAD_popup" color="primary" [disabled]="true">
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_ref_id ==j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="activityDetailEditForm(j)" data-toggle="modal"
+                                        data-target="#editAD_popup" color="primary">
+                                        <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id != true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="activityDetailEditForm(j)" data-toggle="modal"
+                                        data-target="#editAD_popup" color="primary">
+                                        <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id ==true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="activityDetailEditForm(j)" data-toggle="modal"
+                                        data-target="#editAD_popup"color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+                            <td>
+                                <span *ngIf="j.modify_status!=0">
+                                    <button mat-icon-button class="iconbutton" (click)="deleteActivityDetail(j)"
+                                        color="primary">
+                                        <mat-icon class="enabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==0">
+                                    <button mat-icon-button class="iconbutton" (click)="deleteActivityDetail(j)"
+                                        color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="activitydetail_data ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div>
+        <div *ngIf="isCatalogForm">
+            <!-- <app-create-catalog (onCancel)="onCancelClick()" (onSubmit)="catalogSubmit()"></app-create-catalog> -->
+            <div class="modal fade" id="addCatelogpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Catalog Form</p>
+                  <button type="button" #closebuttoncatelog class="close" (click)="onCancelClick()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-create-catalog (onCancel)="onCancelClick()" (onSubmit)="catalogSubmit()"></app-create-catalog> 
+                </div>
+              </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div *ngIf="catelog_RMView">
+            <!-- <app-catalougemodification (onCancel)="onCancelClick()"></app-catalougemodification> -->
+            <div class="modal fade" id="rm_Catelogpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Catalog Changes</p>
+                  <button type="button" #closebuttoncatelogview class="close" (click)="onCancelRMClick()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-catalougemodification (onCancel)="onCancelRMClick()"></app-catalougemodification> 
+                </div>
+              </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div *ngIf="isCatalogEditForm">
+            <!-- <app-catalog-edit (onCancel)="catalogEditCancel()" (onSubmit)="catalogEditSubmit()"></app-catalog-edit> -->
+            <div class="modal fade" id="editCatelogpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Catalog Edit Form</p>
+                  <button type="button" #closebuttoncatelogedit class="close" (click)="catalogEditCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-catalog-edit (onCancel)="catalogEditCancel()" (onSubmit)="catalogEditSubmit()"></app-catalog-edit> 
+                </div>
+              </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isCatalog">
+        <!-- <div class=" row col-md-10 ">
+            <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                
+
+                <button *ngIf="catalogTab" type="button" class="btn btn-outline-success" (click)="addCatalog()"
+                    style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span class="fa fa-plus"></span>
+                    Add</button>
+            </div>
+        </div> -->
+        <p style="margin-top: 20px;font-size: 22px;"> Catalog Summary</p>
+        <div class="table-responsive" style="width: 100%;margin-top: 10px;overflow-x: hidden;">
+        <!-- <div class="table-responsive" style="width: 100%;margin-top: 1%;overflow-x: hidden;"> -->
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No</th>
+                        <th>DetailsName</th>
+                        <th>Product</th>
+                        <th>Category </th>
+                        <th>SubCategory</th>
+                        <th>Name</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>View</th>
+                        <th>Action</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let catalog of getCatalogList; index as i">
+                        <td scope="row">{{ (catalogpage-1)*pageSize+i+1 }}</td>
+                        <td>{{ catalog.detailname | titlecase }}</td>
+                        <td>{{ catalog.productname.name | titlecase }}</td>
+                        <td>{{ catalog.category.name | titlecase }}</td>
+                        <td>{{ catalog.subcategory.name | titlecase}}</td>
+                        <td>{{ catalog.name | titlecase}}</td>
+                        <td>{{ catalog.fromdate | date:'dd-MM-yyyy' }}</td>
+                        <td>{{ catalog.todate | date:'dd-MM-yyyy' }}</td>
+                        <td>
+                            <button mat-icon-button matTooltip="view" class="iconbutton"
+                            data-toggle="modal"
+                            data-target="#rm_Catelogpopup"
+                            (click)="RMView_catelog({'new_data':catalog})" color="primary">
+                                <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==true">
+                            <button *ngIf="catalog.modify_ref_id>0" mat-icon-button matTooltip=" Edit"
+                                class="iconbutton" data-toggle="modal"
+                                data-target="#editCatelogpopup" (click)="catalogEdit(catalog)" [disabled]="true" color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button *ngIf="catalog.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit"
+                                class="iconbutton" data-toggle="modal"
+                                data-target="#editCatelogpopup"   (click)="catalogEdit(catalog)" color="primary">
+                                <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" data-toggle="modal"
+                            data-target="#editCatelogpopup" (click)="catalogEdit(catalog)"
+                                [disabled]="true" color="primary">
+                                <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==true">
+                            <button *ngIf="catalog.modify_ref_id>0" mat-icon-button class="iconbutton" [disabled]="true"
+                                (click)="deleteCatalog(catalog,i)" color="primary">
+                                <mat-icon style="color: gray;">delete</mat-icon>
+                            </button>
+                            <button *ngIf="catalog.modify_ref_id=='-1'" mat-icon-button class="iconbutton"
+                                (click)="deleteCatalog(catalog,i)" color="primary">
+                                <mat-icon style="color:black;">delete</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button class="iconbutton" (click)="deleteCatalog(catalog,i)"
+                                color="primary" [disabled]="true">
+                                <mat-icon class="disabled_icon">delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="getCatalogList ?.length == 0" style="margin-left: 42%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+            <div class="row" *ngIf="isCatalogPagination">
+                <div class="col-sm-12" style="font-size: small;text-align:right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="catalog_previous === false" color="primary"
+                        (click)="previousClickCatalog()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{catalogpage}}
+                    <button mat-icon-button [disabled]="catalog_next === false" color="primary"
+                        (click)="nextClickCatalog()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="catalog_modify">
+                <p style="font-size: 22px;"> Catalog Modification Summary</p>
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <th>S.No</th>
+                            <th>DetailsName</th>
+                            <th>Product</th>
+                            <th>Category </th>
+                            <th>SubCategory</th>
+                            <th>Name</th>
+                            <th>FromDate</th>
+                            <th>Todate</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let j of catalog_data; index as i">
+
+                            <td> {{i+1}} </td>
+                            <td>{{ j.detailname | titlecase }}</td>
+                            <td>{{ j.productname.name | titlecase }}</td>
+                            <td>{{ j.category.name  | titlecase}}</td>
+                            <td>{{ j.subcategory.name | titlecase}}</td>
+                            <td>{{ j.name | titlecase}}</td>
+                            <td>{{ j.fromdate | date:'dd-MM-yyyy' }}</td>
+                            <td>{{ j.todate | date:'dd-MM-yyyy' }}</td>
+                            <td *ngIf="j.modify_status==1">Create</td>
+                            <td *ngIf="j.modify_status==2">Update</td>
+                            <td *ngIf="j.modify_status==0">Delete</td>
+                            <td>
+                                <span *ngIf="j.modify_ref_id !=j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="catalogEdit(j)" data-toggle="modal"
+                                        data-target="#editCatelogpopup" color="primary" [disabled]="true">
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_ref_id ==j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="catalogEdit(j)"  data-toggle="modal"
+                                        data-target="#editCatelogpopup" color="primary">
+                                        <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id != true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="catalogEdit(j)" data-toggle="modal"
+                                        data-target="#editCatelogpopup" color="primary">
+                                        <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id ==true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="catalogEdit(j)" data-toggle="modal"
+                                        data-target="#editCatelogpopup"color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+
+                            </td>
+                            <td>
+                                <span *ngIf="j.modify_status!=0">
+                                    <button mat-icon-button class="iconbutton" (click)="deleteCatalog(j,i)"
+                                        color="primary">
+                                        <mat-icon class="enabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==0">
+                                    <button mat-icon-button class="iconbutton" (click)="deleteCatalog(j,i)"
+                                        color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="catalog_data ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</mat-card>
+</div>
+<!-- </div> -->
+

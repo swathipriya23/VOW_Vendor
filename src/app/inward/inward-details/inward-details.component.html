@@ -1,0 +1,469 @@
+<div class="Container" style="margin-left: 40px;margin-bottom: 100px;">
+    <div class="row justify-content-center">
+        <h2>Inward Details</h2>
+    </div>
+    <table width="100%; margin-top:4%;" border="0">
+        <tr>
+            <td>Employee Branch </td>
+            <td>{{employeeBranchData}}</td>
+
+            <td>AirWay Bill No</td>
+            <td>{{awbnoforheader}}</td>
+        </tr>
+        <tr>
+            <td>No of Packets </td>
+            <td>{{noofpacket}}</td>
+
+            <td>Channel</td>
+            <td> {{channelnameforheader}} </td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td>{{dateforheader | date:'dd-MMM-yyyy '}}</td>
+
+            <td>Courier</td>
+            <td> {{ couriernameforheader}}</td>
+        </tr>
+    </table>
+
+
+
+
+    <!-- <div style="margin-left: 50px;">
+        <table class="table" style="margin-top: 10px;max-width: 90%;" id='commonstyle'>
+            <thead class="table_header">
+                <tr> -->
+    <div class="table-responsive" style="margin-top: 4%;width: 94%;margin-left: 10px;">
+        <table class="table-bordered" style="text-align:center;">	
+            <!-- <table  border="1"> -->	
+            <thead>
+                <tr class="table_header tableset">
+                    <th>Sl.No</th>
+                    <th>Packet No</th>
+                    <th>Count</th>
+                    <th>Add</th>
+                    <th>Doc Type</th>
+                    <th>Doc Subject</th>
+                    <th>Page Count</th>
+                    <th>Received From</th>
+                    <th>File Upload</th>
+                    <th>File View</th>
+                    <th>Remarks</th>
+                    <th>Status</th>
+                    <th>Save</th>
+                    <th>Clone</th>
+                    <th>Delete</th>
+                    <th>Doc Number</th>
+                </tr>
+            </thead>
+
+            <tbody *ngFor="let det of inwardDetailList; let i = index ">
+                <tr>
+                    <td rowspan="1000" align="center">
+                        {{i +1}}
+                    </td>
+                    <td rowspan="1000" class="aligncenterBased"> {{det.packetno}}</td>
+                    <td rowspan="1000">
+                        <!-- <mat-label>Count</mat-label><br> -->
+                        <mat-form-field class="example-full-width" style="width: 100px; padding: 5px;">
+                            <input matInput placeholder="Count" [ngModel]="det.doccount" placeholder="Count"
+                                (ngModelChange)="det.doccount = $event" />
+                        </mat-form-field>
+                    </td>
+                    <td rowspan="1000" title="Add">
+                        <button [disabled]="det.assigned == true" (click)="AddBasedOnCount(i, det)"
+                            class="commonbuttonstyle cursor" type="button">
+                            <mat-icon style="font-size:40px;">add_circle_outline</mat-icon>
+                        </button>
+                    </td>
+
+                </tr>
+                <tr *ngFor="let innerdet of det?.details; let j = index">
+                    <td>
+                        <mat-form-field style="width: 200px; padding: 5px; " (click)="DocumenttypeDD()">
+                            <input #doctypeInput placeholder="Select Document Type" type="text" matInput
+                                (keypress)="Documenttype( $event)" (keyup.backspace)="Documenttype( $event)"
+                                [ngModel]="innerdet.doctype_id" (ngModelChange)="innerdet.doctype_id = $event"
+                                [matAutocomplete]="DocType">
+                            <mat-autocomplete #DocType="matAutocomplete" [displayWith]="displayFnDocType">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let DocType of documenttypeList" [value]="DocType">
+                                        {{DocType.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+
+
+                    </td>
+                    <td>
+                        <!-- <mat-label>Document Subject</mat-label><br> -->
+                        <mat-form-field style="padding: 5px;">
+                            <input matInput autocomplete="off" placeholder="Doc Subject" [ngModel]="innerdet.docsubject"
+                                (ngModelChange)="innerdet.docsubject = $event">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <!-- <mat-label>Page Count</mat-label><br> -->
+                        <mat-form-field style="width: 100px; padding: 5px;">
+                            <input matInput autocomplete="off" placeholder="Page Count" [ngModel]="innerdet.pagecount"
+                                (ngModelChange)="innerdet.pagecount = $event">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <!-- <mat-label>Received From</mat-label><br> -->
+                        <mat-form-field style="padding: 5px;">
+                            <input matInput autocomplete="off" placeholder="Received From"
+                                [ngModel]="innerdet.receivedfrom" (ngModelChange)="innerdet.receivedfrom = $event">
+                        </mat-form-field>
+                    </td>
+                    <td>
+
+
+                        <div *ngIf="innerdet.docnumber != ''; else elsefile ">
+
+                            --
+
+                        </div>
+                        <ng-template #elsefile>
+                            <div *ngIf="innerdet.docnumber == ''">
+                                <div *ngIf="innerdet.statuskey == false; else disabledataafterdelete">
+                                    <!-- <label for="uploadFile" class="filedesign">
+                                        <mat-icon>file_upload</mat-icon>ChooseFile
+                                    </label> -->
+                                    <input type="file" #fileInput id="uploadFile" class="choosefile" multiple
+                                        (change)="onFileSelected($event, i, j, det, innerdet )" name="uploadFile" />
+                                    <button class="commonbuttonstyledelete cursor" type="button" title="delete">
+                                        <mat-icon (click)="deleteFileOnParticular(i, j, det, innerdet )">delete
+                                        </mat-icon>
+                                    </button>
+                                    <div *ngIf="innerdet?.filearray?.length > 0">
+                                        <div *ngFor="let files of innerdet?.filearray; let index = index">
+                                            <p (click)="filepreview(files)" data-toggle="modal"
+                                                data-target="#my-modalpreview" style="color: #0000EE;cursor: pointer;"> 
+                                                {{index+1}}.{{files?.name}} </p>
+                                            <span (click)="deleteInlineFile(det, innerdet, i, j, index)">X</span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <ng-template #disabledataafterdelete>--</ng-template>
+                            </div>
+
+
+                        </ng-template>
+
+
+                    </td>
+                    <td>
+                        <!-- <div *ngIf="innerdet.statuskey == false; else disabledataafterdeleteVisible">
+                            <span class="material-icons" aria-hidden="true" (click)="HeaderFiles(innerdet)"
+                                data-toggle="modal" data-target=".bd-examplepopHeaderfiles-modal-lg"> visibility
+                            </span>
+                        </div>
+                        <ng-template #disabledataafterdeleteVisible>
+                            --
+                        </ng-template> -->
+                        <div *ngIf="innerdet.docnumber != ''; else disabledataafterdeleteVisible">
+                            <span class="material-icons" aria-hidden="true" (click)="HeaderFiles(innerdet)"
+                                data-toggle="modal" data-target=".bd-examplepopHeaderfiles-modal-lg"> visibility
+                            </span>
+                        </div>
+                        <ng-template #disabledataafterdeleteVisible>
+                            --
+                        </ng-template>
+                    </td>
+
+                    <td>
+                        <!-- <mat-label>Remarks</mat-label><br> -->
+                        <mat-form-field style="padding: 5px;">
+                            <input matInput autocomplete="off" placeholder="Remarks" [ngModel]="innerdet.remarks"
+                                (ngModelChange)="innerdet.remarks = $event">
+                        </mat-form-field>
+                    </td>
+                    <td class="aligncenterBased">
+                        <div *ngIf="innerdet.statuskey == false; else disabledatastatus">
+                            <div *ngIf="innerdet.docstatus == 1">
+                                Open
+                            </div>
+                            <div *ngIf="innerdet.docstatus == 2">
+                                Closed
+                            </div>
+                            <div *ngIf="innerdet.docstatus == 3">
+                                Reopen
+                            </div>
+                        </div>
+                        <ng-template #disabledatastatus>
+                            --
+
+                        </ng-template>
+                    </td>
+                    <td>
+                        <div *ngIf="innerdet.statuskey == false; else disabledatasave">
+
+                            <div *ngIf="innerdet.docnumber!=''; else savedocdisable">
+                                --
+
+                            </div>
+                            <ng-template #savedocdisable>
+                                <div *ngIf="innerdet.docnumber =='';">
+
+                                    <button type="submit" style="border-radius: 10px;margin-left: 10px;
+                                            border-color: #f5c68b;
+                                            background-color: #f5c68b;" class="btn btn-light"
+                                        (click)="saveParticularIndexData(i, j, det, innerdet)">Submit</button>
+
+
+
+
+
+                                    <!-- <button class="btn btn-outline-success" type="button" style="border-radius:40px;"
+                                        title="Save"
+                                        >Save</button> -->
+                                </div>
+
+                            </ng-template>
+
+
+
+                        </div>
+                        <ng-template #disabledatasave>
+                            <div>--</div>
+
+                        </ng-template>
+
+
+                    </td>
+                    <td>
+                        <div *ngIf="det.assigned == false; else clonedata">
+                            <div *ngIf="innerdet.statuskey == false; else disabledataclone">
+                                <button data-toggle="tooltip" title="Clone" class="commonbuttonstyle cursor"
+                                    type="button" (click)="inwardDetailsClone(i, j, det, innerdet)">
+                                    <mat-icon style="font-size:30px;">content_copy</mat-icon>
+                                </button>
+                            </div>
+                            <ng-template #disabledataclone>
+                                <div>--</div>
+
+
+                            </ng-template>
+                        </div>
+                        <ng-template #clonedata>
+                            <div>--</div>
+
+
+                        </ng-template>
+
+
+                    </td>
+                    <td>
+                        <div *ngIf="det.assigned == false; else deletedata">
+                            <div *ngIf="innerdet.statuskey == false; else disabledata">
+
+                                <div *ngIf="innerdet.docnumber ==''; else deletedocnumhide ">
+                                    <button class="commonbuttonstyledelete cursor" type="button" title="delete"
+                                        (click)="DeletewhileDocnumberNotgenerate(det, i ,j, innerdet)">
+                                        <mat-icon style="font-size:30px;">delete</mat-icon>
+                                    </button>
+                                </div>
+                                <ng-template #deletedocnumhide>
+                                    --
+                                </ng-template>
+
+
+
+
+
+
+
+
+                            </div>
+                            <ng-template #disabledata>
+                                --
+
+                            </ng-template>
+                        </div>
+                        <ng-template #deletedata>
+                            --
+
+                        </ng-template>
+
+
+
+
+
+                    </td>
+                    <td>
+                        {{innerdet.docnumber}}
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- <div *ngIf="inwardDetailList?.length==0; else pagination" class="NodataAlign">No Records Found...
+    </div>
+    <ng-template #pagination>
+        <div style="font-size: small;text-align: right;margin-bottom: 100px;cursor: pointer;">
+            <button mat-icon-button [disabled]="has_previous == false" color="primary"
+                (click)="previousClick()">
+                <mat-icon style="cursor: pointer;">arrow_back</mat-icon>
+            </button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next == false" color="primary"
+                (click)="nextClick()">
+                <mat-icon style="cursor: pointer;">arrow_forward</mat-icon>
+            </button>
+        </div>
+    </ng-template> -->
+
+    <div>
+        <!-- <button class="btn btn-outline-primary" type="button" (click)="cancel()"
+            style="border-radius:40px;margin-left: 50px;">
+            Back</button> -->
+
+
+
+        <!-- <button style="border-radius: 10px;margin-left: 10px;
+                                            border-color: #f5c68b;
+                                            background-color: #f5c68b;" class="btn btn-light"
+                                        (click)="cancel()">Back</button> -->
+
+
+        <button type="button" class="btn btn-light" style="border-radius: 7px;margin-left: 10px;
+            border-color: black;
+            background-color: white;" (click)="cancel()">Back</button>
+    </div>
+</div>
+
+<div class="modal fade" id="inwardModal" tabindex="-1" role="dialog" aria-labelledby="labelmodel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">File View</h4>
+                <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div *ngIf="showInnerimagepopup" class="modal fade bd-examplepopHeaderfiles-modal-lg" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#17a2b8;">
+                <h2 class="modal-title">Header Files</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <table class="table table-bordered" fixed-header
+                style="margin-left: 50px;width: 90%;margin-top:2%;overflow-x:hidden;">
+                <thead class="table_header">
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>File Name</th>
+                        <th>View File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let file of fileListHeader;index as i">
+                        <td>{{ i+1 }}</td>
+                        <td>{{file?.filedata?.file_name}}</td>
+                        <td style="margin-left:-1%">
+                            <p class="btn btn-link" style="margin-left:-1%" data-target="#my-modal" data-toggle="modal"
+                                (click)="commentPopupHeaderFiles(file)">
+                                <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                <br>
+                                <!-- (Note:Only image file can be viewed) -->
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="showimageHeaderAPI" id="my-modal" class="modal fade" aria-labelledby="my-modalLabel" aria-hidden="true"
+    tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" data-dismiss="modal" style="width: 60%;height: 80%;">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-body">
+                <img src="{{jpgUrlsAPI}}" class="img-responsive" style="width: 100%;">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div *ngIf="showimageHeaderPreview" id="my-modalpreview" class="modal fade" aria-labelledby="my-modalLabel"
+    aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" data-dismiss="modal" style="width: 60%;height: 80%;">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-body">
+                <img src="{{jpgUrls}}" class="img-responsive" style="width: 100%;">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showimageHeaderPreviewPDF" id="my-modalpreview" class="modal fade" aria-labelledby="my-modalLabel"
+    aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;">
+                <h2 class="modal-title">PDF View</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <pdf-viewer [src]="pdfurl" [render-text]="true" [original-size]="false"
+                style="display: block;width: 500px; height: 800px;"></pdf-viewer>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showimagepdf" id="my-modal" class="modal fade" aria-labelledby="my-modalLabel" aria-hidden="true"
+    tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;">
+                <h2 class="modal-title">PDF View</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <pdf-viewer [src]="pdfurl" [render-text]="true" [original-size]="false"
+                style="display: block;width: 500px; height: 800px;"></pdf-viewer>
+        </div>
+    </div>
+
+</div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" type="line-scale-party">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

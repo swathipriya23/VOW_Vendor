@@ -1,0 +1,224 @@
+<h2 style="margin-left: 35px;font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;
+">Assets Split Form</h2><hr>
+
+<!-- <pre
+    style="font-weight: bolder;font-family:verdana;margin-left: 35px;">Asset Value:{{ total }}      
+                  Asset ID:                 Asset Branch: </pre> -->
+<table>
+    <tr>
+        <th style="padding: 50px 50px 10px 50px;">Asset Value:{{ Assettotal }}</th>
+        <th style="padding: 50px 50px 10px 50px;">Asset ID: {{AssetID}} </th>
+        <th style="padding: 50px 50px 10px 50px;">Asset Branch: {{AssetBranch}}</th>
+    </tr>
+    <tr>
+        <!-- <th style="padding: 1px 50px 10px 50px;">Splited Value:{{ sum }}</th> -->
+        <!-- <th>
+            <button class="material-icons btn btn-outline-success" (click)="add()" [disabled]="isin"
+            style="border-radius: 40px; margin-left: 50px;">
+            add
+        </button>
+        </th> -->
+    </tr>
+</table>
+
+<form [formGroup]='myForm'>
+    <mat-form-field style="margin-left: 50px;width:250px">
+        <mat-label>Enter The Number Of Split</mat-label>
+        <input type="number"   matInput formControlName="count" [matAutocomplete]="noofcount" >
+        <mat-autocomplete  #noofcount="matAutocomplete">
+            <mat-option *ngFor="let d of countlist" value="{{d.no}}" (focusout)="counteddata()">{{d.no}}</mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <ng-container>
+        
+
+        <table  formArrayName='split_detail'>
+            <tr *ngFor="let item of myForm.controls.split_detail['controls']; let i = index" [formGroupName]="i">
+                <td>
+                    <mat-form-field style="width: 200px; margin-left: 50px;">
+                        <mat-label>Asset ID</mat-label>
+                        <input matInput readonly  formControlName="newassetdetailid"  autocomplete="off">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field style="width: 200px; margin-left: 50px;">
+                        <mat-label>AssetValue</mat-label>
+                        <input matInput formControlName="value" min=1 type="number"
+                        (keyup)="ValueChangeAssetTotal(item , i)" autocomplete="off">
+                    </mat-form-field>
+                </td>
+                <!-- <td>
+                    <span class="material-icons" (click)="DelBtn(i)" style="margin-left: 50px;">
+                        delete
+                    </span>
+
+ 
+                </td> -->
+            </tr>
+            <tr>
+
+        </table>
+
+
+
+    </ng-container>
+
+    <br>
+
+    <table>
+        <tr>
+            <td>
+                <mat-form-field style="width: 200px; margin-left: 100px;">
+                    <mat-label>Reason </mat-label>
+                    <input  matInput formControlName="reason" autocomplete="off">
+                </mat-form-field>
+
+            </td>
+            <td>
+                <mat-form-field class="inputformat" style="width:175px;margin-left: 50px;">
+                    <mat-label> Date</mat-label>
+                    <input matInput readonly [matDatepicker]="picker1" [max]="date | date:'yyyy-mm-dd'"
+                        placeholder="Start Date" formControlName="date" required>
+                    <mat-datepicker-toggle matSuffix  [for]="picker1">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </td>
+
+        </tr>
+        <tr>
+            <td> <button type="submit" style="border-radius: 40px;margin-left: 100px;" class="btn btn-outline-success"
+                    (click)="SubmitAssetSplit()">Submit</button>
+                
+                <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                    style="border-radius: 40px;margin-left: 50px;">Cancel</button>
+            </td>
+        </tr>
+
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <br>
+</form>
+
+
+<!-- <pre>
+    {{myForm.value | json}}
+</pre> -->
+
+
+
+
+<!-- <div *ngFor="let i of formsArray; let a = index">
+          
+        <div >
+         
+    
+          <form> 
+              <table >
+                  <div >
+                    
+                      <tr  >
+                    
+                          <td>
+                              <mat-form-field style="width: 155px;margin-left: 35px;">
+                                  <mat-label>Asset Id</mat-label>
+                                  <input matInput placeholder="BS"  autocomplete="off" required>
+                              </mat-form-field>
+                          </td>
+                          <td>
+                            <mat-form-field style="width: 155px;margin-left: 65px;">
+                                <mat-label>Asset Value</mat-label>
+                                <input matInput placeholder="Branch Name"  autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+            
+                      </tr>
+                      <tr>
+           
+               
+             
+                          <td>
+                          
+                            <button type="button" class="btn btn-outline-success"  
+        style="border-radius:40px;margin-left: 50px" (click)="DelBtn(a)" ><span class="fa fa-plus"></span>Delete</button>
+      </td>                 
+        
+        
+                          
+                          
+    
+                      </tr>
+    
+                          <tr>
+               
+                          <br>
+                        
+                   
+        
+                        </div>
+                    </table>
+              
+                </form>
+      
+            </div>
+
+        
+            </div>
+
+            <div *ngIf=ischecks style="margin-left:35%" >
+                <mat-form-field class="example-full-width" style="margin-left: 15%;">
+                    <input class="toolbar-search" type="text" matInput autocomplete="off" >
+                    <mat-placeholder>Split reason</mat-placeholder>
+                </mat-form-field>
+                <mat-form-field style="width:175px;margin-left: 50px;">
+                    <mat-label>Asset Split  Date</mat-label>
+                    <input matInput readonly [matDatepicker]="picker1" placeholder="Start Date"
+                        formControlName="start_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+     
+
+
+            <br>
+            <button type="button" class="btn btn-outline-success"  
+            style="border-radius:40px;margin-left: 50px;margin-bottom: 30%;" (click)="AddBtn()"  ><span class="fa fa-plus"></span>Add</button>
+      
+            <button type="button" class="btn btn-outline-success"  
+            style="border-radius:40px;margin-left: 50px;margin-bottom: 30%;" (click)="BackBtn()"  ><span class="fa fa-arrow-left"></span>Go Back</button>
+       -->
+<!-- <div *ngIf=ischecks  style="margin-left: 15%;" >
+                <mat-form-field class="example-full-width" style="margin-left: 15%;">
+                    <input class="toolbar-search" type="text" matInput autocomplete="off" >
+                    <mat-placeholder>Split reason</mat-placeholder>
+                </mat-form-field>
+                <mat-form-field style="width:175px;margin-left: 50px;">
+                    <mat-label>Asset Split  Date</mat-label>
+                    <input matInput readonly [matDatepicker]="picker1" placeholder="Start Date"
+                        formControlName="start_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div> -->

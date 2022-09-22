@@ -1,0 +1,95 @@
+
+<div style="margin-left: 19px;margin-top: 1%; width: 100%;">
+    <!-- <h3>
+        Activity Details Edit Form
+    </h3> -->
+    <div>
+        <form [formGroup]="ActivityDetailEditForm" (ngSubmit)="submitForm()" autocomplete="off">
+            <table>
+                <!-- <tr>
+                    <td>
+                        <mat-label>Activity Name<label style="color: red;" >*</label></mat-label><br>
+                        <mat-form-field style="width: 250px;">
+                            
+                            <input matInput [readonly] = "true" formControlName="name" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                </tr> -->
+                <tr>
+                    <td>
+                        <mat-label>Code<label style="color: red;" >*</label></mat-label><br>
+                        <mat-form-field style="width: 250px;">
+                           
+                            <input matInput  [readonly] = "true"  formControlName="code" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 60px;" >Detail Name</mat-label><br>
+                        <mat-form-field style="width: 250px;margin-left: 60px;">
+                            
+                            <input matInput  type="text" (keypress)="namevalidation($event)" formControlName="detailname" autocomplete="off">
+                        </mat-form-field>
+                    </td>
+                </tr>    
+                <tr>
+                    <td>
+                        <mat-label>Raisor</mat-label><br>
+                        <mat-form-field style="width: 250px;">
+                            
+                            <input #employeeRaisorInput matInput formControlName="raisor"
+                                [matAutocomplete]="raisoremp" readonly>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #raisoremp="matAutocomplete" [displayWith]="displayFnRaisor" (opened)="autocompleteRaisorScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let temp of rasisorEmployeeList" [value]="temp">{{temp.full_name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 60px;" >Approver<label style="color: red;" >*</label></mat-label><br>
+                        <mat-form-field style="width: 250px;margin-left: 60px;" (click)="approveremployee()">
+                            
+                            <input #employeeApproverInput  matInput formControlName="approver"
+                                [matAutocomplete]="approveremp" required>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #approveremp="matAutocomplete" [displayWith]="displayFnApprover" (opened)="autocompleteApproverScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let temp of employeeList" [value]="temp">{{temp.full_name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+                </tr>   
+                <tr>
+                    <td>
+                        <mat-label>Remarks</mat-label><br>
+                        <mat-form-field style="width: 250px;">
+                            
+                            <input matInput type="text" (keypress)="addressvalidation($event)"  formControlName="remarks" autocomplete="off">
+                        </mat-form-field>
+                    </td> 
+                </tr>        
+            </table>
+        
+        </form>
+    </div>
+</div>
+
+<div style="margin-top: 3%;margin-left: 10px;">
+    <button type="button" (click)="onCancelClick()" class="btn btn-light"
+    style="border-radius: 7px;
+border-color: black;
+background-color: white;margin-left: 10px;">Cancel</button>
+    <button type="submit" style="border-radius: 10px;
+    border-color: #f5c68b;
+    background-color: #f5c68b;margin-left: 10px;" 
+    class="btn btn-light" (click)="submitForm()" >Submit</button>
+</div>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

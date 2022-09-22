@@ -1,0 +1,153 @@
+<div style="margin-left: 10px;margin-top: 10px; " class="col-md-12">
+    <h2>eClaim Onbehalf Employee</h2>
+    <hr>
+    <div class="col-md-12" style="text-align: right; ">
+
+
+        <button mat-mini-fab style="background-color:#DDEFDD ; margin-right: 20px; " class="linkbtn" data-toggle="modal"
+            data-target="#myModal">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <br>
+
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <tr class="table_header">
+                <th>S.No</th>
+                <th>Employee Name</th>
+                <th>Branch Name </th>
+                <th>Onbehalf Employee</th>
+                <th>Status</th>
+
+            </tr>
+            <tr *ngFor="let t of datatable;let i=index">
+                <td>{{((has_presentid-1)*10)+i+1}}</td>
+                <td>{{t.employee_name}}</td>
+                <td>{{t.branch_name}}</td>
+                <td>{{t.onbehalf_employee_name}}</td>
+                <td>
+                    <button mat-icon-button [ngClass]="(t.status == 1)? 'statusbutton  ':'statusbuttoninactive'"
+                        (click)=" activate(t)">
+                        <mat-icon class="material-icons-outlined">wb_sunny</mat-icon>
+                    </button>
+                    
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div *ngIf="datatable?.length==0; else paginationpage1" class="center col-md-12  ">No Records
+        Found...</div>
+    <ng-template #paginationpage1>
+        <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+            <button mat-icon-button [disabled]="has_previousid === false" color="primary" (click)="firstClick()">
+                <mat-icon>first_page
+                </mat-icon>
+            </button>
+            <button mat-icon-button [disabled]="has_previousid == false" color="primary" (click)="previousClick()">
+                <mat-icon>arrow_back
+                </mat-icon>
+            </button>
+            {{has_presentid}}
+            <button mat-icon-button [disabled]="has_nextid ==false" color="primary" (click)="nextClick()">
+                <mat-icon>arrow_forward
+                </mat-icon>
+            </button>
+        </div>
+    </ng-template>
+</div>
+<div id="myModal" class="modal fade col-md-12 " data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl">
+        <div class='modal-content'>
+            <div class="modal-header text-center  ">
+                <h3 class="modal-title   w-100" style="font-family: 'Times New Roman', Times, serif;"></h3>
+                <button type="button" #modalclose  (click)="resetall()" class="close" #closed data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="onbehalfform">
+                    <table style="width: 70%;">
+                        <tr>
+                            <td>
+                                <mat-form-field  floatLabel="always" style="width:20rem; ">
+                                    <mat-label>Branch</mat-label>
+                                    <input type="text" #inputassetid placeholder="Select Branch" matInput
+                                        [matAutocomplete]="conoffice" formControlName="branch">
+                                    <mat-autocomplete #assetid #conoffice="matAutocomplete" (opened)="autocompleteid()">
+                                        <mat-option *ngFor="let branch of branchlist" (focusout)="branchname(branch)"
+                                            [value]="branch.name">
+                                            {{branch.code}}-{{branch.name}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field  floatLabel="always" style="width:20rem; ">
+                                    <mat-label>Employee</mat-label>
+                                    <input matInput #emp placeholder="" [matAutocomplete]="autocomplete1"
+                                        formControlName="employee" />
+
+                                    <mat-autocomplete #autocomplete1="matAutocomplete" (opened)="autocompleteemps()" #autocompleteemp>
+                                        <mat-option *ngFor="let val of branchemployee"
+                                            (focusout)="employeenameselect(val)" [value]='val.full_name'>
+                                            {{val.full_name}}
+
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-bordered">
+                        <tr class="table_header">
+                            <th>S.No</th>
+                            <th>Employee </th>
+                            <th>Status</th>
+
+                        </tr>
+                        <tr *ngFor="let v of employeedata;let i=index ">
+                            <td>{{((has_presentemp-1)*10)+i+1}}</td>
+                            <td>{{v.employee.full_name}}</td>
+                            <td style="text-align: center;">
+                                <input *ngIf="v.status==0 && v.onb_present_status==false" type="checkbox" class="checkboxs" (click)="getbool(v,$event)" >
+                                <mat-icon *ngIf="v.status==1 && v.onb_present_status==true "  style="color: green; opacity: 0.4; " >check_box</mat-icon>
+                                <mat-icon *ngIf="v.status==0 && v.onb_present_status==true"  style="color: red; opacity: 0.4; " >disabled_by_default</mat-icon>
+                              
+                            </td>
+                        </tr>
+                    </table>
+                    <div *ngIf="employeedata?.length==0; else paginationpage2" class="center col-md-12  ">No Records
+                        Found...</div>
+                    <ng-template #paginationpage2>
+                        <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+                            <button mat-icon-button [disabled]="has_previousemp === false" color="primary"
+                                (click)="empfirstclick()">
+                                <mat-icon>first_page
+                                </mat-icon>
+                            </button>
+                            <button mat-icon-button [disabled]="has_previousemp == false" color="primary"
+                                (click)="emppreviousclick()">
+                                <mat-icon>arrow_back
+                                </mat-icon>
+                            </button>
+                            {{has_presentemp}}
+                            <button mat-icon-button [disabled]="has_nextemp ==false" color="primary"
+                                (click)="empnextclick()">
+                                <mat-icon>arrow_forward
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </ng-template>
+
+                    <div style="text-align: center;">
+                        <button mat-flat-button color='warn' data-dismiss="modal" (click)="submit()">submit</button>
+                        <button mat-flat-button type="button" (click)="resetall()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

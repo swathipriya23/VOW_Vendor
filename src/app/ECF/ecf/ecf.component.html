@@ -1,0 +1,1254 @@
+<div style="background-color: #F6F6F6">
+    <mat-card style="margin:20px 12px 20px 20px;" class="mat-elevation-z0">
+    <nav>
+        <div class="nav nav-tabs" style="margin-top: 10px;">
+            <span class="nav-item nav-link" data-toggle="tab" (click)="ECFSubModule(sub)" role="tab"
+                *ngFor="let sub of ECF_Sub_Menu_List">
+                {{sub.name}}
+            </span>
+        </div>
+    </nav>
+
+    <!-- ---- Sales Invoice Summary---- -->
+    <div *ngIf="salessummaryForm">
+
+        <div class="col-md-12">
+            <form [formGroup]="salesSearchForm">
+                <p style="color:black;font-size: 22px;font-weight: 500;margin-top: 20px;">
+                    Sales Invoice Search
+                </p>
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-label>SR NO</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="CR NO" formControlName="crno">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Customer Name</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline" >
+                            <mat-select  class="matformfieldinputstyle" placeholder="Customer Name" formControlName="cusname" >
+                                <mat-option *ngFor="let type of TypeList" [value]="type.id" matTooltip="{{type.text}}">
+                                    {{type.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Status</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline" >
+                            <mat-select  class="matformfieldinputstyle" placeholder="Status" formControlName="ecfstatus">
+                                <mat-option *ngFor="let status of StatusList" [value]="status.id" matTooltip="{{status.text}}">
+                                    {{status.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Min Amount</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Min Amount" formControlName="minamt"
+                            (keypress)="numberOnlyandDot($event)">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Max Amount</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Max Amount" formControlName="maxamt"
+                            (keypress)="numberOnlyandDot($event)">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div style="margin-top: 12px;">
+                            <button mat-fab style="background-color: white;" aria-label="Search"  (click)="salessummarysearch()">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                            <button mat-fab type="submit"  (click)="Resetsales()"
+                            style="border-radius:40px;margin-left: 15px;background-color: white;color: black;">Clear</button>
+                            <button mat-fab style="margin-left: 20px;background-color: #f5c68b;" (click)="showsalesadd()"
+                           >
+                                <mat-icon matTooltip="Add Sales Invoice">add</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+     </div>
+
+     <p style="color:black;font-size: 22px;font-weight: 500;margin-left: 15px;margin-top: 20px;">
+        Sales Invoice Summary
+    </p>
+    <div style="margin-top: 4%;width: 100%;margin-left: 10px;">
+        <table class="table table-responsive padsize" style="text-align:center;" id ='commonstyle'>	
+            
+            <thead>
+                <tr class="table_header tableset " style="white-space: nowrap;text-align: center;background-color:#EDF8FA;">
+
+                    <th>S.No</th>
+                    <th>Sales Type</th>
+                    <th>SR NO</th>
+                    <th>Sales Date</th>
+                    <th>Invoice No</th>
+                    <th>Sales Amount</th>
+                    <th>Raiser Name</th>
+                    <th>Customer Name</th>
+                    <th>Approver Name</th>
+                    <th>Status</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let list of sales_summary_data; index as i" style="white-space: nowrap;text-align: center;">
+                   <td>{{(salespresentpage - 1)*salespagesize +i+1 }}</td>
+                   <td>SLI</td>
+                   <td>{{list?.crno}}</td>
+                   <td>{{list?.ecfdate |  date: 'dd/MM/yyyy'}}</td>
+                   <td>{{list?.invoiceheader?.invoiceno}}</td>
+                   <td>{{list?.ecfamount|currency:'INR'}}</td>
+                   <td>{{list?.raisername}}</td>
+                   <td>{{list?.invoiceheader?.supplier_id?.name}}</td>
+                   <td>{{list?.approvername}}</td>
+                   <td *ngIf="list?.ecfstatus != 'PENDING_FOR_APPROVAL'">{{list?.ecfstatus}}</td>
+                   <td *ngIf="list?.ecfstatus == 'PENDING_FOR_APPROVAL'">PENDING FOR APPROVAL</td>
+                   <td>
+                    <span matTooltip="View" class=" fa fa-eye create "
+                        style="color: green;cursor: pointer;padding:10px" (click)="showsalesview(list)"></span>
+                </td>
+                <td >
+                <div *ngIf="list.ecfstatus != 'APPROVED' && list.ecfstatus != 'REJECT'  && list.ecfstatus != 'PENDING_FOR_APPROVAL' && list.can_edit == true; else shownext">
+                    <button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary"
+                    (click)="showeditsales(list)">
+                    <mat-icon style="color: green;" aria-label="Edit">edit</mat-icon>
+                </button>
+                </div>
+                <ng-template #shownext>
+                    <button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary"
+                    [disabled]="true">
+                    <mat-icon style="color: grey;" aria-label="Edit">edit</mat-icon>
+                </button>
+                </ng-template>
+                </td>
+                <td>
+                    <div *ngIf="list.ecfstatus != 'APPROVED' && list.ecfstatus != 'REJECT'  && list.can_edit == true; else shownexts">
+                        <button mat-icon-button type="button" matTooltip="Delete">
+                            <mat-icon style="color: green;" aria-label="Edit" (click)="deletesales(list.id)">
+                                delete</mat-icon>
+                        </button>
+                    </div>
+                    <ng-template #shownexts>
+                        <button mat-icon-button type="button" matTooltip="Delete" [disabled]="true">
+                            <mat-icon style="color: grey;" aria-label="Edit" >
+                                delete</mat-icon>
+                        </button>
+                    </ng-template>
+                </td>
+                <td >
+               <div *ngIf="list.ecfstatus == 'APPROVED';else movenext">
+                    <button type="button" class="btn btn-outline-success"
+                        (click)="salescoverNotedownload(list.id)"
+                        style="border-radius: 40px;margin-left: 3%;" >
+                        <span class="fa fa-download" matTooltip="Download CoverNote">
+                        </span>
+                    </button>
+                    </div>
+                    <ng-template #movenext>-</ng-template>
+                </td>
+                </tr>
+
+            </tbody>
+        </table>
+                <div *ngIf="sales_summary_data ?.length == 0" style="margin-left: 42%;">
+                    <h3 >Sorry data not found!.. </h3>
+                </div>
+        
+        
+            <div class="row" *ngIf="issalessummarypage">
+                <div  class="col-sm-3" style="margin-bottom: 5%;font-size: small;text-align:left;right:-225px;">
+                    <p style="color:black;font-size: 18px;font-weight: 500;margin-left: -220px;">
+                        Total Count:{{getsalestotalcount}}
+                    </p> 
+                </div>
+                <div  class="col-sm-9" style="margin-bottom: 5%;font-size: small;text-align:right">
+                    <button mat-icon-button [disabled]="has_spageprevious === false" color="primary" (click)="salespreviousClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button> {{salespresentpage}}
+                    <button mat-icon-button [disabled]="has_spagenext === false" color="primary" (click)="salesnextClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="salesapproverForm">
+
+        <div class="col-md-12">
+            <form [formGroup]="salesappSearchForm">
+                <p style="color:black;font-size: 22px;font-weight: 500;margin-top: 20px;">
+                    Sales Invoice Approval Search
+                </p>
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-label>SR NO</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="CR NO" formControlName="crno">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Customer Name</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline" >
+                            <mat-select  class="matformfieldinputstyle" placeholder="Customer Name" formControlName="cusname" >
+                                <mat-option *ngFor="let type of TypeList" [value]="type.id" matTooltip="{{type.text}}">
+                                    {{type.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Status</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline" >
+                            <mat-select  class="matformfieldinputstyle" placeholder="Status" formControlName="ecfstatus">
+                                <mat-option *ngFor="let status of StatusList" [value]="status.id" matTooltip="{{status.text}}">
+                                    {{status.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Min Amount</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Min Amount" formControlName="minamt"
+                            (keypress)="numberOnlyandDot($event)">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Max Amount</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Max Amount" formControlName="maxamt"
+                            (keypress)="numberOnlyandDot($event)">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div style="margin-top: 12px;">
+                            <button mat-fab style="background-color: white;" aria-label="Search"  (click)="salesappsummarysearch()">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                            <button mat-fab type="submit"  (click)="Resetappsales()"
+                            style="border-radius:40px;margin-left: 15px;background-color: white;color: black;">Clear</button>
+                           
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+     </div>
+
+     <p style="color:black;font-size: 22px;font-weight: 500;margin-left: 15px;margin-top: 20px;">
+        Sales Invoice Approval Summary
+    </p>
+    <div style="margin-top: 4%;width: 100%;margin-left: 10px;">
+        <table class="table table-responsive padsize" style="text-align:center;" id ='commonstyle'>	
+            
+            <thead>
+                <tr class="table_header tableset " style="white-space: nowrap;text-align: center;background-color:#EDF8FA;">
+
+                    <th>S.No</th>
+                    <th>Sales Type</th>
+                    <th>SR NO</th>
+                    <th>Sales Date</th>
+                    <th>Invoice No</th>
+                    <th>Sales Amount</th>
+                    <th>Raiser Name</th>
+                    <th>Customer Name</th>
+                    <th>Approver Name</th>
+                    <th>Status</th>
+                    <th>View</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let list of sales_appsummary_data; index as i" style="white-space: nowrap;text-align: center;">
+                   <td>{{(salesapppresentpage - 1)*salesapppagesize +i+1 }}</td>
+                   <td>SLI</td>
+                   <td>{{list?.crno}}</td>
+                   <td>{{list?.ecfdate |  date: 'dd/MM/yyyy'}}</td>
+                   <td>{{list?.invoiceheader?.invoiceno}}</td>
+                   <td>{{list?.ecfamount|currency:'INR'}}</td>
+                   <td>{{list?.raisername}}</td>
+                   <td>{{list?.invoiceheader?.supplier_id?.name}}</td>
+                   <td>{{list?.approvername}}</td>
+                   <td *ngIf="list?.ecfstatus != 'PENDING_FOR_APPROVAL'">{{list?.ecfstatus}}</td>
+                   <td *ngIf="list?.ecfstatus == 'PENDING_FOR_APPROVAL'">PENDING FOR APPROVAL</td>
+                   <td>
+                    <span matTooltip="View" class=" fa fa-eye create "
+                        style="color: green;cursor: pointer;padding:10px" (click)="showsalesappview(list)"></span>
+                </td>
+               
+                </tr>
+
+            </tbody>
+        </table>
+                <div *ngIf="sales_appsummary_data ?.length == 0" style="margin-left: 42%;">
+                    <h3 >Sorry data not found!.. </h3>
+                </div>
+        
+        
+            <div class="row" *ngIf="issalesappsummarypage">
+                <div  class="col-sm-3" style="margin-bottom: 5%;font-size: small;text-align:left;right:-225px;">
+                    <p style="color:black;font-size: 18px;font-weight: 500;margin-left: -220px;">
+                        Total Count:{{getsalesapptotalcount}}
+                    </p> 
+                </div>
+                <div  class="col-sm-9" style="margin-bottom: 5%;font-size: small;text-align:right">
+                    <button mat-icon-button [disabled]="has_sapppageprevious === false" color="primary" (click)="salesapppreviousClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button> {{salesapppresentpage}}
+                    <button mat-icon-button [disabled]="has_sapppagenext === false" color="primary" (click)="salesappnextClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="salesAddForm">
+        <app-salesinvoice (onSubmit)="salescreateSubmit()" (onCancel)="salescreateCancel()">
+        </app-salesinvoice>
+    </div>
+
+    <div *ngIf="salesviewForm">
+        <app-salesinvoice-view (onCancel)="salesback()"></app-salesinvoice-view>
+    </div>
+
+    <div *ngIf="salesappviewForm">
+        <app-salesinvoice-approval (onSubmit)="salesappsubmit()" (onCancel)="salesappcancel()"></app-salesinvoice-approval>
+    </div>
+
+    <!-- ----ECF SUMMARY--- -->
+    <div *ngIf="ecfsummaryForm">
+        <div class="col-md-12">
+            <form [formGroup]="ecfSearchForm">
+                <p style="color:black;font-size: 22px;font-weight: 500;margin-top: 20px;">
+                    ECF Search
+                </p>
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-label>CR NO</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="CR NO" formControlName="crno">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>ECF Type</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline" >
+                            <mat-select  class="matformfieldinputstyle" placeholder="ECF Type" formControlName="ecftype" >
+                                <mat-option *ngFor="let type of TypeList" [value]="type.id" matTooltip="{{type.text}}">
+                                    {{type.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>ECF Status</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline" >
+                            <mat-select  class="matformfieldinputstyle" placeholder="ECF Status" formControlName="ecfstatus">
+                                <mat-option *ngFor="let status of StatusList" [value]="status.id" matTooltip="{{status.text}}">
+                                    {{status.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Min Amount</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Min Amount" formControlName="minamt"
+                            (keypress)="numberOnlyandDot($event)">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Max Amount</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Max Amount" formControlName="maxamt"
+                            (keypress)="numberOnlyandDot($event)">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div style="margin-top: 12px;">
+                            <button mat-fab style="background-color: white;" aria-label="Search"  (click)="summarysearch()">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                            <button mat-fab type="submit"  (click)="Resetecfinventory()"
+                            style="border-radius:40px;margin-left: 15px;background-color: white;color: black;">Clear</button>
+                            <button mat-fab style="margin-left: 20px;background-color: #f5c68b;" (click)="showadd()"
+                           >
+                                <mat-icon matTooltip="Add ECF">add</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+     </div>
+
+     <p style="color:black;font-size: 22px;font-weight: 500;margin-left: 15px;margin-top: 20px;">
+        ECF Summary
+    </p>
+    <div style="margin-top: 4%;width: 100%;margin-left: 10px;">
+        <table class="table table-responsive padsize" style="text-align:center;" id ='commonstyle'>	
+            
+            <thead>
+                <tr class="table_header tableset " style="white-space: nowrap;text-align: center;background-color:#EDF8FA;">
+    <!-- <div style="margin-left: 15px;" class="table-responsive">
+        <table class="table"style="margin-top: 10px;max-width: 100%;" id ='commonstyle'>
+            <thead class="table_header" >
+                <tr style="white-space: nowrap;text-align: center;background-color:#EDF8FA;"> -->
+
+                    <th>S.No</th>
+                    <th>ECF Type</th>
+                    <th>CR NO</th>
+                    <th>ECF Date</th>
+                    <th>Invoice No</th>
+                    <th>ECF Amount</th>
+                    <th>ECF Raiser</th>
+                    <th>Supplier Name</th>
+                    <th>Approver Name</th>
+                    <th>ECF Status</th>
+                    <th>AP Status</th>
+                    <th>Payment Status</th>
+                    <th>Payment For</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let list of ecf_summary_data; index as i" style="white-space: nowrap;text-align: center;">
+                    <td> {{(ecfpresentpage - 1)*pagesizeecf +i+1 }} </td>
+                    <td>{{list?.ecftype}}</td>
+                    <td *ngIf="list?.crno!=null">{{list?.crno}}</td>
+                    <td *ngIf="list?.crno === null">-</td>
+                    <!-- <td>{{list?.ecfdate| date:'dd/MM/yyyy'}}</td> -->
+                   <td> {{ (list?.ecfdate !== "None") ? (list?.ecfdate | date: 'dd/MM/yyyy') : "-" }}</td>
+                    <!-- && list?.ppx_id != 'E' -->
+                    <td *ngIf="list?.invoiceheader != undefined && list?.invoiceheader != null ">{{list.invoiceheader.invoiceno}}</td>
+                    <td *ngIf="list?.invoiceheader == undefined && list?.invoiceheader == null">-</td>
+                    <!-- ||  list?.ppx_id == 'E' -->
+                   
+                    <td>{{list?.ecfamount|currency:'INR'}}</td>
+                    <td *ngIf="list?.raisername != null">{{list?.raisername}}</td>
+                    <td *ngIf="list?.raisername == null">-</td>
+                    <td *ngIf="list?.invoiceheader?.supplier_id != null">{{list?.invoiceheader?.supplier_id?.name}}</td>
+                    <td *ngIf="list?.invoiceheader?.supplier_id == null">-</td>
+                    <td *ngIf="list?.approvername != null">{{list?.approvername}}</td>
+                    <td *ngIf="list?.approvername == null">-</td>
+                    <td *ngIf ="list?.ecfstatus != 'PENDING_FOR_APPROVAL' && list.ecfstatus_id != 5" >{{ list?.ecfstatus }}</td>
+                    <td *ngIf ="list?.ecfstatus == 'PENDING_FOR_APPROVAL'">PENDING FOR APPROVAL</td>
+                    <td *ngIf="list?.ecfstatus_id == 5">PENDING FOR APPROVAL MODIFICATION</td>
+                    <td *ngIf="list?.ap_status != null">{{list?.ap_status}}</td>
+                    <td *ngIf="list?.ap_status == null">-</td>
+                    <td *ngIf="list?.ap_status == 'PAID'">
+                        <span matTooltip="view Payment Details" class=" fa fa-eye create " style="color: green;cursor: pointer;"
+                       (click)="getpaystatus(list?.crno)" data-toggle="modal"  data-target="#showpaymentdetails"></span>
+                    </td>
+                    <td *ngIf="list?.ap_status != 'PAID'">-</td>
+                    <td *ngIf="list?.ecftype_id == 2 || list?.ecftype_id == 7">SUPPLIER</td>
+                    <td *ngIf="list?.ecftype_id == 3">{{list?.payto}}</td>
+                    <td *ngIf="list?.ecftype_id== 4">{{list?.ppx}}</td>
+                    <td *ngIf="list?.ecftype_id== 5">-</td>
+                    <td *ngIf="list?.ecftype_id== 8">-</td>
+                    <td>
+                        <span matTooltip="view" class=" fa fa-eye create "
+                            style="color: green;cursor: pointer;padding:10px" (click)="showview(list)"></span>
+                    </td>
+                    <td *ngIf="list.ecfstatus === 'APPROVED' || list.ecfstatus === 'REJECT' || list.can_edit != true">
+                        <button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary"
+                            [disabled]="true">
+                            <mat-icon style="color: grey;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                    <td *ngIf="list.ecfstatus != 'APPROVED' && list.ecfstatus != 'REJECT' && list.can_edit == true">
+                        <button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary"
+                            (click)="showedit(list)">
+                            <mat-icon style="color: green;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                    <td  *ngIf="list.ecfstatus != 'APPROVED' && list.ecfstatus != 'REJECT'  && list.can_edit == true">
+                        <button mat-icon-button type="button" matTooltip="Delete">
+                            <mat-icon style="color: green;" aria-label="Edit" (click)="delete(list.id)">
+                                delete</mat-icon>
+                        </button>
+                    </td>
+                    <td  *ngIf="list.ecfstatus == 'APPROVED' || list.ecfstatus == 'REJECT' ||  list.can_edit != true">
+                        <button mat-icon-button type="button" matTooltip="Delete" [disabled]="true">
+                            <mat-icon style="color: grey;" aria-label="Edit" >
+                                delete</mat-icon>
+                        </button>
+                    </td>
+
+                    <td *ngIf="list.ecfstatus == 'APPROVED'">
+                        <button type="button" class="btn btn-outline-success"
+                            (click)="coverNotedownload(list.id,list.ecftype_id)"
+                            style="border-radius: 40px;margin-left: 3%;" >
+                            <span class="fa fa-download" matTooltip="Download CoverNote">
+                            </span>
+                        </button>
+                    </td>
+                    <td *ngIf="list.ecfstatus != 'APPROVED'">-</td>
+                   
+                    <!-- <td *ngIf="list.ecfstatus == 'REJECT'">
+                        <button type="button" 
+                           style="border-radius: 40px;margin-left: 3%;color: gray;" ngbTooltip="Download CoverNote">
+                            <span class="fa fa-download" style="color: grey;">
+                            </span>
+                        </button>
+                    </td> -->
+
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="ecf_summary_data ?.length == 0" style="margin-left: 42%;">
+            <h3 >Sorry data not found!.. </h3>
+        </div>
+
+
+    <div class="row" *ngIf="issummarypage">
+        <div  class="col-sm-3" style="margin-bottom: 5%;font-size: small;text-align:left;right:-225px;">
+            <p style="color:black;font-size: 18px;font-weight: 500;margin-left: -220px;">
+                Total Count:{{gettotalcount}}
+            </p> 
+        </div>
+        <div  class="col-sm-9" style="margin-bottom: 5%;font-size: small;text-align:right">
+            <button mat-icon-button [disabled]="has_pageprevious === false" color="primary" (click)="previousClickPayment()">
+                <mat-icon>arrow_back</mat-icon>
+            </button> {{ecfpresentpage}}
+            <button mat-icon-button [disabled]="has_pagenext === false" color="primary" (click)="nextClickPayment()">
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    </div>
+
+
+
+    </div>
+
+
+
+
+
+    <!-- -------- -->
+
+    
+    <div *ngIf="ecfapprovalForm">
+
+        <div class="col-md-12">
+            <form [formGroup]="ecfapprovalSearchForm">
+                <p style="color:black;font-size: 22px;font-weight: 500;margin-top: 20px;">
+                    ECF Approval Search
+                </p>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <mat-label>CR NO</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" matInput autocomplete="off" placeholder="CR NO" formControlName="crno">
+                        </mat-form-field>
+                    </div>
+                     &nbsp; &nbsp; &nbsp; &nbsp;
+                    <div class="col-md-2">
+                        <mat-label>Invoice Type</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline" >
+                            <mat-select  class="matformfieldinputstyle" placeholder="ECF Type" formControlName="ecftype">
+                                <mat-option *ngFor="let type of TypeList" [value]="type.id" matTooltip="{{type.text}}">
+                                    {{type.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <div class="col-md-2">
+                        <mat-label>Min Amount</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle"  matInput autocomplete="off" placeholder="Min Amount" formControlName="minamt"
+                            (keypress)="numberOnlyandDot($event)">
+                        </mat-form-field>
+                    </div>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <div class="col-md-2">
+                        <mat-label>Max Amount</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle"  matInput autocomplete="off" placeholder="Max Amount" formControlName="maxamt"
+                            (keypress)="numberOnlyandDot($event)">
+                        </mat-form-field>
+                    </div>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <div class="col-md-2">
+                        <div style="margin-top: 12px;">
+                            <button mat-fab style="background-color: white;" aria-label="Search"  (click)="approversearch()">
+                                <mat-icon>search</mat-icon>
+                            </button>
+                            <button mat-fab type="submit"  (click)="reset()"
+                            style="border-radius:40px;margin-left: 15px;background-color: white;color: black;">Clear</button>
+                        </div>
+                     </div>
+                 </div>
+                
+
+
+                </form>
+                </div>
+
+
+                <p style="color:black;font-size: 22px;font-weight: 500;margin-left: 15px;margin-top: 20px;">
+                    ECF Approval Summary
+                </p>
+
+                <!-- <div style="margin-top: 4%;width: 100%;margin-left: 10px;">
+                    <table class="table table-responsive padsize" style="text-align:center;" id ='commonstyle'>	
+                        
+                        <thead>
+                            <tr class="table_header tableset " style="white-space: nowrap;text-align: center;background-color:#EDF8FA;"> -->
+                <!-- <div style="margin-left: 15px;">
+                    <table class="table"style="margin-top: 10px;max-width: 100%;" id ='commonstyle'>
+                        <thead class="table_header" >
+                            <tr style="white-space: nowrap;text-align: center;background-color:#EDF8FA;"> -->
+                               
+                                <div style="margin-top: 4%;width: 100%;margin-left: 10px;">
+                                    <table class="table table-responsive padsize" style="text-align:center;" id ='commonstyle'>	
+                                        
+                                        <thead>
+                                            <tr class="table_header tableset " style="white-space: nowrap;text-align: center;background-color:#EDF8FA;">  
+                               
+                               
+                               
+                               
+                               
+                                <th>S.No</th>
+                                <th>CR No</th>
+                                <th>Purpose</th>
+                                <th>ECF Type</th>
+                                <th>ECF Date</th>
+                                <th>ECF Amount</th>
+                                <th>Invoice No</th>
+                                <th>ECF Raiser</th>
+                                <th>Supplier Name</th>
+                                <th>ECF Status</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let list of approvalList; index as i" style="white-space: nowrap;text-align: center;">
+                                <td> {{(approvalpresentpage - 1)*approvalpagesize +i+1 }} </td>
+                                <td>{{list?.crno}}</td>
+                                <td>{{list?.remark}}</td>
+                                <!-- <td *ngFor="let data of list.branch">{{data.name}}-{{data.code}}</td> -->
+                                <td>{{list?.ecftype}}</td>
+                                <td>{{ (list?.ecfdate !== "None") ? (list?.ecfdate | date: 'dd/MM/yyyy') : "" }}</td>
+                                <!-- <td>{{list?.ecfdate|date:'dd/MM/yyyy'}}</td> -->
+                                <td style="text-align: center;">{{list?.ecfamount|currency:'INR'}}</td>
+                                <td>{{list?.invoiceheader?.invoiceno}}</td>
+                                <td>{{list?.raisername}}</td>
+                                <td *ngIf="list?.invoiceheader?.supplier_id != null">{{list?.invoiceheader?.supplier_id?.name}}</td>
+                                <td *ngIf="list?.invoiceheader?.supplier_id == null">-</td>
+                                <td *ngIf='list?.ecfstatus == "PENDING_FOR_APPROVAL"'>PENDING FOR APPROVAL </td>
+                                <td *ngIf='list?.ecfstatus != "PENDING_FOR_APPROVAL"'>{{list.ecfstatus}}</td>
+                                <td style="text-align: center;">
+                                    <span matTooltip="view" class=" fa fa-eye create "
+                                        style="color: green;cursor: pointer;" (click)="showapproveview(list)"></span>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="approvalList ?.length == 0" style="margin-left: 42%;">
+                        <h3 >Sorry data not found!.. </h3>
+                    </div>
+                    <div class="row" *ngIf="isapprovalpage">
+                        <div  class="col-sm-3" style="margin-bottom: 5%;font-size: small;text-align:left;right:-225px;">
+                            <p style="color:black;font-size: 18px;font-weight: 500;margin-left: -220px;">
+                                Total Count:{{getapptotalcount}}
+                            </p> 
+                        </div>
+                        <div class="col-sm-9" style="font-size: small;text-align: right; margin-bottom: 50px;">
+                            <button mat-icon-button [disabled]="has_apppageprevious === false" color="primary"
+                                (click)="previousapproverClick()">
+                                <mat-icon>arrow_back</mat-icon>
+                            </button>
+                            {{approvalpresentpage}}
+                            <button mat-icon-button [disabled]="has_apppagenext === false" color="primary"
+                                (click)="nextapproverclick()">
+                                <mat-icon>arrow_forward</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+       
+    </div>
+
+
+    <div *ngIf="ecfinventoryForm">
+        <app-ecf-inventory (onSubmit)="ecfcreateSubmit()" (onCancel)="ecfcreateCancel()">
+        </app-ecf-inventory>
+    </div>
+
+    <div *ngIf="ecfviewForm">
+        <app-ecfsummary-view (onSubmit)="ecfviewSubmit()" (onCancel)="ecfviewCancel()"></app-ecfsummary-view>
+    </div>
+
+    <div *ngIf="showapproverview">
+        <app-approverheader-view (onSubmit)="ecfappviewSubmit()" (onCancel)="ecfappviewCancel()">
+        </app-approverheader-view>
+    </div>
+
+    <div *ngIf="showappdtlview">
+        <app-approverheader-view (onSubmit)="ecfappdtlviewSubmit()" (onCancel)="ecfappdtlviewCancel()">
+        </app-approverheader-view>
+    </div>
+
+    <div *ngIf="ecfcoview">
+        <app-ecfcoview (onSubmit)="ecfcoviewSubmit()" (onCancel)="ecfcoviewCancel()">
+        </app-ecfcoview>
+    </div>
+
+    <div *ngIf="ecfcosummaryForm">
+
+        <div class="col-md-12">
+            <form [formGroup]="ecfcoSearchForm">
+                <p style="color:black;font-size: 22px;font-weight: 500;margin-top: 20px;">
+                    ECF CO Search
+                </p>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-label>CR NO</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="CR NO" formControlName="crno">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Invoice Type</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline" >
+                            <mat-select  class="matformfieldinputstyle" placeholder="ECF Type" formControlName="ecftype">
+                                <mat-option *ngFor="let type of TypeList" [value]="type.id" matTooltip="{{type.text}}">
+                                    {{type.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Invoice No</mat-label><br>
+                        <mat-form-field  class="matformfieldstyle" appearance="outline">
+                            <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Invoice No" formControlName="invoiceno">
+                        </mat-form-field>
+                    </div>
+                  <div class="col-md-3">
+
+                <mat-label>Choose Branch</mat-label><br>
+                <mat-form-field class="matformfieldstyle" appearance="outline"
+                (click)="getbranchdd()">
+
+                    <input #branchInput class="matformfieldinputstyle"
+                        placeholder="Choose Branch" matInput formControlName="branch"
+                        [matAutocomplete]="branchtype" >
+                    <mat-icon matSuffix class="maticonsize">unfold_more</mat-icon>
+                    <mat-autocomplete #branchtype="matAutocomplete" [panelWidth]="400"
+                        [displayWith]="displayFnbranch" (opened)="branchScroll()">
+                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let branch of Branchlist" [value]="branch" matTooltip="{{branch.codename}}">
+                                {{branch.codename}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+
+                <mat-label >Choose Supplier</mat-label><br>
+                <mat-form-field class="matformfieldstyle" appearance="outline" (click)="getsupplierdd()">
+
+                    <input #suppInput class="matformfieldinputstyle"
+                        placeholder="Choose Supplier" matInput formControlName="supplier_id"
+                        [matAutocomplete]="suppliertype" >
+                    <mat-icon matSuffix class="maticonsize">unfold_more</mat-icon>
+                    <mat-autocomplete #suppliertype="matAutocomplete" [panelWidth]="400"
+                        [displayWith]="displayFnsupplier" (opened)="supplierScroll()">
+                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let supp of Supplierlist" [value]="supp" matTooltip="{{supp.name}}">
+                                {{supp.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+
+                <mat-label >Choose Raiser</mat-label><br>
+                <mat-form-field class="matformfieldstyle" 
+                appearance="outline" (click)="getraiserdropdown()">
+
+                <input #raiserInput class="matformfieldinputstyle" matInput
+                    formControlName="raisedby" [matAutocomplete]="raisertyperole" 
+                    placeholder="Choose Raiser">
+                <mat-icon matSuffix class="maticonsize">unfold_more</mat-icon>
+                <mat-autocomplete [panelWidth]="400" #raisertyperole="matAutocomplete"
+                    [displayWith]="displayFnraiserrole" (opened)="raiserScroll()">
+                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let data of Raiserlist" [value]="data"  matTooltip="{{data.full_name}}">
+                            {{data.full_name}}
+                        </mat-option>
+                    </ng-container>
+                </mat-autocomplete>
+            </mat-form-field>
+
+           </div>
+
+           <div class="col-md-3">
+            <mat-label>ECF Status</mat-label><br>
+            <mat-form-field class="matformfieldstyle" appearance="outline" >
+                <mat-select  class="matformfieldinputstyle" placeholder="ECF Status" formControlName="ecfstatus">
+                    <mat-option *ngFor="let status of StatusList" [value]="status.id" matTooltip="{{status.text}}">
+                {{status.text}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <!-- <div class="col-md-3">
+            <mat-label>AP Status</mat-label><br>
+            <mat-form-field class="matformfieldstyle" appearance="outline">
+                <mat-select  class="matformfieldinputstyle" placeholder="AP Status" >
+                  <mat-option *ngFor="let status of APStatusList" [value]="status.id" matTooltip="{{status.text}}">
+                       {{status.text}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div> -->
+        <div class="col-md-3">
+            <mat-label >From Date</mat-label><br>
+            <mat-form-field  class="matformfieldstyle"
+                appearance="outline">
+
+                <input matInput [matDatepicker]="picker1" readonly
+                    class="matformfieldinputstyle" [max]="tomorrow" autocomplete="off"
+                    formControlName="fromdate" placeholder="From Date">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-label >To Date</mat-label><br>
+            <mat-form-field  class="matformfieldstyle"
+                appearance="outline">
+
+                <input matInput [matDatepicker]="picker2" readonly
+                    class="matformfieldinputstyle" [max]="tomorrow" autocomplete="off"
+                    formControlName="todate" placeholder="To Date">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-label>Min Amount</mat-label><br>
+            <mat-form-field  class="matformfieldstyle" appearance="outline">
+                <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Min Amount" formControlName="minamount"
+                (keypress)="numberOnlyandDot($event)">
+            </mat-form-field>
+        </div>
+       
+        <div class="col-md-3">
+            <mat-label>Max Amount</mat-label><br>
+            <mat-form-field  class="matformfieldstyle" appearance="outline">
+                <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Max Amount" formControlName="maxamount"
+                (keypress)="numberOnlyandDot($event)">
+            </mat-form-field>
+        </div>
+       
+        <div class="col-md-3">
+            <div style="margin-top: 12px;">
+                <button mat-fab style="background-color: white;" aria-label="Search"  (click)="cosummarysearch()">
+                    <mat-icon>search</mat-icon>
+                </button>
+                <button mat-fab type="submit"  (click)="resetco()"
+                style="border-radius:40px;margin-left: 15px;background-color: white;color: black;">Clear</button>
+                <button mat-fab type="button"  (click)="downloadco()" style="border-radius: 40px; margin-left: 15px;" matTooltip="Download">
+                    <span class="fa fa-download"> </span>
+                </button>
+            </div>
+        </div>
+
+                  </div>
+
+                </form>
+                </div>
+
+                <p style="color:black;font-size: 22px;font-weight: 500;margin-left: 15px;margin-top: 20px;">
+                    ECF CO Summary
+                </p>
+
+                <div style="margin-top: 4%;width: 100%;margin-left: 10px;">
+                    <table class="table table-responsive padsize" style="text-align:center;" id ='commonstyle'>	
+                        
+                        <thead>
+                            <tr class="table_header tableset " style="white-space: nowrap;text-align: center;background-color:#EDF8FA;">
+                <!-- <div style="margin-left: 15px;">
+                    <table class="table"style="margin-top: 10px;max-width: 100%;" id ='commonstyle'>
+                        <thead class="table_header" >
+                            <tr>
+                                <tr style="white-space: nowrap;text-align: center;background-color:#EDF8FA;"> -->
+
+                                    <th>S.No</th>
+                                    <th>CR No</th>
+                                    <th>Purpose</th>
+                                    <th>Invoice Type</th>
+                                    <th>Invoice No</th>
+                                    <th>ECF Raiser</th>
+                                    <th>Supplier Name</th>
+                                    <th>Branch Name</th>
+                                    <th>Approver Name</th>
+                                    <th>Invoice Date</th>
+                                    <th>Invoice Amount</th>
+                                    <th>Payment Status</th>
+                                    <th>ECF Status</th>
+                                    <th>AP Status</th>
+                                    <th>Download</th>
+                                   
+    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let colist of ecf_cosummary_data;index as i" style="white-space: nowrap;text-align: center;">
+                                    <td> {{(ecfcopresentpage - 1)*pagesizeecfco +i+1 }} </td>
+                                    <td (click)="ecfcoView(colist)" style="cursor: pointer;color:blue;">{{colist?.ecfheader_id?.crno}}</td>
+                                    <td>{{colist?.ecfheader_id?.remark}}</td>
+                                    <td>{{colist?.ecfheader_id?.ecftype}}</td>
+                                    <td>{{colist?.invoiceno}}</td>
+                                    <td>{{colist?.ecfheader_id?.raisername}}</td>
+                                    <td>{{colist?.supplier_id?.name}}</td>
+                                    <td>{{colist?.ecfheader_id?.raiserbranch?.name}}</td>
+                                    <td>{{colist?.ecfheader_id?.approvername}}</td>
+                                    <td>{{colist?.ecfheader_id?.ecfdate|date:'dd/MM/yyyy'}}</td>
+                                    <td>{{colist?.ecfheader_id?.ecfamount}}</td>
+                                    <td  *ngIf="colist?.ecfheader_id?.ap_status == 'PAID'" style="text-align: center;">
+                                        <span matTooltip="view Payment Details" class=" fa fa-eye create " style="color: green;cursor: pointer;"
+                                       (click)="getpaystatus(colist?.ecfheader_id?.crno)" data-toggle="modal"  data-target="#showpaymentdetails"></span>
+                                    </td>
+                                    <td  *ngIf="colist?.ecfheader_id?.ap_status != 'PAID'" style="text-align: center;">-</td>
+                                   
+                                    <td *ngIf="colist?.ecfheader_id?.ecfstatus == 'PENDING_FOR_APPROVAL' ">PENDING FOR APPROVAL</td>
+                                    <td *ngIf="colist?.ecfheader_id?.ecfstatus_id == 5">PENDING FOR APPROVAL MODIFICATION</td>
+                                    <td *ngIf="colist?.ecfheader_id?.ecfstatus_id != 5 && colist?.ecfheader_id?.ecfstatus != 'PENDING_FOR_APPROVAL'">{{colist?.ecfheader_id?.ecfstatus}}</td>
+                                    <td *ngIf="colist?.ecfheader_id?.ap_status == null" style="text-align: center;">-</td>
+                                    <td *ngIf="colist?.ecfheader_id?.ap_status != null" style="text-align: center;">{{colist?.ecfheader_id?.ap_status}}</td>
+                                    <td *ngIf="colist?.ecfheader_id?.ecfstatus == 'APPROVED'" style="text-align: center;">
+                                        <button type="button" class="btn btn-outline-success"
+                                        (click)="coverNotedownload(colist?.ecfheader_id?.id,colist?.ecfheader_id?.ecftype_id)"
+                                        style="border-radius: 40px;margin-left: 3%;" matTooltip="Download CoverNote">
+                                        <span class="fa fa-download">
+                                        </span>
+                                    </button>
+                                </td>
+                                <td *ngIf="colist?.ecfheader_id?.ecfstatus != 'APPROVED'">-</td>
+                                   
+
+                                </tr>
+                            </tbody>
+                            
+                        </table>
+    
+                        <div *ngIf="ecf_cosummary_data ?.length == 0" style="margin-left: 42%;">
+                            <h3 >Sorry data not found!.. </h3>
+                        </div>
+                       
+                        <div class="row" *ngIf="iscosummarypage">
+                            <div  class="col-sm-3" style="margin-bottom: 5%;font-size: small;text-align:left;right:-225px;">
+                                <p style="color:black;font-size: 18px;font-weight: 500;margin-left: -220px;">
+                                    Total Count:{{getcototalcount}}
+                                </p> 
+                            </div>
+                           
+                            <div  class="col-sm-9" style="font-size: small;text-align: right; margin-bottom: 50px;">
+                                <button mat-icon-button [disabled]="has_copageprevious === false" color="primary"
+                                    (click)="previousClickecfco()">
+                                    <mat-icon>arrow_back</mat-icon>
+                                </button>
+                                {{ecfcopresentpage}}
+                                <button mat-icon-button [disabled]="has_copagenext === false" color="primary"
+                                    (click)="nextClickecfco()">
+                                    <mat-icon>arrow_forward</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+      
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true"
+    id="showtrandetails">
+    <div class="modal-dialog modal-xl " style="width: 93%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #21cbe5;">
+                <h2 class="modal-title" style="color:black ;text-align: center;">Transaction Details</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div style="margin-left: 50px;margin-right: 80%;margin-top: 2%; width: 90%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="table-responsive" id="styleScroll"
+                            style="margin-top: 2%;width: 95%;margin-left: 5px;">
+
+                            <table class="table scrolltable table-bordered" fixed-header>
+                                <thead class="table_header" style='font-family:"Times New Roman";font-size: 14px;'>
+
+                                    <tr>
+
+                                        <th>S.No</th>
+                                        <th>Status</th>
+                                        <th>From Date</th>
+                                        <th>Remarks</th>
+                                        <th>Employee Name</th>
+                                        <th>Approver Name</th>
+                                        <th>Approved By</th>
+                                       
+
+
+                                    </tr>
+                                </thead>
+                                <tbody style='font-family:"Times New Roman"'>
+                                    <tr *ngFor="let dtl of tranrecords; index as i">
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div *ngIf="tranrecords ?.length == 0" style="margin-left: 42%;">
+                                <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!.. </h3>
+                            </div>
+                            
+                            
+                            <div>
+                              <tr>
+                              <h3 style="color: blue;font-family: 'Times New Roman', Times, serif;">Employee Name : </h3> &nbsp;&nbsp;&nbsp;&nbsp;
+                           
+                              <h3 style="color: blue;font-family: 'Times New Roman', Times, serif;margin-left: 50px;">Branch Code : </h3>&nbsp;&nbsp;&nbsp;&nbsp;
+                            
+                              <h3 style="color: blue;font-family: 'Times New Roman', Times, serif;margin-left: 50px;">Designation : </h3>
+                            </tr>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true"
+    id="showpaymentdetails">
+    <div class="modal-dialog modal-xl " style="width: 100%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #21cbe5;">
+                <h2 class="modal-title" style="color:black ;text-align: center;font-weight: bold;">Inward and Payment Details</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <h2  style="color:black ;text-align: center;font-weight: bold;">Inward Details</h2>
+
+            <div style="margin-left: 50px;margin-right: 80%; width: 90%;">
+                <div class="container">
+                    <div class="row">
+                        <div 
+                            style="margin-top: 2%;width: 99%;margin-left: 5px;">
+
+                            <table class="table  table-bordered" fixed-header>
+                                <thead class="table_header" >
+
+                                    <tr style="text-align: center;">
+
+                                        <th>S.No</th>
+                                        <th>Inward No</th>
+                                        <th>Inward Date</th>
+                                        <th>Channel</th>
+                                        <th>AWB No</th>
+                                        <th>No Of Packets</th>
+                                        <!-- <th>Remark</th> -->
+                                        <th>Invoice Date</th>
+                                        <th>Invoice No</th>
+                                        <th>Invoice Amount</th>
+                                        <th>Invoice Status</th>
+                                       
+
+
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr *ngFor="let dtl of paymentdata; index as i" style="text-align: center;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{dtl?.inwarddetails?.no}}</td>
+                                        <td>{{dtl?.inwarddetails?.date|date:'dd/MM/yyyy'}}</td>
+                                        <td>{{dtl?.inwarddetails?.channel_id?.name}}</td>
+                                        <td>{{dtl?.inwarddetails?.awbno}}</td>
+                                        <td>{{dtl?.inwarddetails?.noofpockets}}</td>
+                                        <!-- <td>-</td> -->
+                                        <td>{{dtl?.invoicedate|date:'dd/MM/yyyy'}}</td>
+                                        <td>{{dtl?.invoiceno}}</td>
+                                        <td>{{dtl?.invoiceamount|currency:'INR'}}</td>
+                                        <td>{{dtl?.apstatus?.text}}</td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div *ngIf="paymentdata ?.length == 0" style="margin-left: 42%;">
+                                <h3 >Sorry data not found!.. </h3>
+                            </div>
+                            
+                            
+                           
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            <!-- <div class="modal-header" style="background:rgba(23, 204, 23, 0.288);">
+                <h2 class="modal-title" style="color:black ;text-align: center;">Payment Details</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> -->
+            <h2  style="color:black ;text-align: center;font-weight: bold;">Payment Details</h2>
+
+            <div style="margin-left: 50px;margin-right: 80%; width: 90%;">
+                <div class="container">
+                    <div class="row">
+                        <div 
+                            style="margin-top: 2%;width: 99%;margin-left: 5px;">
+
+                            <table class="table  table-bordered" fixed-header>
+                                <thead class="table_header" >
+
+                                    <tr style="text-align: center;">
+
+                                        <th>S.No</th>
+                                        <th>PV No</th>
+                                        <th>Pay Mode</th>
+                                        <th>Header Date</th>
+                                        <th>Cheque Number</th>
+                                        <th>Cheque Date</th>
+                                        <th>Header Amount</th>
+                                        <th>Header Details Amount</th>
+                                        <th>Ref No</th>
+                                        <th>UTR No</th>
+                                       
+
+
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr *ngFor="let pay of paymentdata; index as i" style="text-align: center;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{pay?.pvno}}</td>
+                                        <td>{{pay?.paymode_details?.name}}</td>
+                                        <td>{{pay?.header_date|date:'dd/MM/yyyy'}}</td>
+                                        <td>{{pay?.cheque_no}}</td>
+                                        <td>{{pay?.cheque_date|date:'dd/MM/yyyy'}}</td>
+                                        <td>{{pay?.header_amount|currency:'INR'}}</td>
+                                        <td>{{pay?.details_amount|currency:'INR'}}</td>
+                                        <td>{{pay?.refno}}</td>
+                                        <td>{{pay?.utr_refno}}</td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div *ngIf="paymentdata ?.length == 0" style="margin-left: 42%;">
+                                <h3 >Sorry data not found!.. </h3>
+                            </div>
+                            
+                            
+                           
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</mat-card>
+</div>
+
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

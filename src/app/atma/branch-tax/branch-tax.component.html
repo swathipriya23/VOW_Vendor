@@ -1,0 +1,215 @@
+
+<div class="container">
+
+  <!-- <div class="col-md-12 row">
+    <div class="alert " role="alert">
+      Branch Tax 
+    </div>
+  </div> -->
+  <form [formGroup]="taxform" (ngSubmit)="branchtax_create1()" autocomplete="off">
+    <div class=" row col-md-12">
+
+      <div class="col-md-3">
+
+        <mat-label>Supplier Branch</mat-label><br>
+        <mat-form-field appearance="outline" class="matformfieldstyle" >
+          
+          <input matInput  class="matformfieldinputstyle" formControlName="supplier_branch"  [readonly] ="true"  autocomplete="off">
+
+        </mat-form-field>
+
+      </div>
+      <div class="col-md-3">
+        <mat-label>Tax<label style="color: red;" >*</label></mat-label><br>
+        <mat-form-field appearance="outline" class="matformfieldstyle" (click)="taxdroplists()">
+          
+          <input #taxInput #taxx  matInput formControlName="tax"
+            [matAutocomplete]="taxtype" class="matformfieldinputstyle"  (keypress)="onKeypressEvent(tax)" required>
+            <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>    
+          <mat-autocomplete #taxtype="matAutocomplete" [displayWith]="displayFntax" (opened)="taxScroll()">
+            
+            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+            <ng-container *ngIf="!isLoading">
+              <mat-option *ngFor="let tax of taxlist" (onSelectionChange)="selecttax(tax)" [value]="tax">
+                {{tax.name}}
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+     
+
+
+      <div class="col-md-2">
+
+
+
+        <mat-label>Sub Tax<label style="color: red;" >*</label></mat-label><br>
+        <mat-form-field appearance="outline" class="matformfieldstyle" (click)="subtaxlists()">
+
+          
+          <input #subtaxInput #subtax class="matformfieldinputstyle" matInput formControlName="subtax" (click)="subtaxlists()"
+            [matAutocomplete]="subtaxtype" required>
+            <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>    
+          <mat-autocomplete #subtaxtype="matAutocomplete" [displayWith]="displayFnsubtax" (opened)="subtaxScroll()">
+            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+            
+            <ng-container *ngIf="!isLoading">
+              <mat-option *ngFor="let subtax of subtaxlist" (focusout)="selectsubtax(subtax)" [value]="subtax">
+                {{subtax.name}}
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+          <mat-error *ngIf="subtax.errors?.requireMatch">Value need match available options</mat-error>
+        </mat-form-field>
+      </div>
+      &nbsp; &nbsp; &nbsp; &nbsp;
+      <div class="col-md-1" style="margin-left: 20px;" >
+        <section class="example-section">
+          <mat-checkbox class="example-margin" formControlName="msme" (change)="Msmecheck($event)">MSME</mat-checkbox>
+  
+        </section>
+      </div>
+      <div class="col-md-1" style="margin-left: 20px;" *ngIf="taxratefield">
+        <section class="example-section">
+          <mat-checkbox class="example-margin" (change)="isexcemptedcheck($event)" formControlName="isexcempted">
+            Exempted</mat-checkbox>
+        </section>
+      </div>
+      <div class="col-md-3">
+        <mat-label>PAN No</mat-label><br>
+        <mat-form-field appearance="outline" class="matformfieldstyle">
+         
+          <input matInput class="matformfieldinputstyle" formControlName="panno" [readonly] ="true"  autocomplete="off">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3"  *ngIf="taxratefield">
+        <mat-label >Tax Rate <label style="color: red;" >*</label></mat-label><br>
+        <mat-form-field  appearance="outline" class="matformfieldstyle" (click)="taxrates()">
+
+          
+          <input #taxrateInput #taxrate  class="matformfieldinputstyle" matInput formControlName="taxrate" (click)="taxrates()"
+            [matAutocomplete]="taxratetype" required>
+            <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>    
+          <mat-autocomplete #taxratetype="matAutocomplete" [displayWith]="displayFntaxrate" (opened)="taxrateScroll()" >
+            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+            
+            <ng-container *ngIf="!isLoading">
+              <mat-option *ngFor="let taxrate of taxratelist" [value]="taxrate">
+                {{taxrate.rate}}
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+        </mat-form-field>
+
+
+
+
+      </div>
+
+      <div class="col-md-3" *ngIf="msme_flag">
+
+      <mat-label>Reg No</mat-label><br>
+      <mat-form-field appearance="outline" class="matformfieldstyle" >
+        
+        <input matInput  class="matformfieldinputstyle" formControlName="msme_reg_no" (keypress)="keyPressAlphaNumeric($event)" autocomplete="off">
+
+      </mat-form-field>
+      </div>
+
+      <div class="col-md-3" *ngIf="exmpt_flag">
+
+        <mat-label> Valid From Date</mat-label><br>
+        <mat-form-field appearance="outline" class="matformfieldstyle" >       
+           
+          <input matInput [matDatepicker]="excemfrom" class="matformfieldinputstyle" formControlName="excemfrom"
+            (dateChange)="fromDateSelection($event.value)" disabled>
+          <mat-datepicker-toggle class="maticonsize" matSuffix [for]="excemfrom"></mat-datepicker-toggle>
+          <mat-datepicker #excemfrom disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-3" *ngIf="exmpt_flag">
+
+        <mat-label> Valid To Date</mat-label><br>
+        <mat-form-field appearance="outline" class="matformfieldstyle">
+          
+          <input matInput [matDatepicker]="excemto" class="matformfieldinputstyle" formControlName="excemto" [min]="select" disabled>
+          <mat-datepicker-toggle class="maticonsize" matSuffix [for]="excemto"></mat-datepicker-toggle>
+          <mat-datepicker #excemto disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-md-3" style="margin-left: 10px;"  *ngIf="exmpt_flag">
+        <mat-label>Exempted Rate</mat-label><br>
+        <mat-form-field appearance="outline" class="matformfieldstyle" >
+          
+          <input matInput  class="matformfieldinputstyle" formControlName="excemrate" (keypress)="numberOnlyandDot($event)" autocomplete="off">
+
+        </mat-form-field>
+
+
+      </div>
+      <div class="col-md-3" style="margin-left: 10px;" *ngIf="exmpt_flag">
+        <mat-label>Exemp Threshold</mat-label><br>
+        <mat-form-field appearance="outline" class="matformfieldstyle">
+         
+          
+          <input matInput class="matformfieldinputstyle" formControlName="excemthrosold"  (keypress)="numberOnlyandDot($event)"autocomplete="off">
+
+        </mat-form-field>
+
+
+      </div>
+      <div class="col-md-2" *ngIf="exmpt_flag">
+
+        <button type="button" style="margin-top: 23px;" (click)="file1.click()" mat-raised color="warn">+ choose
+          file</button>
+
+
+
+        <input hidden type="file" formControlName="file" #file1  multiple 
+          (change)="onFileSelected($event)">
+       
+      </div>
+
+      <div class="col-md-4">
+        <li *ngFor="let  i of file; index as index" >{{i.name}}  <span class="material-icons"  (click)="removeFile(i,index,'')">
+          clear
+          </span></li>
+          <li *ngFor="let  i of attachment; index as index" >{{i.file_name}}  <span class="material-icons"  (click)="removeFile(i,index ,'delete')">
+            clear
+            </span></li>
+
+        <!-- <mat-card> {{attachment}}
+          <iframe *ngIf="show_file" ng-hide="file!=0" [src]="sanitizer.bypassSecurityTrustResourceUrl(selectedPdf)">
+          </iframe></mat-card> -->
+      </div>
+
+    </div>
+    <!-- <button mat-button (click)="openDialog()">Open dialog</button> -->
+    
+
+
+  </form>
+</div>
+<div class="text-left" style="margin-left: 30px;margin-top: 3%;">
+  <button type="button" style="border-radius: 7px;
+  border-color: black;
+  background-color: white;"  (click)="onCancelClick()"
+  class="btn btn-light">Cancel</button>&nbsp; &nbsp;
+  <button *ngIf="taxedit" type="submit" style="border-radius: 10px;
+  border-color: #f5c68b;
+  background-color: #f5c68b;" (click)="branchtax_create1()" class="btn btn-light">update</button> 
+  <button  *ngIf="!taxedit" type="submit" style="border-radius: 10px;
+  border-color: #f5c68b;
+  background-color: #f5c68b;" class="btn btn-light" (click)="branchtax_create1()" >Submit</button> 
+ 
+</div>
+
+<br />
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner>

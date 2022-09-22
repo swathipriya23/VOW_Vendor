@@ -1,0 +1,401 @@
+
+
+
+<h3 style="margin-left: 44px;margin-top: 30px; font-size: 22px;font-weight: 500;">
+  eClaim Packing and Moving Expense
+</h3>
+
+<div *ngIf="isonbehalf">
+  <h3 style="margin-left: 44px;color:rgb(0, 0, 0);font-size: 18px; font-weight: 400;">
+    On Behalf Employee - {{onbehalf_empName}}
+  </h3>
+</div>
+<hr>
+
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 2%; width: 100%;">
+  <h3 style="color:rgb(0, 0, 0);font-size: 18px; font-weight: 500;">
+    Tour Details
+</h3>
+        <div>
+          <form [formGroup]="packingform">
+                <table>
+                    <tr>
+                      <!-- <td>
+                        <mat-form-field  style="width: 175px;">
+                            <mat-label>Tour No</mat-label>
+                            <input  matInput placeholder="Tour No" [disabled]="true" formControlName="tourid"   "packingexp.tourid"  autocomplete="off"  required>
+                        </mat-form-field>
+                     </td> -->
+                     <td>
+                      <mat-form-field  style="width: 175px;">
+                          <mat-label>Tour No</mat-label>
+                          <input  matInput placeholder="Tour No" [disabled]="true" [value]="expenseid" autocomplete="off"  required>
+                      </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field  style="width: 175px;margin-left: 50px;">
+                        <mat-label>Employee Name</mat-label>
+                        <input  matInput placeholder="Employee Name" [disabled]="true" [value]="employeename" autocomplete="off"  required>
+                    </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field  style="width: 175px;margin-left: 50px;">
+                      <mat-label>Designation</mat-label>
+                      <input  matInput placeholder="Designation" [disabled]="true" [value]="employeedesignation" autocomplete="off"  required>
+                  </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field  style="width: 175px;margin-left: 50px;">
+                    <mat-label>Employee Grade</mat-label>
+                    <input  matInput placeholder="Emp grade" [disabled]="true" [value]="employeegrade" autocomplete="off"  required>
+                </mat-form-field>
+            </td>   
+                   
+              
+                       
+                       
+                     
+                      <td>
+                     
+                        <button type="button" class="btn btn-outline-success"(click) ="addSection()" *ngIf="approver == false"
+                        style="border-radius:40px;margin-left: 50px"><span class="fa fa-plus"></span>
+                            ADD</button>
+                    
+                  </td>
+                      </tr>
+                </table>
+        
+        <div formArrayName ='data' class="table-responsive" style="width:100%;margin-top: 1%;">
+          <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;margin-right: 30px;">
+            <thead class="table_header" style="text-align: center;">
+        <tr>
+        <th>S.No</th>
+        <th>2 Wheeler Transport</th>
+        <th>Household Goods Transport </th>
+        <th>Transport of 2Wheeler by</th>
+        <th>Vendor Name</th>
+        <th>Vendor Code</th>
+        <th>Total Distance(KM) For Transport (Including Hilly Terrain)</th>
+        <th>Distance in Hilly Terrian</th>
+        <th>Tonnage of Household Goods</th>
+        <th>Max Eligible Tonnage</th>
+        <th>Billed Amount of Household Goods Transport</th>
+        <th>Eligible Transportation Amount </th>
+        <th>Transport Charges for Vehicle</th>
+        <th>Vehicle Transport By Driver</th>
+         <th>Travel Time in Hours(HH) </th>
+         <th>No of Days Driver Engaged</th>
+         <th>Driver Battas</th>
+         <th>Octroi Charges for Transport Vehicle</th>
+         <th>Breakage Charges</th>
+         <th>Recipt for Losses Due to Damage Produced</th>
+         <th>Eligible Breakage/Lumpsum Charge</th>
+         <th>Eligible Amount</th>
+         <th>Claim Amount</th>
+         <th>HSN code</th>
+         <th>Bank GST No</th>
+         <th>Vendor GST No</th>
+         <th *ngIf="gstshow">GST Percentage</th>
+        <th *ngIf="approver && applevel == 2">Approved Amount</th>
+         <th *ngIf="approver == false" >Action</th>
+        
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dtl of packingform.controls.data['controls']|paginate: { itemsPerPage: pageSize, currentPage: p }; index as ind" [formGroupName]="fieldGlobalIndex(ind)" >
+            <td scope="row"  style="vertical-align: middle;"> {{((p-1)*pageSize)+ind+1}} </td>
+
+            <td>
+              <mat-form-field style="width: 150px;" floatLabel="never">
+                  <mat-label>2 Wheeler Transport</mat-label>
+                  <mat-select  [disabled]='approver' formControlName="twowheelertrans">
+                      <mat-option *ngFor="let wheeler of yesnoList" [value]="wheeler.value" (click)="calc_eligble(((p-1)*pageSize)+ind)">
+                          {{wheeler.name}}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </td>
+         
+             <td>
+              <mat-form-field style="width: 150px;" floatLabel="never">
+                  <mat-label>Household Goods Transport</mat-label>
+                  <mat-select  [disabled]='approver' formControlName="hhgoodstrans">
+                      <mat-option *ngFor="let house of yesnoList" [value]="house.value">
+                          {{house.name}}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="width: 150px;" floatLabel="never">
+
+                  <mat-label>Transport of 2Wheeler by</mat-label>
+                  
+                  <mat-select  [disabled]='approver' formControlName="transtwowheelerby">
+                    <!-- [disabled]="twowheel(((p-1)*pageSize)+ind)" -->
+                      <mat-option *ngFor="let transport of transportList" [value]="transport.value" >
+                          {{transport.name}}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </td>
+             
+             <td> 
+               <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="IBA Approved Vendor Name" formControlName="ibaappvendor" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> 
+              <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Vendor Code" formControlName="vendorcode" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> 
+              <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Total Distance For Transport" (keypress)="numberOnly($event)" formControlName="totaldisttrans" (change)="calc_eligble(((p-1)*pageSize)+ind)"autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> 
+              <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Distance in Hilly Terrian" (keypress)="numberOnly($event)" formControlName="distinhilly" (change)="calc_eligble(((p-1)*pageSize)+ind)"autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> <fieldset [disabled]="goodshh(((p-1)*pageSize)+ind) || approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Tonnoge of Household Goods" (keypress)="numberOnly($event)" formControlName="tonnagehhgood" (change)="calc_eligble(((p-1)*pageSize)+ind)" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Max Eligible Tonnoge" disabled="true" autocomplete="off"[value]="maxeligibletonnage" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> 
+               <fieldset [disabled]="goodshh(((p-1)*pageSize)+ind) || approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Billed Amount" formControlName="billedamthhgoodstrans" (keypress)="numberOnly($event)" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> <fieldset disabled = "true">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Eligible Transportation"formControlName="eligtransamt" [value]="eligtransamt" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Transport Charges for Vehicle" (keypress)="numberOnly($event)" formControlName="transchargesvehicle"  autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> 
+                <mat-form-field style="width: 175px;" floatLabel="never">
+
+               <mat-label>Vehicle Transport By Driver</mat-label>
+               <mat-select  [disabled]='approver' formControlName="vehicletransbydriver">
+                   <mat-option *ngFor="let vehicletransbydriver of drivesnlist" [value]="vehicletransbydriver.value">
+                       {{vehicletransbydriver.name}}
+                   </mat-option>
+               </mat-select>
+           </mat-form-field>
+             </td>
+             <td> <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Travel Timein Hours" formControlName="traveltime" (keypress)="numberOnly($event)" (change)="calc_eligble(((p-1)*pageSize)+ind)"autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="No of Days Driver"formControlName="daysdrivereng" (keypress)="numberOnly($event)" [value]="daysdrivereng" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td>
+               <fieldset [disabled]="true">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Driver Battas" formControlName="driverbatta" [value]="driverbatta" autocomplete="off" required>
+               </mat-form-field>
+               </fieldset>
+             </td>
+             <td> <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Octroi Charges" formControlName="octroivehicle" (keypress)="numberOnly($event)" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Breakage Charges" formControlName="breakagecharges" (keypress)="numberOnly($event)" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> 
+               <mat-form-field style="width: 150px;" floatLabel="never">
+                <mat-label>Recipt for Losses</mat-label>
+                <mat-select  [disabled]='approver' formControlName="receipt_loss">
+                    <mat-option *ngFor="let receipt of receipsnlist" [value]="receipt.value" (click)="calc_eligble(((p-1)*pageSize)+ind)">
+                        {{receipt.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+             </td>
+             <td> 
+               <fieldset [disabled]='true'>
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Eligible Breakage" formControlName="eligbreakagecharge" [value]="eligbreakagecharge" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> 
+               <fieldset [disabled] = 'true'>
+                <mat-form-field style="width: 210px;" floatLabel="never">
+                
+                 <input matInput placeholder="Eligible Amount" formControlName="eligibleamount" [value]="eligibleamount" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+               <div aria-disabled="true" style="border-style:groove;">
+                Transport Amount = {{packingform.value.data[ind].eligtransamt}} + Breakage charge = {{packingform.value.data[ind].eligbreakagecharge}} + Driverbatta = {{packingform.value.data[ind].driverbatta}}
+              </div>
+            
+             </td>
+             <td> <fieldset [disabled]="approver">
+                <mat-form-field style="width: 175px;" floatLabel="never">
+                 <input matInput placeholder="Claim Amount" (keypress)="numberOnly($event)" formControlName="claimedamount" autocomplete="off" required>
+               </mat-form-field>
+              </fieldset>
+             </td>
+             <td> 
+              <fieldset [disabled]="approver">
+              <mat-form-field floatLabel="never"> 	
+
+                <mat-label>HSN Code</mat-label>
+                <input (keypress)="hsnsearch(((p-1)*pageSize)+ind)"
+                type="text" #hsncodeid 
+                placeholder="Select HSN"
+                matInput  (blur)="gst_calc(((p-1)*pageSize)+ind)"
+                [matAutocomplete]="hsnn"  formControlName="hsncode" >
+                <mat-autocomplete #hsnid #hsnn="matAutocomplete" [displayWith]="hsnshow" (opened)="autocompletehsnid()"
+                >
+                  <mat-option *ngFor="let hsn of hsnList" [value]="hsn" 
+                  >
+                  {{hsn.code}}-{{hsn.igstrate}}
+                  
+                  </mat-option>
+                </mat-autocomplete>
+                      </mat-form-field>
+                    </fieldset>
+             </td>
+             <td> 
+              <fieldset [disabled]="approver">
+              <mat-form-field floatLabel="never"> 	
+
+                <mat-label>Bank GST No</mat-label>
+                <input (keypress)="gstsearch(((p-1)*pageSize)+ind)"
+                type="text" #gstcodeid 
+                placeholder="Select GST" (blur)="gst_calc(((p-1)*pageSize)+ind)"
+                matInput 
+                [matAutocomplete]="gstt"  formControlName="bankgstno" >
+                <mat-autocomplete #gstid #gstt="matAutocomplete" (opened)="autocompletegstid()" >
+                  <mat-option *ngFor="let gst of gstList" [value]="gst.bankgstno"
+                  >
+                  {{gst.bankgstno}} 
+                  
+                  </mat-option>
+                </mat-autocomplete>
+                      </mat-form-field>
+                      <span (click)="newgst(((p-1)*pageSize)+ind)" style="margin:auto; display:table;">
+                        <mat-icon style="color: green;font-size:30px"  aria-label="Add GST">
+                          add
+                        </mat-icon>
+                      </span>
+                        <input style="border-style: outset;" *ngIf="entergst_check(((p-1)*pageSize)+ind)" (blur)="gst_calc(((p-1)*pageSize)+ind)"
+                        (change)="entergst($event,ind)" (keypress)="omit_special_char($event)"
+                        >
+                      </fieldset>
+             </td>
+             <td> 
+              <fieldset [disabled]="approver">
+                <mat-form-field floatLabel="never">
+                 <input matInput placeholder="Package GSTNo" (keypress)="omit_special_char($event)" (blur)="gst_calc(((p-1)*pageSize)+ind)" formControlName="vendorgstno"  [value]='vendorgstno' autocomplete="off">
+               </mat-form-field>
+              </fieldset>
+             </td>
+
+             <td *ngIf="gstshow && checkscgst(((p-1)*pageSize)+ind)">
+              <mat-form-field floatLabel="never" >
+  
+                <input readonly="true" style="border-style: outset; font-weight: 500;" (keypress)="numberOnly($event)" matInput placeholder="CGST Percentage" formControlName="cgst"  [value]='cgst' autocomplete="off" required>
+
+                <input readonly="true"  style="margin-top: 4px;border-style: outset; font-weight: 500;" matInput placeholder="SGST Percentage" formControlName="sgst"  [value]='sgst' autocomplete="off" required>
+          
+              </mat-form-field>
+
+             </td>
+              <td *ngIf="gstshow && checkscgst(((p-1)*pageSize)+ind)==false && checkigst(((p-1)*pageSize)+ind) == false">
+
+              </td>
+             <td *ngIf="gstshow && checkigst(((p-1)*pageSize)+ind)" >
+              <mat-form-field floatLabel="never">
+                <input readonly="true" style="border-style: outset; font-weight: 500;" matInput placeholder="IGST Percentage" formControlName="igst"  [value]='igst' autocomplete="off" required>
+              </mat-form-field>
+             </td>
+             
+             <td *ngIf="approver && applevel == 2">
+              <fieldset [disabled]="statusid > 2">
+              <mat-form-field floatLabel="never">
+                <input matInput placeholder="Approved Amount" formControlName="approvedamount"  [value]='approvedamount' autocomplete="off" required>
+              </mat-form-field>
+            </fieldset>
+             </td>
+             
+            
+
+             <td *ngIf="!approver"><button mat-icon-button matTooltip="Delete" class="iconbutton" [disabled]="packingform.controls.data['controls'].length == 1"
+              (click)="removeSection(((p-1)*pageSize)+ind)" color="primary">
+           <mat-icon style="color:green;" aria-label="Delete">delete</mat-icon>
+           </button>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="7"> <div class="pagination" style="text-align: center;">
+            <pagination-controls responsive="true" (pageChange)="p = $event"></pagination-controls>
+          </div></th>
+        </tr>
+        </tbody>
+        
+  
+ 
+    
+
+        </table>
+        </div>
+        <div class="col-md-12 text-center" style="margin-top: 3%; margin-bottom: 3%;">
+          <button *ngIf='applevel == 2 && statusid == 2' type="submit" style="border-radius: 40px;margin-left: 10px;"
+              class="btn btn-outline-primary"(click)="ApproveForm()" >Approve</button>
+          <button type="submit" *ngIf='!approver'style="border-radius: 40px;margin-left: 10px;"
+              class="btn btn-outline-primary"(click)="submitForm()" >Submit</button>
+  
+            <button type="button"  class="btn btn-outline-primary"(click)="back()"
+            style="border-radius: 40px;margin-left: 10px;">Back</button>
+        </div>
+       </form>
+        </div>
+    </div> 
+    
+    
+    
+    <!-- <pre>
+      {{packingform.value.data | json}}
+    </pre> -->

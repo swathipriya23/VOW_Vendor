@@ -1,0 +1,192 @@
+<div style="margin-left: 50px; margin-top: 1%;">
+    <h1 style="font-family: Times New Roman; font-size: 20px; color: blue; font-weight: bold;">Report Summary</h1>
+    <hr />
+    <form [formGroup]="reportForm" (ngSubmit)="report()">
+        <div class="row" style="width: 100%;">
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Module Name *</mat-label>
+                    <mat-select [formControl]="module">
+                        <mat-option *ngFor="let t of moduleList" [value]="t.name" (click)="moduleType(t)">
+                            {{t.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Report Name *</mat-label>
+                    <mat-select formControlName="template">
+                        <mat-option *ngFor="let t of moduleNameList" [value]="t.name" (click)="moduleNameType(t)">
+                            {{t.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" *ngIf="module_name=='TRIAL BALANCE'">
+                <button mat-raised-button type="button" class="btn btn-primary" [hidden]="role"
+                 (click)="manualRun()"  style="border-radius: 40px;height: 40px;margin-left:8%;margin-top:2%;">Manual Run</button>
+            </div>
+        </div>
+        <h1 style="font-family: Times New Roman; font-size: 20px; color: blue; font-weight: bold;">Parameter(s)</h1>
+        <div class="table-responsive" style="padding-right: 40px; margin-top: 1%; width: 80%; overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr style="text-align: center;">
+                        <th>S.No</th>
+                        <th>Parameter(s)</th>
+                        <th>Operators</th>
+                        <th>Value 1</th>
+                        <th>Value 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let entry of operatorData; index as listIndex" style="text-align: center;">
+                        <th scope="row">{{ (presentpage-1)*pageSize+listIndex+1 }}</th>
+                        <td>{{entry.name.columnname}}</td>
+                        <td>
+                            <mat-form-field appearance="outline" style="width: 150px;" class="tab-header">
+                                <mat-label>Operator</mat-label>
+                                <mat-select formControlName="operators">
+                                    <mat-option *ngFor="let stat of operatorList" [value]="stat.viewValue" (onSelectionChange)="operatorSelect(stat.value,$event,listIndex)">
+                                        {{stat.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <div *ngIf="operatorData[listIndex]['value1']==true">
+                                <mat-form-field class="example-form-field" appearance="outline">
+                                    <mat-label>Value 1</mat-label>
+                                    <input matInput type="text" formControlName="value1" />
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="operatorData[listIndex]['value1date']==true">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Choose a date</mat-label>
+                                    <input matInput [matDatepicker]="picker" formControlName="value1date" />
+                                    <mat-hint>DD/MM/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matSuffix [for]="picker">
+                                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="operatorData[listIndex]['value1month']==true">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Choose Month</mat-label>
+                                    <input matInput [matDatepicker]="datepicker" [max]="_max" [min]="_min" [formControl]="_inputCtrl"
+                                    [matDatepickerFilter]="_customFilter" (click)="_openDatepickerOnClick(datepicker)"
+                                    (focus)="_openDatepickerOnFocus(datepicker)" readonly/>
+                                    <mat-datepicker-toggle matSuffix [for]="datepicker">
+                                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #datepicker [touchUi]="touchUi" startView="multi-year"
+                                    (yearSelected)="_yearSelectedHandler($event, datepicker)"
+                                    (monthSelected)="_monthSelectedHandler($event, datepicker)" panelClass="month-picker">
+                                    </mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                            <div *ngIf="operatorData[listIndex]['value2']==true">
+                                <mat-form-field class="example-form-field" appearance="outline">
+                                    <mat-label>Value 2</mat-label>
+                                    <input matInput type="text" formControlName="value2" />
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="operatorData[listIndex]['value2date']==true">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Choose a date</mat-label>
+                                    <input matInput [matDatepicker]="picker2" formControlName="value2date" />
+                                    <mat-hint>DD/MM/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <!-- <div *ngIf="operatorData[listIndex]['value2month']==true">
+                                <mat-form-field class="example-full-width" appearance="outline">
+                                    <mat-label>Choose Month</mat-label>
+                                    <input matInput [matDatepicker]="datepicker1" [max]="_max" [min]="_min" [formControl]="_inputCtrl1"
+                                    [matDatepickerFilter]="_customFilter" (click)="_openDatepickerOnClick(datepicker1)"
+                                    (focus)="_openDatepickerOnFocus(datepicker1)" readonly/>
+                                    <mat-datepicker-toggle matSuffix [for]="datepicker1">
+                                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #datepicker1 [touchUi]="touchUi1" startView="multi-year"
+                                    (yearSelected)="_yearSelectedHandler($event, datepicker1)"
+                                    (monthSelected)="_monthSelectedHandler1($event, datepicker1)" panelClass="month-picker">
+                                    </mat-datepicker>
+                                </mat-form-field>
+                            </div> -->
+                        </td>
+                    </tr>
+                </tbody>
+                <div *ngIf="operatorData.length==0; else paginationpage" class="NodataAlign">No Records Found...</div>
+                <ng-template #paginationpage>
+                    <div class="cursor" style="font-size: small; text-align: right; float: right;">
+                        <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+                            <mat-icon>arrow_back </mat-icon>
+                        </button>
+                        {{presentpage}}
+                        <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+                            <mat-icon>arrow_forward </mat-icon>
+                        </button>
+                    </div>
+                </ng-template>
+            </table>
+            <div class="text-center">
+                <button class="btn btn-outline-success" style="border-radius: 35px; height: 40px; margin-right: 7px; margin-top: 10px;" (click)="generate()">
+                    GENERATE
+                </button>
+            </div>
+        </div>
+        <br />
+        <h1 style="font-family: Times New Roman; font-size: 20px; color: blue; font-weight: bold;">Download Report</h1>
+        <div class="table-responsive" style="padding-right: 40px; margin-top: 1%; width: 80%; overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr style="text-align: center;">
+                        <th>S.No</th>
+                        <th>Module Name</th>
+                        <th>Report Template Name</th>
+                        <th>Employee Name</th>
+                        <th>Report Id</th>
+                        <th>Status</th>
+                        <th>File Name</th>
+                        <th>Download</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let entry of operatorData2; index as listIndex1" style="text-align: center;">
+                        <th scope="row">{{ (presentpage-1)*pageSize+listIndex1+1 }}</th>
+                        <td>{{entry.module_name}}</td>
+                        <td>{{entry.report_template_name}}</td>
+                        <td>{{entry.emp_id}}</td>
+                        <td>{{entry.report_id}}</td>
+                        <td>{{entry.status}}</td>
+                        <td>{{entry.file_name}}</td>
+                        <td>
+                            <button mat-icon-button color="success" style="margin-left: 25px; width: 60px;" matTooltip="Download" (click)="actionDownload(entry.report_id,listIndex1)">
+                                <mat-icon>cloud_download</mat-icon>
+                            </button>
+                        </td>
+                </tbody>
+                 <div *ngIf="operatorData2.length==0;" class="NodataAlign">No Records Found...</div>
+                <!-- <ng-template #paginationpage>
+                    <div class="cursor" style="font-size: small; text-align: right; margin-bottom: 100px; float: right;">
+                        <button mat-icon-button [disabled]="has_previous2 === false" color="primary" (click)="previousClick2()">
+                            <mat-icon>arrow_back </mat-icon>
+                        </button>
+                        {{presentpage}}
+                        <button mat-icon-button [disabled]="has_next2 === false" color="primary" (click)="nextClick2()">
+                            <mat-icon>arrow_forward </mat-icon>
+                        </button>
+                    </div>
+                </ng-template> -->
+            </table>
+        </div>
+    </form>
+</div>

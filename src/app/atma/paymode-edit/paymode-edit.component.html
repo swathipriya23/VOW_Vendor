@@ -1,0 +1,156 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h3 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">
+        Edit paymode Form
+    </h3><hr>
+    <div>
+        <form [formGroup]="paymodeEditForm"  autocomplete="off">
+            <table>
+                <tr>
+                   <td>
+                       <mat-form-field style="width: 200px;">
+                           <mat-label>Enter Paymode Code</mat-label>
+                           <input type="text" matInput formControlName="code" readonly>
+                       </mat-form-field>
+                   </td>
+                    <td>
+                        <mat-form-field style="width: 200px;margin-left: 50px;">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                    <!-- <td>
+                        <mat-form-field style="margin-left: 50px;">
+                            <mat-label>Active/Inactive</mat-label>
+                            <mat-select formControlName="drop">
+                               <mat-option value="ACTIVE">ACTIVE</mat-option>
+                               <mat-option value="INACTIVE">INACTIVE</mat-option>
+                               <mat-option value="ALL">ALL</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td> -->
+                    <!-- <td>
+                        <button type="button" class="btn btn-outline-danger" style="margin-left: 50px;border-radius: 40px;" >Search</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger" style="margin-left: 20px;border-radius: 40px;" >Reset</button>
+                    </td> -->
+                    <td>
+                        <button type="button" class="btn btn-outline-danger" style="margin-left: 20px;border-radius: 40px;" data-toggle="modal" data-target="#paymode"><span class="fa fa-plus"></span></button>
+                    </td>
+                   
+                </tr>
+            </table>
+           <div class="modal" id="paymode" data-backdrop="static" data-keyboard="false" role="dialog" tabindex="-5">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: aqua;">
+                            <h1 class="modal-title" style="margin-left: 35%;"> Adding Payment Details:{{name}}</h1>
+                            <button class="close" #modalclose type="button" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form [formGroup]="paymodeaddform">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <mat-form-field style="width: 200px;">
+                                            <mat-label>Choose Category</mat-label>
+                                            <input type="text" matInput formControlName="category" required [matAutocomplete]="cateref">
+                                            <mat-autocomplete #cateref="matAutocomplete" [displayWith]="getdisplaycategory">
+                                                <mat-option *ngIf="isLoading">Loading..</mat-option>
+                                                <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let d of categoryList" [value]="d">{{d.name}}</mat-option>
+                                                </ng-container>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2" style="width: 200px;margin-left: 50px;">
+                                        <mat-form-field>
+                                            <mat-label>Choose SubCategory</mat-label>
+                                            <input type="text" matInput formControlName="subcategory" required [matAutocomplete]="subcateref" (click)="getsubcategorydata()">
+                                            <mat-autocomplete #subcateref="matAutocomplete" [displayWith]="getdisplaysubcategory">
+                                                <mat-option *ngIf="isLoading">Loading..</mat-option>
+                                                <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let d of subcategoryList" [value]="d" (focusout)="focusoutdatasub(d)">{{d.name}}</mat-option>
+                                                </ng-container>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <mat-form-field style="width: 200px;margin-left: 50px;">
+                                            <mat-label>GlNo</mat-label>
+                                            <input type="text" matInput formControlName="glno" readonly required>
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <mat-form-field style="width: 200px;">
+                                            <mat-label>Payment Details Name</mat-label>
+                                            <input type="text" matInput formControlName="paymodedetail" autocomplete="off" required>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-success" (click)="submitpaymodeadd()">Submit</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-outline-danger">Cancel</button>
+                        </div>
+
+                    </div>
+
+                </div>
+           </div>
+            <!-- <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                [disabled]="disableSubmit">Submit</button> -->
+
+        </form>
+    </div>
+</div>
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+            <tr class="table_header">
+                <th>S.No</th>
+                <th>Paymode Name</th>
+                <th>Paymode GL Number</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let d of paymodeSummary;let i=index">
+                <td>{{(page-1)*pageSize+i+1}}</td>
+                <td>{{d.name}}</td>
+                <td>{{d.glno}}</td>
+                 <td>
+                    <button mat-icon-button type="button" (click)="getactiveinactive(d)" [ngClass]="d.status==1?'prodactive':'proinactive'" [matTooltip]="d.status? 'click to inactive':'click to active' " >
+                        <mat-icon>wb_sunny</mat-icon>
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="paymodeSummary.length==0">
+                <td colspan="4">No Records Found</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <div style="float: right;">
+        <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                    (click)="paymode_previousClick()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                {{page}}
+                <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="paymode_nextClick()">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+    </div>
+    <br>
+    <div style="float: right;">
+        <button type="submit" (click)="submitForm()" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+        >Submit</button>
+    <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+    style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+    </div>
+</div>
+<br><br>

@@ -1,0 +1,32 @@
+
+<div class="container" style="margin-top: 2%;
+margin-bottom: 5%;">
+<div class="card">
+    <mat-tab-group #tabchange (selectedTabChange)="routerchange(tabchange.selectedIndex)">
+        <!-- #enddocregion dynamic-height -->
+          <mat-tab label='Source'>
+            <div class="card-body">
+             <ng-container *ngIf="numberofind==0"><app-source></app-source></ng-container> 
+            </div>
+          </mat-tab>
+          <mat-tab label="Head Group">
+            <div class="card-body">
+              <div *ngIf="numberofind==1"><app-head-groups></app-head-groups></div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Sub Group">
+            <div class="card-body">
+              <div *ngIf="numberofind==2"> <app-sub-groups></app-sub-groups>  </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="GL-Sub Group">
+            <div class="card-body">
+              <div *ngIf="numberofind==3">  <app-gl-subgroup></app-gl-subgroup> </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    <mat-card-footer>
+     
+    </mat-card-footer>
+  </div>
+</div>

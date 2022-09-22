@@ -1,0 +1,325 @@
+<div class="container" style="max-width: 100%;">
+    <div>
+        <h2 style="margin-left: 2%;font-family:Times New Roman;font-size:20px;color:rgb(53, 138, 163);font-weight:bold;">Invoice Maker</h2>
+        <hr>
+        <div class=" row col-md-12">
+            <!-- <div class="col-md-3">
+                <button mat-icon-button  data-toggle="modal" data-target="#ccbsModal" style="color: rgb(13, 163, 243);width: 40px ;height: 40px;margin-right: 25px; ">
+                    <mat-icon>touch_app</mat-icon>Audit Checklist</button>                
+            </div> -->
+            <div *ngIf="statusflage" class="col-md-3">
+            <button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;"
+            data-toggle="modal" data-target="#ccbsModal"  ><i class="fa fa-arrow-up" aria-hidden="true">Audit Checklist</i>
+                </button>  
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;"
+                     data-toggle="modal" data-target="#viewtran" (click)="viewtrn()"><i class="fa fa-arrow-up" aria-hidden="true">View Tranasaction</i>
+                </button>                  
+            </div>
+            <div class="col-md-3">                
+                <button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;"
+                     data-toggle="modal" data-target="#data" ><i class="fa fa-arrow-up" aria-hidden="true">Dedupe Check</i>
+                </button>   
+            </div>            
+            <!-- <div class="col-md-3">
+                <button mat-icon-button style="color: rgb(13, 163, 243);width: 40px ;height: 40px;margin-right: 25px; ">
+                    <mat-icon>arrow_upward</mat-icon>View Notes</button>                
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+    id="ccbsModal">
+    <div class="modal-dialog modal-xl" style="width:80%;height:200%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:rgba(23, 204, 23, 0.288);color:rgb(31, 29, 29);text-align:center">
+                <h2 class="modal-title" style="text-align:center;margin-left:36%">Audit Checklist</h2>
+            <button class="close" #auditclose type="button" data-dismiss="modal">x</button>      
+            </div>
+            <div>
+                <table class="table table-bordered" style="width: 100%;text-align: center;">
+                    <thead class="table_header">
+                    <tr>
+                        <th>S.NO</th>
+                        <th>Question</th>
+                        <th>Ok/Not.Ok</th>
+                    </tr>
+                    </thead>
+                    <tr *ngFor="let dt of data;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{dt.question}}</td>
+                        <td>  <div class="btn-group btn-group-toggle" data-toggle="buttons"  >
+                            <label class="btn btn-outline-success">
+                            <input type="radio" name="options" id="option1" [(ngModel)]="changevalue"  autocomplete="off" value="1" (change)="ok(i,changevalue,dt,$event)" > Ok
+                            </label>
+                            <label class="btn btn-outline-danger ">
+                            <input type="radio" name="options" id="option2" [(ngModel)]="changevalue" autocomplete="off" checked  value="2" (change)="notok(i,dt,changevalue)"> Not-OK
+                            </label>
+                            <label class="btn btn-outline-secondary">
+                            <input type="radio" name="options" id="option3" [(ngModel)]="changevalue" autocomplete="off"  value="3" (change)="nap(i,dt,changevalue)"> N/A
+                            </label>
+                        </div> </td>
+                        <!-- <td>
+                        <mat-button-toggle-group [formControl]="fontStylefun" aria-label="Font Style" (change)="ok(i,$event.value,dt)" color="primary">
+                            <mat-button-toggle value="1" color="primary">OK</mat-button-toggle>
+                            <mat-button-toggle class="active" color="warm" value="2">NOT-OK</mat-button-toggle>
+                            <mat-button-toggle value="3" color="accent">N/A</mat-button-toggle>
+                        </mat-button-toggle-group>
+                        </td> -->
+                     </tr>
+                </table>
+            </div>
+            <div>
+                <mat-form-field style="width: 20rem;margin-left: 30px; ">
+                    <mat-label>Remarks</mat-label>
+                    <input matInput [formControl]="rem" autocomplete="off" required>
+                </mat-form-field>
+                <button type="submit" [disabled]="((rem.invalid==true) || (cli==true))" class="btn btn-success" style="margin-left: 100px;" (click)="bounce()">Bounce</button>        </div>
+            <div >    
+                <button  mat-raised-button class="btn btn-success btn-lg float-right" [disabled] = "(count < 25) ||(btnDisabled)" style="margin-right: 10px;" (click)="submitted()">Submit</button>
+                <button  mat-raised-button data-dismiss="modal" class="btn-lg float-right" style="margin-right: 20px;">Close</button> 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+    id="data">
+    <div class="modal-dialog modal-xl" style="width:80%;height:200%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:rgba(23, 204, 23, 0.288);color:rgb(31, 29, 29)">
+            <h2 class="modal-title" style="text-align:center;margin-left:45%">Dedupe</h2>
+            <button class="close" type="button" data-dismiss="modal">x</button>                
+            </div>
+            <div class="modal-body">
+                <pre>EXACT_MATCH</pre>
+                <div class="table-responsive" class="tablescroll" style="margin-top: 10px;width: 100%;margin-left: 10px;overflow: auto;">
+                    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 10px;">
+                        <thead class="table_header " fixed-header>
+                            <tr>
+                                <th>S.No</th> 
+                                <th>Invoice Number</th>                             
+                                <th>Invoice Header Amount</th>
+                                <th>Status</th>          
+                                <th>CR Number</th>                
+                                <th>Supplier Name</th>
+                                <th>Branch Name</th>             
+                                <th>Employee Name</th>                                      
+                            </tr>
+                        </thead>
+                        <tbody>                    
+                            <tr *ngFor="let value of exactList; index as i;">
+                                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                                <td>{{value.invoiceno}}</td>
+                                <td>{{value.invoiceamount}}</td>     
+                                <td>{{value['status'].text}}</td>
+                                <td>{{value.crno}}</td>                         
+                                <td>{{value['supplier'].name}}</td>
+                                <td>{{value['branch'].name}}</td>
+                                <td>{{value.raised_empname}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+
+                <pre>WITHOUT_SUPPLIER</pre>
+                <div class="table-responsive" class="tablescroll" style="margin-top: 10px;width: 100%;margin-left: 10px;overflow: auto;">
+                    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 10px;">
+                        <thead class="table_header " fixed-header>
+                            <tr>
+                                <th>S.No</th> 
+                                <th>Invoice Number</th>                             
+                                <th>Invoice Header Amount</th>
+                                <th>Status</th>          
+                                <th>CR Number</th>                
+                                <th>Supplier Name</th>
+                                <th>Branch Name</th>             
+                                <th>Employee Name</th>                                      
+                            </tr>
+                        </thead>
+                        <tbody>                    
+                            <tr *ngFor="let value of withoutSuppList; index as i;">
+                                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                                <td>{{value.invoiceno}}</td>
+                                <td>{{value.invoiceamount}}</td>     
+                                <td>{{value['status'].text}}</td>
+                                <td>{{value.crno}}</td>                         
+                                <td>{{value['supplier'].name}}</td>
+                                <td>{{value['branch'].name}}</td>
+                                <td>{{value.raised_empname}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+
+                <pre>WITHOUT_INVOICE_AMOUNT</pre>
+                <div class="table-responsive" class="tablescroll" style="margin-top: 10px;width: 100%;margin-left: 10px;overflow: auto;">
+                    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 10px;">
+                        <thead class="table_header " fixed-header>
+                            <tr>
+                                <th>S.No</th> 
+                                <th>Invoice Number</th>                             
+                                <th>Invoice Header Amount</th>
+                                <th>Status</th>          
+                                <th>CR Number</th>                
+                                <th>Supplier Name</th>
+                                <th>Branch Name</th>             
+                                <th>Employee Name</th>                                      
+                            </tr>
+                        </thead>
+                        <tbody>                    
+                            <tr *ngFor="let value of withoutInvAmtList; index as i;">
+                                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                                <td>{{value.invoiceno}}</td>
+                                <td>{{value.invoiceamount}}</td>     
+                                <td>{{value['status'].text}}</td>
+                                <td>{{value.crno}}</td>                         
+                                <td>{{value['supplier'].name}}</td>
+                                <td>{{value['branch'].name}}</td>
+                                <td>{{value.raised_empname}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+
+                <pre>WITHOUT_INVOICE_NUMBER</pre>
+                <div class="table-responsive" class="tablescroll" style="margin-top: 10px;width: 100%;margin-left: 10px;overflow: auto;">
+                    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 10px;">
+                        <thead class="table_header " fixed-header>
+                            <tr>
+                                <th>S.No</th> 
+                                <th>Invoice Number</th>                             
+                                <th>Invoice Header Amount</th>
+                                <th>Status</th>          
+                                <th>CR Number</th>                
+                                <th>Supplier Name</th>
+                                <th>Branch Name</th>             
+                                <th>Employee Name</th>                                      
+                            </tr>
+                        </thead>
+                        <tbody>                    
+                            <tr *ngFor="let value of withoutInvNoList; index as i;">
+                                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                                <td>{{value.invoiceno}}</td>
+                                <td>{{value.invoiceamount}}</td>     
+                                <td>{{value['status'].text}}</td>
+                                <td>{{value.crno}}</td>                         
+                                <td>{{value['supplier'].name}}</td>
+                                <td>{{value['branch'].name}}</td>
+                                <td>{{value.raised_empname}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+
+                <pre>WITHOUT_INVOICE_DATE</pre>
+                <div class="table-responsive" class="tablescroll" style="margin-top: 10px;width: 100%;margin-left: 10px;overflow: auto;">
+                    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 10px;">
+                        <thead class="table_header " fixed-header>
+                            <tr>
+                                <th>S.No</th> 
+                                <th>Invoice Number</th>                             
+                                <th>Invoice Header Amount</th>
+                                <th>Status</th>          
+                                <th>CR Number</th>                
+                                <th>Supplier Name</th>
+                                <th>Branch Name</th>             
+                                <th>Employee Name</th>                                      
+                            </tr>
+                        </thead>
+                        <tbody>                    
+                            <tr *ngFor="let value of withoutInvDtList; index as i;">
+                                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                                <td>{{value.invoiceno}}</td>
+                                <td>{{value.invoiceamount}}</td>     
+                                <td>{{value['status'].text}}</td>
+                                <td>{{value.crno}}</td>                         
+                                <td>{{value['supplier'].name}}</td>
+                                <td>{{value['branch'].name}}</td>
+                                <td>{{value.raised_empname}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer"  class="col-md-12 text-center" style="margin-bottom: 2%;">
+                <button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;text-align:center ;" data-dismiss="modal" >Back</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- View Tranasaction -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+    id="viewtran">
+    <div class="modal-dialog modal-xl" style="width:80%;height:200%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:rgba(23, 204, 23, 0.288);color:rgb(31, 29, 29);text-align:center">
+                <h2 class="modal-title" style="text-align:center;margin-left:42%">View Tranasaction</h2>
+            <button class="close" type="button" data-dismiss="modal">x</button>      
+            </div>
+            <div>
+                <table class="table table-bordered" style="width: 100%;text-align: center;">
+                    <thead class="table_header">
+                    <tr>
+                        <th>S.NO</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>From Date</th>
+                        <th>Remarks</th>
+                        <th>Employee Name</th>
+                        <th>Approver Name</th>
+                        <th>Approved By</th>
+                    </tr>
+                    </thead>
+                    <tr *ngFor="let dt of viewtrnlist;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{dt.type}}</td>
+                        <td>{{dt.status.text}}</td>
+                        <td>{{dt.created_date}}</td>
+                        <td>{{dt.remarks}}</td>
+                        <td>{{dt.from_user.name}}
+                        <br>
+                        <a style="color: green;cursor: pointer;" (click)="view(dt)">View Details</a>
+                        </td>
+                        <td>{{dt.to_user.name}}
+                        <br>
+                        <div *ngIf="dt.to_user_id==-1; else det"></div>
+                        <ng-template #det>
+                        <a style="color: green;cursor: pointer;"  (click)="viewto(dt)">View Details</a>
+                        </ng-template></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer" >
+                <table  style="width: 100%;text-align: center;">
+                    <tr>
+                        <td>Employee Name:{{this.name}}</td>
+                        <td>Branch Code :{{this.branch}}</td>
+                        <td>Designation: {{this.designation}}</td>
+                     </tr>
+                     <tr><td colspan="3"><button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;" data-dismiss="modal" >Cancel</button></td></tr>
+                </table>
+            </div>
+             
+        </div>   
+        
+    </div>
+</div>
+
+
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple" >
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

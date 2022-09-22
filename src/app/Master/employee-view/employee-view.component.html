@@ -1,0 +1,174 @@
+<div class="container" style="margin-left: 30px;">
+    <div class="Container">
+        <span style="margin-left: 30%;">
+            Employee View Details
+        </span>
+        <table style="margin-top: 3%;">
+            <tbody>
+                <tr>
+                    <td width="30%">
+                        <table width="100%;" style="font-size:50px;">
+                            <tbody *ngFor="let employee of employeeDataList">
+                                <tr>
+                                    <td class="detail_table_label">Name</td>
+                                    <div class="view-text">
+                                        <td>{{employee.full_name}}</td>
+                                    </div>
+
+                                    <td class="detail_table_label">Middle Name</td>
+                                    <div class="view-text">
+                                        <td> {{employee.middle_name?employee.middle_name:''}}</td>
+                                    </div>
+
+                                    <td class="detail_table_label">Last Name</td>
+                                    <div class="view-text">
+                                        <td> {{employee.last_name?employee.last_name:''}}</td>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <td class="detail_table_label">Employee Type</td>
+                                    <div class="view-text">
+                                        <td>{{employee.employee_type?employee.employee_type:''}}</td>
+                                    </div>
+
+                                    <td class="detail_table_label">Supervisor</td>
+                                    <div class="view-text">
+                                        <td> {{employee.supervisor?employee.supervisor:''}}</td>
+                                    </div>
+
+                                    <td class="detail_table_label">Grade</td>
+                                    <div class="view-text">
+                                        <td> {{employee.grade?employee.grade:''}}</td>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <td class="detail_table_label">Gender</td>
+                                    <div class="view-text">
+                                        <td>{{employee.gender?employee.gender:''}}</td>
+                                    </div>
+
+                                    <td class="detail_table_label">Designation</td>
+                                    <div class="view-text">
+                                        <td> {{employee.designation?employee.designation:''}}</td>
+                                    </div>
+
+                                    <td class="detail_table_label">DOB</td>
+                                    <div class="view-text">
+                                        <td> {{employee.date_of_birth?employee.date_of_birth :'' | date:'dd-MMM-yyyy'}}</td>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <td class="detail_table_label">DOJ</td>
+                                    <div class="view-text">
+                                        <td>{{employee.date_of_Joining?employee.date_of_Joining :'' | date:'dd-MMM-yyyy'}}</td>
+                                    </div>
+
+                                    <td class="detail_table_label">Code</td>
+                                    <div class="view-text">
+                                        <td> {{employee.code?employee.code:''}}</td>
+                                    </div>
+
+                                    <td class="detail_table_label">Branch</td>
+                                    <div class="view-text">
+                                        <td> {{employee.employee_branch_name?employee.employee_branch_name:''}}</td>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <td class="detail_table_label">Cost Centre</td>
+                                    <div class="view-text">
+                                        <td> {{employee.cost_centre?employee.cost_centre:''}}</td>
+                                    </div>
+
+                                    <td class="detail_table_label">Phone Number</td>
+                                    <div class="view-text">
+                                        <td> {{employee.phone_number?employee.phone_number:''}}</td>
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <button class="btn btn-outline-primary" (click)="onCancelClick()"
+        style="border-radius:40px;margin-left:30%;margin-top:3%;">Back</button>
+    <nav>
+        <div class="nav nav-tabs" style="margin-left:30%;margin-top:40px;">
+            <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="departmentBtn()">Department
+            </a>
+            <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="moduleBtn()">Module
+            </a>
+        </div>
+    </nav>
+
+
+
+    <div *ngIf="isShownDepartment">
+        <div class="table-responsive" style="margin-top: 2%;width: 90%;">
+            <table class="table">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.no</th>
+                        <th>Department</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dept of chipSelectedDept;index as i">
+                        <td scope="row">{{ i+1 }}</td>
+                        <td>{{ dept.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClickDepartment()">
+                        <mat-icon style="color: black;">arrow_back</mat-icon>
+                    </button>
+                    {{currentpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary"
+                        (click)="nextClickDepartment()">
+                        <mat-icon style="color: black;">arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isShownModule">
+        <div class="table-responsive" style="margin-top: 2%;width: 90%;">
+            <table class="table">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.no</th>
+                        <th>Module</th>
+                        <th>Parent</th>
+                        <th>Name</th>
+                        <th>Logo</th>
+                        <th>Url</th>
+                        <th>Role</th>
+                        <!-- <th>Delete</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let permission of permissionArray;index as i">
+                        <td scope="row">{{ i+1 }}</td>
+                        <td>{{ permission.parent_name}}</td>
+                        <td>{{permission.submodule}}</td>
+                        <td>{{ permission.name}}</td>
+                        <td>{{ permission.logo}}</td>
+                        <td>{{ permission.url}}</td>
+                        <td>{{ permission.code}}</td>
+                        <!-- <td>
+                            <mat-icon style="color: gray;cursor: pointer;" (click)="permissionDelete(permission)">delete</mat-icon>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+
+
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+    <!-- <mat-toolbar> -->
+    <h3 style="color:deeppink;">
+          Add OnBeHalf Employee
+    </h3>
+    <button class="btn-dialog-close" mat-stroked-button  (click)="onclose()" tabIndex="-1">
+        <mat-icon>clear</mat-icon></button>
+    <!-- </mat-toolbar>   -->
+    <div>
+            <form [formGroup]="onbehalfForm" (ngSubmit)="submitForm()">
+                <table>
+                    <tr>
+                        
+                        <td>
+                            <mat-form-field  style="width: 175px;">
+                                <mat-label>Branch</mat-label>
+                                <input  matInput placeholder="Branch" formControlName="branch"  autocomplete="off"  required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                <mat-label>Employee</mat-label>
+                                <input  matInput placeholder="Employee"  formControlName="employee"  autocomplete="off"  required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+
+        <div class="table-responsive" style="width:100%;margin-top: 1%;">
+        <table class="table">
+        <thead class="table_header">
+        <tr>
+        <th>S.No</th>
+        <th>Employee Name</th>
+        <th>Statuss</th>
+        
+        
+        
+        </tr>
+        </thead>
+        <tbody>
+            <td>1</td>
+            <td>code2</td>
+            <td>code3</td>
+            
+        </tbody>
+    </table>
+    </div>
+       </form>
+        </div>
+    </div> 
+    
+    
+    
+    
+    
+    

@@ -1,0 +1,322 @@
+<!-- <p>city-master works!</p> -->
+
+<div style="margin-top: 2.5%;">
+
+  <table style="width: 100%;">
+    <tr>
+
+      <td>
+
+        <mat-label style="margin-left: 15px;">City</mat-label><br>
+        <mat-form-field style="width: 300px;margin-left:15px;vertical-align: sub;">
+          <input #fromplace type="text" (keyup)="cityfromtosearch($event,1)" [formControl]="citynames" required
+            placeholder="choose city" matInput [matAutocomplete]="cityfrom">
+          <mat-autocomplete #cityfrom="matAutocomplete" (opened)="autocompletecityfromScroll()">
+            <mat-option *ngFor="let cli of citydropdown" [value]="cli.name">
+
+              {{cli.name}}
+
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <button mat-fab style="margin-left: 20px;background-color: white;" (click)="searchsummary()"
+          aria-label="Search">
+          <mat-icon>search</mat-icon>
+        </button>
+        <button mat-fab type="submit" (click)="clearsearch()"
+          style="margin-left: 40px;background-color: white;color: black;">Clear</button>
+      </td>
+
+      <td>
+        <button mat-fab style="margin-left: 20px;background-color: white;" data-toggle="modal"
+          data-target="#cityaddmodal">
+          <mat-icon>add</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+<!-- <pre>
+    {{cityform.value | json}}
+</pre> -->
+
+<div class="table-responsive" style="width:98%;margin-top: 1%;">
+  <table class="table" style="margin-top: 10px;width: 100%;" id='commonstyle'>
+    <thead class="table_header">
+      <tr>
+        <th>S.No</th>
+        <th>City</th>
+        <th>State</th>
+        <th>State Type </th>
+        <th>Metro/Non Metro</th>
+        <th>Edit</th>
+        <th>Delete</th>
+
+      </tr>
+      <tr *ngFor="let city of citysummary;index as i">
+        <td>{{i+1}}</td>
+        <td>{{city.name}}</td>
+        <td>{{city.state}}</td>
+        <td>{{city.state_type}}</td>
+        <td>
+          <p *ngIf="city.metro_non == 0">Metro</p>
+          <p *ngIf="city.metro_non == 1">Non Metro</p>
+
+        </td>
+        <td>
+          <button mat-icon-button (click)="editcity(city)" data-toggle="modal" data-target="#cityeditmodal">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+        <td>
+          <button mat-icon-button (click)="deletecity(city.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+
+      </tr>
+    </thead>
+
+  </table>
+  <div *ngIf="citysummary?.length==0; else paginationsummary" class="NodataAlign text-center">No Records Found...
+  </div>
+  <ng-template #paginationsummary>
+    <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;float: right;">
+      <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+        <mat-icon>arrow_back
+        </mat-icon>
+      </button> {{currentpage}}
+      <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+        <mat-icon>arrow_forward
+        </mat-icon>
+      </button>
+    </div>
+  </ng-template>
+</div>
+
+<div class="modal" id="cityaddmodal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="font-weight: 700;font-size: large;"></h4>
+        <button type="button" class="close" #closeapprovalpopup (click)="resetform()" #cityaddclose
+          data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form [formGroup]="cityform">
+          <table style="width: 100%;">
+            <tr>
+              <td>
+                <mat-label>State</mat-label><br>
+                <!--  <mat-form-field style="width: 230px;margin-left: 30px;" >
+  
+                      <input matInput placeholder="City" formControlName="city" autocomplete="off">
+                  </mat-form-field> -->
+
+                <mat-form-field style="width: 300px;">
+                  <input #stateinput (keyup)="statesearch($event,1)" type="text" required placeholder="choose state"
+                    matInput [matAutocomplete]="state" formControlName="state">
+                  <mat-autocomplete #state="matAutocomplete" (opened)="autocompleteclientScroll()">
+                    <mat-option *ngFor="let cli of statedropdown" [value]="cli.state">
+                      {{cli.state}}
+
+
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </td>
+
+              <td>
+                <mat-label>City</mat-label><br>
+                <mat-form-field style="width: 300px;">
+                  <input matInput placeholder="Enter City" formControlName="name">
+                </mat-form-field>
+              </td>
+
+            </tr>
+          </table>
+          <table style="width: 100%;">
+            <tr>
+              <td>
+                <mat-label>City Type</mat-label><br>
+                <mat-form-field>
+                  <mat-select formControlName="state_type">
+                    <mat-option *ngFor="let type of citytypedropdown" [value]="type.state">
+                      {{type.state}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-label>Metro/Non Metro</mat-label><br>
+                <mat-form-field>
+                  <mat-select formControlName="metro_non">
+                    <mat-option *ngFor="let type of metrononmetrodropdown" [value]="type.id">
+                      {{type.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+            <br>
+          <table>
+            <tr>
+              <td>
+                
+                <input type="file" id="excelcityupload" (change)="uploadfile($event)" [value]="cityfileupload">
+
+              </td>
+              <td>
+                <button type="submit" style="margin-left: 10px;" id='primarybtn' (click)="submitfile()"
+                class="btn btn-light"><mat-icon style="vertical-align: middle;" >file_upload</mat-icon>Upload File </button>
+              </td>
+            </tr>
+            <br><br>
+            <tr>
+              <p>Example Excel format:</p>
+            </tr>
+            <tr>
+              <table id="TheTable" style="width:150%" border="1" class="ExcelTable2007">
+                <tbody>
+                  <tr>
+                    <th class="heading">&nbsp;</th>
+                    <th>State</th>
+                    <th>District</th>
+                    <th>Metro/Non-metro</th>
+                    <th>State Type</th>
+                  </tr>
+                  <tr *ngFor="let excel of excelformat">
+                    <td>&nbsp;</td>
+                    <td>{{excel.state}}</td>
+                    <td>{{excel.name}}</td>
+                    <td>{{excel.metro_non}}</td>
+                    <td>{{excel.state_type}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </tr>
+            <br>
+            
+          </table>
+          <table style="margin: 4% 0% 2% 0%">
+            <tr>
+              <td>
+                <button type="submit" style="margin-left: 10px;" id='primarybtn' (click)="submitform()"
+                  class="btn btn-light">Submit</button>
+                <button type="button" class="btn btn-light" id="secondarybtn" data-dismiss="modal" (click)="resetform()"
+                  style="margin-left: 10px;">cancel</button>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+
+
+      <!-- Modal footer -->
+      <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div> -->
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="cityeditmodal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="font-weight: 700;font-size: large;"></h4>
+        <button type="button" class="close" #closeapprovalpopup (click)="resetform()" #cityeditclose
+          data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form [formGroup]="cityeditform">
+          <table style="width: 100%;">
+            <tr>
+              <td>
+                <mat-label>State</mat-label><br>
+                <!--  <mat-form-field style="width: 230px;margin-left: 30px;" >
+  
+                      <input matInput placeholder="City" formControlName="city" autocomplete="off">
+                  </mat-form-field> -->
+
+                <mat-form-field style="width: 300px;">
+                  <input #stateinput (keyup)="statesearch($event,1)" type="text" required placeholder="choose state"
+                    matInput [matAutocomplete]="state" formControlName="state">
+                  <mat-autocomplete #state="matAutocomplete" (opened)="autocompleteclientScroll()">
+                    <mat-option *ngFor="let cli of statedropdown" [value]="cli.state">
+                      {{cli.state}}
+
+
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </td>
+
+              <td>
+                <mat-label>City</mat-label><br>
+                <mat-form-field style="width: 300px;">
+                  <input matInput placeholder="Enter City" formControlName="name">
+                </mat-form-field>
+              </td>
+
+            </tr>
+          </table>
+          <table style="width: 100%;">
+            <tr>
+              <td>
+                <mat-label>City Type</mat-label><br>
+                <mat-form-field>
+                  <mat-select formControlName="state_type">
+                    <mat-option *ngFor="let type of citytypedropdown" [value]="type.state">
+                      {{type.state}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-label>Metro/Non Metro</mat-label><br>
+                <mat-form-field>
+                  <mat-select formControlName="metro_non">
+                    <mat-option *ngFor="let type of metrononmetrodropdown" [value]="type.id">
+                      {{type.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+          <table style="margin: 4% 0% 2% 0%">
+            <tr>
+              <td>
+                <button type="submit" style="margin-left: 10px;" id='primarybtn' (click)="editsubmitform()"
+                  class="btn btn-light">Submit</button>
+                <button type="button" class="btn btn-light" id="secondarybtn" data-dismiss="modal" (click)="resetform()"
+                  style="margin-left: 10px;">cancel</button>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+
+
+      <!-- Modal footer -->
+      <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div> -->
+
+    </div>
+  </div>
+</div>

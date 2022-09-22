@@ -1,0 +1,111 @@
+<div class="container" style="margin-top: 15px;margin-left: 30px;">
+    <h2 style="color:rgb(0, 0, 0);">
+        eClaim Advance Recovery
+    </h2>
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="recoveryform">
+                <mat-form-field style="width:175px;">
+                    <mat-label>Invoice No</mat-label>
+                    <input matInput placeholder="Invoice Number" formControlName="invoiceno"
+                        (keypress)='omit_special_char($event)' >
+                </mat-form-field>
+
+                <mat-form-field style="width:310px;margin-left: 50px;">
+                    <mat-label>Branch</mat-label>
+                    <input type ='text'matInput id ="inputassetid" placeholder="Enter Branch" formControlName="branch" [matAutocomplete]="conoffice"
+                        (keypress)='omit_special_char($event)' >
+                        <button mat-button matSuffix (click)="brclear($event)" mat-icon-button aria-label="Clear">
+                            <mat-icon>close</mat-icon>
+                            </button>
+
+                        <mat-autocomplete #assetid #conoffice="matAutocomplete" (opened)="autocompleteid()">
+                            <mat-option *ngFor="let branch of branchlist" (click)="selectBranch(branch)"
+                              [value]="'('+(branch.code)+') '+(branch.name)">
+                              ({{branch.code}}) {{branch.name}}
+                            </mat-option>
+                          </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field style="width:300px;margin-left: 50px;">
+                    <mat-label>Employee</mat-label>
+                    <input matInput placeholder="Enter Employee" id="emplid" #emp formControlName="employee" [matAutocomplete]="empc" 
+                         >
+                         <button mat-button matSuffix (click)="empclear()" mat-icon-button aria-label="Clear">
+                            <mat-icon>close</mat-icon>
+                            </button>
+
+                        <mat-autocomplete #empc="matAutocomplete" [displayWith]="displayFn" (opened)="autocompleteemps()">
+                            <mat-option *ngFor="let emp of employeelist" [value]="emp" (click)='selectemployee(emp)'>
+                            {{emp.full_name}}
+                            </mat-option>
+                          </mat-autocomplete>
+                </mat-form-field>
+
+                <button class="btn btn-outline-primary" type="submit" (click)="recoverysearch()"
+                    style="border-radius:40px;margin-left: 15px;" color="primary"><i class="fa fa-search"
+                        aria-hidden="true"></i></button>
+
+                <button class="btn btn-outline-primary" type="submit" (click)="reset()"
+                    style="border-radius:40px;margin-left: 15px;" color="primary">Clear</button>
+
+
+            </form>
+        </div>
+    </div>
+    <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+        <thead class="table_header" style="text-align: left;">
+    <tr>
+    <th>S.No</th>
+    <th>Employee</th>
+    <th>CRN NO</th>
+    <th>ECF CRN NO</th>
+    <th>Date</th>
+    <th>Advance by</th>
+    <th>Amount</th>
+    <th>Balance</th>
+    
+    <th>Action</th>
+    
+    </tr>
+    </thead>
+    <tbody> 
+        <tr *ngFor="let sum of summarylist; index as i">
+       <td scope="row"  style="vertical-align: middle;">{{(currentpage - 1)*pagesize +i+1 }}</td>
+        <td>({{sum.employee_code}}) {{sum.employee_name}}</td>
+        <td>{{sum.ppxheader_crno}}</td>
+        <td>{{sum.invoiceheader_crno}}</td>
+        <td>{{sum.ppxheader_date}}</td>
+        <td>{{sum.Advance_By}}</td>
+        <td>{{sum.ppxheader_amount}}</td>
+        <td>{{sum.ppxheader_balance}}</td>
+        
+        <td><button mat-icon-button matTooltip="Jv Entry" class="iconbutton" color="primary"
+            >
+            
+            <mat-icon style="color: green;"class="material-icons">
+                edit</mat-icon>
+        </button>
+        </td>
+            
+        </tr>
+    </tbody>
+    </table>
+    <div *ngIf="summarylist ?.length == 0" style="margin-left: 42%;">
+        <h3>Sorry data not found!.. </h3>
+    </div>
+    <div class="row" *ngIf="isTourChecker">
+        <div class="col-sm-12" style="font-size: small;text-align:right;margin-bottom: 5%;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="nextpage()"
+            >
+            <mat-icon >arrow_back</mat-icon>
+            </button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="previouspage()"
+            >
+            <mat-icon >arrow_forward</mat-icon>
+            </button>
+            </div>
+    </div>
+
+</div>

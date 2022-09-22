@@ -1,0 +1,97 @@
+
+<div style="margin-top: 40px;margin-left: 40px;">
+    <h2>
+        eClaim Bill Consolidate
+    </h2>
+    <div class="row">
+        <div class="col-12">
+            <form #taeclaimbillForm="ngForm">
+                <mat-form-field style="width:175px;">
+                    <mat-label>Tour No</mat-label>
+                    <input matInput placeholder="Tour No" [(ngModel)]="eclaimbillmodal.requestno" name="requestno">
+                </mat-form-field>
+               
+                <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;"
+                color="primary" (click)="billSearch()"><i  matTooltip="Search" class="fa fa-search" aria-hidden="true"></i></button>
+                <button class="btn btn-outline-primary" type="clear" style="border-radius:40px;margin-left: 15px;"
+                color="primary" (click)=reset()>Clear</button>
+            
+            </form>
+        </div>
+    </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+          <div class="table-responsive" >
+              <table class="table table-bordered" fixed-header
+              style="width: 95%;margin-top: 10px;margin-left:30px;overflow-x: hidden;">
+          <thead class="table_header" style="text-align: left;">
+          <tr>
+          <th style="text-align: center;">S.No</th>
+          <th style="text-align: center;">Tour NO</th>
+          <th style="text-align: center;">Employee</th>
+          <th style="text-align: center;">Designation</th>
+          <th style="text-align: center;">Branch</th>
+          <th style="text-align: center;">Tour Reason</th>
+          <th style="text-align: center;">Tour Request Date</th>
+          <th style="text-align: center;">Duration</th>
+          <th style="text-align: center;">Tour Start Date</th>
+          <th style="text-align: center;">Tour End Date</th>
+          <th style="text-align: center;">Travel Expense</th>
+          <th style="text-align: center;">Dailydeim Expense</th>
+          <th style="text-align: center;">Lodge Expense</th>
+          <th style="text-align: center;">Incidental Expense</th>
+          <th style="text-align: center;">Local Conveyance Expense</th>
+          <th style="text-align: center;">Pkgmvg Expense</th>
+          <th style="text-align: center;">Misc Expense</th>
+          <th style="text-align: center;">Claim Amount</th>
+          
+          </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let report of getconsolidateList; index as i">
+              <td style="text-align: center;">{{i+1}}</td> 
+              <td style="text-align: center;">{{report.tourno}}</td> 
+              <td style="text-align: center;">{{report.employee_name}}</td>
+              <td style="text-align: center;">{{report.empdesignation}}</td>
+              <td style="text-align: center;">{{report.branch_name}}</td>
+              <td style="text-align: center;">{{report.reason}}</td> 
+              <td style="text-align: center;">{{report.requestdate}}</td>
+              <td style="text-align: center;">{{report.durationdays}}</td>
+              <td style="text-align: center;">{{report.startdate}}</td>
+              <td style="text-align: center;">{{report.enddate}}</td> 
+              <td style="text-align: center;">{{report.travel_amount}}</td>
+              <td style="text-align: center;">{{report.dailydeim_amount}}</td>
+              <td style="text-align: center;">{{report.lodging_amount}}</td>
+              <td style="text-align: center;">{{report.incidental_amount}}</td>
+              <td style="text-align: center;">{{report.local_amount}}</td> 
+              <td style="text-align: center;">{{report.packing_amount}}</td>
+              <td style="text-align: center;">{{report.misc_amount}}</td>
+              <td style="text-align: center;">{{report.total_amount}}</td>
+              
+             
+          </tr>
+          </tbody>
+          </table>
+          
+      </div>
+      <!-- <div *ngIf="gettourreportList?.length==0; else paginationreport" class="NodataAlign">No Records Found...</div>
+     <ng-template #paginationreport>
+    <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+        <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+            <mat-icon>arrow_back
+            </mat-icon>
+        </button> {{presentpage}}
+        <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+            <mat-icon>arrow_forward
+            </mat-icon>
+        </button>
+    </div>
+</ng-template>
+
+  </div> -->
+  </div>
+</div>
+ 
+  

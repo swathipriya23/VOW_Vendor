@@ -1,0 +1,39 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+    <h2>
+        Document Form
+    </h2>
+    <div>
+        <form [formGroup]="documentForm">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-label style="margin-left: 50px;">Name</mat-label><br>
+                            <mat-form-field style="width: 230px;margin-left: 50px;">
+                                <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+
+
+            <div style="margin-bottom:100px; margin-left: 50px;" >
+                <button type="submit" style="border-radius: 10px;margin-left: 10px;
+                border-color: #f5c68b;
+                background-color: #f5c68b;" class="btn btn-light" (click)="documentCreateForm()">Submit</button>
+                <button type="button" class="btn btn-light" style="border-radius: 7px;margin-left: 10px;
+                border-color: black;
+                background-color: white;" (click)="onCancelClick()">Cancel</button>
+            
+            </div>
+
+
+            <!-- <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                [disabled]="documentForm.invalid">Submit</button>
+            <button type="button" (click)="onCancelClick()" skipLocationChange class="btn btn-outline-primary"
+                style="border-radius: 40px;margin-left: 10px;">Cancel</button> -->
+
+        </form>
+    </div>
+</div>

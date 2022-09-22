@@ -1,0 +1,109 @@
+<nav>
+  <div class="nav nav-tabs">
+    <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="assetBtn()">Mobile Update</a>
+
+
+  </div>
+</nav>
+<div *ngIf="mobileupdate">
+  <div class="container">
+    <div class="row col-md-12">
+
+      <div class="panel panel-default">
+        <div class="panel-body" style="margin: 24px;">EMPLOYEE PERSONAL INFO
+        </div>
+      </div>
+
+    </div>
+    <div class=" row col-md-12">
+      <form [formGroup]="mobileupdationform" autocomplete="off">
+        <div class="col-md-12 row">
+          <div class="col-md-4">
+
+            <mat-form-field appearance="legacy">
+              <mat-label> Name</mat-label>
+              <input matInput [readonly]="true" formControlName="name">
+
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4">
+
+            <mat-form-field appearance="legacy">
+              <mat-label>Code</mat-label>
+              <input matInput [readonly]="true" formControlName="code">
+
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4">
+
+            <mat-form-field appearance="legacy">
+              <mat-label>Mobile</mat-label>
+              <input type="text" matInput formControlName="mobile_number">
+
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-8" class="point" *ngIf="otpflag">
+            <p *ngIf="otpflag">Please enter the 8-digit verification <br />
+              code we sent via SMS:(we want to make sure it's you before update)</p>
+
+
+          </div>
+
+          <div class="col-md-4" *ngIf="otpflag">
+
+            <mat-form-field appearance="legacy">
+              <mat-label>OTP</mat-label>
+              <input type="text" autocomplete="off" numbersOnly matInput formControlName="otp">
+
+            </mat-form-field>
+            <p class="count">Did not Recieve in {{count}}s? </p>
+            <p class="count" *ngIf="count==0" style="text-align: right; color: blue;" (click)="submitForm()">
+              <a>Resend OTP</a></p>
+
+          </div>
+
+
+
+
+        </div>
+
+        <div class="text-right">
+          <button class="btn btn-outline-success" type="button" routerLink="/utilities/mobileupdate" skipLocationChange >
+            Cancel </button> &nbsp;&nbsp;
+          <button *ngIf="!otpflag" class="btn btn-outline-primary" type="submit" (click)="submitForm()">
+            Update</button>
+          <button *ngIf="otpflag" class="btn btn-outline-primary" type="submit" (click)="updatemobile()">
+            Verify</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+<!-- mobile updation starts-->
+<div class="modal fade" id="mobileupdation" tabindex="-1" role="dialog" aria-labelledby="Employee" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width:150%;">
+      <div class="modal-header text-center" style="background: #ddefdd;
+          ">
+        <!-- <h4 class="modal-title  w-100 font-weight-bold" id="Employee">Employee Personal Info</h4> -->
+        <h4>
+          <p>EMPLOYEE PERSONAL INFO</p>
+        </h4>
+        <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- mobile updation ends -->

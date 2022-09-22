@@ -1,0 +1,31 @@
+<div class="Container" style="margin-left: 40px;">
+    <h2 style="color: blueviolet;margin-left: 35px;;">FA DATA UPLOAD</h2>
+    <hr>
+        <form [formGroup]="fauploadform" autocomplete="off">
+            <div style="margin-left: 3%;">
+                <table class="table table-bordered" style="width: 95%;">
+                    <thead>
+                        <tr class="table_header">
+                            <th>S.No</th>
+                            <th>FA Excel Upload</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <ng-container>
+                                    <input #fileInput type="file" formControlName="images" multiple (change)="getFileDetails($event,fileInput.value)"
+                                        style="width: 250px;" >
+                                </ng-container>
+                            </td>
+                            <td>
+                                <button mat-raised-button type="button" class="btn btn-primary" (click)="empupload_Save()"  style="border-radius: 40px;height: 40px;margin-left:2%;">Upload</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>

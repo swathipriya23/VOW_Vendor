@@ -1,0 +1,47 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 1%; width: 100%;">
+    <h1 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">
+       Add Commodity 
+    </h1><hr>
+    <div>
+        <form [formGroup]="commodityForm" (ngSubmit)="commoditySubmit()">
+            <table>
+                <tr> 
+                    <td>
+                        <mat-form-field style="width: 175px; margin-left: 50px;" appearance="outline">
+                            <mat-label>Commodity Name</mat-label>
+                            <input matInput placeholder="Commodity Name" (keypress)="omit_special_char($event)" autocomplete="off" formControlName="name" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 175px; margin-left: 50px;" appearance="outline">
+                            <mat-label>Commodity Remarks</mat-label>
+                            <textarea matInput placeholder="Commodity Remarks" (keypress)="omit_special_char($event)" autocomplete="off" formControlName="description" required></textarea>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-checkbox formControlName="is_multilevel" style="margin-left: 50px;" (click)="enb()">Multi Level Approver</mat-checkbox>
+                    </td>
+                    <td *ngIf="isvisible">
+                        <mat-form-field style="width: 175px; margin-left: 50px;" appearance="outline">
+                            <mat-label>Level of Approve</mat-label>
+                            <input matInput placeholder="Level of Approve" (keypress)="numberOnlyandDot($event)" autocomplete="off" formControlName="Approval_level" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+                <div style="margin-bottom: 5%; margin-left: 50px;">
+                    <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary" >Submit</button>
+                    <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                        style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+                </div>
+        </form>
+        
+    </div>
+</div>
+
+<!-- <pre>
+    {{ commodityForm.value | json }}
+</pre> -->
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" type="line-scale-party">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

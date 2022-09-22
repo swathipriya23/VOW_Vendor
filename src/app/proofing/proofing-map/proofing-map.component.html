@@ -1,0 +1,717 @@
+<div class="Container" style="margin-top: 2%;background-color: #F6F6F6;">
+    <mat-card style="margin:20px 12px 20px 20px;" class="mat-elevation-z0" >
+    <div class="col-md-12">
+        <!-- <div > -->
+            <form [formGroup]="knockForm" (ngSubmit)="knock()">
+                <div class="row">
+                    <div class="col-md-3">
+                
+                        <mat-label>From Date</mat-label><br>   
+                        <mat-form-field class="matformfieldstyle" appearance="outline">
+                            <input matInput [matDatepicker]="picker1" (dateChange)="fromDatechange($event.value)"
+                                [formControl]="fromdate" class="matformfieldinputstyle" >
+                            <mat-datepicker-toggle matSuffix  class="maticonsize" [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+
+                        <mat-label>To Date</mat-label><br>    
+                        <mat-form-field class="matformfieldstyle" appearance="outline">
+                            <input matInput [matDatepicker]="picker2" (dateChange)="toDatechange($event.value)"
+                                [formControl]="todate" class="matformfieldinputstyle">
+                            <mat-datepicker-toggle matSuffix class="maticonsize"  [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+        
+                        <mat-label>AccountNo</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" (click)="getAccountList()" appearance="outline">
+                            <mat-select [(value)]="selectedaccountlist" class="matformfieldinputstyle">
+                                <mat-option *ngFor="let ac of AccountList" [value]="ac.id" (click)="FetchAccountID(ac.id)">
+                                    {{ac.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-label>Filter1</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline">
+                            <mat-select [(value)]="selectedtransactionmap" class="matformfieldinputstyle">
+                                <mat-option (onSelectionChange)="OnFilterChange($event)"
+                                    *ngFor="let ddlist of transactionMapFilter" [value]="ddlist">{{ddlist}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                        <div class="col-md-2">
+                        <mat-label>Sort By</mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline">
+                            <mat-select [(value)]="selectedsortvalue" class="matformfieldinputstyle">
+                                <mat-option (onSelectionChange)="OnSortByChange($event)" *ngFor="let sortby1 of sortby"
+                                    [value]="sortby1">{{sortby1}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-label>Sort Type</mat-label><br>
+                            <mat-form-field  class="matformfieldstyle" appearance="outline">
+                                <mat-select [(value)]="selsectsorttypeitem" class="matformfieldinputstyle">
+                                    <mat-option (onSelectionChange)="OnSortTypeChange($event)" *ngFor="let type1 of sorttype"
+                                        [value]="type1">{{type1}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                            <mat-label>Match Column</mat-label><br>
+                            <mat-form-field class="matformfieldstyle" appearance="outline">
+                                <mat-select [(value)]="selectmatchcolum" class="matformfieldinputstyle">
+                                    <mat-option (onSelectionChange)="OnMatchColumnChange($event)"
+                                        *ngFor="let column1 of matchcolumn" [value]="column1">{{column1}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            </div>
+
+
+
+                            <div class="col-md-4">
+                                <div style="margin-top: 20px;">
+                                    <!-- <button mat-fab style="margin-left: 20px;background-color: white;" aria-label="Search">
+                                        <mat-icon>search</mat-icon>
+                                    </button>
+                                    <button mat-fab style="margin-left: 20px;background-color: #f5c68b;" [routerLink]='"/atma/vendorcreate"'
+                                    skipLocationChange aria-label="Vendor Maker">
+                                        <mat-icon matTooltip="Add Vendor">add</mat-icon>
+                                    </button>
+                                    <button mat-fab type="submit"  (click)="reset()"
+                            style="border-radius:40px;margin-left: 15px;background-color: white;color: black;">Clear</button>
+                                    <button class="btn btn-primary" type="button" [routerLink]='"/atma/vendorreport"' skipLocationChange
+                                    style="border-radius:40px;margin-left: 15px;" color="primary">Report</button> -->
+
+                                    <button mat-fab style="margin-left: 20px;background-color: white;" aria-label="Search">
+                                        <mat-icon>search</mat-icon></button>
+
+                                    <button mat-fab 
+                    style="border-radius:40px;margin-left: 20px;background-color: white;color: black;" (click)="ClearAll($event)">Clear
+                </button>
+
+                <button type="button" class="btn btn-outline-primary"
+                    style="border-radius:40px;margin-left: 20px;margin-top: 1rem;"
+                    routerLink="/proofing/ar">Aging</button>
+
+                    <button class="btn btn-outline-primary" type="submit" *ngIf="displaydownload==true" matTooltip="Download"
+                    (click)="downloadexlsearch()" style="border-radius:40px;margin-top: 17px;    margin-left: 97%;"
+                    color="primary"> <span class="fa fa-download">
+                    </span></button>
+                    </div>
+                    
+                            </div>
+
+                </div>
+                
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+                <div class="col-md-12">
+                    <div class="row">
+				<div class="col-md-2">
+                
+                <mat-label>From Date</mat-label><br>   
+                <mat-form-field class="matformfieldstyle" style="width:8rem; margin-left: 7px;" appearance="outline">
+                    <input matInput [matDatepicker]="picker1" (dateChange)="fromDatechange($event.value)"
+                        [formControl]="fromdate" class="matformfieldinputstyle" >
+                    <mat-datepicker-toggle matSuffix  class="maticonsize" [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+                </div>
+				<div class="col-md-2">
+
+                <mat-label>To Date</mat-label><br>    
+                <mat-form-field class="matformfieldstyle" style="width:8rem; margin-left: 7px;" appearance="outline">
+                    <input matInput [matDatepicker]="picker2" (dateChange)="toDatechange($event.value)"
+                        [formControl]="todate" class="matformfieldinputstyle">
+                    <mat-datepicker-toggle matSuffix class="maticonsize"  [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+</div>
+<div class="col-md-2">
+
+                <mat-label>AccountNo</mat-label><br>
+                <mat-form-field class="matformfieldstyle" (click)="getAccountList()" style="width:7rem; margin-left: 7px;" appearance="outline">
+                    <mat-select [(value)]="selectedaccountlist" class="matformfieldinputstyle">
+                        <mat-option *ngFor="let ac of AccountList" [value]="ac.id" (click)="FetchAccountID(ac.id)">
+                            {{ac.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+</div>
+<div class="col-md-2">
+                <mat-label>Filter1</mat-label><br>
+                <mat-form-field style="width:7rem; margin-left: 7px;" class="matformfieldstyle" appearance="outline">
+                    <mat-select [(value)]="selectedtransactionmap" class="matformfieldinputstyle">
+                        <mat-option (onSelectionChange)="OnFilterChange($event)"
+                            *ngFor="let ddlist of transactionMapFilter" [value]="ddlist">{{ddlist}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                </div>
+				<div class="col-md-2">
+                <mat-label>Sort By</mat-label><br>
+                <mat-form-field style="width:7rem; margin-left: 7px;" class="matformfieldstyle" appearance="outline">
+                    <mat-select [(value)]="selectedsortvalue" class="matformfieldinputstyle">
+                        <mat-option (onSelectionChange)="OnSortByChange($event)" *ngFor="let sortby1 of sortby"
+                            [value]="sortby1">{{sortby1}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                </div>
+                </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+				<div class="col-md-2">
+                <mat-label>Sort Type</mat-label><br>
+                <mat-form-field style="width:7rem;height:55px !important ;margin-top: 1rem;margin-left: 7px;" class="matformfieldstyle" appearance="outline">
+                    <mat-select [(value)]="selsectsorttypeitem" class="matformfieldinputstyle">
+                        <mat-option (onSelectionChange)="OnSortTypeChange($event)" *ngFor="let type1 of sorttype"
+                            [value]="type1">{{type1}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                </div>
+				<div class="col-md-2">
+                <mat-label>Match Column</mat-label><br>
+                <mat-form-field style="width:10rem;height:55px !important ;margin-top: 1rem;margin-left: 7px;" class="matformfieldstyle" appearance="outline">
+                    <mat-select [(value)]="selectmatchcolum" class="matformfieldinputstyle">
+                        <mat-option (onSelectionChange)="OnMatchColumnChange($event)"
+                            *ngFor="let column1 of matchcolumn" [value]="column1">{{column1}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+</div>
+<div class="col-md-2">
+
+                <button type="submit" class="btn btn-outline-primary"
+                    style="border-radius:40px;margin-left: 10px;margin-top: 1rem;">Search</button>
+                    </div>
+				<div class="col-md-2">
+
+                <button type="button" class="btn btn-outline-primary"
+                    style="border-radius:40px;margin-left: 10px;margin-top: 1rem;" (click)="ClearAll($event)">Clear
+                </button>
+                </div>
+                
+				<div class="col-md-2">
+
+                <button type="button" class="btn btn-outline-primary"
+                    style="border-radius:40px;margin-left: 10px;margin-top: 1rem;"
+                    routerLink="/proofing/ar">Aging</button>
+</div>
+                <button class="btn btn-outline-primary" type="submit" *ngIf="displaydownload==true" matTooltip="Download"
+                    (click)="downloadexlsearch()" style="border-radius:40px;margin-top: 17px;    margin-left: 97%;"
+                    color="primary"> <span class="fa fa-download">
+                    </span></button>
+                    </div>
+                    </div> -->
+            </form>
+        <!-- </div> -->
+    </div>
+    
+         
+       
+    <div  [hidden]="!proofingList">
+        <div class="card" style="margin-bottom: 3%;margin-right: 20px;">
+            <div class="card-body">
+        <div class="tableFixHead">
+        <table class="table table-bordered my-table table-sm" id ='commonstyle'>
+            <thead>
+                <tr class="table_header" fixed-header>
+                    <th>
+                        <mat-form-field appearance="none" style="width:100%;color: black;">
+                            <mat-label style="color: black;font-weight: 500;">S.No</mat-label>
+                            <input matInput placeholder="S.No" autocomplete="off" disabled>
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" >
+                        <mat-form-field appearance="none" style="width:100%;">
+                            <mat-label style="color: black;font-weight: 500;">Branch.</mat-label>
+                            <input matInput placeholder="Branch" formControlName="branch_s"
+                                autocomplete="off">
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" >
+                        <mat-form-field appearance="none" style="width:100%;">
+                            <mat-label style="color: black;font-weight: 500;">UserId</mat-label>
+                            <input matInput placeholder="UserId" formControlName="userid_s"
+                                autocomplete="off">
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" >
+                        <mat-form-field appearance="none" style="width:100%;">
+                            <mat-label style="color: black;font-weight: 500;">Aging</mat-label>
+                            <input matInput placeholder="Aging" autocomplete="off" disabled>
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" >
+                        <mat-form-field appearance="none" style="width:100%;">
+                            <mat-label style="color: black;font-weight: 500;">Date</mat-label>
+                            <input matInput placeholder="Date" autocomplete="off" disabled>
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" >
+                        <mat-form-field appearance="none" style="width:100%;">
+                            <mat-label style="color: black;font-weight: 500;">Value Date</mat-label>
+                            <input matInput placeholder="Value Date" autocomplete="off" disabled>
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" >
+                        <mat-form-field appearance="none" style="width:80%;">
+                            <mat-label style="color: black;font-weight: 500;">ReferenceNo</mat-label>
+                            <input matInput placeholder="ReferenceNo" formControlName="referenceno_s"
+                                autocomplete="off">
+                        </mat-form-field>
+                        <mat-form-field appearance="none" style="width:20%;">
+                            <mat-label style="color: black;font-weight: 500;">Chars</mat-label>
+                            <input matInput placeholder="Chars" [(ngModel)]="noofcharsrefno"
+                                [ngModelOptions]="{standalone: true}" autocomplete="off">
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" appearance="none" >
+                        <mat-form-field appearance="none" style="width:80%;">
+                            <mat-label style="color: black;font-weight: 500;">UserReference</mat-label>
+                            <input matInput placeholder="UserReference" formControlName="userreference_s"
+                                autocomplete="off">
+                        </mat-form-field>
+                        <mat-form-field appearance="none" style="width:20%;">
+                            <mat-label style="color: black;font-weight: 500;">Chars</mat-label>
+                            <input matInput placeholder="Chars" [(ngModel)]="noofcharsuserrefno"
+                                [ngModelOptions]="{standalone: true}" autocomplete="off">
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" >
+                        <mat-form-field appearance="none" style="width:80%;">
+                              <mat-label style="color: black;font-weight: 500;">Description</mat-label>
+                            <input matInput placeholder="Description" formControlName="description_s"
+                                autocomplete="off">
+                        </mat-form-field>
+                        <mat-form-field appearance="none" style="width:20%;">
+                            <mat-label style="color: black;font-weight: 500;">Chars</mat-label>
+                            <input matInput placeholder="Chars" [(ngModel)]="noofcharsdesc"
+                                [ngModelOptions]="{standalone: true}" autocomplete="off">
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" >
+                        <mat-form-field appearance="none" style="width:100%;">
+                            <mat-label style="color: black;font-weight: 500;">Debit</mat-label>
+                            <input matInput placeholder="Debit" formControlName="debit_s"
+                                autocomplete="off">
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" appearance="none" >
+                        <mat-form-field appearance="none" style="width:100%;">
+                            <mat-label style="color: black;font-weight: 500;">Credit</mat-label>
+                            <input matInput placeholder="Credit" formControlName="credit_s"
+                                autocomplete="off">
+                        </mat-form-field>
+                    </th>
+                    <th [formGroup]="knockForm" >
+                        <input type="checkbox" style="width:50%;" (change)="selectAll($event);">
+                        <mat-form-field appearance="none" style="width:50%;">
+                            <mat-label style="color: black;font-weight: 500;">RefNo</mat-label>
+                            <input matInput placeholder="RefNo" formControlName="refno_s"
+                                autocomplete="off">
+
+                        </mat-form-field>
+                    </th>
+                    <!-- <th [formGroup]="knockForm" style="width: 150px;">
+                        <mat-form-field appearance="none" style="width:100%;">
+                            <mat-label>Attachment</mat-label>
+                            <input matInput placeholder="Attachment" autocomplete="off" disabled>
+                        </mat-form-field>
+                    </th> -->
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let temp of proofingList; let i = index"
+                    [ngStyle]="{'background-color': getColor(i)}">
+                    <td style="font-size: small;">
+                        {{ i+1 }}
+                    </td>
+                    <td data-toggle="modal" data-target="#myModal" data-placement="bottom"
+                        title="Description" style="font-size: small;cursor: pointer;"
+                        (click)="tableId(temp)">
+                        {{ temp.txn_branch }}</td>
+                    <td style="font-size: small;">{{ temp.user_id }}</td>
+                    <td style="font-size: small;">{{calculateDiff(temp.date)}}</td>
+                    <td style="font-size: small;">{{ temp.date| date:'dd-MMM-yyyy' }}</td>
+                    <td style="font-size: small;">{{ temp.value_date| date:'dd-MMM-yyyy' }}
+                    </td>
+                    <td style="font-size: small;">{{ temp.ref_no }}</td>
+                    <td style="font-size: small;">{{ temp.user_ref }} & {{temp.id}}</td>
+                    <td style="font-size: small;" data-toggle="tooltip" data-placement="bottom"
+                        title={{temp.user_description}}>{{ temp.description}}
+                        <div *ngIf="temp.label" matTooltip="Delete"><i (click)="OnUnMap(temp,$event)"
+                                style="color: green;font-size: 19px;" class="fa fa-trash"
+                                aria-hidden="true"></i></div>
+                    </td>
+                    <td style="font-size: small;text-align: right;">
+                        <div *ngIf=" temp.type=='Debit' ">{{ temp.amount| number}}</div>
+                    </td>
+
+                    <td style="font-size: small;text-align: right;">
+                        <div *ngIf=" temp.type=='Credit' ">{{ temp.amount| number}}</div>
+                    </td>
+                    <td >
+                        <div class="custom-control custom-checkbox"
+                            *ngIf="canbeChecked(temp);else elseBlock">
+                            <input type="checkbox" [checked]="isEnabledcheckbox(temp)"
+                                [(ngModel)]="temp.selected" class="custom-control-input"
+                                (change)="onCheckboxChange(temp,$event)" [id]=" 'checkbox' + i ">
+                            <label class="custom-control-label" [for]=" 'checkbox' + i ">
+                                {{ temp.label ? temp.label.labelname: null}}
+                            </label>
+                        </div>
+                        <ng-template #elseBlock>
+                            <label>{{ temp.label ? temp.label.id: null}}</label>
+                        </ng-template>
+                    </td>
+                    <!-- <td style="font-size: small;width: 150px;cursor: pointer;">
+                        <div *ngFor="let attachment of temp.attachments" title="{{attachment.file_name }}"
+                            (click)="transactionDownload(attachment.file_id,attachment.file_name )"
+                            class=" btn-link"><i class="fa fa-download"></i>
+                            {{attachment.file_name }}
+                        </div>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div *ngIf="!ShowMappingFlag">
+            <!-- <div class="col-md-6"> -->
+                <div class="row">
+            <div class="col-md-2">
+
+            <mat-label>Filter2</mat-label><br>
+            <mat-form-field  class="matformfieldstyle" appearance="outline">
+                <mat-select class="matformfieldinputstyle">
+                    <mat-option (onSelectionChange)="OnBalanceFilterChange($event)"
+                        *ngFor="let ddlist1 of balanceMapFilter" [value]="ddlist1">{{ddlist1}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            </div>
+            <div class="col-md-2">
+
+                <button mat-fab type="submit"
+                    style="border-radius:40px;margin-left: 10px;margin-top: 1rem;background-color: white;" (click)="knock()" aria-label="Search">
+                    <mat-icon>search</mat-icon></button>
+                    </div>
+        </div>
+       <!-- </div> -->
+       </div>
+        <div class="tableFixHead">
+        <table class="table table-bordered my-table table-sm" fixed-header *ngIf="!ShowMappingFlag" id="commonstyle">
+            <thead style="font-size: small;">
+                <tr class="table_header" fixed-header>
+                    <th>Label</th>
+                    <th>Branch</th>
+                    <th>UserID</th>
+                    <th>Date</th>
+                    <th>ValueDate</th>
+                    <th>ReferenceNo</th>
+                    <th>UserReference</th>
+                    <th>Description</th>
+                    <th >label Date</th>
+                    <th >Debit</th>
+                    <th >Credit</th>
+                    <th >Attachment</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <ng-container *ngFor="let data of knockoffList; let i = index">
+
+                    <tr *ngFor="let tran of data[data.label].transaction;let j=index">
+
+                        <td style="font-size: small;">{{data.label}}</td>
+                        <td data-toggle="modal" data-target="#lableModal" data-placement="bottom"
+                            title="Attachment" style="font-size: small;cursor: pointer;"
+                            (click)="lableTableId(data.label,data)">
+                            {{tran.txn_branch}}</td>
+                        <td style="font-size: small;">{{tran.user_id}}</td>
+                        <td style="font-size: small;">{{tran.date| date:'dd-MMM-yyyy'}}</td>
+                        <td style="font-size: small;">{{tran.value_date| date:'dd-MMM-yyyy'}}
+                        </td>
+                        <td style="font-size: small">{{tran.ref_no}}</td>
+                        <td style="font-size: small">{{tran.user_ref}}</td>
+                        <td style="font-size: small">{{tran.description}}<i (click)="OnUnMap2(tran,$event)"
+                                class="fa fa-trash" style="color: green;font-size: 19px;"
+                                aria-hidden="true"></i></td>
+                        <td style="font-size: small;">{{tran.labeldate| date:'dd-MMM-yyyy' }}
+                        </td>
+                        <td style="font-size: small;text-align: right;width: 80px;">
+                            <div *ngIf=" tran.type=='Debit' ">{{ tran.amount| number}}</div>
+                        </td>
+                        <td style="font-size: small;text-align: right;width: 80px;">
+                            <div *ngIf=" tran.type=='Credit' ">{{ tran.amount| number}}</div>
+                        </td>
+                        <td style="font-size: small;cursor: pointer;">
+                            <div *ngFor="let attachment of data[data.label].attachments;"
+                                title="{{attachment.file_name }}"
+                                (click)="labelDownload(attachment.file_id,attachment.file_name )"
+                                class=" btn-link"><i class="fa fa-download"></i>
+                                {{attachment.file_name }}
+                            </div>
+                        </td>
+                        <!-- <td style="font-size: small">{{tran.labeldate }}</td> -->
+                        <!-- <td style="font-size: small">{{data[data.label].Description ? data[data.label].Description.id :null}}</td> -->
+                        <!-- <td style="width:100px;font-size: small" (click)="OnUnMap2(tran,$event)" >{{tran.amount}}<i class="fa fa-trash" aria-hidden="true"></i></td> -->
+                        <!--
+                        <td style="width:100px;font-size: small">{{ tran.account ? tran.account.name : null}}</td>
+                        <td style="font-size: small;text-align: right;"><div  *ngIf=" tran.type=='Debit' ">{{ tran.amount| number}}</div></td>
+                        <td style="font-size: small;text-align: right;"><div  *ngIf=" tran.type=='Credit' ">{{ tran.amount| number}}</div></td>-->
+
+                    </tr>
+                    <tr>
+                        <td colspan="7">
+                            <!-- {{data.label}}:{{data[data.label].Description ? data[data.label].Description.description :null}} -->
+                            <!-- <div *ngFor="let attachment of data[data.label].transaction;"> -->
+
+                            Label Ref:{{data.label}} &nbsp;&nbsp; Label
+                            Name:{{data[data.label].transaction[0].label.labelcolor}} &nbsp;&nbsp;
+                            Description:{{data[data.label].Description[0].description}}
+
+                            <!-- </div> -->
+                        </td>
+                    </tr>
+                    <!-- <tr *ngFor="let tran of data[data.label];let k=index">
+                        <div  *ngIf=" k==data[data.label].length-1 ">
+                        <td colspan="7" style="width:600px;">
+                            {{data.label}}remarks
+                        </td></div>
+                    </tr> -->
+                </ng-container>
+
+            </tbody>
+        </table>
+        </div>
+      
+        <div *ngIf="ShowMappingFlag" style="margin-top: -322px;">
+            <label><b style="font-size: 19px;">No of Debit : {{noofDebit}} / {{sumofDebit | number}} No of
+                    Credit : {{noofCredit}} /
+                    {{sumofCredit | number}}</b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label
+                *ngIf="ShowMatchedFlag" style="color: rgb(7, 126, 23);font-size: 24px;font-weight: bold;">
+                MATCHED</label>
+            <mat-form-field appearance="outline" style="width:10rem;margin-left: 10rem;">
+                <mat-label>Label / RefNo</mat-label>
+                <input matInput placeholder="Label / RefNo" [(ngModel)]="refno" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width:10rem;margin-left: 10px;">
+                <mat-label>Remarks</mat-label>
+                <input matInput placeholder="Remarks" [(ngModel)]="remarks" autocomplete="off">
+            </mat-form-field>
+            <button type="button" class="btn btn-outline-primary"
+                style="border-radius:40px;margin-left: 10px;" (click)="AddRefNo($event)">Map</button>
+        </div>
+
+        <div *ngIf="ShowMappingFlag" class="tableFixHead">
+            <table class="table table-bordered my-table table-sm" fixed-header id="commonstyle">
+                <thead style="font-size: small;">
+                    <tr class="table_header" fixed-header>
+                        <th>s.no</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let temp of selectedList; let i = index">
+                        <td style="font-size: small;width: 50px;">
+                            {{ i+1 }}
+                        </td>
+                        <td style="font-size: small;">{{ temp.date| date:'dd-MMM-yyyy' }}</td>
+                        <td style="font-size: small;">{{ temp.description}}</td>
+                        <td style="font-size: small;text-align: right;">
+                            <div *ngIf=" temp.type=='Debit' ">{{ temp.amount| number}}</div>
+                        </td>
+                        <td style="font-size: small;text-align: right;">
+                            <div *ngIf=" temp.type=='Credit' ">{{ temp.amount| number}}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+</div>
+</div>
+</div>
+</mat-card>
+</div>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>
+
+
+   
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Transaction ({{tableid}})</h4>
+                <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+            <div>
+                <table class="table table-sm my-table ">
+                    <thead>
+                        <tr>
+                            <th>Branch</th>
+                            <th>User ID </th>
+                            <th>Date</th>
+                            <th>User Reference</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{descriptonDataList.txn_branch}}</td>
+                            <td>{{descriptonDataList.user_id}}</td>
+                            <td>{{descriptonDataList.date}}</td>
+                            <td>{{descriptonDataList.user_ref}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div >
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Attachment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ol>
+                            <li *ngFor="let attachment of attachmentTransactionList" style="cursor: pointer;"
+                                class=" btn-link" title="{{attachment.file_name }}"
+                                (click)="labelDownload(attachment.file_id,attachment.file_name )">
+                                <i class="fa fa-download"></i>
+                                {{attachment.file_name}}
+                            </li>
+                        </ol>
+                        <tr>
+                            <td>
+                                <span> Description- {{descriptonDataList.user_description}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <form [formGroup]="userDescription" (ngSubmit)="user_Description()">
+                <table class="table table-sm my-table ">
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>Description</mat-label>
+                                <input matInput placeholder="Description" formControlName="user_description"
+                                    autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <input class="description-image" type="file" multiple="true"
+                                formControlName="TransactionImages" (change)="uploadTransactionImages($event)">
+                        </td>
+                    </tr>
+                </table>
+                <div class="modal-footer">
+                    <button type="button" style="border-radius: 40px;" [disabled]="userDescription.invalid"
+                        class="btn btn-outline-success" id="closeModal" (click)="user_Description()">Save</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="lableModal" tabindex="-1" role="dialog" aria-labelledby="labelmodel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Label ({{labelTableId}})</h4>
+                <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+            <div>
+                <table class="table table-sm my-table ">
+                    <thead>
+                        <tr>
+                            <th>Branch</th>
+                            <th>User ID </th>
+                            <th>Date</th>
+                            <th>User Reference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let label of lableDataList">
+                            <td>{{label.txn_branch}}</td>
+                            <td>{{label.user_id}}</td>
+                            <td>{{label.date}}</td>
+                            <td>{{label.user_ref}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table table-sm my-table ">
+                    <thead>
+                        <tr>
+                            <th>Attachment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ol>
+                            <li *ngFor="let attachment of attachmentLabelList" title="{{attachment.file_name }}"
+                                style="cursor: pointer;" class=" btn-link"
+                                (click)="labelDownload(attachment.file_id,attachment.file_name )"><i
+                                    class="fa fa-download"></i>
+                                {{attachment.file_name}}</li>
+                        </ol>
+                    </tbody>
+                </table>
+            </div>
+            <form [formGroup]="labelTransactionImages">
+                <table class="table table-sm my-table ">
+                    <tr>
+                        <td>
+                            <input class="description-image" type="file" multiple="true" formControlName="lablesImages"
+                                (change)="uploadLabelImages($event)">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+</div>
+        </div>
+    </div>
+</div>

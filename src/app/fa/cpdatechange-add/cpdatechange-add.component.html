@@ -1,0 +1,156 @@
+
+
+<div>
+    <h3 style="margin-left: 30px;font-size:20px;font-family:Times New Roman;font-weight:bold;color:blue;">Asset CP Date change Maker Add </h3><hr>
+    <form [formGroup]="cpdatechangeadd">
+    <div>
+        <div class="col-12 row">
+            <div class="col-12">
+
+                <div>
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;width:220px">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="assetid" #inputassetid [matAutocomplete]="assetids">
+                        <mat-placeholder>Asset Barcode ID</mat-placeholder>
+                        <mat-autocomplete #assetids="matAutocomplete" #assetid (opened)="autocompleteid()"> 
+                            <mat-option *ngIf="isLoading">Loading..</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let d of assetcatid" [value]="d.barcode" (focusout)="assetidss(d)">{{d.barcode}}</mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="assetvalue">
+                        <mat-placeholder>Asset Value</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;">
+                       <!--<input class="toolbar-search" type="text" matInput autocomplete="off">-->
+                       <input matInput [matDatepicker]="picker" [max]="date | date:'yyyy-MM-dd'" formControlName="cpdate">
+                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                       <mat-datepicker [startAt]="date" #picker></mat-datepicker>
+                        <mat-placeholder>Cap Date</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 5%; width:200px">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" #inputcategory formControlName="category" [matAutocomplete]="category">
+                        <mat-autocomplete #category="matAutocomplete" #category (opened)="autocompletecategory()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let d of categorylist" [value]="d.subcatname" (focusout)="categorys(d)">{{d.subcatname}}</mat-option>
+                        </ng-container>
+                        </mat-autocomplete>
+                        <mat-placeholder>Asset Sub-Category</mat-placeholder>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;width:220px">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" #inputbranch formControlName="branch" [matAutocomplete]="branch">
+                        <mat-autocomplete #branch="matAutocomplete" #branch (opened)="autocompletecategorybranch()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option> 
+                        <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let d of branchlist" [value]="d.name" (focusout)="branchs(d)">{{d.name}}</mat-option>
+                        </ng-container>
+                        </mat-autocomplete>
+                        <mat-placeholder>Branch Name</mat-placeholder>
+                    </mat-form-field>
+                    <button type="button" mat-fab color="basic" (click)="searchdata()" matTooltip="Search"
+                        style="margin-left: 15px; ">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                    
+                        <button type="button" matTooltip="Clear" mat-fab color="basic" style="margin-left:5%;" (click)="resets()">Clear</button>
+                       
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    <div class="Container" style="margin-left: 2%;">
+
+        <div class="table-responsive table-bordered table-hover" style="width:95%;margin-top: 1%;overflow: hidden;font-size:14px">
+            <table class="table">
+                
+                    <tr class="table_header">
+                        <th>S.No</th>
+                        <th>Asset Barcode ID</th>
+                        <th>Product Name</th>
+                        <th>Asset Sub-Category</th>
+                        <th>Capitalization Date</th>
+                        <th>Create Date</th>
+                        <th>Asset Value</th>
+                        <th>Branch Name</th>
+                       
+                        <th>Status</th>
+                        <th>Action
+                            <input type="checkbox" [checked]="enb_data" (click)="approvealldata($event)">
+                        </th>
+                       
+                    </tr>
+               
+                
+                    <tr *ngFor="let assetcat of assetcatlist; index as i">
+                        <th scope="row">{{ (presentpagecpadd-1)*pageSize+i+1 }}</th>
+                        <td>{{ assetcat.barcode}}</td>
+                        <td>{{ assetcat['product_id'].name}}</td>
+                        <td>{{ assetcat.cat}}</td>
+                        <td>{{ assetcat.capdate | date:'dd-MMM-yyyy'}}</td>
+                        <td>{{ assetcat.createdate | date:'dd-MMM-yyyy'}}</td>
+                        <td>{{assetcat.assetdetails_value}}</td>
+                       
+                        <td>{{ assetcat['branch_id'].name}}</td>
+                       
+                        <td>{{ assetcat.assetdetails_status}}</td>
+                        
+                        <td> <input type="checkbox" id="vehicle1" name="vehicle1" [disabled]="assetcat['validations']['disable']" value="Bike" (click)="submitteddata(assetcat,$event)"
+                                [checked]="assetcat.is_checked"></td>
+                                </tr>
+                        <tr *ngIf="assetcatlist.length == 0">
+                        <td colspan="12">No Records Found..</td>
+                        </tr>
+                    
+            </table>
+            <div class="col-12 row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+                    <button mat-icon-button [disabled]="!has_previouscpadd" color="primary"
+                        (click)=" previousClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{presentpagecpadd}}
+                    <button mat-icon-button [disabled]="!has_nextcpadd " color="primary" (click)=" nextClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        
+    
+    <!-- </div> *ngIf="checkedValues"-->
+    <form [formGroup]="reasonform" (ngSubmit)="cpdatesummary()">
+    <mat-card align="center">
+    <div *ngIf="checkedValues">
+        <mat-form-field class="example-full-width" style="margin-left: 15%;">
+            <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="reason" required>
+            <mat-placeholder>CP date change reason</mat-placeholder>
+        </mat-form-field>
+        <mat-form-field style="width:175px;margin-left: 50px;">
+            <mat-label> Date</mat-label><!--[min]="year | date:'yyyy-MM-dd'"-->
+            <input matInput readonly [matDatepicker]="picker1" formControlName="dates" [min]="minDate | date:'yyyy-MM-dd' " [max]="startdate | date:'yyyy-MM-dd'" placeholder="Start Date" >
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <button type="submit" class="btn btn-outline-success" [disabled]="!checkedValues"
+        style="border-radius:40px;margin-left: 190px;">Submit</button>
+    <button type="button" class="btn btn-outline-success"
+        style="border-radius:40px;margin-left: 20px;"
+        (click)="assetcheckermove()">Back</button>
+</mat-card>
+</form>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+
+
+<br>

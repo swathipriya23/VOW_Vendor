@@ -1,0 +1,319 @@
+<div style="margin-left: 50px;margin-top: 3%;">
+
+    <h2 style="font-family:'Times New Roman';font-weight: bold;margin-left: 1px;">Invoice Header Details</h2>
+
+    <div>
+        <form [formGroup]="invoiceheaderdetailForm" style="margin-left:2%;">
+            <table style="margin-bottom: 2%;">
+                <div>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 200px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput readonly placeholder="Raisor Code" formControlName="raisorcode"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field
+                                style="width: 200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput readonly placeholder="Raisor Name" formControlName="raisorname"
+                                    autocomplete="off">
+                            </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+
+                        <td style="margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+
+                            <mat-radio-group formControlName="gst" readonly class="inputformatradiobutton">
+                                <mat-label> GST Applicable</mat-label>
+                                <mat-radio-button *ngFor="let n of yesorno" [value]="n.value"
+                                    style="margin-left: 10px;">
+                                    {{n.display}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 200px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput readonly placeholder="Supplier Code" formControlName="suppcode"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field
+                                style="width:200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput readonly placeholder="Supplier Name" formControlName="suppname"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-form-field
+                                style="width:200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput readonly placeholder="Supplier GST  No" formControlName="suppgst"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field
+                                style="width: 200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput readonly placeholder="Invoice No" formControlName="invoiceno"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <mat-form-field style="width:200px;font-family: 'Times New Roman', Times, serif;">
+
+                                <mat-label>Invoice Date</mat-label>
+                                <input matInput readonly [matDatepicker]="picker1" placeholder="Invoice Date"
+                                    formControlName="invoicedate">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field
+                                style="width:200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput readonly placeholder="Taxable Amount" formControlName="taxableamt"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field
+                                style="width:200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput readonly placeholder="Invoice Amount" formControlName="invoiceamt"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </td>
+
+
+
+                    </tr>
+                </div>
+            </table>
+        </form>
+    </div>
+
+
+
+
+    <h2 style="font-family:'Times New Roman';font-weight: bold;margin-left: 1px;">Invoice Details</h2>
+    <div class="table-responsive" style="width: 97%; overflow-x: hidden;">
+        <table class="table table-bordered" fixed-header>
+            <thead class="table_header" style='font-family:"Times New Roman";font-size: 14px;'>
+                <tr>
+
+                    <th>S.No</th>
+                    <th>Product Name</th>
+                    <th>HSN Code</th>
+                    <th>UOM</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                    <th>CGST</th>
+                    <th>SGST</th>
+                    <th>IGST</th>
+                    <th>Tax Amount</th>
+                    <th>Total Amount</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody *ngFor="let dtl of invheaderdata; index as i" style='font-family:"Times New Roman"'>
+                <tr *ngFor="let invdtl of dtl.invoicedtl; index as i">
+                    <!-- <td> {{(ecfpresentpage - 1)*pagesizeecf +i+1 }} </td>  -->
+
+                    <td>{{i+1}}</td>
+                    <td>{{invdtl.productname}}</td>
+                    <td *ngIf="invdtl.hsn.code != 'UNEXPECTED_ERROR'">{{invdtl.hsn.code}}</td>
+                    <td *ngIf="invdtl.hsn.code == 'UNEXPECTED_ERROR'">-</td>
+                    <td>{{invdtl.uom}}</td>
+                    <td>{{invdtl.unitprice}}</td>
+                    <td>{{invdtl.quantity}}</td>
+                    <td>{{invdtl.amount}}</td>
+                    <td>{{invdtl.cgst}}</td>
+                    <td>{{invdtl.sgst}}</td>
+                    <td>{{invdtl.igst}}</td>
+                    <td>{{invdtl.taxamount}}</td>
+                    <td>{{invdtl.totalamount}}</td>
+
+                    <td>
+                        <span matTooltip="view" class=" fa fa-eye create " style="color: green;cursor: pointer;"
+                            data-toggle="modal" data-target="#showdebitdetails" (click)="getinvdtlid(invdtl.id)"></span>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="invheaderdata ?.length == 0" style="margin-left: 42%;">
+            <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!.. </h3>
+        </div>
+        <!-- <div class="row" *ngIf="issummarypage">
+            <div class="col-sm-12" style="font-size: small;text-align: right; margin-bottom: 50px;">
+                <button mat-icon-button [disabled]="has_pageprevious === false" color="primary"
+                    (click)="previousClickPayment()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                {{ecfpresentpage}}
+                <button mat-icon-button [disabled]="has_pagenext === false" color="primary" (click)="nextClickPayment()">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </div>  -->
+    </div>
+
+    <h2 style="font-family:'Times New Roman';font-weight: bold;margin-left: 1px;">Credit Details</h2>
+
+    <div class="table-responsive" id="styleScroll" style="margin-top: 2%;width: 95%;margin-left: 5px;">
+        <table class="table scrolltable table-bordered" fixed-header>
+            <thead class="table_header" style='font-family:"Times New Roman";font-size: 14px;'>
+                <tr>
+
+                    <th>S.No</th>
+                    <th>PayMode</th>
+                    <th>Bank Account No</th>
+                    <th>Bank Name</th>
+                    <th>IFSC Code</th>
+                    <th>Benificiary Name</th>
+                    <th>Tax Type</th>
+                    <th>Tax Rate</th>
+                    <th>Taxable Amount</th>
+                    <th>TDS</th>
+                    <th>GL Number</th>
+                    <th>DD Paybranch</th>
+                    <th>DD Tranbranch</th>
+                    <th>Credit Amount</th>
+
+
+                </tr>
+            </thead>
+            <tbody *ngFor="let dtl of invheaderdata; index as i" style='font-family:"Times New Roman"'>
+                <tr *ngFor="let credit of dtl.credit; index as i">
+                    <!-- <td> {{(ecfpresentpage - 1)*pagesizeecf +i+1 }} </td>  -->
+                    <td>{{i+1}}</td>
+                    <td>{{credit.paymode_id.name}}</td>
+                    <td>{{credit.creditrefno}}</td>
+                    <td *ngIf="credit.creditbank_id != undefined">{{credit.creditbank_id.name}}</td>
+                    <td *ngIf="credit.creditbank_id == undefined">-</td>
+                    <td *ngIf="credit.creditbank_id != undefined">{{credit.creditbank_id.code}}</td>
+                    <td *ngIf="credit.creditbank_id == undefined">-</td>
+                    <td>-</td>
+                    <td>{{credit.suppliertaxtype}}</td>
+                    <td>{{credit.suppliertaxrate}}</td>
+                    <td>{{credit.taxableamount}}</td>
+                    <td>{{credit.taxexcempted}}</td>
+                    <td>{{credit.creditglno}}</td>
+                    <td>{{credit.ddpaybranch}}</td>
+                    <td>{{credit.ddtranbranch}}</td>
+                    <td>{{credit.amount}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="invheaderdata ?.length == 0" style="margin-left: 42%;">
+            <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!.. </h3>
+        </div>
+
+    </div>
+
+    <div>
+        <form [formGroup]="SubmitApproverForm" style="margin-left:2%;">
+            <table style="margin-bottom: 2%;">
+                <div>
+                    <tr>
+
+                        <button type="button"
+                            style="border-radius:40px;margin-left:450px;font-family: 'Times New Roman', Times, serif;"
+                            class="btn btn-outline-primary" (click)="back()">
+                            Back</button>
+
+
+
+                    </tr>
+                </div>
+            </table>
+        </form>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true"
+    id="showdebitdetails">
+    <div class="modal-dialog modal-xl " style="width: 93%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:rgba(23, 204, 23, 0.288);">
+                <h2 class="modal-title" style="color:black ;text-align: center;">Debit Details</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div style="margin-left: 50px;margin-right: 80%;margin-top: 2%; width: 90%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="table-responsive" id="styleScroll"
+                            style="margin-top: 2%;width: 95%;margin-left: 5px;">
+
+                            <table class="table scrolltable table-bordered" fixed-header>
+                                <thead class="table_header" style='font-family:"Times New Roman";font-size: 14px;'>
+
+                                    <tr>
+
+                                        <th>S.No</th>
+                                        <th>Category Code</th>
+                                        <th>SubCategory Code</th>
+                                        <th>GL Number</th>
+                                        <th>Bs</th>
+                                        <th>Cc</th>
+                                        <th>Desc</th>
+                                        <th>Amount</th>
+                                        <th>Deduction Amount</th>
+                                        <th>Debit Amount</th>
+                                        <th>%</th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody style='font-family:"Times New Roman"'>
+                                    <tr *ngFor="let debitdtl of debitrecords; index as i">
+                                        <!-- <td> {{(ecfpresentpage - 1)*pagesizeecf +i+1 }} </td>  -->
+                                        <td>{{i+1}}</td>
+                                        <td>{{debitdtl.category_code.code}}</td>
+                                        <td>{{debitdtl.subcategory_code.code}}</td>
+                                        <td>{{debitdtl.debitglno}}</td>
+                                        <td>{{debitdtl.ccbs.bs_code.name}}</td>
+                                        <td>{{debitdtl.ccbs.cc_code.name}}</td>
+                                        <td>{{debitdtl.ccbs.remarks}}</td>
+                                        <td>{{debitdtl.amount}}</td>
+                                        <td>{{debitdtl.deductionamount}}</td>
+                                        <td>{{debitdtl.amount}}</td>
+                                        <td>{{debitdtl.ccbs.ccbspercentage}}</td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div *ngIf="debitrecords ?.length == 0" style="margin-left: 42%;">
+                                <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!.. </h3>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

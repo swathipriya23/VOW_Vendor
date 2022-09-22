@@ -1,0 +1,146 @@
+<div>
+    <h3 style="margin-left: 30px;">Asset Transfer Addition </h3>
+    <div>
+        <div class="row">
+            <div class="col-12">
+
+                <div>
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off">
+                        <mat-placeholder>Asset ID</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off">
+                        <mat-placeholder>Asset Value</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off">
+                        <mat-placeholder>Cap Date</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off">
+                        <mat-placeholder>Category</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off">
+                        <mat-placeholder>Branch</mat-placeholder>
+                    </mat-form-field>
+                    <button type="button" class="btn btn-outline-primary"
+                        style="border-radius:40px;margin-left: 15px; width:40px;height: 40px;">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Container" style="margin-left: 10px;">
+
+        <div class="table-responsive" style="width:95%;margin-top: 1%;overflow: hidden;">
+            <table class="table">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.Noadd</th>
+                        <th>Asset transaction ID</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Old cap date</th>
+                        <th>New cap date</th>
+                        <th>Asset Value</th>
+                        <th>Branch</th>
+                        <th>Location</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th> Action</th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let assetcat of assetcatlist; index as i">
+                        <th scope="row">{{ (presentpagetra-1)*pageSize+i+1 }}</th>
+                        <td>{{ assetcat.floor_located}}</td>
+                        <td>{{ assetcat.floor_located}}</td>
+                        <td>{{ assetcat.floor_located}}</td>
+                        <td>{{ assetcat.floor_located}}</td>
+                        <td>{{ assetcat.floor_located}}</td>
+                        <td>{{ assetcat.floor_located}}</td>
+                        <td>{{ assetcat.floor_located}}</td>
+                        <td>{{assetcat.floor_located}}</td>
+                        <td>{{ assetcat.floor_located}}</td>
+                        <td>{{ assetcat.floor_located}}</td>
+                        <td> <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"
+                                [(ngModel)]="checkedValues[i]"></td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+                    <button mat-icon-button [disabled]="has_previoustra === false" color="primary"
+                        (click)=" previousClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{presentpagetra}}
+                    <button mat-icon-button [disabled]="has_nexttra === false" color="primary" (click)=" nextClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div *ngIf=ischeck>
+        <mat-form-field class="example-full-width" style="width:145px;margin-left: 20px;">
+            <input class="toolbar-search" type="text" matInput autocomplete="off">
+            <mat-placeholder>Asset transfer reason</mat-placeholder>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" style="width:145px;margin-left: 20px;">
+            <input class="toolbar-search" type="text" matInput autocomplete="off">
+            <mat-placeholder>Branch</mat-placeholder>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" style="width:145px;margin-left: 20px;">
+            <input class="toolbar-search" type="text" matInput autocomplete="off">
+            <mat-placeholder>Location</mat-placeholder>
+        </mat-form-field>
+        <mat-form-field style="width:145px;margin-left: 20px;">
+            <mat-label>Transfer Date</mat-label>
+            <input matInput readonly [matDatepicker]="picker1" placeholder="Start Date" formControlName="start_date">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" style="width:145px;margin-left: 20px;">
+            <input class="toolbar-search" type="text" matInput autocomplete="off">
+            <mat-placeholder>Select Bs</mat-placeholder>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" style="width:145px;margin-left: 20px;">
+            <input class="toolbar-search" type="text" matInput autocomplete="off">
+            <mat-placeholder>Select CC</mat-placeholder>
+        </mat-form-field>
+    </div>
+
+
+
+
+
+    <button type="button" class="btn btn-outline-success"
+        style="border-radius:40px;margin-left: 190px;margin-bottom: 20%;margin-top: 3%;">Submit</button>
+    <button type="button" class="btn btn-outline-success"
+        style="border-radius:40px;margin-left: 20px;margin-bottom: 20%;margin-top: 3%;"
+        [routerLink]='"/fa/fatransactionsummary"'>Back</button>
+
+
+</div>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

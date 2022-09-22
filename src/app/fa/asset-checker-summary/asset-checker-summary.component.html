@@ -1,0 +1,400 @@
+<div  >
+    <h1 style="margin-left: 30px; color: blue;font-family: 'Times New Roman', Times, serif;"><b>Asset Checker Summary</b></h1>
+    
+
+    <div class="container">
+        <form [formGroup]="checkersum" (ngSubmit)="checkersubmit_data()">
+        <div class="row">
+            
+            
+            
+                <div class="com-md-2">
+                    <mat-form-field >
+                        <mat-label>Cap Date</mat-label>
+                        <input matInput   [matDatepicker]="picker" formControlName="date" style="width: 250px;"  placeholder="Choose Date"  autocomplete="off">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                    </div> 
+                    <div class="col-md-3">
+                    <mat-form-field  style="margin-left: 5%;">
+                        <input  type="text" matInput autocomplete="off" matInput [matAutocomplete]="checkerassetcat" formControlName="assetcat" #inputassetcatcheck style="width:250px">
+                        <mat-autocomplete #checkerassetcat="matAutocomplete" #assetcat (opened)="autocompletecommodityScroll_assetcat()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of checker_assetcat" [value]="d.subcatname" (focusout)="checket_asset(d)">{{d.subcatname}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                        <mat-placeholder>Asset Sub-Category</mat-placeholder>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" matInput [matAutocomplete]="checkerbranch" #inputbranch formControlName="branch" style="width:250px">
+                        <mat-placeholder>Branch</mat-placeholder>
+                        <mat-autocomplete #checkerbranch="matAutocomplete" #branch (opened)="autocompletebranch()">
+                            <mat-option *ngIf="isLoading">Loading..</mat-option>
+                            <ng-container>
+                                <mat-option *ngFor="let d of checker_branch" [value]="d.name" (focusout)="checker_branchs(d)">
+                                    {{d.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                    <mat-form-field class="example-full-width" style="margin-left: 5%;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" matInput formControlName="crno" style="width:250px">
+                        <mat-placeholder>CR No</mat-placeholder>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-sm-2">
+                    <button type="submit" mat-fab color="basic" matTooltip="Search"
+                        style="margin-left: 5px;" >
+                        <mat-icon>search</mat-icon>
+                    </button>
+                    <button mat-fab color="basic" matTooltip="Clear" style="margin-left:5%;" (click)="resets()">Clear</button>
+                </div>
+                   
+            
+        </div>
+    </form>
+     <mat-radio-group aria-label="Select an option">
+                        <mat-radio-button value="1" checked style="margin-left:35%;" (click)="assetgrp()">Group By</mat-radio-button>
+                        <mat-radio-button value="2" style="margin-left:3%;margin-top:-5%;" (click)="assetnongrp()">Non Group By</mat-radio-button>
+                      </mat-radio-group>
+            
+    </div>
+    <div class="Container" style="margin-left: 15px;" *ngIf="isassetcheckers">
+
+        <div class="table-hover" style="width:98%;margin-top: 1%;">
+            <table class="table table-bordered table-responsive " style="font-size:14px;text-align:center">
+                <thead class="table_header">
+                    <tr style="width:2%">
+                        <th>S.No</th>
+                        <th>CR No.</th>
+                        <th>Asset Group ID</th>
+                        <th>Product Name</th>
+                        <th>Asset Category</th>
+                        <th>Capitalisation Date </th>
+                        <th>Vendor Name</th>
+                        <th>Total Asset Value</th>
+                        <th>Branch Name </th>
+                        <th> Status</th>
+
+                        <th>Action</th>
+
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let assetcat of assetcatslist; index as i" styyle='width:2%'>
+                        <th scope="row">{{ (presentpageloc-1)*pageSize+i+1 }}</th>
+                        <td>{{assetcat.crnum}}</td>
+                        <td>{{ assetcat.assetgroup_id}}</td>
+                        <td>{{ assetcat['product_id'].name}}</td>
+                        <td>{{ assetcat['cat'].subcatname}}</td>
+                        <td>{{ assetcat.capdate | date: "dd-MMM-yyyy"}}</td>
+                        <td>{{ assetcat.vendorname}}</td>
+                        <td>{{ assetcat.assetdetails_value}}</td>
+                        <td>{{ assetcat['branch_id'].name}}</td>
+                        <td>{{assetcat.assetdetails_status}}</td>
+
+                        <td>
+                            <div>
+                                <button *ngIf="assetcat.assetdetails_status == 'PENDING'" type="button" class="btn btn-primary"  style="color:blue;border: none;font-size:10px;height:20px;margin-top:-20px;background:none" (click)="assetcheckerView(assetcat)"
+                                   
+                                    ><!-- *ngIf="assetcat.assetdetails_status == 'PENDING'"-->
+                                    View</button>
+
+                                <input type="checkbox"  [checked]="assetcat.is_checked" (click)="checkedoff(assetcat,$event)" style="width:100px"/>
+                                <div style="text-align:left">Asset-Count :{{assetcat.count}}</div>
+                            </div>
+                        </td>
+                            <!--[(ngModel)]="checked"-->
+                    </tr>
+                </tbody>
+                
+            </table>
+            <form [formGroup]="reajectfrom">
+                <div class="text-center">
+                <mat-form-field >
+                    <input type="text" placeholder="Enter The Reason" required matInput formControlName="rejectReason">
+                </mat-form-field>
+                </div>
+        </form>
+            <button type="button" style="margin-left:40%" [disabled]="ischeck" class="btn btn-primary" (click)="assetcheckerrepost()">
+                REPOST ENTRY</button>
+            <button type="button" (click)="assetcheckerreject()" class="btn btn-outline-primary" [disabled]="check"
+                                            style="margin-left: 45px;">REJECT
+
+                                        </button>
+
+            <div class="row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+                    <button mat-icon-button [disabled]="!has_previousasset" color="primary"
+                        (click)=" locpreviousClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{presentpageloc}}
+                    <button mat-icon-button [disabled]="!has_nextasset" color="primary"
+                        (click)=" locnextClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="Container" style="margin-left: 30px;" *ngIf="isassetcheckerse">
+
+    <div class="table-responsive table-bordered table-hover" style="width:98%;margin-top: 1%;">
+        <table class="table" style="font-size:14px;text-align:center">
+            <thead class="table_header">
+                <tr>
+                    <th>S.No</th>
+                    <th>CR No.</th>
+                    <th>Asset Group ID</th>
+                    <th>Product Name</th>
+                    <th>Asset Category</th>
+                    <th>Capitalisation Date</th>
+                    <th> Vendor Name</th>
+                    <th>Asset Value</th>
+                    <th>Branch Name</th>
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let assetcat of assetcatslist; index as i">
+                    <th scope="row">{{ (presentpageloc-1)*pageSize+i+1 }}</th>
+                    <td>{{assetcat.crnum}}</td>
+                    <td>{{ assetcat.assetgroup_id}}</td>
+                    <td>{{ assetcat['product_id'].name}}</td>
+                    <td>{{ assetcat['cat'].subcatname}}</td>
+                    <td>{{ assetcat.capdate | date: "dd-MM-yyyy"}}</td>
+                    <td>{{ assetcat.vendorname}}</td>
+                    <td>{{ assetcat.assetdetails_value}}</td>
+                    <td>{{assetcat['branch_id'].name}}</td>
+                    <td>{{assetcat.assetdetails_status}}</td>
+
+                    <td style="cursor: pointer; color: #3684BF; " (click)="assetcheckerView(assetcat)">View</td>
+
+
+                </tr>
+            </tbody>
+        </table>
+    <!-- <button type="button" style="margin-left:40%" [disabled]="!checked" class="btn btn-primary">
+                REPOST ENTRY</button>
+                <button type="button" class="btn btn-outline-primary" [disabled]="!checked"
+                                            style="margin-left: 45px;">REJECT
+
+                                        </button> -->
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+                <button mat-icon-button [disabled]="!has_previousasset" color="primary"
+                    (click)=" locpreviousClick()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                {{presentpageloc}}
+                <button mat-icon-button [disabled]="!has_nextasset" color="primary" (click)=" locnextClick()">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" routerLink="/fa/fa" class="btn btn-outline-success" style="border-radius:30px;height:40px;margin-left:10px;margin-bottom: 10%;"><span
+    class="fa fa-arrow-left">Go Back</span></button>
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-center" role="document" style="overflow: initial;">
+        <div class="modal-content" style="width: 1100px;height: 600px;">
+            <div class="modal-header" style="text-align: center;background-color:rgb(62,178,113)">
+                <h2 class="modal-title " id="exampleModalLabel" ><strong>Asset Checker</strong></h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" color="warn">
+                <mat-tab-group class='mat-tab-label' #tabref (selectedTabChange)="invoiceBtn(tabref.selectedIndex)">
+                    <mat-tab label="Invoice" active></mat-tab>
+                    <mat-tab label="Expense"></mat-tab>
+                </mat-tab-group>
+                
+                <!-- <nav class="nav nav-tabs">
+                    
+
+                        <a class="nav-item nav-link active" data-toggle="tab" role="tab" (click)="invoiceBtn()">Invoice</a>
+                        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="expenseBtn()">Expense</a>
+
+                    
+
+                </nav> -->
+            
+                <div *ngIf="isinvoice">
+
+                    <div>
+                        <form>
+                            <table>
+
+                                <div>
+                                    <div class="Container" style="margin-left: 30px;">
+
+                                        <div class="table-responsive"
+                                            style="width:100%;margin-top: 1%;overflow: hidden;">
+                                            <table class="table">
+                                                <thead class="table_header">
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                        <th>Asset Id</th>
+                                                        <th>Put to use date</th>
+                                                        <th>Expense cat name </th>
+                                                        <th>Expense subcat name</th>
+                                                        <th>Expense Gl</th>
+
+                                                        <th>Product Name</th>
+                                                        <th>Value</th>
+                                                        <th>Branch</th>
+
+                                                        <th>Status</th>
+                                                        <th>Images</th>
+                                                        <th>Action</th>
+
+
+
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let assetcat of assetcatslist; index as i">
+                                                        <th scope="row">{{ i+1 }}</th>
+                                                        <td>{{ assetcat.deptype}}</td>
+                                                        <td>{{ assetcat.deptype}}</td>
+                                                        <td>{{assetcat.deptype}}</td>
+
+                                                        <td>{{ assetcat.deptype}}</td>
+                                                        <td>{{ assetcat.deptype}}</td>
+                                                        <td>{{ assetcat.deptype}}</td>
+                                                        <td></td>
+                                                        <td>{{ assetcat.deptype}}</td>
+                                                        <td>ACTIVE</td>
+                                                        <td>
+                                                            
+                                                        </td>
+                                                        <td> <input type="checkbox" id="vehicle1" name="vehicle1"
+                                                                value="Bike"></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!-- <div class="row">
+                                          <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+                                              <button mat-icon-button [disabled]="has_previousbuk === false" color="primary"
+                                                  (click)=" bukpreviousClick()">
+                                                  <mat-icon>arrow_back</mat-icon>
+                                              </button>
+                                              {{presentpagebuk}}
+                                              <button mat-icon-button [disabled]="has_nextbuk === false" color="primary"
+                                                  (click)=" buknextClick()">
+                                                  <mat-icon >arrow_forward</mat-icon>
+                                              </button>
+                                          </div>
+                                      </div> -->
+                                        </div>
+                                    </div>
+                                    <div style="float: right;margin-top: 5%;margin-right:50% ;">
+                                       <button type="button" style="margin-left:40%" [disabled]="!checked" class="btn btn-primary">
+                REPOST ENTRY</button>
+                <button type="button" class="btn btn-outline-primary" [disabled]="!checked"
+                                            style="margin-left: 45px;">REJECT
+
+                                        </button>
+
+                                    </div>
+
+
+                                </div>
+                            </table>
+
+                        </form>
+                    </div>
+
+                    <!-- <button type="button" class="btn btn-outline-success"  
+          style="border-radius:40px;margin-left: 50px;margin-bottom: 30%;"   ><span class="fa fa-arrow-left"></span>Go Back</button>
+     -->
+                </div>
+                <div *ngIf="isexpense">
+                    <h2 style="color: blueviolet;margin-left: 35px;;">Expense Details</h2>
+
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 155px;margin-left: 35px;">
+                                <mat-label>Expense amount</mat-label>
+                                <input matInput placeholder="Invoice expense amount" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+
+
+                    </tr>
+
+                    <tr>
+
+
+                        <td>
+                            <mat-form-field style="width: 155px;margin-left: 35px;">
+                                <mat-label>AP Category</mat-label>
+                                <input matInput placeholder="Invoice Category" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-form-field style="width: 155px;margin-left: 35px;">
+                                <mat-label>AP subcategory</mat-label>
+                                <input matInput placeholder="Invoice subcategory" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-form-field style="width: 155px;margin-left: 35px;">
+                                <mat-label>GL No</mat-label>
+                                <input matInput placeholder="Expense GL" disabled autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+
+
+
+
+                    </tr>
+                    <button type="button" class="btn btn-outline-success"
+                        style="border-radius:40px;margin-left: 50px"><span
+                            class="fa fa-arrow-left"></span>Go Back</button>
+
+
+                </div>
+
+
+
+
+                <!-- <div >No images uploaded yet!</div> -->
+            </div>
+            <!-- <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+					<button type="button" class="btn btn-primary" >Save changes</button>
+				</div> -->
+        </div>
+    </div>
+</div>
+ <ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

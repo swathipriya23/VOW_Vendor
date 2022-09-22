@@ -1,0 +1,21 @@
+<div style="margin-top: 3%; width: 80%;">
+  <table class="table">
+    <thead class="table_header">
+      <tr>
+        <td>Name</td>
+        <td>DOB</td>
+        <td>DOJ</td>
+        <td>Code</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of employeeList">
+        <td (click)="employeeView(employee)">{{ employee.full_name }}</td>
+        <td>{{ employee.dob }}</td>
+        <td>{{ employee.doj }}</td>
+        <td>{{ employee.code }}</td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,65 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+    <h2>
+        Account Form
+    </h2>
+    <div>
+        <form [formGroup]="AddForm" (ngSubmit)="submitForm()">
+            <table>
+                <tr>
+                    <td>
+                        <mat-label>Account Number<label style="color: red;" >*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" style="width: 250px;" appearance="outline">
+                            <input matInput placeholder="Account Number" class="matformfieldinputstyle" formControlName="account_number" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 60px;">Name<label style="color: red;" >*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" style="width: 250px;margin-left: 60px;" appearance="outline">
+                            <input matInput placeholder="Name" class="matformfieldinputstyle" formControlName="name" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-label>Template<label style="color: red;" >*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" style="width: 250px;" appearance="outline">
+                            <input placeholder="Select Template" matInput formControlName="ctrltemplate"
+                                [matAutocomplete]="auto" class="matformfieldinputstyle">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let temp of templateList" [value]="temp">{{temp.template}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+            <div style="margin-top: 20px;">
+                <button (click)="onCancelClick()" skipLocationChange class="btn btn-light"
+            style="border-radius: 7px;margin-left: 10px;
+            border-color: black;
+            background-color: white;">Cancel</button>
+            <button type="submit" style="border-radius: 10px;margin-left: 10px;
+            border-color: #f5c68b;
+            background-color: #f5c68b;" class="btn btn-light"
+             [disabled]="AddForm.invalid">Submit</button>
+            </div>
+           
+
+
+            <!-- <button type="button"  class="btn btn-light" (click)="onCancelClick()" skipLocationChange
+            style="border-radius: 7px;margin-left: 10px;
+            border-color: black;
+            background-color: white;">Cancel</button>
+            <button type="submit" style="border-radius: 10px;margin-left: 10px;
+            border-color: #f5c68b;
+            background-color: #f5c68b;"
+                class="btn btn-light" (click)="editVendorForm()" >Submit</button>    -->
+
+
+
+        </form>
+    </div>
+</div>

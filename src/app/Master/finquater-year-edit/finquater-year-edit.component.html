@@ -1,0 +1,31 @@
+<div class="container" style="margin-top: 2%;">
+    <h1 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">FinYear Create Form</h1>
+</div>
+<div class="container">
+    <form [formGroup]="finform">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Select The Fin Year</mat-label>
+                    <input  matInput  formControlName="year" [matDatepicker]="pick" required>
+                    <mat-datepicker-toggle [for]="pick" matSuffix> <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon></mat-datepicker-toggle>
+                    <mat-datepicker #pick  startView="multi-year"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Select The FinYearMonth</mat-label>
+                    <input type="text" matInput formControlName="month" [matDatepicker]="picks" required>
+                    <mat-datepicker-toggle [for]="picks" matSuffix> <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon></mat-datepicker-toggle>
+                    <mat-datepicker #picks startView="month"></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" (click)="getsubmitform()" class="btn btn-outline-success" style="border-radius: 40px;">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" (click)="onclickcancel()" class="btn btn-outline-danger" style="border-radius: 40px;">Cancel</button>
+
+
+        </div>
+    </form>
+</div>

@@ -1,0 +1,153 @@
+body {
+  // font-family: "Lato", sans-serif;
+  font-family: "Montserrat";
+}
+
+.sidenav {
+  height: 100%;
+  width: 12.02%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  // background-color: #DDEFDD;
+  background-color: #21cbe5;
+  // overflow-x: hidden;
+  transition: 0.5s;
+  // overflow: hidden;
+}
+.count{
+  cursor: pointer;
+}
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+// .sidenav:hover{
+//   // transform: overflow-y(1.5s);
+//   // overflow-y:visible;
+  
+// }
+
+#main {
+  transition: margin-left .5s;
+  margin-left: 12rem;
+}
+
+// @media screen and (max-height: 800px) {
+//   // .sidenav {padding-top: 1px;}
+//   .sidenav a {font-size: 18px;}
+// }
+
+.sideNav-title{
+  margin-left: 12px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.hidden-sm-down{
+ color: #fff;
+ cursor: pointer;
+}
+.module_text{
+  color: #fff;
+  // cursor: pointer;
+}
+
+.fixed-bottom {
+  // position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+  margin-left: 21px;
+  color: #fff;
+}
+tbody td {
+  padding: 0.5em 0.1em 0.1em;
+}
+.cursor{
+  cursor: pointer;
+}
+th, td{
+  text-align:center;
+  font-size: 13px;
+}
+.point{
+font-size: 12px;
+color: red;
+}
+
+.scrollclass{
+  overflow-y: hidden ;
+  overflow-x:hidden ;
+  max-height: 84.5%;
+  
+}
+.scrollclass:hover{
+  overflow-y: auto;
+  transition: 2s;
+  // transform: scale(1.01);
+ 
+}
+.scrollclass:window-inactive{
+  overflow-y: hidden;
+}
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none;
+  
+}
+
+
+::-webkit-scrollbar {
+  width: 7px;               /* width of the entire scrollbar */
+}
+::-webkit-scrollbar-track {
+  background:#21cbe5;        /* color of the tracking area */
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;      /* roundness of the scroll thumb */ 
+  background-color:#49728d ;    /* color of the scroll thumb */
+}
+
+
+
+  // margin-right: 20px;      /* roundness of the scroll thumb */
+  // border: 2px solid grey;  /* creates padding around scroll thumb */
+
+
+// .scrollBarContainer.animate .scroll {
+//   transition: 2s opacity ease;
+//   opacity: 0.5;
+// }
+
+// ::-webkit-scrollbar:hover {
+//   display: none;
+// }
+.material-icons{
+  cursor: pointer;
+}
+
+::ng-deep { .cdk-global-overlay-wrapper, .cdk-overlay-container { z-index: 9999!important; } }
+
+#sidenavfoot{
+  position: fixed;left: 0px;bottom: 0px;background-color: #21cbe5; 
+  transition: width .5s;
+  width: 12.02%
+}

@@ -1,0 +1,101 @@
+
+
+<div class="Container" style="margin-left: 30px;">
+    <h3 style="color:deeppink;">
+       eClaim Expence Approval
+    </h3>
+    <div>
+    <form [formGroup]="ApprovalExpenceForm" (ngSubmit)="submitForm()">
+    <div class="table-responsive" style="width:90%;margin-top: 3%;">
+    <table class="table">
+    <thead class="table_header">
+    <tr>
+    <th>S.No </th>
+    <th>Description</th>
+    <th>Eligible Amount</th>
+    <th>Claim Amount </th>
+    <th>Request Comments</th>
+    <th>Expence Details</th>
+    
+    </tr>
+    </thead>
+    <tbody>
+    <td>1</td>
+    <td>code2</td>
+    <td>code3</td>
+    <td>code4</td>
+    <td>code5</td>
+    <td><span class="material-icons" matTooltip="view" style="color:deeppink;">
+        <mat-icon style="color: deeppink;"class="material-icons">
+            visibility</mat-icon></span></td>
+    
+    
+    
+    
+    
+    </tbody>
+    </table>
+    
+    </div>
+    <h3 style="color:deeppink;">
+        To Approver
+      </h3>
+       <div>
+          <mat-form-field style="width: 175px;">
+           <mat-label>Branch</mat-label>
+           <input matInput placeholder="Branch" formControlName="bank" autocomplete="off" required>
+         </mat-form-field>
+        
+        <mat-form-field style="width: 175px;margin-left: 50px;">
+         <mat-label>Employee</mat-label>
+         <input matInput placeholder="Employee" formControlName="employee" autocomplete="off" required>
+       </mat-form-field>
+       <mat-form-field style="width: 175px;margin-left: 50px;">
+        <mat-label>Submited Comments</mat-label>
+        <input matInput placeholder="Employee" formControlName="comments" autocomplete="off" required>
+      </mat-form-field>
+      </div>
+      <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+      class="btn btn-outline-primary">Submit</button>
+     <button type="button" class="btn btn-outline-primary"
+     style="border-radius: 40px;margin-left: 10px;">Reject</button>
+     <button type="button" class="btn btn-outline-primary"
+     style="border-radius: 40px;margin-left: 10px;">Return</button>
+     <br>
+     <h3 style="color:deeppink;">
+        ApprovalView
+     </h3>
+     <div class="table-responsive" style="width:90%;margin-top: 3%;">
+        <table class="table">
+        <thead class="table_header">
+        <tr>
+        <th>S.No </th>
+        <th>Employee</th>
+        <th>RaisedBy</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Comments</th>
+       
+        
+        </tr>
+        </thead>
+        <tbody>
+        <td>1</td>
+        <td>code2</td>
+        <td>code3</td>
+        <td>code4</td>
+        <td>code5</td>
+        <td>code6</td>
+        
+        
+        
+        
+        </tbody>
+        </table>
+    </div>
+  
+    </form>
+    </div>
+</div>
+
+    

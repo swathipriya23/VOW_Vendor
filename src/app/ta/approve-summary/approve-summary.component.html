@@ -1,0 +1,79 @@
+<!-- <div style="margin-top: 15px;margin-left: 25px;"> -->
+    <div style="margin-top: 15px;margin-left: 25px;">
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="memoSearchForm" (ngSubmit)="searchClick()">
+        
+                    <mat-form-field style="width:10rem; margin-left: 20px; margin-left: 7px;">
+                        <mat-label>Tour No</mat-label>
+                        <input matInput placeholder="Subject" (change)="tourno($event)" formControlName="tourno">
+                    </mat-form-field>
+                    <mat-form-field style="width:10rem; margin-left: 20px; margin-left: 7px;">
+                        <mat-label>Tour Request Date</mat-label>
+                        <input matInput readonly [matDatepicker]="picker1" (dateChange)="fromDateSelection($event.value)" 
+                                placeholder="Request Date" autocomplete="off" formControlName="requestdate">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                    <button mat-fab style="margin-left: 20px;" (click)="tourMakerSearch()" color="primary" aria-label="Search">
+                        <mat-icon>search</mat-icon>
+                      </button>
+                    <button class="btn btn-outline-primary" type="clear" style="border-radius:40px;margin-left: 15px;"
+                    color="primary" (click)=reset()>Clear</button>
+                </form>
+            </div>
+        </div>
+    <!-- <table class="table table-bordered"> -->
+        <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+            <thead class="table_header" style="text-align: left;">
+    <!-- <thead class="table_header"> -->
+    <tr>
+    <th>S.No</th>
+    <th>Tour No</th>
+    <th>Tour RequestDate</th>
+    <th>Employee Name </th>
+    <th>Employee Grade</th>
+    <th>Tour Approvedby</th>
+    <th>Advance Details</th>
+    
+    
+    </tr>
+    </thead>
+    <tbody> 
+        <tr *ngFor="let approve of getapproveList; index as i">
+       <td scope="row"  style="vertical-align: middle;">{{(this.tourapprovepage - 1)*pagesize +i+1 }}</td>
+        <td>{{approve.id}}</td>
+        <td>{{approve.requestdate| date:'dd-MMM-yyyy'}}</td>
+        <td>({{approve.employee_code}}) {{approve.employee_name}}</td>
+        <td>{{approve.empgrade}}</td>
+        <td>({{approve.approver_code}}) {{approve.approvedby}}</td>
+       
+        <td><button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary"
+            (click)="approveEdit(approve)">
+            
+            <mat-icon style="color: green;" aria-label="Edit">edit</mat-icon>
+        </button>
+        </td>
+            
+        </tr>
+    </tbody>
+    </table>
+    <div *ngIf="getTourmakerList ?.length == 0" style="margin-left: 42%;">
+        <h3>Sorry data not found!.. </h3>
+    </div>
+    <div class="row" *ngIf="isTourMakerpage">
+        <div class="col-sm-12" style="font-size: small;text-align:right;margin-bottom: 5%;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary"
+            (click)="TourmakerpreviousClick()">
+            <mat-icon >arrow_back</mat-icon>
+            </button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary"
+            (click)="TourmakernextClick()">
+            <mat-icon >arrow_forward</mat-icon>
+            </button>
+            </div>
+    </div>
+    </div>
+    <!-- </div> -->
+   

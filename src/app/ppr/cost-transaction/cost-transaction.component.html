@@ -1,0 +1,487 @@
+<div class="container">
+    <br>
+    <h2>Cost Allocation - Transaction</h2>
+
+    <form [formGroup]="cost_transfer">
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field (click)="allocation_from()" style="width: 220px;">
+                        <mat-label>Business</mat-label>
+                        <input #bsInput placeholder="Business" matInput formControlName="allocationfrom_filter"
+                            [matAutocomplete]="allocationFromAutoComplete">
+                        <mat-autocomplete #allocationFromAutoComplete="matAutocomplete"
+                            [displayWith]="displayallocationfromppr" (opened)="costallocationfromscroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let bscode of allocationfrom" [value]="bscode">
+                                    {{bscode.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field (click)="this.cost_transfer.value.allocationfrom_filter==null || this.cost_transfer.value.allocationfrom_filter==undefined || this.cost_transfer.value.allocationfrom_filter=='' ? '' : bsfromDropdown()" style="width: 220px;">
+                        <mat-label>BS</mat-label>
+                        <input #bsformInput placeholder="BS" matInput formControlName="allocationbsform_filter"
+                            [matAutocomplete]="bsfromAutoComplete" [readonly]="this.cost_transfer.value.allocationfrom_filter==null || this.cost_transfer.value.allocationfrom_filter==undefined || this.cost_transfer.value.allocationfrom_filter==''">
+                        <mat-autocomplete #bsfromAutoComplete="matAutocomplete" [displayWith]="displaybsfrom"
+                            (opened)="bsfromscroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let bs of Bsfromcode" [value]="bs">
+                                    {{bs.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-form-field (click)="ccfromDropdown()" style="width: 220px;">
+                        <mat-label>CC</mat-label>
+                        <input #ccformInput placeholder="CC" matInput formControlName="allocationfromcc"
+                            [matAutocomplete]="ccfromAutoComplete">
+                        <mat-autocomplete #ccfromAutoComplete="matAutocomplete" [displayWith]="displayccfrom"
+                            (opened)="ccfromscroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let cc of ccfromcode" [value]="cc">
+                                    {{cc.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <!-- </div> -->
+                <!-- <div class="col-md-3">
+            <mat-form-field>
+                <mat-label>Premium Amount</mat-label>
+                <input matInput  autocomplete="off" type="text" #inputamount formControlName='allocationfrom_ratio' size="50px">
+            </mat-form-field>
+        </div> -->
+                <!-- <mat-form-field style="width: 137px;margin-left: 4%;" class="input-style"  >
+            <input matInput [matDatepicker]="dp" placeholder="Month and Year" formControlName="monthdate" readonly [formControl]="monthdate">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp
+                            startView="multi-year"
+                            (yearSelected)="chosenYearHandler($event)"
+                            (monthSelected)="chosenMonthHandler($event, dp)"
+                            panelClass="example-month-picker">
+            </mat-datepicker>
+        </mat-form-field> -->
+                <!-- <div class="row col-md-3">
+        <mat-form-field class="example-full-width">
+            <mat-label>Transaction Month</mat-label>
+            <input matInput [matDatepicker]="picker" readonly [formControl]="monthdate"  (dateInput)="yeartransfer($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"  >
+                <mat-icon  matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker 
+             #picker startView="multi-year"
+             (yearSelected)="chosenYearHandler($event)"
+            (monthSelected)="chosenMonthHandler($event, picker)" 
+            panelClass="example-month-picker"></mat-datepicker>
+        </mat-form-field>
+    </div> -->
+                <div class="col-md-4">
+                    <mat-form-field #myFormField>
+
+                        <input matInput [matDatepicker]="dp" formControlName="monthdate" class="palceholderformat"
+                            style="size: a5;"  placeholder="{{datePlaceholder}}" readonly>
+                        <mat-datepicker-toggle matSuffix (click)="dp.open();" (click)="changeval(dp)" [for]="dp">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #dp disabled="false" startView="multi-year"
+                            (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event, dp)"
+                            panelClass="example-month-picker">
+                        </mat-datepicker>
+                    </mat-form-field>
+                    <!-- <mat-form-field>
+        <input matInput [matDatepicker]="dp" placeholder="Month and Year" formControlName="monthdate">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        startView="multi-year"
+                        (yearSelected)="chosenYearHandler($event)"
+                        (monthSelected)="chosenMonthHandler($event, dp)"
+                        panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field> -->
+                </div>
+                <div class="col-md-4">
+
+                    <button type="submit" style="border-radius: 40px;"
+                        (click)="transactionsearch(cost_transfer.value,date.value)"
+                        class="btn btn-outline-primary">Search</button>
+
+                </div>
+                <div class="col-md-4">
+
+                    <button type="submit" style="border-radius: 40px;"
+                        (click)="transactionclear(cost_transfer.value,date.value)"
+                        class="btn btn-outline-primary">Clear</button>
+
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <!-- <div [hidden]=add_tag> -->
+    <form [formGroup]="newrowadd">
+
+        <div class="table-responsive" class="tableFixHead">
+            <!-- style="margin-top: 2%;width: 95%;margin-left: 10px;overflow: auto;" -->
+            <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 20px;">
+                <thead class="table_header">
+                    <tr style="white-space: nowrap;background-color: #9ce3ed;">
+                        <th>S.No</th>
+                        <th>Core BS</th>
+                        <th>BS Name</th>
+                        <th>CC Name</th>
+                        <!-- <th>To Core BS</th> -->
+                        <th>Allocated Amount</th>
+                        <th>Ratio &nbsp; &nbsp;(%)</th>
+                        <th>Total Amount</th>
+
+                        <!-- <th>Action</th> -->
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr style="white-space: nowrap;" *ngFor="let allocation of allocation_list; let i=index">
+                        <td>{{i+1}}</td>
+                        <td>
+                            <div *ngIf="allocation?.toccbs_data?.length==0">--</div>
+                            <div *ngIf="allocation?.toccbs_data?.length!=0">{{allocation?.toccbs_data?.name}}</div>
+                        </td>
+                        <!-- <td>{{allocation?.coreccbbs_data?.name}}</td> -->
+                        <td>
+                            <div *ngIf="allocation?.bs_data?.length==0">--</div>
+                            <div *ngIf="allocation?.bs_data?.length!=0">{{allocation?.bs_data?.name}}</div>
+                        </td>
+                        <td>
+                            <div *ngIf="allocation?.cc_data?.length==0">--</div>
+                            <div *ngIf="allocation?.cc_data?.length!=0">{{allocation?.cc_data?.name}}</div>
+                        </td>
+                        <!-- <td>{{allocation?.toccbs_data?.name}}</td> -->
+                        <td>{{allocation?.average | number:'1.1-2'}}</td>
+                        <td>{{allocation?.ratio}}</td>
+                        <td>{{allocation?.final_total | number:'1.1-2'}}</td>
+                    </tr>
+
+                    <div *ngIf="allocation_list?.length===0">
+                        <h3 style="text-align: center;">No Data Found....</h3>
+                    </div>
+                </tbody>
+                <!-- <tbody formArrayName="rows_value" *ngFor="let item of newrowadd.controls.rows_value['controls']; let i=index" >
+                    <tr  [formGroupName]="i">
+                        
+                       <td></td> 
+                        <td>{{i+1}}</td>
+                        <td>
+                        <div >
+                            <mat-form-field (click)="BsccDropdown(i)" >
+                                <mat-label>BSCC Code</mat-label>
+                                <input #bsccInput placeholder="BSCC" matInput formControlName="Bscc"
+                                    [matAutocomplete]="bsccAutoComplete" >
+                                <mat-autocomplete #bsccAutoComplete="matAutocomplete" [displayWith]="displaybscc"
+                                    >
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let bscc of Bsccname" [value]="bscc">
+                                            {{bscc.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        </td>
+                        <td>
+                            <div >
+                                <mat-form-field (click)="bsNameDropdown(i)" >
+                                    <mat-label>BS Name</mat-label>
+                                    <input #bsccInput placeholder="Business" matInput formControlName="bsName_dropdown"
+                                        [matAutocomplete]="bsNameAutoComplete" >
+                                    <mat-autocomplete #bsNameAutoComplete="matAutocomplete" [displayWith]="displaybsName"
+                                        >
+                                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                        <ng-container *ngIf="!isLoading">
+                                            <mat-option *ngFor="let bscccode of BsNamecode" [value]="bscccode">
+                                                {{bscccode.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div> 
+                        </td>
+                        <td>
+                            <div >
+                                <mat-form-field (click)="ccDropdown(i)" >
+                                    <mat-label>CC Name</mat-label>
+                                    <input #bsccInput placeholder="CC Name" matInput formControlName="cc_dropdown"
+                                        [matAutocomplete]="ccAutoComplete" >
+                                    <mat-autocomplete #ccAutoComplete="matAutocomplete" [displayWith]="displayccppr"
+                                        >
+                                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                        <ng-container *ngIf="!isLoading">
+                                            <mat-option *ngFor="let cccode of cccode" [value]="cccode">
+                                                {{cccode.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div> 
+                        </td>
+                        <td>
+                            <div >
+                                <mat-form-field (click)="ParameterDropdown(i)" >
+                                    <mat-label>Parameter</mat-label>
+                                    <input  placeholder="Parameter"  matInput formControlName="parameter_dropdown"
+                                        [matAutocomplete]="parameterAutoComplete" >
+                                    <mat-autocomplete #parameterAutoComplete="matAutocomplete" [displayWith]="displayparam"
+                                        >
+                                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                        <ng-container *ngIf="!isLoading">
+                                            <mat-option *ngFor="let Parameter of parameter" [value]="Parameter">
+                                                {{Parameter.sector}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div> 
+                        </td>
+                        <td>
+                            <div >
+                                <mat-form-field>
+                                    <mat-label>Premium Amount</mat-label>
+                                    <input type="number" matInput  min="1" formControlName="premium_amount"
+                                        placeholder="Premium Amount" >
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                            <div >
+                                <mat-form-field>
+                                      <div  *ngFor="let inputValue of inputValue; let ind=index">
+                                            <h5  *ngIf="ind===i" style="text-align: end;margin: -24px 0 12px;"> {{inputValue.entry_crno}} </h5></div> 
+                                    <mat-label>Input</mat-label>
+                                    <input type="number" matInput  min="1" max="100" formControlName="inputvalue" 
+                                        placeholder="Input" >
+                                </mat-form-field>
+                            </div>
+                        </td> 
+                        <td>
+                            <div >
+                                <mat-form-field>
+                                    <mat-label>Ratio</mat-label>
+                                       <input type="number" matInput  min="1"  formControlName="ratiovalue" 
+                                            placeholder="Ratio" >
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                           <div >
+                               <mat-form-field>
+                                    <mat-label>Amount</mat-label>
+                                        <input type="number" matInput  min="1"  formControlName="amount_value"
+                                            placeholder="Amount" >
+                                </mat-form-field>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                </tbody> -->
+            </table>
+        </div>
+    </form>
+    <!-- <button (click)="Generate()" [hidden]="hidebutton" class="btn btn-outline-primary" style="border-radius: 132px; margin-right: 103px; margin-top: 12px;height: 44px;">Generate</button> <br> <br> -->
+    <!-- <div *ngIf = "toDisplay" >
+    <form [formGroup]="newrowadddetails" >
+
+        <div class="table-responsive" style="height: 400px;overflow: auto;">
+            <table table class="table table-bordered" fixed-header >
+                <thead class="table_header" style="top:0;position: sticky;">
+                    <tr style="top:0;position: sticky;padding: 5px;">
+                        <th>S.No</th>
+                        <th>BSCC Code</th>
+                       
+                        <th>BS Name</th>
+                        <th>CC Name</th>
+                        <th>Parameter</th>
+                        <th>GL Name</th>
+                        <th>Premium Amount</th>
+                        <th>Input</th>
+                        <th>Ratio</th>
+                        <th>Amount</th> -->
+    <!-- <th>Action</th> -->
+
+    <!-- </tr>
+                </thead>
+                <tbody formArrayName="rows_value" *ngFor="let item of newrowadddetails.controls.rows_value['controls'] ; let i=index" >
+                    <tr  [formGroupName]="i">
+                         -->
+    <!-- <td></td> -->
+    <!-- <td>{{i+1}}</td>
+                        <td>
+                            <div >
+                                <mat-form-field (click)="BscchideDropdown(i)" >
+                                    <mat-label>BSCC Code</mat-label>
+                                    <input #bsccInput placeholder="BSCC" matInput formControlName="Bscc"
+                                        [matAutocomplete]="bscchideAutoComplete" >
+                                    <mat-autocomplete #bscchideAutoComplete="matAutocomplete" [displayWith]="displaybscchide"
+                                        >
+                                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                        <ng-container *ngIf="!isLoading">
+                                            <mat-option *ngFor="let bscc of Bscchidename" [value]="bscc">
+                                                {{bscc.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                            </td>
+
+                            <td>
+                                <div >
+                                    <mat-form-field (click)="bsNamehideDropdown(i)" >
+                                        <mat-label>BS Name</mat-label>
+                                        <input #bsccInput placeholder="Business" matInput formControlName="bsName_dropdown"
+                                            [matAutocomplete]="bsNamehideAutoComplete" >
+                                        <mat-autocomplete #bsNamehideAutoComplete="matAutocomplete" [displayWith]="displaybsNamehide"
+                                            >
+                                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                            <ng-container *ngIf="!isLoading">
+                                                <mat-option *ngFor="let bscccode of BsNamehidecode" [value]="bscccode">
+                                                    {{bscccode.name}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div> 
+                            </td>
+ 
+                            <td>
+                                <div >
+                                    <mat-form-field (click)="cchideDropdown(i)" >
+                                        <mat-label>CC Name</mat-label>
+                                        <input #bsccInput placeholder="CC Name" matInput formControlName="cc_dropdown"
+                                            [matAutocomplete]="cchideAutoComplete" >
+                                        <mat-autocomplete #cchideAutoComplete="matAutocomplete" [displayWith]="displayccpprhide"
+                                            >
+                                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                            <ng-container *ngIf="!isLoading">
+                                                <mat-option *ngFor="let cccode of cchidecode" [value]="cccode">
+                                                    {{cccode.name}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div> 
+                            </td>
+                            <td>
+                                <div >
+                                    <mat-form-field (click)="ParameterhideDropdown(i)" >
+                                        <mat-label>Parameter</mat-label>
+                                        <input  placeholder="Parameter"  matInput formControlName="parameter_dropdown"
+                                            [matAutocomplete]="parameterhideAutoComplete" >
+                                        <mat-autocomplete #parameterhideAutoComplete="matAutocomplete" [displayWith]="displayparamhide"
+                                            >
+                                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                            <ng-container *ngIf="!isLoading">
+                                                <mat-option *ngFor="let Parameter of parameterhide" [value]="Parameter">
+                                                    {{Parameter.sector}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div> 
+                            </td>
+    
+                            <td>
+                                <div >
+                                    <mat-form-field>
+                                        <mat-label >GL Name</mat-label> -->
+    <!-- <div *ngFor="let val of this.newrowadddetails.controls.rows_value['controls']"> -->
+    <!-- <input  matInput formControlName="gl_name" title="{{item.value.gl_name}}"
+                                            placeholder="GL Name"> -->
+
+
+    <!-- </div> -->
+    <!-- </mat-form-field>
+                                </div>
+                                
+                            </td>
+                           <td>
+                            <div >
+                                <mat-form-field>
+                                    <mat-label>Premium Amount</mat-label>
+                                    <input type="number" matInput  min="1" formControlName="premium_amount"
+                                        placeholder="Premium Amount" >
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                            <div >
+                                <mat-form-field> -->
+    <!-- <div  *ngFor="let inputValue of inputValue; let ind=index">
+                                            <h5  *ngIf="ind===i" style="text-align: end;margin: -24px 0 12px;"> {{inputValue.entry_crno}} </h5></div> -->
+    <!-- <mat-label>Input</mat-label>
+                                    <input type="number" matInput  min="1" max="100" formControlName="inputvalue" 
+                                        placeholder="Input" >
+                                </mat-form-field>
+                            </div>
+                        </td> 
+                        <td>
+                            <div >
+                                <mat-form-field>
+                                    <mat-label>Ratio</mat-label>
+                                       <input type="number" matInput  min="1"  formControlName="ratiovalue" 
+                                            placeholder="Ratio" >
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                           <div >
+                               <mat-form-field>
+                                    <mat-label>Amount</mat-label>
+                                        <input type="number" matInput  min="1"  formControlName="amount_value"
+                                            placeholder="Amount" >
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                   
+                </tbody>
+                <tbody></tbody>
+                <div *ngIf="newrowadddetails.controls.rows_value['controls'] ?.length === 0" style="margin-left: 771%;">
+                    <h3>Loading.. </h3> 
+                </div> -->
+    <!-- </div> -->
+    <!-- </table>
+           
+        </div>
+       
+        
+    </form> -->
+    <!-- <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls> -->
+    <!-- <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+                <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button> {{presentpage}}
+                <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+    
+            </div>
+</div> -->
+    <button class="btn btn-outline-primary"
+        style="border-radius: 132px; margin-right: 103px; margin-top: 12px;margin-bottom: 60px;height: 44px;"
+        [hidden]="amountval" (click)="trancation()">Submit</button>
+
+</div>

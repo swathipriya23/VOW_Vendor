@@ -1,0 +1,380 @@
+<!-- <div >
+    <mat-card style="margin:10px 12px 20px 0px;" class="mat-elevation-z0"> -->
+<div class="Container" style="margin-left: 20px;">
+    <nav>
+        <div class="nav nav-tabs" style="margin-top: 1%;">
+            <span class="nav-item nav-link " data-toggle="tab" (click)="subModuleData(sub)" role="tab"
+                *ngFor="let sub of InwardMenuList">
+                {{sub.name}}
+            </span>
+        </div>
+    </nav>
+</div>
+
+
+<div *ngIf="isinwardAdd">
+    <app-inward-form (onSubmit)="inwardCreateEditSubmit()" (onCancel)="inwardCreateEditCancel()">
+    </app-inward-form>
+</div>
+
+
+<div *ngIf="isinwarddetail">
+    <app-inward-details (onCancel)="InwardDetailCancel()"></app-inward-details>
+</div>
+
+
+
+<div *ngIf="isinwardsummary">
+    <form [formGroup]="InwardsummarySearchForm">
+        <h2 style="margin-left: 5%;" class="headertitle">Inward Summary</h2>
+        <table>
+            <tr>
+                <td>
+                    <mat-label style="margin-left: 50px;">Inward No</mat-label><br>
+                    <mat-form-field class="spacebtwfield" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" placeholder="Inward No" formControlName="inward_no"
+                            matInput autocomplete="off">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-label style="margin-left: 50px;">From Date</mat-label><br>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input matInput readonly [matDatepicker]="picker1" placeholder="From Date"
+                            formControlName="fromdate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-label style="margin-left: 50px;">To Date</mat-label><br>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+
+                        <input matInput readonly [matDatepicker]="picker2" placeholder="To Date"
+                            formControlName="todate">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </td>
+                <td>
+
+
+                    <mat-label style="margin-left: 50px;">Channel</mat-label><br>
+                    <mat-form-field style="width: 230px;margin-left: 50px;">
+                        <mat-select formControlName="channel_id" placeholder="Channel">
+                            <mat-option *ngFor="let channel of ChannelList" [value]="channel.id">
+                                {{channel.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-label style="margin-left: 50px;">Courier</mat-label><br>
+                    <mat-form-field style="width: 200px; margin-left: 50px;">
+                        <input #CourierInput placeholder="Select Courier" type="text" matInput
+                            formControlName="courier_id" [matAutocomplete]="Courier">
+                        <mat-autocomplete #Courier="matAutocomplete" [displayWith]="displayFnCourier.bind(this)"
+                            (opened)="autocompleteCourierScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let Courier of CourierList" [value]="Courier.id">
+                                    {{Courier.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-label style="margin-left: 50px;">AWB NO</mat-label><br>
+                    <mat-form-field class="spacebtwfield" style="width: 230px;margin-left: 50px;">
+                        <input class="toolbar-search" type="text" placeholder="AWB NO" formControlName="awb_no" matInput
+                            autocomplete="off" (keypress)="numberOnly($event)">
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <button mat-fab style="margin-left: 50px;background-color: white;" aria-label="Search"
+                        (click)="getInwardsummary('')">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </td>
+                <td>
+
+                    <button mat-fab type="submit" (click)="resetInward()"
+                        style="border-radius:40px;margin-left: 50px;background-color: white;color: black;">Clear</button>
+                    <!-- </td>
+                <td> -->
+                    <button mat-fab style="margin-left: 50px;background-color: #F5C68B;" (click)="inwardRoute()"
+                        aria-label="Inward Maker">
+                        <mat-icon matTooltip="Add Inward">add</mat-icon>
+                    </button>
+                </td>
+
+            </tr>
+        </table>
+    </form>
+
+    <!-- <div class="table-responsive" style="margin-left: 50px;">
+                <table class="table" style="margin-top: 10px;max-width: 80%;text-align: center;white-space: nowrap;" id='commonstyle' >
+                    <thead  >
+                        <tr> -->
+    <div class="table-responsive" style="margin-top: 1%;width: 94%;margin-left: 50px;">
+        <table class="table scrolltable" style="white-space: nowrap;" fixed-header id='commonstyle'>
+            <thead class="table_header">
+                <tr fixed-header style="text-align:center;">
+                    <th>S.No</th>
+                    <th>Inward Number</th>
+                    <th>Date</th>
+                    <th>Channel</th>
+                    <th>Courier</th>
+                    <th>No of Packets</th>
+                    <th>AWB NO</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let inward of inwardSummaryList; index as i">
+                    <td scope="row">{{(currentpage - 1)*pageSize +i+1 }}</td>
+                    <td>{{ inward?.no }}</td>
+                    <td>{{ inward?.date | date:'dd-MMM-yyyy '}}</td>
+                    <td>{{ inward?.channel_id?.name}}</td>
+                    <td>
+                        <span *ngIf=" inward?.courier_id?.name;else nullCouier">
+                            {{ inward?.courier_id?.name}}
+                        </span>
+                        <ng-template #nullCouier>
+                            <label>null</label>
+                        </ng-template>
+                    </td>
+
+
+                    <td>{{ inward?.noofpockets}}</td>
+                    <td>
+                        <span *ngIf=" inward?.awbno;else nullAwbno">
+                            {{ inward?.awbno}}
+                        </span>
+                        <ng-template #nullAwbno>
+                            <label>--</label>
+                        </ng-template>
+                    </td>
+                    <!-- <td><button mat-icon-button matTooltip="View" class="iconbutton" 
+                        (click)="detailView(inward)" >
+                        <mat-icon style="color: gray;">edit</mat-icon>
+                    </button></td> -->
+                    <td>
+                        <!-- {{inward?.status}} -->
+                        <span>
+                            <!-- {{ inward?.awbno}} -->
+                            {{inward?.status == 0 ? 'InActive' : 'Active'}}
+                        </span>
+
+                    </td>
+                    <td>
+                        <div *ngIf="inward?.detail_complete == true; else greyEditView">
+                            <button mat-icon-button matTooltip="Completed" class="iconbutton"
+                                (click)="editInwardMaker(inward)">
+                                <mat-icon style="color: green;">edit</mat-icon>
+                            </button>
+                        </div>
+                        <ng-template #greyEditView>
+                            <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                (click)="editInwardMaker(inward)">
+                                <mat-icon style="color: grey;">edit</mat-icon>
+                            </button>
+
+                        </ng-template>
+                        <!-- <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="editInwardMaker(inward)">
+                            <mat-icon style="color: gray;">edit</mat-icon>
+                        </button> -->
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="inwardSummaryList?.length==0; else pagination" class="NodataAlign">No Records Found...</div>
+        <ng-template #pagination>
+            <div style="font-size: small;text-align: right;margin-bottom: 100px;cursor: pointer;">
+                <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                    (click)="getInwardsummary('previous')">
+                    <mat-icon style="cursor: pointer;">arrow_back</mat-icon>
+                </button>
+                {{currentpage}}
+                <button mat-icon-button [disabled]="has_next === false" color="primary"
+                    (click)="getInwardsummary('next')">
+                    <mat-icon style="cursor: pointer;">arrow_forward</mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </div>
+</div>
+
+
+<div class="table-responsive" *ngIf="isinwarddetailsummary">
+    <form [formGroup]="InwardDetailSummarySearchForm">
+        <h2 style="margin-left: 3%;">Inward Detail Summary</h2>
+        <table>
+            <tr>
+                <td>
+                    <mat-label style="margin-left: 50px;">Inward No</mat-label><br>
+                    <mat-form-field class="spacebtwfield" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" placeholder="Inward No" formControlName="inward_no"
+                            matInput autocomplete="off">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-label style="margin-left: 50px;">From Date</mat-label><br>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input matInput readonly [matDatepicker]="picker1" placeholder="From Date"
+                            formControlName="fromdate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-label style="margin-left: 50px;">To Date</mat-label><br>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input matInput readonly [matDatepicker]="picker2" placeholder="To Date"
+                            formControlName="todate">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <!-- <mat-label style="margin-left: 50px;">Channel</mat-label><br>
+                            <mat-form-field style="width: 230px; margin-left: 50px;">
+                                <input #channelInput placeholder="Select Channel" type="text" matInput
+                                    formControlName="channel_id" [matAutocomplete]="Channel">
+                                <mat-autocomplete #Channel="matAutocomplete" [displayWith]="displayFnChannel.bind(this)"
+                                    (opened)="autocompleteChannelScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let Channel of ChannelList" [value]="Channel.id">
+                                            {{Channel.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field> -->
+                    <mat-label style="margin-left: 50px;">Channel</mat-label><br>
+                    <mat-form-field style="width: 230px;margin-left: 50px;">
+                        <mat-select formControlName="channel_id" placeholder="Channel">
+                            <mat-option *ngFor="let channel of ChannelList" [value]="channel.id">
+                                {{channel.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-label style="margin-left: 50px;">Select Branch Code</mat-label><br>
+                    <mat-form-field style="width: 230px; margin-left: 50px;" (click)="getbranchFK()">
+                        <input #branchInput placeholder="Select Branch Code" matInput formControlName="branch_id"
+                            [matAutocomplete]="branch">
+                        <mat-autocomplete #branch="matAutocomplete" [displayWith]="displayFnbranch.bind(this)"
+                            (opened)="autocompletebranchScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let branch of branchList" [value]="branch.id">
+                                    {{branch.code}}-{{branch.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <button mat-fab style="margin-left: 50px;background-color: white;" aria-label="Search"
+                        (click)="getInwardDetailsummary('')">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </td>
+                <td>
+
+                    <button mat-fab type="submit" (click)="resetInwardDetail()"
+                        style="border-radius:40px;margin-left: 50px;background-color: white;color: black;">Clear</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <div style="margin-left: 50px;">
+        <table class="table" style="margin-top: 10px;max-width: 95%;text-align: center; white-space: nowrap;"
+            id='commonstyle'>
+            <thead class="table_header">
+                <tr>
+                    <th>S.No</th>
+                    <th>Inward Number</th>
+                    <th>Date</th>
+                    <th>Branch</th>
+                    <th>Channel</th>
+                    <th>No Of Packets</th>
+                    <!-- <th>Doc Type</th> -->
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let inwardDetail of InwardDetailSummaryList; index as i">
+                    <td scope="row">{{(currentpagedet - 1)*pageSize +i+1 }}</td>
+                    <td>{{ inwardDetail?.no }}</td>
+                    <td>{{ inwardDetail?.date | date:'dd-MMM-yyyy'}}</td>
+                    <td>{{ inwardDetail?.branch_id?.fullname }}</td>
+                    <td>{{ inwardDetail?.channel_id?.name}}</td>
+                    <td>{{ inwardDetail?.noofpockets}}</td>
+                    <!-- <td>{{ inwardDetail?.doccount}}</td> -->
+                    <td>{{inwardDetail?.status == 0 ? 'InActive' : 'Active'}}</td>
+                    <!-- <td><button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="detailView(inwardDetail)">
+                            <mat-icon style="color: gray;">edit</mat-icon>
+                        </button></td> -->
+                    <td>
+                        <div *ngIf="inwardDetail?.detail_complete == true; else greyEditView">
+                            <button mat-icon-button matTooltip="Completed" class="iconbutton"
+                            (click)="detailView(inwardDetail)">
+                                <mat-icon style="color: green;">edit</mat-icon>
+                            </button>
+                        </div>
+                        <ng-template #greyEditView>
+                            <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                            (click)="detailView(inwardDetail)">
+                                <mat-icon style="color: grey;">edit</mat-icon>
+                            </button>
+
+                        </ng-template>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="InwardDetailSummaryList?.length==0; else paginationdetail" class="NodataAlign">No Records
+            Found...
+        </div>
+        <ng-template #paginationdetail>
+            <div style="font-size: small;text-align: right;margin-bottom: 100px;cursor: pointer;">
+                <button mat-icon-button [disabled]="has_previousdet == false" color="primary"
+                    (click)="getInwardDetailsummary('previous')">
+                    <mat-icon style="cursor: pointer;">arrow_back</mat-icon>
+                </button>
+                {{currentpagedet}}
+                <button mat-icon-button [disabled]="has_nextdet == false" color="primary"
+                    (click)="getInwardDetailsummary('next')">
+                    <mat-icon style="cursor: pointer;">arrow_forward</mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </div>
+
+</div>
+
+<!-- </mat-card>
+</div> -->
+
+<!-- </div> -->
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" type="line-scale-party">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

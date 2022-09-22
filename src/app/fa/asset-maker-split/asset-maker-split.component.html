@@ -1,0 +1,304 @@
+<h2 style="color: blueviolet;margin-left: 35px;;">Split Qty with Location</h2>
+
+<pre
+  style="font-weight: bolder;font-family:verdana;margin-left: 35px;">Asset Quantity:{{split}}                   Product Name:                 Unit prize: </pre>
+<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModals"
+  style="border-radius:40px;margin-right: 40%; width:40px;height: 40px;float:right">
+  <i class="fa fa-map-marker" aria-hidden="true"></i>
+</button>
+<div class="modal fade" id="exampleModals" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 800px;height: 400px;">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel">Location Details</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <form>
+            <table>
+              <div>
+                <tr>
+                  <td>
+                    <mat-form-field style="width: 155px;">
+                      <mat-label>Branch</mat-label>
+                      <input matInput placeholder="Branch" autocomplete="off" required>
+                    </mat-form-field>
+
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 155px;margin-left: 15px;">
+                      <mat-label>Location Name</mat-label>
+                      <input matInput placeholder="Location Name" autocomplete="off" required>
+                    </mat-form-field>
+
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 155px;margin-left: 15px;">
+                      <mat-label>Floor</mat-label>
+                      <input matInput placeholder="Floor" autocomplete="off" required>
+                    </mat-form-field>
+
+                  </td>
+                  <td>
+                    <mat-form-field style="width: 155px;margin-left: 15px;">
+                      <mat-label>Remarks</mat-label>
+                      <input matInput placeholder="Remarks" autocomplete="off" required>
+                    </mat-form-field>
+
+                  </td>
+                </tr>
+              </div>
+            </table>
+
+          </form>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- <form [formGroup]='myForm'>
+  <ng-container formArrayName='formsArray'>
+    <div>
+      <table *ngFor="let item of formsArray.controls; let i = index">
+          <div>
+     
+
+          <tr>
+            <td>
+              <mat-form-field style="width: 155px;margin-left: 35px;">
+                <mat-label>Asset Value</mat-label>
+
+             <input matInput placeholder="Asset Value" type="number"   
+              [formControlName]="i"  autocomplete="off" #myInput  required>
+              </mat-form-field>
+
+
+            </td>
+            <td>
+              <mat-form-field style="width: 155px;margin-left: 65px;">
+                <mat-label>Branch Name</mat-label>
+                <input matInput placeholder="Branch Name" formControlName="branchname" autocomplete="off" required>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="width: 155px;margin-left: 65px;">
+                <mat-label>Location Name</mat-label>
+                <input matInput placeholder="Location Name" formControlName="locname"  autocomplete="off" required>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+ 
+            <td>
+              <mat-form-field style="width: 155px;margin-left: 35px;">
+                <mat-label>BS Name</mat-label>
+                <input matInput placeholder="BS Name" formControlName="bsname" autocomplete="off" required>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="width: 155px;margin-left: 65px;">
+                <mat-label>CC Name</mat-label>
+                <input matInput placeholder="CC Name"  formControlName="ccname" autocomplete="off" required>
+              </mat-form-field>
+            </td>
+            <td>
+
+              <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 30px;"
+              data-target="#exampleModal">
+              Split
+            </button>
+
+              <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+                (click)="DelBtn(a)"><span class="fa fa-plus"></span>Delete</button>
+            </td>
+          </tr> 
+          </div>
+      </table>
+    </div> 
+    
+  </ng-container>
+</form>
+
+<br>
+
+<button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px;margin-bottom: 30%;"
+  (click)="AddBtn()" [disabled]="!checkTotal()"><span class="fa fa-plus"></span>Add</button>
+
+  <button type="submit" style="border-radius: 40px;margin-left: 20px;margin-top: -15%;" class="btn btn-outline-primary" 
+  [disabled]="!isin">Submit</button> -->
+<!-- <button type="button" (click)="BackBtn()"class="btn btn-outline-primary"
+style="border-radius: 40px;margin-left: 30px;margin-top: -15%;">Back</button> -->
+
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-left: 30px;"
+data-target="#exampleModal">
+Split
+</button> -->
+
+<div>
+
+  <div *ngFor="let form of myForm.controls;let i =index">
+    <ng-container [formGroup]="form" style="margin-bottom: 30px;">
+
+      <tr>
+        <td>
+          <mat-form-field style="width: 155px;margin-left: 65px;">
+            <mat-label>Value</mat-label>
+            <input matInput placeholder="Value" formControlName="value" autocomplete="off" required>
+          </mat-form-field>
+        </td>
+
+        <td>
+          <mat-form-field style="width: 155px;margin-left: 65px;">
+            <mat-label>Branch Name</mat-label>
+            <input matInput placeholder="Branch Name" formControlName="branchname" autocomplete="off" required>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field style="width: 155px;margin-left: 65px;">
+            <mat-label>Location Name</mat-label>
+            <input matInput placeholder="Location Name" formControlName="locname" autocomplete="off" required>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+
+        <td>
+          <mat-form-field style="width: 155px;margin-left: 65px;">
+            <mat-label>BS Name</mat-label>
+            <input matInput placeholder="BS Name" formControlName="bsname" autocomplete="off" required>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field style="width: 155px;margin-left: 65px;">
+            <mat-label>CC Name</mat-label>
+            <input matInput placeholder="CC Name" formControlName="ccname" autocomplete="off" required>
+          </mat-form-field>
+        </td>
+        <button type="button" (click)="openForm(form)" class="btn btn-primary" data-toggle="modal"
+          style="margin-left: 30px;" data-target="#exampleModal">
+          Split
+        </button>
+
+        <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+          (click)="DelBtn(i)"><span class="fa fa-plus"></span>Delete</button>
+
+
+
+      </tr>
+      <!-- <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+      (click)="DelBtn(i)"><span class="fa fa-plus"></span>Delete</button>
+  
+      <button type="button" (click)="openForm(form)" class="btn btn-primary" data-toggle="modal" style="margin-left: 30px;"
+      data-target="#exampleModal">
+          Split
+        </button> -->
+    </ng-container>
+  </div>
+  <button class="btn btn-outline-primary" (click)="addRow()" [disabled]="!isValidTotal()"
+    style="margin-left: 45px;">Add</button>
+  <button class="btn btn-outline-primary" [disabled]="isValidTotal()" (click)="showError()"
+    style="margin-left: 45px;">Submit</button>
+  <pre style="margin-left: 25px;">
+    {{ myForm.value | json }}
+</pre>
+  <!-- <p style="margin-left: 25px;">{{htm}}</p> -->
+
+</div>
+
+
+
+
+
+
+
+<!-- <div *ngIf="pops"> -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="overflow: initial;">
+    <div class="modal-content" style="width: 800px;height: 500px;">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel">Split Qty with Asset ID</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre style="font-weight: bolder;font-family:verdana;margin-left: 35px;">
+        Adjusted Qty:{{sh}}   Adjusted Qty:         Product Name: </pre>
+        <div class="Container" style="margin-left: 30px;">
+
+          <div class="table-responsive" style="width:60%;margin-top: 1%;overflow: hidden;">
+            <table class="table">
+              <thead class="table_header">
+                <tr>
+                  <th>S.No</th>
+                  <th>Asset ID</th>
+                  <th style="margin-left: 100%;"> Select checkbox</th>
+                  <th>Message</th>
+
+                  <!-- {{selectedFormGroup?.value.value|json}} -->
+
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                <tr *ngFor="let assetcat of assetcatlist; index as i">
+
+                  <th scope="row">{{ (presentpagebuk-1)*pageSize+i+1 }}</th>
+                  <td>{{assetcat.deptype}}</td>
+                  <td>
+
+                    <!-- <input type="checkbox" id="vehicle1" name="vehicle1" (change)="addCheckValue(i)"
+                  [checked]="assetcat.isTicked" [disabled]="assetcat.isDisabled" value="Bike">
+                  <label for="vehicle1"> </label><br> -->
+
+                    <input type="checkbox" id="vehicle2" name="vehicle2" [(ngModel)]="assetcat.isTicked"
+                      [disabled]="assetcat.isDisabled" (ngModelChange)="validate()">
+
+                  </td>
+
+                  <td *ngIf="assetcat.isDisabled">
+                    Already disabled
+                  </td>
+
+
+
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveBtn()">Save changes</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+
+
+
+<!-- </div>
+
+
+</div>
+</div> -->

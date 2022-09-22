@@ -1,0 +1,326 @@
+<p style="color: black;font-size: 20px;font-weight: 500px;margin-left: 3px;">
+  Travel Summary
+</p>
+<!-- <p>{{tourid}}</p>
+<p>{{requesteddate | date: 'dd-MMM-yyyy, EEE' }}</p> -->
+
+<div class="table-responsive" style="width:98%;margin-top: 1%;">
+  <table *ngIf="showtravel" class="table" style="margin-top: 10px;width: 117%;" id='commonstyle'>
+    <thead class="table_header">
+      <tr>
+        <th>S.No</th>
+        <th>Travel No</th>
+        <th>Travel Requested Date</th>
+        <th>From Date </th>
+        <th>To Date</th>
+        <th>Reason</th>
+        <th>Employee Branch</th>
+
+        <th>Approver</th>
+        <th>Travel Status</th>
+        <th>Claim Status</th>
+        <!-- <th>Travel Admin No</th> -->
+        <th>Travel Claim Amount</th>
+        <th class="lastfixed-header1" data-toggle="modal" data-target="#requirementmodal">Requirements</th>
+        <th class="lastfixed-header" data-toggle="modal" data-target="#historymodal">Approval Flow</th>
+        <!-- <th class="lastfixed-header">Action</th> -->
+
+      </tr>
+      <tr *ngFor="let sum of toursummary; let i=index ">
+        <td>{{(presentpage-1)*10+i+1}}</td>
+        <td>{{sum.id}}</td>
+        <td>{{sum.requestdate | date: 'dd-MMM-yyyy, EEE' }}</td>
+        <td>{{sum.startdate | date: 'dd-MMM-yyyy, EEE' }}</td>
+        <td>{{sum.enddate | date: 'dd-MMM-yyyy, EEE' }}</td>
+        <td>{{sum.reason}}</td>
+        <td>({{sum.branch_code}}) {{sum.branch_name}}</td>
+        <td>({{sum.approver_data.code}}) {{sum.approver_data.name}}</td>
+        <td>{{sum.tour_status}}</td>
+        <td>{{sum.claim_status}}</td>
+        <td>{{sum.total_claimed_amount}}</td>
+        <td class="lastfixed-header1" [ngStyle]="{'background':((i+1)%2 == 0)? '#fff' : '#EDF8FA' }">
+          <button data-toggle="modal" (click)="getrequirement(sum.id)" data-target="#requirementmodal" mat-icon-button>
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+        <td class="lastfixed-header" [ngStyle]="{'background':((i+1)%2 == 0)? '#fff' : '#EDF8FA' }">
+          <button data-toggle="modal" (click)="getapprovalflowlsit(sum.id)" data-target="#historymodal" mat-icon-button>
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+
+      </tr>
+    </thead>
+
+  </table>
+
+  <table *ngIf="showclaim" class="table" style="margin-top: 10px;width: 100%;" id='commonstyle'>
+    <thead class="table_header">
+      <tr>
+        <th>S.No</th>
+        <th>Travel No</th>
+        <th>Expense Name</th>
+        <th>Claimed Amount </th>
+        <th>Cost Center</th>
+        <th>Business Segment</th>
+        <th>CCBS Amount</th>
+        <!-- <th>CCBS Percentage</th> -->
+        <th>Comments</th>
+
+
+      </tr>
+      <tr *ngFor="let sum of toursummary; let i=index ">
+        <td>{{(presentpage-1)*10+i+1}}</td>
+        <td>{{sum.travel_no}}</td>
+        <td>{{sum.expense_name}}</td>
+        <td id="amtper">{{sum.claimed_amount | currency:"INR"}}</td>
+        <td>
+      <tr *ngFor="let ccbs of sum.ccbs_data; let i=index ">
+
+        <p>{{ccbs.cc_data.name}} <br>
+          <!-- <label id="amtper">Amount:</label> {{ccbs.amount | currency:"INR"}} -->
+          <!-- <br> <label id="amtper">Percentage:</label> {{ccbs.percentage}}%  -->
+        </p>
+        <!-- <hr *ngIf="sum.ccbs_data.length > 1 && (i != sum.ccbs_data.length-1)" style="margin: 0%;background-color: black;"> -->
+      </tr>
+      </td>
+      <td>
+        <tr *ngFor="let ccbs of sum.ccbs_data; let i=index ">
+          <p> {{ccbs.bs_data.name}} <br>
+            <!-- <label id="amtper">Amount:</label> {{ccbs.amount | currency:"INR"}} -->
+            <!-- <br> <label id="amtper">Percentage:</label> {{ccbs.percentage}}% -->
+          </p>
+          <!-- <hr *ngIf="sum.ccbs_data.length > 1 && (i != sum.ccbs_data.length-1)" style="margin: 0%;background-color: black;"> -->
+        </tr>
+      </td>
+      <td>
+        <tr *ngFor="let ccbs of sum.ccbs_data; let i=index ">
+
+          <p id="amtper"> {{ccbs.amount | currency:"INR"}} </p>
+        </tr>
+      </td>
+      <td>{{sum.comment}}</td>
+
+
+      </tr>
+    </thead>
+
+  </table>
+
+</div>
+<div class="col-md-12 ">
+  <div *ngIf="toursummary?.length==0; else paginationreport" class="NodataAlign text-center">No Records Found...
+  </div>
+  <ng-template #paginationreport>
+    <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;float: right;">
+      <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+        <mat-icon>arrow_back
+        </mat-icon>
+      </button> {{presentpage}}
+      <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+        <mat-icon>arrow_forward
+        </mat-icon>
+      </button>
+    </div>
+  </ng-template>
+
+
+
+  <div class="modal" id="historymodal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" style="font-weight: 700;font-size: large;">Approval Flow</h4>
+          <button type="button" class="close" #closeapprovalpopup data-dismiss="modal"
+            (click)="clearhistorypopup()">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div *ngIf="!approverloader" style="margin: 200px 0px 200px 350px;" class="loader"></div>
+
+          <div *ngIf="approverloader" class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table_header" style="text-align: left;">
+                <tr>
+                  <th>S.No</th>
+                  <th>Date</th>
+                  <th>Type </th>
+                  <th>Employee</th>
+                  <th>Raised by</th>
+
+                  <th>Comment</th>
+                  <th>Status</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="let advanceapprove of approvalflowlist|paginate: { itemsPerPage: pageSize, currentPage: p }; index as i">
+                  <td scope="row" style="vertical-align: middle;"> {{((p-1)*pageSize)+i+1}}</td>
+                  <td>{{advanceapprove.approveddate| date:'dd-MMM-yyyy, EEE'}}</td>
+                  <td>{{advanceapprove.apptype | titlecase}}</td>
+                  <td>({{advanceapprove.approver_code}}) {{advanceapprove.approvedby}}</td>
+                  <td>({{advanceapprove.onbehalfof.code}}) {{advanceapprove.onbehalfof.full_name}}</td>
+
+                  <td>{{advanceapprove.comment}}</td>
+                  <td>
+                    <p *ngIf="advanceapprove.status == 1">
+                      {{advanceapprove.status_name | titlecase}}</p>
+
+                    <p style="color: green;" *ngIf="advanceapprove.status == 3 && advanceapprove.applevel== 1">
+                      {{advanceapprove.status_name | titlecase}} By RM</p>
+
+                    <p style="color: red;" *ngIf="advanceapprove.status == 4  && advanceapprove.applevel== 1">
+                      {{advanceapprove.status_name | titlecase}} From RM</p>
+
+                    <p *ngIf="advanceapprove.status == 2 && advanceapprove.applevel== 1">
+                      {{advanceapprove.status_name | titlecase}} TO RM</p>
+
+                    <p *ngIf="advanceapprove.status == 5 && advanceapprove.applevel== 1">
+                      {{advanceapprove.status_name | titlecase}} From RM</p>
+
+                    <p style="color: red;" *ngIf="advanceapprove.status == 4  && advanceapprove.applevel== 3">
+                      {{advanceapprove.status_name | titlecase}} From Admin</p>
+
+                    <p *ngIf="advanceapprove.status == 2 && advanceapprove.applevel== 3">
+                      {{advanceapprove.status_name | titlecase}} TO Admin</p>
+
+                    <p *ngIf="advanceapprove.status == 5 && advanceapprove.applevel== 3">
+                      {{advanceapprove.status_name | titlecase}} From Admin</p>
+
+                    <p style="color: green;" *ngIf="advanceapprove.status == 3 && advanceapprove.applevel== 3">
+                      {{advanceapprove.status_name | titlecase}} By Admin</p>
+                    <p style="color: red;" *ngIf="advanceapprove.status == 4  && advanceapprove.applevel== 2">
+                      {{advanceapprove.status_name | titlecase}} From FH</p>
+                    <p style="color: #f5af48;" *ngIf="advanceapprove.status == 2 && advanceapprove.applevel== 2">
+                      {{advanceapprove.status_name | titlecase}} To FH</p>
+
+                    <p *ngIf="advanceapprove.status == 5 && advanceapprove.applevel== 2">
+                      {{advanceapprove.status_name | titlecase}} From FH</p>
+
+                    <p style="color: green;" *ngIf="advanceapprove.status == 3 && advanceapprove.applevel== 2">
+                      {{advanceapprove.status_name | titlecase}} By FH</p>
+                  </td>
+
+
+
+                </tr>
+
+              </tbody>
+              <tr>
+                <th colspan="7">
+                  <div class="pagination">
+                    <pagination-controls responsive="true" (pageChange)="p = $event"></pagination-controls>
+                  </div>
+                </th>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div> -->
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="requirementmodal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" style="font-weight: 700;font-size: large;">Requirements</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="clearrequirementpopup()">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="loader" *ngIf="!requirementloader" style="margin: 200px 0px 200px 350px;"></div>
+          <div style="overflow-x: auto;" *ngIf="requirementloader">
+
+            <table *ngIf="accrequirementdata.length > 0" class="table table-bordered" style="width: 1000px;">
+              <thead class="table_header" style="text-align: left;">
+                <th>S.No</th>
+                <th>Booking Needed For</th>
+                <th>Checkin Time</th>
+                <th>Checkout Time</th>
+                <!-- <th>From Time</th> -->
+                <th>Place Of Stay</th>
+                <!-- <th>From Place</th> -->
+                <!-- <th>To Place</th> -->
+                <th>Comments</th>
+
+
+              </thead>
+              <tbody>
+                <tr *ngFor="let req of accrequirementdata;let j=index">
+                  <td>{{j+1}}</td>
+                  <td>Accomodation</td>
+                  <td>{{req.checkin_time}}</td>
+                  <td>{{req.checkout_time}}</td>
+                  <!-- <td>{{req.from_time}}</td> -->
+                  <td>{{req.place_of_stay}}</td>
+                  <!-- <td>{{req.from_place}}</td> -->
+                  <!-- <td>{{req.to_place}}</td> -->
+                  <td>{{req.comments}}</td>
+
+
+                </tr>
+              </tbody>
+            </table>
+
+            <table *ngIf="requirementdata.length > 0" class="table table-bordered" style="width: 1000px;">
+              <thead class="table_header" style="text-align: left;">
+                <th>S.No</th>
+                <th>Booking Needed For</th>
+                <!-- <th>Checkin Time</th> -->
+                <!-- <th>Checkout Time</th> -->
+                <th>From Time</th>
+                <!-- <th>Place Of Stay</th> -->
+                <th>From Place</th>
+                <th>To Place</th>
+                <th>Comments</th>
+
+
+              </thead>
+              <tbody>
+                <tr *ngFor="let req of requirementdata;let j=index">
+                  <td>{{j+1}}</td>
+                  <td *ngIf="req.booking_needed == 2">Cab</td>
+                  <td *ngIf="req.booking_needed == 3">Bus</td>
+                  <td *ngIf="req.booking_needed == 4">Train</td>
+                  <td *ngIf="req.booking_needed == 5">Flight</td>
+
+                  <!-- <td>{{req.checkin_time}}</td> -->
+                  <!-- <td>{{req.checkout_time}}</td> -->
+                  <td>{{req.from_time}}</td>
+                  <!-- <td>{{req.place_of_stay}}</td> -->
+                  <td>{{req.from_place}}</td>
+                  <td>{{req.to_place}}</td>
+                  <td>{{req.comments}}</td>
+
+
+                </tr>
+              </tbody>
+            </table>
+            <div style="display: flex; justify-content: center;"
+              *ngIf="requirementdata.length == 0 && accrequirementdata.length == 0">
+              No Requirement
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>

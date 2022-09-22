@@ -1,0 +1,64 @@
+<div class="Container" style="margin-left: 40px;">
+    <nav>
+        <div class="nav nav-tabs" style="margin-top:1%;">
+            <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="priorityBtn()">Priority
+            </a>
+        </div>
+        <div *ngIf="isPriority">
+            <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+                [routerLink]='"/ememo/createPriority"' skipLocationChange><span class="fa fa-plus"></span> Priority</button>
+        </div>
+    </nav>
+
+    <!-- <div>
+        <span *ngIf="isPriorityForm">
+            <app-memo-create-priority (onCancel)="priorityCancel()" (onSubmit)="prioritySubmit()"></app-memo-create-priority>
+        </span>
+    </div> -->
+    <!-- <div>
+        <span *ngIf="isdeptEditForm">
+            <app-memo-departent-edit (onCancel)="deptEditCancel()" (onSubmit)="editdeptSubmit()">
+            </app-memo-departent-edit>
+        </span>
+    </div> -->
+
+    <div *ngIf="isPriority">
+        <div class="table-responsive" style="margin-top: 2%;width: 50%;">
+            <table class="table">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.no</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                        <th>Delete</th>
+                        <!-- <th *ngIf="isEditMakerChekerBtn">Action</th> -->
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let priority of priorityList; index as i">
+                        <td scope="row">{{ i+1 }}</td>
+                        <td>{{ priority.code}}</td>
+                        <td>{{ priority.name}}</td>
+                        <!-- <td *ngIf="isEditMakerChekerBtn">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="rolesEdit(roles)"
+                                color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td> -->
+                        <td>
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="priorityEdit(priority)"
+                                color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                        <td>
+                            <mat-icon style="color: gray;cursor: pointer;" (click)="deletePriority(priority)">delete</mat-icon>
+                        </td> 
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

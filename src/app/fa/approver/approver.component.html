@@ -1,0 +1,235 @@
+<h2 style="color: blueviolet;margin-left: 35px;;">Approver</h2>
+<hr>
+<form [formGroup]="assetgroupform" (ngSubmit)="finalSubmitted()">
+    <div class="row">
+        <div class="col-sm-4">
+             <td>
+
+            <mat-form-field class="example-full-width" style="margin-left: 25px;width: 250px;">
+                <mat-label>Branch</mat-label>
+                <input class="toolbar-search" type="text" matInput autocomplete="off" matInput [matAutocomplete]="checkerbranch" [readonly]="flagSearch" #branchidInput formControlName="branch" style="width:250px">
+                <mat-placeholder>Branch</mat-placeholder>
+                <mat-autocomplete #checkerbranch="matAutocomplete" #branch (opened)="autocompleteScroll_branch()">
+                    <mat-option *ngIf="isLoading">Loading..</mat-option>
+                    <ng-container>
+                        <mat-option *ngFor="let d of branchdata" [value]="d.name" (focusout)="checker_branchs(d)">
+                            {{d.name}}
+                        </mat-option>
+                    </ng-container>
+                </mat-autocomplete>
+            </mat-form-field>
+        
+        </td>
+        </div>
+        <div class="col-sm-4">
+            <td>
+
+           <mat-form-field class="example-full-width" style="width: 250px;">
+               <mat-label>Branch DO</mat-label>
+               <input class="toolbar-search" type="text" matInput autocomplete="off" [readonly]='doBranch'  matInput [matAutocomplete]="checkerbranchdo" #branchdoidInput formControlName="branch_do" style="width:250px">
+               <mat-placeholder>Branch DO</mat-placeholder>
+               <mat-autocomplete #checkerbranchdo="matAutocomplete" #branch_do (opened)="autocompleteScroll_branchdo()">
+                   <mat-option *ngIf="isLoading">Loading..</mat-option>
+                   <ng-container>
+                       <mat-option *ngFor="let d of branchdata_do" [value]="d.name" (focusout)="checker_branchs_do(d)">
+                           {{d.name}}
+                       </mat-option>
+                   </ng-container>
+               </mat-autocomplete>
+           </mat-form-field>
+       
+       </td>
+       </div>
+        <div class="col-sm-2">
+                <button
+                  mat-fab 
+                  color="basic" matTooltip="Search" [hidden]="searchFlag"
+                  aria-label="search icon" (click)="search()"
+                >
+                
+                  <mat-icon>search</mat-icon>
+                </button>
+              </div>
+              <div class="col-sm-2">   
+                <button
+                  mat-fab
+                  color="basic" matTooltip="Go Back"
+                  aria-label="search icon" [hidden]="goBack_new" (click)="goBack()"
+                >
+                <mat-icon>arrow_back</mat-icon>
+                </button>
+              </div>
+            </div>
+            </form>
+            <hr>
+<form [formGroup]="assetsave" (ngSubmit)="savesub()">
+<div class="col-12 row">
+    <div class="col-sm-4">
+    <h2 style="color: blueviolet;margin-left: 35px;;">Summary Report</h2> 
+    </div>
+    <div class="col-sm-4">
+        <button mat-mini-fab aria-label="Download" matTooltip="Download" color="basic" (click)="createBranchXLS()">
+            <mat-icon>download</mat-icon>
+          </button>
+    </div>
+</div>
+<div class="table-responsive col-12" style="margin-left: 25px;width:98%;">
+    <table class="table table-bordered " >
+        <thead class="table_header" >
+            <tr *ngFor="let row of head;index as i" [ngClass]="row.is_Checked ? 'changeColor':''">
+                <th>S.NO</th>
+                <th>{{ row.branch_code }}</th>
+                <th>{{ row.branch_name }}</th>
+                <th>AP Category</th>
+                <th>{{ row.pv_done }}</th>
+                <th>{{ row.pv_date }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr  *ngFor="let assetcat of listcomments1; index as listIndex"
+            [ngClass]="assetcat.is_Checked ? 'changeColor':''">
+            <th style="font-weight: bold;">{{listIndex+1}}</th>
+        <!-- <td>{{ assetcat.assetdetails_gid }}</td> -->
+            <td>{{ assetcat.branch_code}}</td>
+            <td>{{ assetcat.branch_name}}</td>
+            <!-- <td>{{assetcat['apcat_name'].name ? assetcat['apcat_name'].name:'-'}}</td> -->
+            <td>
+                <form [formGroup]="categoryform">
+                    <mat-form-field style="width: 250px;">
+                        <input type="text" matInput formControlName="category" [matAutocomplete]="categoryauto">
+                        <mat-autocomplete #categoryauto="matAutocomplete" [displayWith]="displaycategory">
+                            <mat-option *ngIf="isLoading">Loading..</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let d of categoryList" [value]="d" (focusout)="getApi(d)">{{d.name}}</mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </form>
+            </td>
+            <td>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>None</mat-label>
+                    <mat-select formControlName="pv_done">
+                      <mat-option *ngFor="let stat of pv_done" [value]="stat.value" (click)="save(assetcat,listIndex)">
+                        {{stat.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+            </td>
+            <td>
+                Maker pending: {{assetcat.maker_date}}<br>
+                Checker pending: {{assetcat.checker_date}}<br>
+                Completed: {{assetcat.completed_date}}
+            </td>
+            </tr>
+            <tr *ngIf="listcomments1 ?.length == 0">
+                <td colspan="17">
+                    No records
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        </div>
+        <div class="col-12 row">
+            <div class="col-sm-4">
+            <h2 style="color: blueviolet;margin-left: 35px;;">Detailed Report</h2> 
+            </div>
+            <!-- <div class="col-sm-4" *ngIf="flag==true">
+            <mat-form-field appearance="fill">
+                <mat-label>Branch DO</mat-label>
+                <mat-select>
+                  <mat-option *ngFor="let d of branchDO" [value]="d.branch_name" (focusout)="checker_branchdo_filter(d)">
+                    {{d.branch_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+            <div class="col-sm-4">   
+                <button mat-mini-fab aria-label="Download" matTooltip="Download" color="basic" (click)="createFullXLS()">
+                    <mat-icon>download</mat-icon>
+                  </button>
+            </div>
+        </div>
+        <div class="container" style="margin-left: 25px;">
+    <div class="table-responsive col-12"  style="width: 98%;">
+       <table class="table table-bordered ">
+           <thead class="table_header" >
+               <tr *ngFor="let row1 of head1">
+                   <th>{{ row1.s_no }}</th>
+                   <th>{{ row1.asset_id }}</th>
+                   <th>{{ row1.product_name }}</th>
+                   <th>Asset Category</th>
+                   <th>{{ row1.branch_code }}</th>
+                   <th>{{ row1.branch_name }}</th>
+                   <th>{{ row1.asset_tag }}</th>
+                   <th>{{ row1.make }}</th>
+                   <th>{{ row1.serial_no }}</th>
+                   <th>{{ row1.cr_number }}</th>
+                   <th>{{ row1.kvb_asset_id }}</th>
+                   <th>{{ row1.condition }}</th>
+                   <th>{{ row1.status }}</th>
+                   <th>{{ row1.remarks }}</th>
+                   <th>{{ row1.asset_tag1 }}</th>
+                   <th>{{ row1.make1 }}</th>
+                   <th>{{ row1.serial_no1 }}</th>
+                   <th>{{ row1.condition1 }}</th>
+               </tr>
+           </thead>
+           <tbody >
+            <tr  *ngFor="let assetcat_full of listcomments; index as listIndex"
+             [ngClass]="assetcat_full.is_Checked ? 'changeColor':''">
+                <th scope="row">{{ (presentpagebuk-1)*pageSize+listIndex+1 }}</th>
+                        <td>{{ assetcat_full.barcode }}</td>
+                        <td>{{ assetcat_full.product_name}}</td>
+                        <td>{{assetcat_full.ap_cat_name ? assetcat_full.ap_cat_name.name:'-'}}</td>
+                        <td>{{ assetcat_full.branch_code}}</td>
+                        <td>{{ assetcat_full.branch_name}}</td>
+                        <td>{{ assetcat_full.asset_tag }}</td>
+                        <td>{{ assetcat_full.make }}</td>
+                        <td>{{ assetcat_full.serial_no }}</td>
+                        <td>{{ assetcat_full.cr_number }}</td>
+                        <td>{{ assetcat_full.kvb_asset_id }}</td>
+                        <td>{{ assetcat_full.condition }}</td>
+                        <td>{{ assetcat_full.status }}</td>
+                        <td>{{ assetcat_full.remarks }}</td>
+                        <td>{{ assetcat_full.asset_tag }}</td>
+                        <td>{{ assetcat_full.make }}</td>
+                        <td>{{ assetcat_full.serial_no }}</td>
+                        <td>{{ assetcat_full.condition }}</td>
+                        <tr *ngIf="listcomments ?.length == 0">
+                            <td colspan="17">
+                                No records
+                            </td>
+                        </tr>
+    </tbody>
+       </table>
+       </div>
+       </div>
+       </form>
+      <div class="col-12 row">
+        <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+                    <button mat-icon-button [disabled]="has_previousbuk === false" color="primary"
+                        (click)=" bukpreviousClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{presentpagebuk}}
+                    <button mat-icon-button [disabled]="has_nextbuk === false" color="primary" (click)=" buknextClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+        <!-- <pagination-controls  id="listing_pagination" maxSize="9" directionLinks="true" (pageChange)="page = $event"></pagination-controls> -->
+        <!-- <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls> -->
+                    </div>
+                </div>
+    <ngx-spinner
+    bdOpacity = 0.9
+    bdColor = "rgba(51,51,51,0.8)"
+    size = "default"
+    color = "#fff"
+    type = "ball-scale-multiple"
+    [fullScreen] = "false">
+    <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner>
+    <br>
+    <br> 

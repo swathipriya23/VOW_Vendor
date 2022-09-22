@@ -1,0 +1,3121 @@
+<div class="Container" style="margin-left: 40px;">
+    <nav>
+        <div class="nav nav-tabs " style="margin-top: 1%;">
+            <span class="nav-item nav-link" data-toggle="tab" (click)="subModuleData(sub)" role="tab" style="cursor: pointer ;"
+                *ngFor="let sub of subModuleList">
+                {{sub.name}}
+            </span>
+            <!-- <a class="nav-item nav-link" data-toggle="tab"(click)="Modules_Listview()">Risk</a> -->
+            <button type="button" class="btn btn-outline-success" *ngIf="ismakerCheckerButton" (click)="addForm()"
+                style="border-radius: 20px;margin-left: 300px;margin-top: 10px;margin-bottom: 5px;cursor: pointer ;" color="primary"><span
+                    class="fa fa-plus"></span>
+                {{makerNameBtn}} </button>
+
+        </div>
+    </nav>
+
+    <div>
+        <span *ngIf="isDeptForm">
+            <app-create-department (onCancel)="deptCancel()" (onSubmit)="deptSubmit()"></app-create-department>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isDesignationForm">
+            <app-create-designation (onCancel)="designationcancel()" (onSubmit)="designation()"></app-create-designation>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="designationeditform">
+            <app-designation-edit (onCancel)="designationcancel()" (onSubmit)="designation()"></app-designation-edit>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isdeptEditForm">
+            <app-memo-departent-edit (onCancel)="deptEditCancel()" (onSubmit)="editdeptSubmit()">
+            </app-memo-departent-edit>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isEmployeeViewForm">
+            <app-employee-view (onCancel)="employeeViewCancel()" (onSubmit)="employeeViewSubmit()"></app-employee-view>
+        
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isPermissionForm">
+            <app-permission (onCancel)="permissionCancel()"></app-permission>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isCategoryForm">
+            <app-create-category (onCancel)="categoryCancel()" (onSubmit)="categorySubmit()"></app-create-category>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isCategoryEditForm">
+            <app-memo-category-edit (onCancel)="categoryEditCancel()" (onSubmit)="categoryEditSubmit()"></app-memo-category-edit>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isSubCategoryForm">
+            <app-subcategory-create (onCancel)="subCategoryCancel()" (onSubmit)="subCategorySubmit()">
+            </app-subcategory-create>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isSubCategoryEditForm">
+            <app-memo-sub-category-edit (onCancel)="subCategoryEditCancel()" (onSubmit)="subCategoryEditSubmit()">
+            </app-memo-sub-category-edit>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isRolesEdit">
+            <app-roles-edit (onCancel)="rolesEditCancel()" (onSubmit)="rolesEditSubmit()"></app-roles-edit>
+        </span>
+    </div>
+
+    <div>
+        <span *ngIf="isDepartmentView">
+            <app-department-view (onCancel)="departmentViewCancel()"></app-department-view>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isSectorform">
+            <app-sector-create (onCancel)="sectorcancel()" (onSubmit)="sectorsubmit()"></app-sector-create>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isSectorEdit">
+            <app-sector-edit (onCancel)="sectorcancel()" (onSubmit)="sectorsubmit()"></app-sector-edit>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isExpform">
+            <app-expence-create (onSubmit)="ExpSubCancel()" (onCancel)="ExpCancel()"></app-expence-create>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isExpEdit">
+            <app-expence-edit (onSubmit)="ExpSubCancel()" (onCancel)="ExpCancel()"></app-expence-edit>
+        </span>
+    </div>
+    <!-- <div>
+        <span *ngIf="isEntityForm">
+            <app-entity-create (onSubmit)="entitySubmit()" (onCancel)="entityCancel()"></app-entity-create>
+        </span>
+    </div> -->
+    <div>
+        <span *ngIf="isFinForm">
+            <app-fin-year-create (onSubmit)="FinSubmit()" (onCancel)="fincancel()"></app-fin-year-create>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isFinEdit">
+            <app-fin-year-edit (onSubmit)="FinSubmit()" (onCancel)="fincancel()"></app-fin-year-edit>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isFinQForm">
+            <app-finquater-year-create (onSubmit)="FinQSubmit()" (onCancel)="finQcancel()"></app-finquater-year-create>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isFinQEdit">
+            <app-finquater-year-edit (onSubmit)="FinQSubmit()" (onCancel)="finQcancel()"></app-finquater-year-edit>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isStateForm">
+            <!-- <app-create-state (onCancel)="stateCancel()" (onSubmit)="stateSubmit()"></app-create-state> -->
+        </span>
+    </div>
+
+
+    <div>
+        <span *ngIf="isDistrictForm">
+            <!-- <app-create-district (onCancel)="districtCancel()" (onSubmit)="districtSubmit()"></app-create-district> -->
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isCityForm">
+            <app-create-city (onCancel)="cityCancel()" (onSubmit)="citySubmit()"></app-create-city>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isPinCodeForm">
+            <!-- <app-create-pincode (onCancel)="pinCodeCancel()" (onSubmit)="pinCodeSubmit()"></app-create-pincode> -->
+        </span>
+    </div>
+
+    <div>
+        <span *ngIf="isStateEditForm">
+            <!-- <app-state-edit (onCancel)="stateEditCancel()" (onSubmit)="stateEditSubmit()"></app-state-edit> -->
+        </span>
+    </div>
+
+
+    <div>
+        <span *ngIf="isCityEditForm">
+            <!-- <app-city-edit (onCancel)="cityEditCancel()" (onSubmit)="cityEditSubmit()"></app-city-edit> -->
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isDistrictEditForm">
+            <!-- <app-district-edit (onCancel)="districtEditCancel()" (onSubmit)="districtEditSubmit()"></app-district-edit> -->
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isPinCodeEditForm">
+            <!-- <app-pincode-edit (onCancel)="pinCodeEditCancel()" (onSubmit)="pinCodeEditSubmit()"></app-pincode-edit> -->
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isBSForm">
+            <app-create-businesssegment (onSubmit)="BsSubmit()" (onCancel)="BsCancel()"></app-create-businesssegment>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isCCform">
+            <app-create-costcentre (onSubmit)="CCSubmit()" (onCancel)="CCCancel()"></app-create-costcentre>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isCCBSform">
+            <app-create-ccbs (onSubmit)="CCBSSubmit()" (onCancel)="CCBSCancel()"></app-create-ccbs>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isPMDForm">
+            <app-pmd-branch-create (onSubmit)="PMDSubmitCreate()" (onCancel)="PMDCancelCreate()"></app-pmd-branch-create>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isPMDFormedit">
+            <app-pmd-branch-edit (onSubmit)="PMDSubmitEdit()" (onCancel)="PMDCancelEdit()"></app-pmd-branch-edit>
+        </span>
+    </div>
+     <div>
+        <span *ngIf="isEmployeeform">
+            <app-emp-details-create (onSubmit)="empcreateSubmit()" (onCancel)="empcreateSubmit()"></app-emp-details-create>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isEmployeeEdit">
+            <app-emp-details-edit (onSubmit)="empcreateSubmit()" (onCancel)="empcreateSubmit()"></app-emp-details-edit>
+        </span>
+    </div> 
+    <div>
+        <span *ngIf="isempbank">
+            <app-emp-bank-summary (onSubmit)="empcreatebankCancel()"></app-emp-bank-summary>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isCommodityForm">
+            <app-commodity (onSubmit)="commoditySubmit()" (onCancel)="commodityCancel()"></app-commodity>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isDelmatMakerForm">
+            <app-delmat-maker (onSubmit)="delSubmit()" (onCancel)="delCancel()"></app-delmat-maker>
+        </span>
+    </div>
+
+
+
+    <div>
+        <span *ngIf="isRiskForm">
+            <!-- <app-create-designation (onCancel)="designationcancel()" (onSubmit)="designation()"></app-create-designation> -->
+            <app-create-risk (onCancel)="riskcancel()" (onSubmit)="risk()"></app-create-risk>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="riskeditform">
+            <!-- <app-designation-edit (onCancel)="designationcancel()" (onSubmit)="designation()"></app-designation-edit> -->
+            <app-risk-update (onCancel)="riskcancel()" (onSubmit)="risk()"></app-risk-update>
+        </span>
+    </div>
+
+    <div>
+        <span *ngIf="isAppVersionForm">
+            <app-create-app-version (onCancel)="appversioncancel()" (onSubmit)="appversion()"></app-create-app-version>
+        </span>
+    </div>
+
+    <div>
+        <span *ngIf="isClientForm">
+            <app-create-client (onCancel)="clientcancel()" (onSubmit)="client()"></app-create-client>
+        </span>
+    </div>
+
+    <div>
+        <span *ngIf="isClientEdit">
+            <app-edit-client (onCancel)="clienteditcancel()" (onSubmit)="clientedit()"></app-edit-client>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isEMpbranchsummary">
+            <app-empbranch-create (onCancel)="empbrancheditcancel()" (onSubmit)="empbranchedit()"></app-empbranch-create>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isEmpbranchEdit">
+            <app-empbranch-edit (onCancel)="empbrancheditcancel()" (onSubmit)="empbranchedit()"></app-empbranch-edit>
+        </span>
+    </div>
+
+    <div *ngIf="isSubcategory">
+        <div>
+            <mat-form-field style="width:18rem; margin-left: 7px;">
+                <mat-label>SubCategory</mat-label>
+                <input matInput placeholder="SubCategory" [(ngModel)]="subcategoryName" autocomplete="off">
+            </mat-form-field>
+            <button type="button" class="btn btn-outline-primary" (click)="subCategoryView()"
+                style="border-radius:40px;margin-left:2%;">Search</button>
+        </div>
+        <div class="table-responsive" style="margin-top: 2%;width: 80%;overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Code</th>
+                        <th>SubCategory</th>
+                        <th>Category</th>
+                        <th>Department</th>
+                        <th>Remarks</th>
+                        <th *ngIf="ismakerCheckerButton">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let subCategory of subCategoryList; index as i">
+                        <td scope="row">{{(currentpage - 1)*pageSize +i+1 }}</td>
+                        <td>{{ subCategory.code }}</td>
+                        <td>{{ subCategory.name}}</td>
+                        <td>{{subCategory.category.name }}</td>
+                        <td><span *ngIf="subCategory.department">{{subCategory.department.name }}</span></td>
+                        <td>{{ subCategory.remarks}}</td>
+                        <td *ngIf="ismakerCheckerButton">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton"
+                                (click)="subCategoryEdit(subCategory)" color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClickSubCategory()">
+                        <mat-icon style="color: black;">arrow_back</mat-icon>
+                    </button>
+                    {{currentpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary"
+                        (click)="nextClickSubCategory()">
+                        <mat-icon style="color: black;">arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isDepartment">
+        <form [formGroup]="AddForm">
+            <mat-form-field style="width: 275px;margin-top: 20px;">
+                <mat-label>Department Name</mat-label>
+                <input placeholder="Select Department" matInput formControlName="ctrldepartment" #employeeDeptInput
+                    [matAutocomplete]="autodept">
+                <mat-autocomplete #autodept="matAutocomplete" (opened)="autocompleteDeptScroll()"
+                    [displayWith]="displayFn">
+                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let dep of departmentList1" (focusout)="departmentSelected(dep.id)"
+                            [value]="dep">{{dep.name}}
+                        </mat-option>
+                    </ng-container>
+                </mat-autocomplete>
+            </mat-form-field>
+            <button type="button" class="btn btn-outline-primary" (click)="deptView()"
+                style="border-radius:40px;margin-left:2%;">View</button>
+            <button type="button" class="btn btn-outline-primary" (click)="departmentreset()"
+            style="border-radius:40px;margin-left:2%;">Reset</button>
+            <button mat-raised-button type="button" class="btn btn-primary"  (click)="departmentDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;">
+                Download
+                    <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                    </mat-spinner></mat-icon>
+                    <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                </button>
+        </form>
+        <div class="table-responsive" style="margin-top: 2%;width: 60%;overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Department Name</th>
+                        <th>Description</th>
+                        <th>Short Notation</th>
+                        <th *ngIf="ismakerCheckerButton">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let department of departmentList;index as i">
+                        <td>{{(currentpage - 1)*pageSize +i+1 }}</td>
+                        <td style="color: rgb(38, 38, 238);cursor: pointer;" (click)="departmentView(department.id)">
+                            <span *ngIf="department.branch">
+                                {{ department.branch.name }}
+                            </span>
+                            <span *ngIf="department.name">
+                                ( {{ department.name }} )
+                            </span>
+                        </td>
+                        <!-- <td #deptName>
+                            <span *ngIf=" department?.name;else branchName"
+                                (click)="departmentView(department.id)">
+                                {{ department.name }}
+                            </span>
+                        </td>
+                        <ng-template #branchName>
+                            <label *ngIf=" department?.branch;else deptName"
+                                (click)="departmentView(department.id)">{{ department.branch }}</label>
+                        </ng-template> -->
+
+                        <td>{{ department.description }}</td>
+                        <td>{{ department.short_notation }}</td>
+                        <td *ngIf="ismakerCheckerButton"><!--*ngIf="department.is_sys===false"-->
+                            <button  mat-icon-button matTooltip="Click to Edit"
+                                class="iconbutton" (click)="departmentEdit(department)" color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClickDepartment()">
+                        <mat-icon >arrow_back</mat-icon>
+                    </button>
+                    {{currentpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary"
+                        (click)="nextClickDepartment()">
+                        <mat-icon >arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isPermission">
+        <div>
+            <form>
+                <mat-label>To</mat-label>
+                <mat-form-field class="memo-form" style="margin-bottom: -1.25em; width: 40%;margin-left: 20px;">
+                    <mat-chip-list #chipListTo>
+                        <mat-chip style="font-size: small;" *ngFor="let employeeto of chipSelectedEmployeeTo"
+                            [selectable]=true [removable]=true (removed)="removeEmployeeTo(employeeto)">
+                            {{employeeto.full_name}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                        <input #employeeToInput [formControl]="to_emp" [matAutocomplete]="autoto"
+                            [matChipInputFor]="chipListTo" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]=true>
+                    </mat-chip-list>
+                    <mat-autocomplete #autoto="matAutocomplete" (optionSelected)="employeeToSelected($event)"
+                        (opened)="autocompleteToScroll()">
+                        <mat-option *ngFor="let thisEmployee of allEmployeeList" [value]="thisEmployee"
+                            (onSelectionChange)="getPermissionList(thisEmployee.id)">
+                            {{thisEmployee.full_name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </form>
+
+        </div>
+        <div class="table-responsive" style="margin-top: 2%;width: 90%;overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Module</th>
+                        <th>Parent</th>
+                        <th>Name</th>
+                        <th>Logo</th>
+                        <th>URL</th>
+                        <th>Role</th>
+                        <th *ngIf="ismakerCheckerButton">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let permission of permissionArray;index as i">
+                        <td scope="row">{{ i+1 }}</td>
+                        <td>{{ permission.parent_name}}</td>
+                        <td>{{permission.submodule}}</td>
+                        <td>{{ permission.name}}</td>
+                        <td>{{ permission.logo}}</td>
+                        <td>{{ permission.url}}</td>
+                        <td>{{ permission.code}}</td>
+                        <td *ngIf="ismakerCheckerButton">
+                            <mat-icon style="color: gray;cursor: pointer;" matTooltip="Delete" (click)="permissionDelete(permission)">delete
+                            </mat-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div *ngIf="isEmployee">
+        <div>
+            <form>
+                <mat-form-field style="width: 40%;margin-top: 20px;">
+                    <mat-label>Employee Name</mat-label>
+                    <mat-chip-list #chipList>
+                        <mat-chip *ngFor="let employee of chipSelectedEmployee" [selectable]=true [removable]=true
+                            (removed)="removeEmployee(employee)">
+                            {{employee.full_name}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                        <input #employeeInput [formControl]="employeeControl" [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]=true>
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="employeeSelected($event)"
+                        (opened)="autocompleteEmployeeScroll()">
+                        <mat-option *ngFor="let thisEmployee of totalEmployeeList" [value]="thisEmployee">
+                            {{thisEmployee.full_name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <button type="button" class="btn btn-outline-primary" (click)="empView()" 
+                    style="border-radius:40px;margin-left:2%;">View</button>
+                <button type="button" class="btn btn-outline-primary" (click)="employeereset()" 
+                    style="border-radius:40px;margin-left:2%;">Reset</button>
+                    <!--routerLink="/master/empcreate"  routerLink="/master/empbank"-->
+                    <button type="button"  matTooltip="create new" (click)="empcreateenb()"  class="btn btn-outline-success"
+                    style="border-radius:40px;margin-left:2%;"><span class="fa fa-plus"></span></button> 
+                <button class="btn btn-outline-primary" matTooltip="Employee Bank" (click)="empcreateenbbank()" style="border-radius:30px;margin-left:2%;">Add Employee Bank <span class="fa fa-plus"></span></button>
+            </form>
+        </div>
+        <div class="table-responsive" style="margin-top: 2%;width: 95%;overflow-x: hidden;font-size: 15px;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Employee Code</th>
+                        <th>Employee Name</th>
+                        <th>State Name</th>
+                        <th>Date Of Joining	</th>
+                        <th>Gender</th>
+                        <th>Mobile No</th>
+                        <th>E-Mail ID</th>
+                        <th>Branch Name</th>
+                        <th>Action</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let employee of employeeList; index as i">
+                        <td scope="row">{{(currentpage - 1)*pageSize +i+1 }}</td>
+                        <td (click)="employeeView(employee)">{{ employee.code ?employee.code:'' }}</td>
+                        <td>{{employee.full_name ? employee.full_name:''}}</td>
+                        <td>{{employee.state_name ? employee.state_name:''}}</td>
+                        <td>{{ employee.doj?employee.doj:'' | date:'dd-MMM-yyyy' }}</td>
+                        <td>{{ employee.gender?employee.gender:'' }}</td>
+                        <td>{{ employee.phone_no?employee.phone_no:'' }}</td>
+                        
+                        <td>{{employee.email_id?employee.email_id:''}}</td>
+                        <td>{{employee['branch']?employee['branch']:''}}</td>
+                       
+                         <td><div style="width: 350px;"> 
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton"  (click)="getempeditnavigate(employee)"
+                                color="primary" >
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button> 
+                             <button mat-icon-button matTooltip="view" class="iconbutton" 
+                                color="primary">
+                                <mat-icon >visibility</mat-icon>
+                        </button> 
+                        <button type="button" mat-icon-button [ngClass]="employee.status==1?'active':'inactive'" (click)="empactiveinactive(employee)"><mat-icon [matTooltip]="employee.status==1?'click to inactive':'click to active'" >wb_sunny</mat-icon></button>
+                        <!--<button mat-icon-button type="button"  >
+                            <mat-icon>wb_sunny</mat-icon> 
+                        </button> -->
+                   </div></td> 
+                    </tr>
+                </tbody>
+                <tr>
+                    <td colspan="4">Total Count: {{totalcount}}</td>
+                    <td colspan="6"> <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                        <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                            (click)="previousClickEmployee()">
+                            <mat-icon >arrow_back</mat-icon>
+                        </button>
+                        {{currentpage}}
+                        <button mat-icon-button [disabled]="has_next === false" color="primary"
+                            (click)="nextClickEmployee()">
+                            <mat-icon >arrow_forward</mat-icon>
+                        </button>
+                    </div></td>
+                    <!--<td colspan="4">Total Count: {{totalcount}}</td>-->
+                </tr>
+            </table>
+            <!-- <div class="row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClickEmployee()">
+                        <mat-icon style="color: black;">arrow_back</mat-icon>
+                    </button>
+                    {{currentpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary"
+                        (click)="nextClickEmployee()">
+                        <mat-icon style="color: black;">arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <div *ngIf="isCategory">
+        <div>
+            <mat-form-field style="width:18rem; margin-left: 7px;">
+                <mat-label>Category</mat-label>
+                <input matInput placeholder="Category" [(ngModel)]="categoryName" autocomplete="off">
+            </mat-form-field>
+            <button type="button" class="btn btn-outline-primary" (click)="CategoryView()"
+                style="border-radius:40px;margin-left:2%;">Search</button>
+        </div>
+        <div class="table-responsive" style="margin-top: 2%;width: 60%;overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Code</th>
+                        <th>Category</th>
+                        <th>Department</th>
+                        <th>Remarks</th>
+                        <th *ngIf="ismakerCheckerButton">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let category of categoryList; index as i">
+                        <td scope="row">{{(currentpage - 1)*pageSize +i+1 }}</td>
+                        <td>{{ category.code }}</td>
+                        <td>{{ category.name}}</td>
+                        <td>{{ category.department.name }}</td>
+                        <td>{{ category.remarks}}</td>
+                        <td *ngIf="ismakerCheckerButton">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton"
+                                (click)="categoryEdit(category)" color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClickCategory()">
+                        <mat-icon style="color: black;">arrow_back</mat-icon>
+                    </button>
+                    {{currentpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary"
+                        (click)="nextClickCategory()">
+                        <mat-icon style="color: black;">arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isModules">
+        <div class="table-responsive" style="margin-top: 2%;width: 50%;overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Logo</th>
+                        <th>Name</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let modules of modulesList; index as i">
+                        <td scope="row">{{ i+1 }}</td>
+                        <td>{{ modules.logo}}</td>
+                        <td>{{ modules.name}}</td>
+                        <td>{{ modules.url}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf="isRoles">
+        <div class="table-responsive" style="margin-top: 2%;width: 50%;overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <!-- <th *ngIf="isEditMakerChekerBtn">Action</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let roles of rolesList; index as i">
+                        <td scope="row">{{ i+1 }}</td>
+                        <td>{{ roles.code}}</td>
+                        <td>{{ roles.name}}</td>
+                        <!-- <td *ngIf="isEditMakerChekerBtn">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="rolesEdit(roles)"
+                                color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div *ngIf="isState" style="margin-left: 50px;">
+        <form [formGroup]="sform" (ngSubmit)="ssearch()">
+           <div class="col-12 row">
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width" style="margin-top: 10px;" >
+                        <input class="toolbar-search"  matInput type="text"   maxlength="15"  formControlName="name" autocomplete="off">
+                        <mat-placeholder>State Name</mat-placeholder>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;margin-top: 17px;"
+                        color="primary">Search</button></div>
+                <div class="col-md-1">
+                    <button class="btn btn-outline-primary" (click)="getStateList_reset()" type="button" style="border-radius:40px;margin-left: 15px;margin-top: 17px;"
+                        color="primary">Reset</button>
+                </div>
+                <div class="col-md-1">
+                    <button mat-raised-button type="button" class="btn btn-primary"  (click)="stateDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;margin-top: 17px;">
+                        Download
+                            <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                            </mat-spinner></mat-icon>
+                            <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                        </button>
+                </div>
+        </div>
+                
+            </form>
+        <div class="table-responsive" style="margin-top: 2%;width: 60%;overflow-x: hidden">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>State Name</th>
+                        <th>Code</th>
+                        <th>Country Name</th>
+                        <th *ngIf="ismakerCheckerButton">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let state of stateList; index as i">
+                        <td scope="row">{{(currentpage - 1)*pageSize +i+1 }}</td>
+                        <td>{{ state.name}}</td>
+                        <td>{{ state.code }}</td>
+                        <td>{{ state.country_name}}</td>
+                        <td *ngIf="ismakerCheckerButton">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="stateEdit(state)"
+                                color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <mat-icon style="color: gray;" (click)="deleteState(state)">delete</mat-icon>
+                        </td>
+                    </tr>
+                    <tr *ngIf="stateList.length==0">
+                        <td colspan="5">
+                            No Records Found..
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <div style="text-align: right;">
+                                <button mat-icon-button [disabled]="shas_previous === false" color="primary"
+                                    (click)="previousClickState()">
+                                    <mat-icon >arrow_back</mat-icon>
+                                </button>
+                                {{currentpage}}
+                                <button mat-icon-button [disabled]="shas_next === false" color="primary" (click)="nextClickState()">
+                                    <mat-icon >arrow_forward</mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <div class="row"> -->
+                <!-- <div style="font-size: small;text-align: right;">
+                    <button mat-icon-button [disabled]="shas_previous === false" color="primary"
+                        (click)="previousClickState()">
+                        <mat-icon color="primary">arrow_back</mat-icon>
+                    </button>
+                    {{currentpage}}
+                    <button mat-icon-button [disabled]="shas_next === false" color="primary" (click)="nextClickState()">
+                        <mat-icon color="primary">arrow_forward</mat-icon>
+                    </button>
+                </div> -->
+            <!-- </div> -->
+        </div>
+    </div>
+
+
+    <div *ngIf="isDistrict">
+        <form [formGroup]="districtform" (ngSubmit)="dsearch()">
+        <div class="col-12 row">  
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width" style="margin-top: 10px;">
+                        <input class="toolbar-search"  matInput type="text"   maxlength="15"  formControlName="name" autocomplete="off">
+                        <mat-placeholder>Name</mat-placeholder>
+                    </mat-form-field>
+                </div>
+             <div class="col-md-1">
+                <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;margin-top: 17px;"
+                    color="primary">Search</button></div>
+                    <div class="col-md-1">
+                        <button class="btn btn-outline-primary" (click)="getDistrictList_reset()" type="button" style="border-radius:40px;margin-left: 15px;margin-top: 17px;"
+                            color="primary">Reset</button></div>
+                            <div class="col-md-1"><button mat-raised-button type="button" class="btn btn-primary"  (click)="districtDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;margin-top: 17px;">
+                                Download
+                                    <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                                    </mat-spinner></mat-icon>
+                                    <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                                </button></div>
+        </div>
+                
+         </form>
+        <div class="table-responsive" style="margin-top: 2%;width: 60%;overflow-x: hidden">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>State Name</th>
+                        <th *ngIf="ismakerCheckerButton">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let district of districtList; index as i">
+                        <td scope="row">{{(dcurrentpage - 1)*pageSize +i+1 }}</td>
+                        <td>{{ district.name}}</td>
+                        <td>{{ district.code }}</td>
+                        <td>{{ district.state_name}}</td>
+                        <td *ngIf="ismakerCheckerButton">
+                            
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton"
+                                (click)="districtEdit(district)" color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                       
+                            <mat-icon style="color: gray;" (click)="deleteDistrict(district)">delete</mat-icon>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <div  style="font-size: small;text-align: right;">
+                                <button mat-icon-button [disabled]="dhas_previous === false" color="primary"
+                                    (click)="previousClickDistrict()">
+                                    <mat-icon >arrow_back</mat-icon>
+                                </button>
+                                {{dcurrentpage}}
+                                <button mat-icon-button [disabled]="dhas_next === false" color="primary"
+                                    (click)="nextClickDistrict()">
+                                    <mat-icon >arrow_forward</mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <div class="row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;">
+                    <button mat-icon-button [disabled]="dhas_previous === false" color="primary"
+                        (click)="previousClickDistrict()">
+                        <mat-icon style="color: black;">arrow_back</mat-icon>
+                    </button>
+                    {{currentpage}}
+                    <button mat-icon-button [disabled]="dhas_next === false" color="primary"
+                        (click)="nextClickDistrict()">
+                        <mat-icon style="color: black;">arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <div *ngIf="isCity">
+        <form [formGroup]="cityform" (ngSubmit)="citysearch()">
+        <div class="col-12 row">
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width" style="margin-top: 10px;">
+                    <input class="toolbar-search"  matInput type="text"   maxlength="15"  formControlName="name" autocomplete="off">
+                    <mat-placeholder>Name</mat-placeholder>
+                </mat-form-field>
+             </div>
+             <div class="col-md-1">
+                <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;margin-top: 17px;"
+                    color="primary">Search</button>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-outline-primary" (click)="getCityList_reset()" type="button" style="border-radius:40px;margin-left: 15px;margin-top: 17px;"
+                    color="primary">Reset</button>
+            </div>
+            <div class="col-md-1">
+                <button mat-raised-button type="button" class="btn btn-primary"  (click)="cityDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;margin-top: 17px;">
+                    Download
+                        <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                        </mat-spinner></mat-icon>
+                        <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                    </button>
+            </div>
+        </div>
+                
+        </form>
+        <div class="table-responsive" style="margin-top: 2%;width: 60%;overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>Expand</th>
+                        <th>S.No</th>
+                        <th>City Name</th>
+                        <th>Code</th>
+                        <th>State Name</th>
+                        <!-- <th *ngIf="ismakerCheckerButton">Action</th> -->
+
+                    </tr>
+                </thead>
+                <tbody *ngFor="let city of cityList; index as i" style="padding-left: 84px;margin-top: -5%;">
+                    <tr >
+                        <td><button mat-icon-button (click)="getcitydata(city)" color="primary" class="btn btn-danger" style="border-radius: 40px;"><mat-icon *ngIf="city.con==false">expand_more</mat-icon><mat-icon *ngIf="city.con==true">expand_less</mat-icon></button></td>
+                        <td scope="row">{{ (ccurrentpage-1)*pageSize+i+1 }}</td>
+                        <td>{{ city.name}}</td>
+                        <td>{{ city.code }}</td>
+                        <td>{{ city.state_name}}</td>
+                    </tr>
+                    <tr *ngIf="city.con">
+                        <td colspan="6" >
+                            <div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Expand</th>
+                                            <th>District Name</th>
+                                            <th>District Code</th>
+                                        </tr>
+                                    </thead>
+                                    <ng-container *ngFor="let dta of citysummarydata;let i=index">
+                                        <tbody >
+                                            
+                                                <tr >
+                                                    <td><button mat-icon-button color="primary" (click)="getdistrictcitydata(dta)" class="btn btn-info" style="border-radius: 40px;"><mat-icon *ngIf="dta.con==false">expand_more</mat-icon><mat-icon *ngIf="dta.con==true">expand_less</mat-icon></button></td>
+                                                    <td>{{dta.name}}</td>
+                                                    <td>{{dta.code}}</td>
+                                                </tr>
+                                                <tr *ngIf="citysummarydata.length==0">
+                                                    <td colspan="3">No Records Found</td>
+                                                </tr>
+                                        
+                                                
+                                        </tbody>
+                                        <tr *ngIf="citysummarydata.length==i+1">
+                                            <td colspan="3" style="float: right;">
+                                                <button [disabled]="!has_pre" mat-icon-button (click)="has_predisrict()"><mat-icon>arrow_back</mat-icon></button>{{dispage}}
+                                                <button [disabled]="!has_next" mat-icon-button (click)="has_nextdistrict()"><mat-icon>arrow_forward</mat-icon></button>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="citysummarydata.length==0">
+                                            <td colspan="3">No Records Found..</td>
+                                        </tr>
+                                            <tr *ngIf="dta.con">
+                                                <td colspan="3">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>City Name</th>
+                                                                <th>Pincode</th>
+                                                                <th>District Name</th>
+                                                                <th>State Name</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <ng-container *ngFor="let d of districtsummaryData;let j=index">
+                                                            <tr >
+                                                                <td>{{d.name?d.name:''}}</td>
+                                                                <td>{{d.no?d.no:''}}</td>
+                                                                <td>{{d['district']?d['district']:''}}</td>
+                                                                <td>{{d['statename']?d['statename']:''}}</td>
+                                                            </tr>
+                                                            <tr *ngIf="districtsummaryData.length==0">
+                                                                <td colspan="4">No Records Found</td>
+                                                            </tr>
+                                                            <tr *ngIf="districtsummaryData.length==j+1">
+                                                                <td colspan="3" style="float: right;">
+                                                                    <button [disabled]="!has_prese" mat-icon-button (click)="has_citypre()"><mat-icon>arrow_back</mat-icon></button>{{citypage}}
+                                                                    <button [disabled]="!has_nexts" mat-icon-button (click)="has_citynext()"><mat-icon>arrow_forward</mat-icon></button>
+                                                                </td>
+                                                            </tr>
+                                                    </ng-container>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        
+                                    </ng-container>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- <tr>
+                    <td colspan="6" class="collapse-row">
+                    <div [attr.id]="'collapse-' + i" class="container collapse out">
+                    <table class="table table scrolltable table-bordered" style="width: 101%; margin-top: 20px;">
+                    <thead class="table_header" fixed-header>
+                    <th>Expand</th>
+                    <th>Disrict Name</th>
+                    <th>District Code</th>
+                    </thead>
+                    <tr *ngFor="let d od city.city.data;let i=index">
+                    <td><button type="button" mat-icon-button data-toggle="collapse" [attr.data-target]="'#collapses-' + i" [attr.aria-expanded]="false" [attr.aria-controls] = "'collapse-' + i"><mat-icon>expand_less</mat-icon></button></td>
+
+                    <td scope="row">{{ i+1 }}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.code}}</td>
+                    </tr>
+                    <tr>
+                    <td colspan="3" class="collapse-row">
+                    <div class="container collapse out" [attr.id]="'collapses-'+i">
+                    <thead class="table_header" fixed-header>
+                    <th>City Name</th>
+                    <th>Pincode</th>
+                    <th>District Name</th>
+                    <th>State Name</th>
+                    </thead>
+                    <tr *ngFor="let dear of city.city.data[0].name">
+                    <td>{{dear.name}}</td>
+                    <td>{{dear.code}}</td>
+                    <td>{{dear.district_name}}</td>
+                    <td>{{dear.state}}</td>
+                    </tr>
+                    </div>
+                    </td>
+                    </tr>
+
+                    </table>
+                    </div>
+                    </td>
+                    </tr> -->
+            </table>
+            <div class="col-12 row">
+                <div class="col-md-12" style="font-size: small;text-align: right;">
+                    <button mat-icon-button [disabled]="chas_previous === false" color="primary"
+                        (click)="previousClickCity()">
+                        <mat-icon >arrow_back</mat-icon>
+                    </button>
+                    {{ccurrentpage}}
+                    <button mat-icon-button [disabled]="chas_next === false" color="primary" (click)="nextClickCity()">
+                        <mat-icon >arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <br>
+            <br>
+        </div>
+    </div>
+
+    <div *ngIf="isPinCode">
+          <form [formGroup]="pinform" (ngSubmit)="pinsearch()">
+        <div class="col-12 row">
+            
+        <div class="col-md-3">
+            <mat-form-field class="example-full-width" style="margin-top: 10px;">
+                <input class="toolbar-search"  matInput type="text"   maxlength="15"  formControlName="name" autocomplete="off">
+                <mat-placeholder>Pincode</mat-placeholder>
+            </mat-form-field>
+         </div>
+       
+         <div class="col-md-2">
+            <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;margin-top: 17px;"
+                color="primary">Search</button>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-outline-primary" (click)="resetpincodedata()" type="button" style="border-radius:40px;margin-left: 15px;margin-top: 17px;"
+                color="primary">Reset</button>
+        </div>
+       
+         <div class="col-md-1">
+            <button mat-raised-button type="button" class="btn btn-primary"  (click)="pincodeDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;margin-top: 17px;">
+                Download
+                    <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                    </mat-spinner></mat-icon>
+                    <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                </button>
+            </div>
+       
+        </div>
+        </form>
+        <div class="table-responsive" style="margin-top: 2%;width: 60%;overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>City Name</th>
+                        <th>District Name</th>
+                        <th>Pincode </th>
+                        <th *ngIf="ismakerCheckerButton">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pincode of pincodeList; index as i">
+                        <td scope="row">{{(pcurrentpage - 1)*pageSize +i+1 }}</td>
+                        <td>{{ pincode.city_name}}</td>
+                        <td>{{ pincode.district_name}}</td>
+                        <td>{{ pincode.no}}</td>
+                        <td *ngIf="ismakerCheckerButton">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="pincodeEdit(pincode)"
+                                color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <mat-icon style="color: gray;" (click)="deletePincode(pincode)">delete</mat-icon>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <div style="font-size: small;text-align: right;">
+                                <button mat-icon-button [disabled]="phas_previous === false" color="primary"
+                                    (click)="previousClickPincode()">
+                                    <mat-icon >arrow_back</mat-icon>
+                                </button>
+                                {{pcurrentpage}}
+                                <button mat-icon-button [disabled]="phas_next === false" color="primary"
+                                    (click)="nextClickPincode()">
+                                    <mat-icon >arrow_forward</mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <div class="row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;">
+                    <button mat-icon-button [disabled]="phas_previous === false" color="primary"
+                        (click)="previousClickPincode()">
+                        <mat-icon style="color: black;">arrow_back</mat-icon>
+                    </button>
+                    {{currentpage}}
+                    <button mat-icon-button [disabled]="phas_next === false" color="primary"
+                        (click)="nextClickPincode()">
+                        <mat-icon style="color: black;">arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+
+
+
+
+    <!-- ///////////////////////////////////////////////////////////////////////cc bs ccbs html part -->
+
+    <div *ngIf="isBS" style="margin-left: 50px;margin-top: 1%;">
+        <tr>
+               <td>
+                <form [formGroup]="BSSearchForm" (ngSubmit)="BSSearch_new()">
+                    <mat-form-field class="example-full-width">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="no" (keypress)="kyenbdata($event)">
+                        <mat-placeholder>BS No</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="name" (keypress)="kyenbdata($event)">
+                        <mat-placeholder>BS Name</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Active/Inactive</mat-label>
+                        <mat-select formControlName="drop">
+                            <mat-option value="ACTIVE">ACTIVE</mat-option>
+                            <mat-option value="INACTIVE">INACTIVE</mat-option>
+                            <mat-option value="ALL">ALL</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;"
+                        color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+    
+                </form>
+                </td>
+                <td>
+                <div style="margin-top: 1%;">
+                    <button class="btn btn-outline-primary" (click)="resetBS()" type="submit"
+                        style="border-radius:40px;margin-left: 15px;" color="primary">Reset</button>
+                </div>
+                </td>
+                <td>
+                <button mat-raised-button type="button" class="btn btn-primary"  (click)="bsDownload()"  style="border-radius: 40px;height: 40px;margin-left:20px;margin-top: 1%;">
+                    Download
+                        <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                        </mat-spinner></mat-icon>
+                        <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                    </button>
+                </td>
+                <!-- <div style="margin-top: 0%;">
+                    <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Active/Inactive</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let n of ActiveInactive" [value]="n.value" style="margin-left: 10px;">
+                                <div *ngIf="n.display === 'Active' " (click)="bsactivelist()">Active </div>
+                                <div *ngIf="n.display === 'Inactive' " (click)="bsInactivelist()">InActive </div>
+                                <div *ngIf="n.display === 'All' " (click)="resetBS()">All </div>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div> -->
+            
+            </tr>
+        <div class="table-responsive" style="margin-top: 2%;width: 90%; overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>BS No</th>
+                        <th>Action</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let bs of businesssegmentList; index as i">
+                        <td scope="row">{{(presentpagebs-1)*pageSize +i+1}}</td>
+                        <td>{{ bs.code}}</td>
+                        <td>{{ bs.name}}</td>
+                        <td>{{ bs.no }}</td>
+                        <td class="cursor">
+                            <div *ngIf="bs.status === 1 ; else lock">
+                                <mat-icon (click)="forInactivebs(bs)" title="Click to Inactive" disabled style="color: green;"
+                                    aria-label="inactive">wb_sunny</mat-icon> 
+                            </div>
+                            <ng-template #lock>
+                                <mat-icon (click)="foractivebs(bs)" title="Click to Active" disabled style="color: gray;"
+                                    aria-label="inactive">wb_sunny</mat-icon> 
+                            </ng-template>
+                        </td>
+                        <td>
+                            <div *ngIf="bs.status === 0 ; else enableedit">
+                                <button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary" disabled
+                                    title="Disabled in Inactive State">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            </div>
+                            <ng-template #enableedit>
+                                <span class="material-icons" type="button" (click)="editbs(bs)" style="color: gray;"
+                                    data-toggle="modal" data-target="#myModal">edit</span>
+                                <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background:#DDEFDD;">
+                                                <h2 class="modal-title">Business Segment Edit</h2>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form [formGroup]="editbss">
+                                                    <table>
+                                                        <div>
+                                                            <tr>
+                                                                <td>
+                                                                    <mat-form-field
+                                                                        style="width: 175px; margin-left: 50px;">
+                                                                        <mat-label>BS Code</mat-label>
+                                                                        <input matInput placeholder="BS Code" 
+                                                                            (keypress)="omit_special_char($event)"
+                                                                            autocomplete="off" formControlName="code" minlength="5" maxlength="5" size="45" pattern="[A-Za-z0-9]{3,3}"
+                                                                            required>
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field
+                                                                        style="width: 175px; margin-left: 50px;">
+                                                                        <mat-label>BS Name</mat-label>
+                                                                        <input matInput placeholder="BS Name"
+                                                                            (keypress)="omit_special_char($event)"
+                                                                            autocomplete="off" formControlName="name"
+                                                                            required>
+                                                                    </mat-form-field>
+                                                                </td>
+                                                                <td>
+                                                                    <mat-form-field
+                                                                        style="width: 175px; margin-left: 50px;">
+                                                                        <mat-label>BS No</mat-label>
+                                                                        <input matInput placeholder="BS No" type="number"
+                                                                            (keypress)="omit_special_char($event)"
+                                                                            autocomplete="off" formControlName="no"
+                                                                            required>
+                                                                    </mat-form-field>
+                                                                </td>
+    
+                                                            </tr>
+                                                        </div>
+                                                    </table>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" data-dismiss="modal"
+                                                            style="border-radius: 40px;margin-left: 10px;"
+                                                            class="btn btn-outline-primary" [disabled]="editbss.invalid"
+                                                            (click)="editbssForm()">Submit</button>
+                                                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </td>
+    
+                    </tr>
+    
+                </tbody>
+            </table>
+            <div *ngIf="businesssegmentList?.length==0; else paginationbs" class="NodataAlign">No Records Found...</div>
+            <ng-template #paginationbs>
+                <div style="font-size: small;text-align:right; margin-bottom:100px;">
+                    <button mat-icon-button [disabled]="has_previousbs === false" color="primary"
+                        (click)="previousClickbs()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpagebs}}
+                    <button mat-icon-button [disabled]="has_nextbs === false" color="primary" (click)="nextClickbs()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    
+    <!-- ///////////////////////////////////////CC -->
+    
+    <div *ngIf="isCC" style="margin-left: 50px;margin-top: 1%;">
+        <div >
+            <tr>
+                <td>
+                <form [formGroup]="CCSearchForm" (ngSubmit)="CCSearch_new()">
+                    <mat-form-field class="example-full-width" >
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="no" (keypress)="kyenbdata($event)">
+                        <mat-placeholder>CC No</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="name" (keypress)="kyenbdata($event)">
+                        <mat-placeholder>CC Name</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Active/Inactive</mat-label>
+                        <mat-select formControlName="drop">
+                           <mat-option value="ACTIVE">ACTIVE</mat-option>
+                           <mat-option value="INACTIVE">INACTIVE</mat-option>
+                           <mat-option value="ALL">ALL</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;"
+                        color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+                </td>
+                <td>
+                <div style="margin-top: 1%;">
+                    <button class="btn btn-outline-primary" (click)="resetCC()" type="submit"
+                        style="border-radius:40px;margin-left: 15px;" color="primary">Reset</button>
+    
+                </div>
+                </td>
+                <td>
+                <button mat-raised-button type="button" class="btn btn-primary"  (click)="ccDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;margin-top: 1%;">
+                    Download
+                        <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                        </mat-spinner></mat-icon>
+                        <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                    </button>
+                </td>
+                <!-- <div style="margin-top: 0%;">
+                    <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Active/Inactive</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let n of ActiveInactive" [value]="n.value" style="margin-left: 10px;">
+                                <div *ngIf="n.display === 'Active' " (click)="ccactivelist()">Active </div>
+                                <div *ngIf="n.display === 'Inactive' " (click)="ccInactivelist()">InActive </div>
+                                <div *ngIf="n.display === 'All' " (click)="resetCC()">All </div>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div> -->
+            </tr>
+        </div>
+    
+        <div class="table-responsive" style="margin-top: 2%;width: 90%; overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>CC No</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cc of costcenterList; index as i">
+                        <td>{{(presentpagecc-1)*pageSize +i+1}}</td>
+                        <td>{{ cc.code}}</td>
+                        <td>{{ cc.name}}</td>
+                        <td>{{ cc.no }}</td>
+                        <td class="cursor">
+                            <div *ngIf="cc.status === 1 ; else cclock">
+                                <mat-icon (click)="forInactivecc(cc)" title="Click to Inactive" style="color: green;">
+                                    wb_sunny</mat-icon> 
+                            </div>
+                            <ng-template #cclock>
+                                <mat-icon (click)="foractivecc(cc)" title="Click to Active" disabled style="color: gray;">wb_sunny
+                                </mat-icon> 
+                            </ng-template>
+                        </td>
+                    </tr>
+    
+                </tbody>
+            </table>
+            <div *ngIf="costcenterList?.length==0; else paginationcc" class="NodataAlign">No Records Found...</div>
+            <ng-template #paginationcc>
+                <div style="font-size: small;text-align:right; margin-bottom:100px;">
+                    <button mat-icon-button [disabled]="has_previouscc === false" color="primary"
+                        (click)="previousClickcc()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpagecc}}
+                    <button mat-icon-button [disabled]="has_nextcc === false" color="primary" (click)="nextClickcc()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <!-- //////////////////////////////////////////CCBS -->
+    
+    
+    <div *ngIf="isCCBS" >
+        <div >
+            <tr>
+                <td>
+                <form [formGroup]="CCBSSearchForm" (ngSubmit)="CCBSSearch()">
+                    <mat-form-field style="width: 175px;">
+                        <mat-label> Select BS Name</mat-label>
+                        <input #bsInput placeholder="Select BS" matInput formControlName="businesssegment_id"
+                            [matAutocomplete]="bs">
+                        <mat-autocomplete #bs="matAutocomplete" [displayWith]="displayFnbs"
+                            (opened)="autocompletebsScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let bs of bsList" [value]="bs">{{bs.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field style="width: 175px;margin-left: 50px;">
+                        <mat-label>Select CC Name</mat-label>
+                        <input #ccInput placeholder="Select CC" matInput formControlName="costcentre_id"
+                            [matAutocomplete]="cc">
+                        <mat-autocomplete #cc="matAutocomplete" [displayWith]="displayFncc"
+                            (opened)="autocompleteccScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let cc of ccList" [value]="cc">{{cc.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field style="width: 175px;margin-left: 50px;">
+                        <mat-label>CCBS Name</mat-label>
+                        <input matInput placeholder="Name" formControlName="name" autocomplete="off">
+                    </mat-form-field>
+                    <mat-form-field style="width: 175px;margin-left: 50px;">
+                        <mat-label>CCBS No</mat-label>
+                        <input matInput placeholder="No" formControlName="no" autocomplete="off">
+                    </mat-form-field>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;"
+                        color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+    
+                </form>
+                </td>
+                <td>
+                <button mat-raised-button type="button" class="btn btn-primary"  (click)="ccbsDownload()"  style="border-radius: 40px;height: 40px;margin-left:15px;margin-top: 1%;">
+                    Download
+                        <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                        </mat-spinner></mat-icon>
+                        <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                    </button>
+                </td>
+                <td>
+                <div style="margin-top: 1%;">
+    
+                    <button class="btn btn-outline-primary" (click)="resetCCBS()" type="submit"
+                        style="border-radius:40px;margin-left: 15px;" color="primary">Reset</button>
+                </div>
+                </td>
+            </tr>
+        </div>
+        <div class="table-responsive" style="margin-top: 2%;width: 90%; overflow-x: hidden;">
+    
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>CCBS Code</th>
+                        <th>CCBS Name</th>
+                        <th>CCBS No</th>
+                        <th>GL No</th>
+                        <th>Business Segment</th>
+                        <th>Cost Centre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ccbs of ccbsList; index as i">
+                        <td>{{(presentpageccbs -1)*pageSize +i+1}}</td>
+                        <td>{{ ccbs.code }}</td>
+                        <td>{{ ccbs.name }}</td>
+                        <td>{{ ccbs.no }}</td>
+                        <td>{{ ccbs.glno }}</td>
+                        <td>{{ ccbs.businesssegment_id.name}}</td>
+                        <td>{{ ccbs.costcentre_id.name}}</td>
+                    </tr>
+    
+                </tbody>
+            </table>
+            <div *ngIf="ccbsList?.length==0; else paginationccbs" class="NodataAlign">No Records Found...</div>
+            <ng-template #paginationccbs>
+                <div style="font-size: small;text-align:right; margin-bottom:100px;">
+                    <button mat-icon-button [disabled]="has_previousccbs === false" color="primary"
+                        (click)="previousClickccbs()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpageccbs}}
+                    <button mat-icon-button [disabled]="has_nextccbs === false" color="primary" (click)="nextClickccbs()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    
+    </div>
+
+    <div *ngIf="isDesignation" style="margin-left: 50px;margin-top: 2%;">
+        <form [formGroup]="designationform">
+            <tr>
+                <td>
+                    <div class="col-md-4">
+                        <mat-form-field style="width: 250px;">
+                            <mat-label>Designation Name</mat-label>
+                            <input type="text" matInput formControlName="name" required>
+                        </mat-form-field>
+
+                    </div>
+                </td>
+                <td>
+                    <div class="col-md-1" style="margin-top:10px;">
+                        <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getdesignationsummarysearch()">Search</button>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-md-1" style="margin-top:10px;">
+                        <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getdesignationsummarysearch_reset()">Reset</button>
+                    </div>
+                </td>
+                <button mat-raised-button type="button" class="btn btn-primary"  (click)="designationDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;margin-top:10px;">
+                    Download
+                        <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                        </mat-spinner></mat-icon>
+                        <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                    </button>
+             </tr>
+        </form>
+        <br>
+        <table class="table table-bordered" style="width: 90%;">
+            <thead class="table_header">
+                <tr>
+                    <th>S.No</th>
+                    <th>Designation Code</th>
+                    <th>Designation Name</th>
+                    <th>Edit</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let d of designationList;let i=index">
+                    <td>{{(has_designationpage - 1)*pageSize +i+1 }}</td>
+                    <td>{{d.code}}</td>
+                    <td>{{d.name}}</td>
+                    <td><button type="button" style="border:none;background:none" matTooltip="Edit" (click)="designationedit(d)"><mat-icon>edit</mat-icon></button></td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div style="font-size: small;text-align:right; ">
+                            <button mat-icon-button [disabled]="has_designationprevious === false" color="primary"
+                                (click)="has_designationclickprevoius()">
+                                <mat-icon>arrow_back
+                                </mat-icon>
+                            </button>
+                            {{has_designationpage}}
+                            <button mat-icon-button [disabled]="has_designationnext === false" color="primary" (click)="has_designationclicknext()">
+                                <mat-icon>arrow_forward
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- <div style="font-size: small;text-align:right; margin-bottom:100px;">
+            <button mat-icon-button [disabled]="has_designationprevious === false" color="primary"
+                (click)="has_designationclickprevoius()">
+                <mat-icon>arrow_back
+                </mat-icon>
+            </button>
+            {{has_designationpage}}
+            <button mat-icon-button [disabled]="has_designationnext === false" color="primary" (click)="has_designationclicknext()">
+                <mat-icon>arrow_forward
+                </mat-icon>
+            </button>
+        </div> -->
+    </div>
+    <div *ngIf="isPMD" style="margin-top: 1%;">
+        <div >
+            <tr>
+                <td>
+                <form [formGroup]="PMDSearchForm" (ngSubmit)="PMDSearch()">
+                    <mat-form-field class="example-full-width" >
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="branch_name">
+                        <mat-placeholder>Branch Name</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="branch_code">
+                        <mat-placeholder>Branch Code</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="location">
+                        <mat-placeholder>Location</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Active/Inactive</mat-label>
+                        <mat-select formControlName="drop">
+                           <mat-option value="ACTIVE">ACTIVE</mat-option>
+                           <mat-option value="INACTIVE">INACTIVE</mat-option>
+                           <mat-option value="ALL">ALL</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;"
+                        color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+                </td>
+                <td>
+                <div style="margin-top: 1%;">
+                    <button class="btn btn-outline-primary" (click)="resetPMD()" type="submit"
+                        style="border-radius:40px;margin-left: 15px;" color="primary">Reset</button>
+    
+                </div>
+                </td>
+            </tr>
+        </div>
+    
+        <div class="table-responsive" style="margin-top: 2%;width: 90%; overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Branch Name</th>
+                        <th>Branch Code</th>
+                        <th>Location</th>
+                        <th>GST NO</th>
+                        <th>Is Active</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pdm of PDMList; index as i">
+                        <td>{{(presentpagepmd-1)*pageSize +i+1}}</td>
+                        <td>{{ pdm.branch_name}}</td>
+                        <td>{{ pdm.branch_code}}</td>
+                        <td>{{ pdm.location }}</td>
+                        <td>{{ pdm.gst_number }}</td>
+                        <td>{{ pdm.status }}</td>
+                        <td>
+                            <button type="button" mat-icon-button [ngClass]="pdm.status==1?'active':'inactive'" [matTooltip]="pdm.status==1?'click to inactive':'click to active'" (click)="pmdactiveinactive(pdm)"><mat-icon>wb_sunny</mat-icon></button>
+                    </tr>
+    
+                </tbody>
+            </table>
+            <div *ngIf="PDMList?.length==0; else paginationPDM" class="NodataAlign">No Records Found...</div>
+            <ng-template #paginationPDM>
+                <div style="font-size: small;text-align:right; margin-bottom:100px;">
+                    <button mat-icon-button [disabled]="has_previouspmd === false" color="primary"
+                        (click)="previousClickPMD()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpagepmd}}
+                    <button mat-icon-button [disabled]="has_nextpmd === false" color="primary" (click)="nextClickPMD()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+
+        </div>
+    </div>
+
+    <div *ngIf="isSector" style="margin-top: 2%;">
+        <form [formGroup]="sectorForm">
+            <div>
+                <tr>
+                    <td>
+                <div class="col-md-4">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Sector Name</mat-label>
+                        <input type="text" matInput formControlName="name" required>
+                    </mat-form-field>
+
+                </div>
+                </td>
+                <td>
+                    <div class="col-md-3">
+                        <mat-form-field style="margin-left: 50px;">
+                            <mat-label>Active/Inactive</mat-label>
+                            <mat-select formControlName="drop">
+                               <mat-option value="ACTIVE">ACTIVE</mat-option>
+                               <mat-option value="INACTIVE">INACTIVE</mat-option>
+                               <mat-option value="ALL">ALL</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </td>
+                <td>
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getsectorsummary_search(1)">Search</button>
+                </div>
+                </td>
+                <td>
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getsectorsummary_reset(1)">Reset</button>
+                </div>
+                </td>
+                </tr>
+            </div>
+        </form>
+        <br>
+        <div >
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Sector Name</th>
+                        <th>Sector Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of sectorlist;let i=index">
+                        <td>{{(has_sectorpage - 1)*pageSize +i+1 }}</td>
+                        <td>{{d.name}}</td>
+                        <td>{{d.description}}</td>
+                        <td><button type="button" style="border:none;background:none" matTooltip="Edit" (click)="sectoredit(d)"><mat-icon>edit</mat-icon></button>
+                            <button type="button" style="border:none;background:none" [ngClass]="d.status==1?'active':'inactive'" [matTooltip]="d.status==1?'click to inactive':'click to active'" (click)="sectoractiveinactive(d)"><mat-icon>wb_sunny</mat-icon></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="font-size: small;text-align:right; margin-bottom:100px;">
+            <button mat-icon-button [disabled]="has_sectorprevious === false" color="primary"
+                (click)="previoussector()">
+                <mat-icon>arrow_back
+                </mat-icon>
+            </button>
+            {{has_sectorpage}}
+            <button mat-icon-button [disabled]="has_sectornext === false" color="primary" (click)="nextsector()">
+                <mat-icon>arrow_forward
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="isGL" style="margin-left: 50px;margin-top: 1%;">
+        <div>
+            <tr>
+                <td>
+                <form [formGroup]="glsearchform" >
+                   
+                    <mat-form-field class="example-full-width" >
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="name">
+                        <mat-placeholder>GL Number </mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                       
+                        <mat-placeholder>Proofing Flag</mat-placeholder>
+                        <mat-select formControlName="desc">
+                            <mat-option value="ACTIVE">ACTIVE</mat-option>
+                            <mat-option value="INACTIVE">INACTIVE</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;" (click)="getGLsearch()"
+                        color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+                </td>
+                <td>
+                <div style="margin-top: 1%;">
+                    <button class="btn btn-outline-primary" (click)="getGLReset(1,10)"
+                        style="border-radius:40px;margin-left: 15px;" color="primary">Reset</button>
+    
+                </div>
+                </td>
+               
+            </tr>
+        </div>
+    
+        <div class="table-responsive" style="margin-top: 2%;width: 90%; overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>GL NO</th>
+                        <th>GL Desc</th>
+                        <th>Sort Order</th>
+                        <th>Sort OrdeDesc</th>
+                        <th>Currency</th>
+                        <!-- <th>SchSort Order</th>
+                        <th>SchSort Bank</th> -->
+                        <th>GL Type</th>
+                        <th>GL Active</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pdm of Gllist; index as i">
+                        <td>{{(presentpagepmd-1)*pageSize +i+1}}</td>
+                        <td>{{ pdm.no}}</td>
+                        <td>{{ pdm.description}}</td>
+                        <td>{{ pdm.sortorder }}</td>
+                        <td>{{ pdm.sortorderdesc }}</td>
+                        <td>{{ pdm.currency }}</td>
+                        <!-- <td>{{pdm.sch16_sortorder}}</td>
+                        <td>{{pdm.sch16_desc_bank}}</td> -->
+                        <td>{{pdm.type}}</td>
+                        <td>{{pdm.status==1?'ACTIVE':'INACTIVE'}}</td>
+                        <td>
+                            <!-- <mat-icon (click)="edit(pdm)" title="Click to Edit" style="color: green;">
+                            edit</mat-icon> -->
+                        <button type="button" (click)="getglactive(pdm)" mat-icon-button [ngClass]="pdm.status==1?'active':'inactive'"><mat-icon>wb_sunny</mat-icon></button></td>
+                        <!-- <td class="cursor">
+                            <div *ngIf="cc.status === 1 ; else cclock">
+                                <mat-icon (click)="forInactivecc(cc)" title="Click to Inactive" style="color: green;">
+                                    lock_open</mat-icon> -
+                            </div>
+                            <ng-template #cclock>
+                                <mat-icon (click)="foractivecc(cc)" title="Click to Active" disabled style="color: crimson;">lock
+                                </mat-icon> -
+                            </ng-template>
+                        </td> -->
+                    </tr>
+    
+                </tbody>
+            </table>
+            <div *ngIf="Gllist?.length==0; else paginationPDM" class="NodataAlign">No Records Found...</div>
+            <ng-template #paginationPDM>
+                <div style="font-size: small;text-align:right; margin-bottom:100px;">
+                    <button mat-icon-button [disabled]="has_previouspmd === false" color="primary"
+                        (click)="glprevious()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpagepmd}}
+                    <button mat-icon-button [disabled]="has_nextpmd === false" color="primary" (click)="glnext()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+
+        </div>
+    </div>
+    <div *ngIf="isExp" style="margin-left: 50px;margin-top: 2%;">
+        <form [formGroup]="expForm">
+            <div >
+                <tr>
+                    <td>
+                <div class="col-md-4">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Expense Name</mat-label>
+                        <input type="text" matInput formControlName="name" >
+                    </mat-form-field>
+
+                </div>
+                </td>
+                <td>
+                    <div class="col-md-3">
+                        <mat-form-field style="margin-left: 50px;">
+                            <mat-label>Active/Inactive</mat-label>
+                            <mat-select formControlName="drop">
+                               <mat-option value="ACTIVE">ACTIVE</mat-option>
+                               <mat-option value="INACTIVE">INACTIVE</mat-option>
+                               <mat-option value="ALL">ALL</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </td>
+                <td>
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getexpsummarysearch_new()">Search</button>
+                </div>
+                </td>
+                <td>
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 50px;" (click)="getexpsummarysearch_reset(1)">Reset</button>
+                </div>
+                </td>
+                </tr>
+            </div>
+        </form>
+        <br>
+        <div >
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Expense Name</th>
+                        <th>Expense Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of explist;let i=index">
+                        <td>{{(has_exppage - 1)*pageSize +i+1 }}</td>
+                        <td>{{d.name}}</td>
+                        <td>{{d.description}}</td>
+                        <td><button type="button" style="border:none;background:none" matTooltip="Edit" (click)="expsubmit(d)"><mat-icon>edit</mat-icon></button>
+                            <button type="button" style="border:none;background:none" [ngClass]="d.status==1?'active':'inactive'" [matTooltip]="d.status==1?'click to inactive':'click to active'" (click)="expenceactiveinactive(d)"><mat-icon>wb_sunny</mat-icon></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="font-size: small;text-align:right; margin-bottom:100px;">
+            <button mat-icon-button [disabled]="has_expprevious === false" color="primary"
+                (click)="exp_previous()">
+                <mat-icon>arrow_back
+                </mat-icon>
+            </button>
+            {{has_exppage}}
+            <button mat-icon-button [disabled]="has_expnext === false" color="primary" (click)="exp_next()">
+                <mat-icon>arrow_forward
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+    <div *ngIf="isEntity" style="margin-left: 50px;margin-top: 2%;">
+        <form [formGroup]="entityForm">
+            <div>
+                <tr>
+                <td>
+                <div class="col-md-4">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Entity Name</mat-label>
+                        <input type="text" matInput formControlName="name" required>
+                    </mat-form-field>
+
+                </div>
+                </td>
+                <td>
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getentitysummarysearch_new(1)">Search</button>
+                </div>
+                </td>
+                <td>
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getentitysummarysearch_new_reset(1)">Reset</button>
+                </div>
+                </td>
+                </tr>
+            </div>
+        </form>
+        <br>
+        <div >
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Entity Name</th>
+                        <th>Entity Description</th>
+                        <!-- <th>Action</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of entitylist;let i=index">
+                        <td>{{(has_entitypage - 1)*pageSize +i+1 }}</td>
+                        <td>{{d.name}}</td>
+                        <td>{{d.namespace}}</td>
+                        <!-- <td><button type="button" style="border:none;background:none" matTooltip="Edit" (click)="sectoredit(d)"><mat-icon>edit</mat-icon></button> -->
+                            <!-- <button type="button" style="border:none;background:none" (click)="Entityactiveinactive(d)" [ngClass]="d.status==1?'active':'inactive'"><mat-icon>wb_sunny</mat-icon></button> -->
+                        <!-- </td> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="font-size: small;text-align:right; margin-bottom:100px;">
+            <button mat-icon-button [disabled]="has_entityprevious === false" color="primary"
+                (click)="entity_previous()">
+                <mat-icon>arrow_back
+                </mat-icon>
+            </button>
+            {{has_entitypage}}
+            <button mat-icon-button [disabled]="has_entitynext === false" color="primary" (click)="entity_next()">
+                <mat-icon>arrow_forward
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+    <div *ngIf="isFin" style="margin-left: 1%;margin-top: 2%;">
+        <form [formGroup]="finForm">
+            <div class="col-12 row">
+                <div class="col-md-3">
+                    <mat-form-field >
+                        <mat-label>Select The Fin Year</mat-label>
+                        <input type="text" matInput formControlName="year" required [matDatepicker]="newdata">
+                        <mat-datepicker-toggle [for]="newdata" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #newdata startView="multi-year"></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field >
+                        <mat-label>Select Month</mat-label>
+                        <input type="text" matInput formControlName="month" required [matDatepicker]="datanew">
+                        <mat-datepicker-toggle [for]="datanew" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #datanew startView="month"></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
+                    <div class="col-md-3">
+                        <mat-form-field >
+                            <mat-label>Active/Inactive</mat-label>
+                            <mat-select formControlName="drop">
+                               <mat-option value="ACTIVE">ACTIVE</mat-option>
+                               <mat-option value="INACTIVE">INACTIVE</mat-option>
+                               <mat-option value="ALL">ALL</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                
+                
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;height: 40px;margin-top: 5px;" (click)="getfinsummarysearch_search(1)">Search</button>
+                    <button class="btn btn-outline-primary" (click)="resetfindata()" type="button" style="border-radius:40px;margin-left: 15px;margin-top: 5px;height: 40px;"
+                color="primary">Reset</button>
+                
+                
+           
+            </div>
+        </form>
+        <br>
+        <div style="width: 70%;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Financial Year</th>
+                        <th>Financial Month</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of Finlist;let i=index">
+                        <td>{{(has_Finpage - 1)*pageSize +i+1 }}</td>
+                        <td>{{d.fin_year}}</td>
+                        <td>{{d.fin_month}}</td>
+                        <td>
+                            <!-- <button type="button" style="border:none;background:none" matTooltip="Edit" (click)="Finedit(d)"><mat-icon>edit</mat-icon></button> -->
+                            <button type="button" style="border:none;background:none" [ngClass]="d.status==1?'active':'inactive'" [matTooltip]="d.status==1?'click to inactive':'click to active'" (click)="Finactiveinactive(d)"><mat-icon>wb_sunny</mat-icon></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div style="font-size: small;text-align:right; ">
+                                <button mat-icon-button [disabled]="has_Finprevious === false" color="primary"
+                                    (click)="fin_previous()">
+                                    <mat-icon>arrow_back
+                                    </mat-icon>
+                                </button>
+                                {{has_Finpage}}
+                                <button mat-icon-button [disabled]="has_Finnext === false" color="primary" (click)="fin_next()">
+                                    <mat-icon>arrow_forward
+                                    </mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <div style="font-size: small;text-align:right; margin-bottom:100px;">
+            <button mat-icon-button [disabled]="has_Finprevious === false" color="primary"
+                (click)="fin_previous()">
+                <mat-icon>arrow_back
+                </mat-icon>
+            </button>
+            {{has_Finpage}}
+            <button mat-icon-button [disabled]="has_Finnext === false" color="primary" (click)="fin_next()">
+                <mat-icon>arrow_forward
+                </mat-icon>
+            </button>
+        </div> -->
+    </div>
+    <div *ngIf="isFinQ" style="margin-left: 1%;margin-top: 2%;">
+        <form [formGroup]="finquaterform">
+            <div class="col-12 row">
+            
+                <div class="col-md-3">
+                    <mat-form-field >
+                        <mat-label>Financial Peroid</mat-label>
+                        <input type="text" matInput formControlName="year" [matDatepicker]="picker" required>
+                        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
+                
+                <div class="col-md-3">
+                    <mat-form-field >
+                        <mat-label>Financial Month</mat-label>
+                        <input type="text" matInput formControlName="month" [matDatepicker]="pickers" required>
+                        <mat-datepicker-toggle [for]="pickers" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #pickers></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
+               
+                    <div class="col-md-3">
+                        <mat-form-field >
+                            <mat-label>Active/Inactive</mat-label>
+                            <mat-select formControlName="drop">
+                               <mat-option value="ACTIVE">ACTIVE</mat-option>
+                               <mat-option value="INACTIVE">INACTIVE</mat-option>
+                               <mat-option value="ALL">ALL</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                
+                
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;height: 40px;margin-top: 5px;" (click)="getfinquatersummarysearch_search(1)">Search</button>
+                    <button class="btn btn-outline-primary" (click)="resetfinqdata()" type="button" style="border-radius:40px;margin-top: 5px;margin-left: 15px;height: 40px;"
+                    color="primary">Reset</button>
+                
+                
+            </div>
+        </form>
+        <br>
+        <div style="width: 80%;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Financial Year</th>
+                        <th>Financial Month</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of FinQlist;let i=index">
+                        <td>{{(has_FinQpage - 1)*pageSize +i+1 }}</td>
+                        <td>{{d.fin_year}}</td>
+                        <td>{{d.fin_month}}</td>
+                        <td> <!-- <button type="button" style="border:none;background:none" matTooltip="Edit" (click)="FinQuateredit(d)"><mat-icon>edit</mat-icon></button> -->
+                            <button type="button" style="border:none;background:none" [ngClass]="d.status==1?'active':'inactive'" [matTooltip]="d.status==1?'click to inactive':'click to active'" (click)="FinQactiveinactive(d)"><mat-icon>wb_sunny</mat-icon></button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="FinQlist.length==0">
+                        <td colspan="4">No Records Found..</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div style="font-size: small;text-align:right;">
+                                <button mat-icon-button [disabled]="has_FinQprevious === false" color="primary"
+                                    (click)="finQ_previous()">
+                                    <mat-icon>arrow_back
+                                    </mat-icon>
+                                </button>
+                                {{has_FinQpage}}
+                                <button mat-icon-button [disabled]="has_FinQnext === false" color="primary" (click)="finQ_next()">
+                                    <mat-icon>arrow_forward
+                                    </mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <div style="font-size: small;text-align:right; margin-bottom:100px;">
+            <button mat-icon-button [disabled]="has_FinQprevious === false" color="primary"
+                (click)="finQ_previous()">
+                <mat-icon>arrow_back
+                </mat-icon>
+            </button>
+            {{has_FinQpage}}
+            <button mat-icon-button [disabled]="has_FinQnext === false" color="primary" (click)="finQ_next()">
+                <mat-icon>arrow_forward
+                </mat-icon>
+            </button>
+        </div> -->
+    </div>
+
+
+    <div *ngIf="isRisk" style="margin-left: 50px;margin-top: 2%;">
+        <form [formGroup]="riskForm">
+            <div >
+            <tr>
+                <td>
+                <div class="col-md-4">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Risk Type</mat-label>
+                        <input type="text" matInput formControlName="name" required>
+                    </mat-form-field>
+
+                </div>
+                </td>
+                <td>
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getrisksummary_new()">Search</button>
+                </div>
+                </td>
+                <td>
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getrisksummarysearch_new_reset(1)">Reset</button>
+                </div>
+                </td>
+                <td>
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button mat-raised-button type="button" class="btn btn-primary"  (click)="riskTypeDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;">
+                        Download
+                        <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                        </mat-spinner></mat-icon>
+                        <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                    </button>
+                </div>
+                </td>
+            </tr>
+            </div>
+        </form>
+        <table class="table table-bordered" style="width: 90%;">
+            <thead class="table_header">
+                <tr>
+                    <th>S.No</th>
+                    <th>Code</th>
+                    <th>Risk Type</th>
+                    <th *ngIf="ismakerCheckerButton">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let risk of riskList;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{risk.code}}</td>
+                    <td>{{risk.name}}</td>
+                    <td *ngIf="ismakerCheckerButton">
+                        <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="riskedit(risk)"
+                            color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                        <button mat-icon-button matTooltip=" delete" class="iconbutton"  color="primary">
+                            <mat-icon style="color: gray;margin-left: 20px;" (click)="riskdelete(risk)">delete</mat-icon>
+                        </button>
+                    </td>
+                    <!-- <td><button type="button" style="border:none;background:none" matTooltip="Edit" (click)="riskedit(risk)"><mat-icon>edit</mat-icon></button></td> -->
+                </tr>
+            </tbody>
+        </table>
+        <div style="font-size: small;text-align:right; margin-bottom:100px;">
+            <button mat-icon-button [disabled]="has_riskprevious === false" color="primary"
+                (click)="has_riskclickprevoius()">
+                <mat-icon>arrow_back
+                </mat-icon>
+            </button>
+            {{has_riskpage}}
+            <button mat-icon-button [disabled]="has_risknext === false" color="primary" (click)="has_riskclicknext()">
+                <mat-icon>arrow_forward
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+    <!-- <div *ngIf="iscommodity">
+        <app-commodity></app-commodity>
+
+    </div> -->
+   
+   
+    
+    
+    <!-- COMMODITY -->
+    
+    
+    <div *ngIf="isCommodity" style="margin-left: 50px;">
+        <div class="col-12 row">
+            <div class="col-12">
+                <form [formGroup]="commoditySearchForm" (ngSubmit)="commoditySearchcom()">
+                    <mat-form-field class="example-full-width" >
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="code">
+                        <mat-placeholder>Code</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 3%;">
+                        <input class="toolbar-search" type="text" matInput autocomplete="off" formControlName="name">
+                        <mat-placeholder>Name</mat-placeholder>
+                    </mat-form-field>
+                    <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Active/Inactive</mat-label>
+                        <mat-select formControlName="drop">
+                           <mat-option value="ACTIVE">ACTIVE</mat-option>
+                           <mat-option value="INACTIVE">INACTIVE</mat-option>
+                           <mat-option value="ALL">ALL</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;"
+                        color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <button class="btn btn-outline-primary" (click)="resetcom()" type="submit"
+                        style="border-radius:40px;margin-left: 15px;" color="primary">Reset</button>
+                    <!-- <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+                        (click)="addcom()"><span class="fa fa-plus"></span></button> -->
+                    <button mat-raised-button type="button" class="btn btn-primary"  (click)="commodityDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;">
+                        Download
+                            <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                            </mat-spinner></mat-icon>
+                            <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                        </button>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive" style="margin-top: 2%;width: 70%; overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Multilevel Approval </th>
+                        <th>Assign Product</th>
+                        <th>Edit Commodity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let com of commodityList; index as i">
+                        <td> {{(presentpagecom - 1)*pageSize +i+1 }} </td>
+                        <td>{{ com?.code }}</td>
+                        <td>{{ com?.name}}</td>
+                        <td>
+                            {{ com?.is_multilevel}}
+                        </td>
+                        <td class="cursor">
+                            <div *ngIf="com?.status === 0 ; else enable">
+                                <button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary" disabled
+                                    title="Disabled in Inactive State" data-toggle="modal"
+                                    data-target=".bd-example-modal-lgone">
+                                    <mat-icon aria-label="assign-product">edit</mat-icon>
+                                </button>
+                            </div>
+    
+                            <ng-template #enable>
+                                <button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary"
+                                    data-toggle="modal" data-target=".bd-example-modal-lgone"
+                                    (click)="commodityforProduct(com)">
+                                    <mat-icon style="color: gray;" aria-label="assign-product">edit</mat-icon>
+                                </button>
+                            </ng-template>
+                        </td>
+                        <td class="cursor">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary" (click)="commodity(com)"
+                                title="Edit Commodity" data-toggle="modal"
+                                data-target="#edidcommidity">
+                                <mat-icon aria-label="assign-product">edit</mat-icon>
+                            </button>
+                            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+                            id="edidcommidity">
+                                <div class="modal-dialog modal-lg" style="width:80%;">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background:#21cbe5;color:rgb(31, 29, 29);text-align:center">
+                                            <h2 class="modal-title" style="text-align:center;margin-left:42%">Edit Commodity</h2>
+                                        <button class="close" type="button" data-dismiss="modal">x</button>      
+                                        </div>
+                                        <div>
+                                            <form [formGroup]="commodityfor"  >
+                                                <div class=" row col-md-12">
+                                                    <div class="col-md-1" >
+                                                        <mat-form-field style="margin-left: 5%;" >
+                                                            <mat-label >Id</mat-label>
+                                                            <input matInput formControlName="id" readonly autocomplete="off" > 
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-5" >
+                                                        <mat-form-field style="margin-left: 5%;width:220px" >
+                                                            <mat-label >Name</mat-label>
+                                                            <input matInput formControlName="name"  autocomplete="off" > 
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-5" style="margin-top: 20px;">
+                                
+                                                            <!-- <mat-label>Multilevel Approver</mat-label>
+                                                            <mat-radio-group  formControlName="is_multilevel">
+                                                                <mat-radio-button *ngFor="let n of yesorno" [value]="is_multil"  
+                                                                    style="margin-left: 10px;" (click)="Multilevel(n)" >
+                                                                    {{n.display}}
+                                                                </mat-radio-button>
+                                                            </mat-radio-group> -->
+                                                        
+                                                            <mat-slide-toggle formControlName="is_multilevel" >Multilevel Approver</mat-slide-toggle>
+                                                    </div>  
+                                                </div>
+                                                    <div class=" row col-md-12" style="margin-top: 25px;">
+                                                        <div class="col-md-4" >
+                                                            <mat-form-field style="margin-left: 5%;width:220px" >
+                                                                <mat-label >Approval level</mat-label>
+                                                                <input matInput formControlName="Approval_level"  autocomplete="off" > 
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-6" style="margin-left: 50px">
+                                                            <button type="submit" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; "(click)="editcommidity()" data-dismiss="modal" >Submit</button>
+                                                            <button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-left: 10px;" data-dismiss="modal" >Back</button>
+                                                        </div>
+                                                    </div>
+                                                
+                                            </form>
+                                        </div>
+                                        
+                                    </div>   
+                                    
+                                </div>
+                            </div>
+                        </td>
+                        <td class="cursor">
+                            <div *ngIf="com?.status === 1 ; else lock">
+                                <mat-icon (click)="forInactive(com)" title="Click to Inactive" style="color: green;"
+                                    aria-label="inactive">wb_sunny</mat-icon>
+                            </div>
+                            <ng-template #lock>
+                                <mat-icon (click)="foractive(com)" title="Click to Active" style="color: gray;"
+                                    aria-label="inactive">wb_sunny</mat-icon>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="commodityList?.length==0; else paginationcom" class="NodataAlign">No Records Found...</div>
+            <ng-template #paginationcom>
+                <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+                    <button mat-icon-button [disabled]="has_previouscom === false" color="primary"
+                        (click)="previousClickcom()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpagecom}}
+                    <button mat-icon-button [disabled]="has_nextcom === false" color="primary" (click)="nextClickcom()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////assign-product -->
+    <div class="modal fade bd-example-modal-lgone" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="exampleModalLongTitle">
+                            Commodity Name:<span style="color: blue;"> {{commodname}}</span></h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <br>
+                    <!-- <form [formGroup]="productSearchForm"> -->
+                    <div class="row" style="margin-left: 5px;">
+                        <h2> Assigned Product: &nbsp;</h2>
+                        <br>
+                        <div style="overflow-y: scroll;max-height: 100px;">
+                            <mat-chip *ngFor="let prodt of prodList; index as i">&nbsp;{{prodt?.product?.name}} </mat-chip>
+                        </div>
+                    </div>
+                    <form>
+                        <mat-form-field style="width: 100%;">
+    
+                            <mat-label>Product Name</mat-label>
+    
+                            <mat-chip-list #chipListprod>
+                                <mat-chip *ngFor="let pro of chipSelectedprod" [selectable]=true [removable]=true
+                                    (removed)="removedprod(pro)">
+                                    {{pro.name}}
+                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                </mat-chip>
+                                <input #prodInput [formControl]="product_id" [matAutocomplete]="prod"
+                                    [matChipInputFor]="chipListprod" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                    [matChipInputAddOnBlur]=true>
+                            </mat-chip-list>
+    
+                            <mat-autocomplete #prod="matAutocomplete" (optionSelected)="prodSelected($event)">
+                                <mat-option *ngFor="let prod of productList" [value]="prod">
+                                    {{prod.name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+    
+    
+    
+    
+    
+    
+                        <button data-dismiss="modal" type="submit" style="border-radius: 40px;margin-left: 10px;"
+                            class="btn btn-outline-success" (click)="productsubmit()">Add</button>
+    
+                        <button *ngIf="prodList?.length===0; else disab" disabled data-dismiss="modal" type="submit"
+                            style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-danger"
+                            (click)="productremovesubmit()">Remove</button>
+                        <ng-template #disab>
+                            <button data-dismiss="modal" type="submit" style="border-radius: 40px;margin-left: 10px;"
+                                class="btn btn-outline-danger" (click)="productremovesubmit()">Remove</button>
+                        </ng-template>
+    
+    
+    
+    
+    
+    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- DELMAT MAKER -->
+    
+    <div *ngIf="isDelmatMakers" >
+        
+            <div >
+                <form [formGroup]="delmatSearchForm" (ngSubmit)="delmatSearch_new()">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Search Employee Name</mat-label>
+                        <input #empInput placeholder="Search Employee" matInput formControlName="employee_id"
+                            [matAutocomplete]="emp">
+                        <mat-autocomplete #emp="matAutocomplete" [displayWith]="displayFnemp"
+                            (opened)="autocompleteempScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let emp of employeeList" [value]="emp">{{emp.full_name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field style="width: 175px;margin-left: 50px;">
+                        <mat-label> Search Commodity Name
+                        </mat-label>
+                        <input #comInput placeholder="Search Commodity" matInput formControlName="commodity_id"
+                            [matAutocomplete]="com">
+                        <mat-autocomplete #com="matAutocomplete" [displayWith]="displayFncom"
+                            (opened)="autocompletecomScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let com of commodityLists" [value]="com">{{com.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field style="width: 175px;margin-left: 50px;">
+                        <mat-label>Select Delmat Type</mat-label>
+                        <mat-select formControlName="type">
+                            <mat-option>Select</mat-option>
+                            <mat-option *ngFor="let type of delmattypeList" [value]="type.id">{{type.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Active/Inactive</mat-label>
+                        <mat-select formControlName="drop">
+                            <mat-option value="ACTIVE">ACTIVE</mat-option>
+                            <mat-option value="INACTIVE">INACTIVE</mat-option>
+                            <mat-option value="ALL">ALL</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;"
+                        color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                
+                    <div style="margin-top: 1%;">
+                        <button class="btn btn-outline-primary" (click)="resetdelmak()" type="submit"
+                            style="border-radius:40px;margin-left: 15px;" color="primary">Reset</button>
+                        <!-- <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 20px;"
+                            (click)="adddel()"><span class="fa fa-plus"></span></button> -->
+                        <button mat-raised-button type="button" class="btn btn-primary" [disabled]="enbaction" (click)="downloadexceldataofdelamat()"  style="border-radius: 40px;height: 40px;margin-left:2%;">
+                            Prepare Excel For Delmat
+                                <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                                </mat-spinner></mat-icon>
+                                <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                            </button>
+                        <button mat-raised-button type="button" class="btn btn-primary" [disabled]="!enbaction"  (click)="delmatMakerDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;">
+                                Download Excel
+                                    <mat-icon *ngIf="second"><mat-spinner color="accent" diameter="20">
+                                    </mat-spinner></mat-icon>
+                                    <mat-icon *ngIf="!second" inline=true style="color:black">download</mat-icon>
+                            </button>
+                    </div>
+                </form>
+            </div>
+        
+        <div class="table-responsive" style="margin-top: 2%;width: 95%; overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Employee Name</th>
+                        <th>Commodity Name</th>
+                        <th>Delmat Type</th>
+                        <th>Limit</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                        <!-- <th>Remarks</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let del of delmatList; index as i">
+                        <td> {{(presentpagedel - 1)*pageSize +i+1 }} </td>
+                        <td>{{ del?.employee_id?.full_name}}</td>
+                        <td>{{ del?.commodity_id?.name }}</td>
+                        <td>{{ del?.type }}</td>
+                        <td>{{ del?.limit| currency:'INR' }}</td>
+                        <td class="cursor">
+                            {{ del?.delmat_status }}
+                        </td>
+                        <td class="cursor">
+                            <div *ngIf="del?.status === 1 ; else lock">
+                                <mat-icon (click)="forInactivedel(del)" style="color: green;" title="Click to Inactive"
+                                    aria-label="inactive">wb_sunny</mat-icon>
+                            </div>
+                            <ng-template #lock>
+                                <mat-icon (click)="foractivedel(del)" style="color: rgb(196, 188, 189);" title="Click to Active"
+                                    aria-label="inactive">wb_sunny</mat-icon>
+                            </ng-template>
+                        </td>
+                    </tr>
+    
+                </tbody>
+            </table>
+            <div *ngIf="delmatList?.length==0; else paginationdel" class="NodataAlign">No Records Found...</div>
+            <ng-template #paginationdel>
+                <div style="font-size: small;text-align:right; margin-bottom:100px;">
+                    <button mat-icon-button [disabled]="has_previousdel === false" color="primary"
+                        (click)="previousClickdel()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpagedel}}
+                    <button mat-icon-button [disabled]="has_nextdel === false" color="primary" (click)="nextClickdel()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    
+    <!-- DELMAT APPROVAL -->
+    
+    <div *ngIf="isDelmatApproval" >
+        <div class="col-12 row">
+            <div class="col-12">
+                <form [formGroup]="delmatapprovalSearchForm" (ngSubmit)="delmatappSearch_new()">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Search Employee Name</mat-label>
+                        <input #empappInput placeholder="Search Employee" matInput formControlName="employee_id"
+                            [matAutocomplete]="empapproval">
+                        <mat-autocomplete #empapproval="matAutocomplete" [displayWith]="displayFnempapproval"
+                            (opened)="autocompleteempapprovalScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let emp of employeeList" [value]="emp">{{emp.full_name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field style="width: 175px;margin-left: 50px;">
+                        <mat-label> Search Commodity Name</mat-label>
+                        <input #comappInput placeholder="Search Commodity" matInput formControlName="commodity_id"
+                            [matAutocomplete]="comapproval">
+                        <mat-autocomplete #comapproval="matAutocomplete" [displayWith]="displayFncomapproval"
+                            (opened)="autocompletecomappScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let com of commodityLists" [value]="com">{{com.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field style="width: 175px;margin-left: 50px;">
+                        <mat-label>Select Delmat Type</mat-label>
+                        <mat-select formControlName="type">
+                            <mat-option>Select</mat-option>
+                            <mat-option *ngFor="let type of delmattypeList" [value]="type.id">{{type.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;"
+                        color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <button class="btn btn-outline-primary" (click)="resetdelapproval()" type="submit"
+                        style="border-radius:40px;margin-left: 15px;" color="primary">Reset</button>
+                    <button mat-raised-button type="button" class="btn btn-primary"  (click)="delmatApproverDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;">
+                        Download
+                            <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                            </mat-spinner></mat-icon>
+                            <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                        </button>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive" style="margin-top: 2%;width: 95%; overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Employee Name</th>
+                        <th>Commodity Name</th>
+                        <th>Delmat Type</th>
+                        <th>Limit</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+    
+                    <tr *ngFor="let delapp of delmatappList; index as i">
+                        <td>{{(presentpagedelapp - 1)*pageSize +i+1 }} </td>
+                        <td>{{ delapp?.employee_id?.full_name}}</td>
+                        <td>{{ delapp?.commodity_id?.name }}</td>
+                        <td>{{ delapp?.type }}</td>
+                        <td>{{ delapp?.limit| currency:'INR' }}</td>
+                        <td>{{ delapp?.delmat_status }}</td>
+                        <td class="cursor">
+                            <span class="material-icons" (click)="approval(delapp)" data-toggle="modal" matTooltip="Click To View"
+                                data-target=".bd-example-modal-lg" style="color:rgb(19, 152, 170) ;">visibility</span>
+                        </td>
+                    </tr>
+    
+                </tbody>
+            </table>
+            <div *ngIf="delmatappList?.length==0; else paginationdelapp" class="NodataAlign">No Records Found...</div>
+            <ng-template #paginationdelapp>
+                <div style="font-size: small;text-align:right; margin-bottom:100px;">
+                    <button mat-icon-button [disabled]="has_previousdelapp === false" color="primary"
+                        (click)="previousClickdelapp()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpagedelapp}}
+                    <button mat-icon-button [disabled]="has_nextdelapp === false" color="primary"
+                        (click)="nextClickdelapp()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    
+    <!-- ////////////////////////////////////////////////////////////////approval popup -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalLongTitle" style="color: blue;"> Delmat Approver</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="table-responsive" style="margin-top: 2%;margin-left:50px; width: 90%; overflow-x: hidden;">
+                    <table class="table table-bordered">
+                        <thead class="table_header">
+                            <tr>
+                                <th>Employee</th>
+                                <th>Commodity</th>
+                                <th>Delmat Status</th>
+                                <th>Limit</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ delappemployee_id }}</td>
+                                <td>{{ delappcommodity_id }}</td>
+                                <td>{{ delmat_status }}</td>
+                                <td>{{ limit }}</td>
+                                <td>{{ type }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <form [formGroup]="approvalForm">
+                            <mat-form-field style="width: 500px; ">
+                                <mat-label>Approval Remarks</mat-label>
+                                <textarea matInput placeholder="APPROVE Remarks" formControlName="remarks" (keypress)="kyenbdata($event)"
+                                    autocomplete="off"></textarea>
+                            </mat-form-field>
+                            <button type="submit" data-dismiss="modal" (click)="approveClick()"
+                                class="btn btn-outline-success"
+                                style="border-radius: 40px;margin-left: 10px;">APPROVE</button>
+                        </form>
+    
+                        <form [formGroup]="rejectForm">
+                            <mat-form-field style="width: 500px;">
+                                <mat-label>Rejected Remarks</mat-label>
+                                <textarea matInput placeholder="REJECT Remarks" formControlName="remarks" (keypress)="kyenbdata($event)"
+                                    autocomplete="off"></textarea>
+                            </mat-form-field>
+                            <button type="button" data-dismiss="modal" (click)="rejectClick()"
+                                class="btn btn-outline-danger" [disabled]="rejectForm.invalid"
+                                style="border-radius: 40px;margin-left: 10px;">REJECT</button>
+    
+                            <!-- hintLabel="should be more than 10 characters  &nbsp; {{rejectForm.value.remarks?.length}}/10" -->
+                            <br>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isAppVersion" style="margin-top: 2%;">
+        <form [formGroup]="appVersionForm">
+            <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>App Version</mat-label>
+                        <input type="text" matInput formControlName="no">
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Remarks</mat-label>
+                        <input type="text" matInput formControlName="remarks">
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field >
+                        <mat-label>Active/Inactive</mat-label>
+                        <mat-select formControlName="drop">
+                           <mat-option value="ACTIVE">ACTIVE</mat-option>
+                           <mat-option value="INACTIVE">INACTIVE</mat-option>
+                           <mat-option value="ALL">ALL</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3" style="margin-top:10px;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getappversionsummarysearch()">Search</button>
+                    <button class="btn btn-outline-primary" (click)="resetappversion()" type="button" style="border-radius:40px;margin-left: 15px;"
+                    color="primary">Reset</button>
+                </div>
+            </div>
+        </div>
+        </form>
+        <br>
+        <div class="container">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>App Version</th>
+                        <th>Reference No</th>
+                        <th>Remarks</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of appdataList;let i=index">
+                        <td>{{(has_apppage - 1)*pageSize +i+1 }}</td>
+                        <td>{{d.no}}</td>
+                        <td>{{d.ref_no}}</td>
+                        <td>{{d.remarks}}</td>
+                        <td>
+                            <!-- <button type="button" style="border:none;background:none" matTooltip="Edit" (click)="Finedit(d)"><mat-icon>edit</mat-icon></button> -->
+                            <button type="button" style="border:none;background:none" [ngClass]="d.status==1?'active':'inactive'" (click)="appversionactiveinactive(d)"><mat-icon>wb_sunny</mat-icon></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="appdataList?.length==0; else paginationapp" style="border-radius:40px;margin-left: 15px;" class="NodataAlign">No Records Found...</div>
+            <ng-template #paginationapp>
+                <div style="font-size: small;text-align:right; margin-bottom:100px;">
+                    <button mat-icon-button [disabled]="has_appprevious === false" color="primary"
+                        (click)="app_previous()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{has_apppage}}
+                    <button mat-icon-button [disabled]="has_appnext === false" color="primary"
+                        (click)="app_next()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <div *ngIf="isClient" style="margin-top: 2%;">
+        <form [formGroup]="clientForm">
+            <div>
+            <div class="col-12 row">
+                <div class="col-md-2">
+                    <mat-form-field >
+                        <mat-label>Client Code</mat-label>
+                        <input type="text" matInput formControlName="code">
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-2">
+                    <mat-form-field >
+                        <mat-label>Client Name</mat-label>
+                        <input type="text" matInput formControlName="name">
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-2">
+                    <mat-form-field >
+                        <mat-label>Active/Inactive</mat-label>
+                        <mat-select formControlName="drop">
+                           <mat-option value="ACTIVE">ACTIVE</mat-option>
+                           <mat-option value="INACTIVE">INACTIVE</mat-option>
+                           <mat-option value="ALL">ALL</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3" style="margin-top:10px;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getclientsummary_search()">Search</button>
+                    <button class="btn btn-outline-primary" (click)="resetclient()" type="submit"
+                            style="border-radius:40px;margin-left: 15px;" color="primary">
+                            Reset
+                    </button>
+                </div>
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button mat-raised-button type="button" class="btn btn-primary"  (click)="clientDownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;">
+                    Download
+                        <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                        </mat-spinner></mat-icon>
+                        <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        </form>
+        <br>
+        <div class="container">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Client Code</th>
+                        <th>Client Name</th>
+                        <th>Client Identification Number(CIN)</th>
+                        <th>Nimbus Ref Number</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of clientList;let i=index">
+                        <td>{{(has_clientpage - 1)*pageSize +i+1 }}</td>
+                        <td>{{d.client_code}}</td>
+                        <td>{{d.client_name}}</td>
+                        <td>{{d.cin ? d.cin:'-'}}</td>
+                        <td>{{d.nimbus_ref_number ? d.nimbus_ref_number:'-'}}</td>
+                        <td>
+                            <button type="button" style="border:none;background:none" matTooltip="Edit" (click)="clientEdit(d)"><mat-icon>edit</mat-icon></button>
+                            <button type="button" style="border:none;background:none" [ngClass]="d.status==1?'active':'inactive'" (click)="clientActiveInactive(d)"><mat-icon>wb_sunny</mat-icon></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="clientList?.length==0; else paginationapp" style="border-radius:40px;margin-left: 15px;" class="NodataAlign">No Records Found...</div>
+            <ng-template #paginationapp>
+                <div style="font-size: small;text-align:right; margin-bottom:100px;">
+                    <button mat-icon-button [disabled]="has_clientprevious === false" color="primary"
+                        (click)="client_previous()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{has_clientpage}}
+                    <button mat-icon-button [disabled]="has_clientnext === false" color="primary"
+                        (click)="client_next()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <div *ngIf="isEmpbranch" style="margin-top: 2%;">
+        <form [formGroup]="empbranchform" autocomplete="off">
+            <div class="col-12 row" >
+                <tr>
+                <td>
+                <div class="col-md-2">
+                    <mat-form-field >
+                        <mat-label>Employee Branch Code</mat-label>
+                        <input type="text" matInput formControlName="code">
+                    </mat-form-field>
+                </div>
+                </td>
+                <td>
+                <div class="col-md-3">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Employee Branch Name</mat-label>
+                        <input type="text" matInput formControlName="name">
+                    </mat-form-field>
+                </div>
+                </td>
+                <td>
+                    <div class="col-md-2">
+                        <mat-form-field >
+                            <mat-label>Active/Inactive</mat-label>
+                            <mat-select formControlName="drop">
+                               <mat-option value="ACTIVE">ACTIVE</mat-option>
+                               <mat-option value="INACTIVE">INACTIVE</mat-option>
+                               <mat-option value="ALL">ALL</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </td>
+                <td>
+               
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 15px;" (click)="getempbranchdatasearch()">Search</button>
+                    </td>
+                    <td>
+                    <button class="btn btn-outline-primary" (click)="empbranchreset()" type="submit"
+                            style="border-radius:40px;margin-left: 15px;" color="primary">
+                            Reset
+                    </button>
+                    </td>
+                    <td>
+                    <button mat-raised-button type="button" class="btn btn-primary" (click)="getempbranchdownload()"  style="border-radius: 40px;height: 40px;margin-left:2%;">
+                        Download
+                            <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                            </mat-spinner></mat-icon>
+                            <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                        </button>
+               
+                </td>
+                </tr>
+                </div>
+        </form>
+        <br>
+        <div style="margin-left: 3%;">
+            <table class="table table-bordered" style="width: 95%;">
+                <thead>
+                    <tr class="table_header">
+                        <th>S.No</th>
+                        <th>Code</th>
+                        <th>Control Office Branch</th>
+                        <th>Branch Incharge</th>
+                        <th>Active</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of empbranchData;index as i">
+                        <td>{{(empbranchpage - 1)*pageSize +i+1 }}</td>
+                        <td>{{d.code}}</td>
+                        <td>{{d.name}}</td>
+                        <td>{{d.incharge}}</td>
+                        <td>
+                            <button type="button" mat-icon-button [ngClass]="d.status==1?'active':'inactive'" (click)="empbranchactiveinactive(d)"><mat-icon>wb_sunny</mat-icon></button>
+                            <!-- <button type="button" mat-icon-button (click)="editmasterbranchdata(d)"><mat-icon>edit</mat-icon></button> -->
+                        </td>
+                    </tr>
+                    <tr *ngIf="empbranchData.length==0">
+                        <td colspan="5">
+                            No Records Found..
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <div style="text-align:right">
+                            <button mat-icon-button [disabled]="!empbranchprevious" color="primary"
+                                (click)="empsbranchprevious()">
+                                <mat-icon>arrow_back
+                                </mat-icon>
+                            </button>
+                            {{empbranchpage}}
+                            <button mat-icon-button [disabled]="!empbranchnext" color="primary" (click)="empsbranchnext()">
+                                <mat-icon>arrow_forward
+                                </mat-icon>
+                            </button>
+                        </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <div style="font-size: small;text-align:right; margin-bottom:100px;"> -->
+            <!-- <button mat-icon-button [disabled]="!empbranchprevious" color="primary"
+                (click)="empsbranchprevious()">
+                <mat-icon>arrow_back
+                </mat-icon>
+            </button>
+            {{empbranchpage}}
+            <button mat-icon-button [disabled]="!empbranchnext" color="primary" (click)="empsbranchnext()">
+                <mat-icon>arrow_forward
+                </mat-icon>
+            </button> -->
+        <!-- </div> -->
+    </div>
+    <div *ngIf="isEmpuploadnew" style="margin-top: 2%;">
+        <form [formGroup]="empuploadform" autocomplete="off">
+            <div style="margin-left: 3%;">
+                <table class="table table-bordered" style="width: 95%;">
+                    <thead>
+                        <tr class="table_header">
+                            <th>S.No</th>
+                            <th>Employee Excel Upload</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <ng-container>
+                                    <input #fileInput type="file" formControlName="images" multiple (change)="getFileDetails($event,fileInput.value)"
+                                         style="width: 250px;" >
+                                </ng-container>
+                    
+                                <!-- <div *ngFor="let file of empupload.files; index as fileIndex">
+                                    <div><a data-toggle="modal" data-dismiss="modal" data-target="#exampleModal" (click)="imagess(empupload['images'][fileIndex])">* {{file}}</a>
+                                    <button type="button" (click)="deleteRow(listIndex, fileIndex); fileInput.value = ''"
+                                        class="btn btn-primary" style="height:30px">X</button>
+                                    </div>
+                                </div> -->
+                            </td>
+                            <td>
+                                <button mat-raised-button type="button" class="btn btn-primary" (click)="empupload_Save()"  style="border-radius: 40px;height: 40px;margin-left:2%;">Upload</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+    <h3 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">
+        Sub Tax Edit Form
+    </h3>
+    <div><hr>
+        <form [formGroup]="subTaxCreateForm" (ngSubmit)="subTaxEditForm()" autocomplete="off">
+            <table>
+                <div>
+                    <tr>
+                     
+                        <td>
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>Tax</mat-label>
+                                <input #SCROLLtaxInput placeholder="Select Tax" matInput formControlName="tax_id"
+                                    [matAutocomplete]="taxdata">
+                                <mat-autocomplete #taxdata="matAutocomplete" [displayWith]="displaytaxdata" (opened)="autocompletetaxScroll()" >
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let tax of taxDDvalueList" [value]="tax">{{tax.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>GL No</mat-label>
+                                <input matInput placeholder="Gl No" formControlName="glno"
+                                    (keypress)="numberOnly($event)" maxlength="9" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                    
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>Remarks</mat-label>
+                                <input matInput placeholder="Remarks" formControlName="remarks" autocomplete="off"
+                                    required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+               >Submit</button>
+            <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+            <!-- <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                [disabled]="disableSubmit">Submit</button> -->
+        </form>
+    </div>
+</div>

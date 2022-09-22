@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+            <h3> Changes </h3>
+        </div>
+        <div class="col-md-7 text-right">
+            <!-- <button type="button" class="btn btn-primary" style="border-radius: 10px;margin-left: 10px;"
+                (click)="Cancel()">Cancel</button> -->
+                <button type="button" class="btn btn-light" (click)="Cancel()"
+                style="border-radius: 7px;margin-left: 25px;
+                border-color: black;
+                background-color: white;">Cancel</button>
+        </div>
+    </div>
+    <div>
+        <div class="timeline">
+            <ul>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+
+                <li>
+                    <div class="content">
+
+                        <p><code>Activity Name</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.activity_id.name!=modificationdata.old_data.activity_id.name'>{{
+                        modificationdata.new_data.activity_id.name}}</span></p>
+                        <p><code>Name</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.detailname!=modificationdata.old_data.detailname'>{{
+                        modificationdata.new_data.detailname}}</span></p>
+                        <p><code>Code </code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.code!=modificationdata.old_data.code'>{{
+                        modificationdata.new_data.code}}</span></p>
+                        <p><code>Remarks</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.remarks!=modificationdata.old_data.remarks'>{{
+                        modificationdata.new_data.remarks}}</span></p>
+                        <p><code>Raisor</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.raisor.full_name!=modificationdata.old_data.raisor.full_name'>{{
+                        modificationdata.new_data.raisor.full_name}}</span></p>
+                        <p><code>Approver</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.approver.full_name!=modificationdata.old_data.approver.full_name'>{{
+                        modificationdata.new_data.approver.full_name}}</span></p>
+
+                    </div>
+                </li>
+                <li>
+                    <div class="content" *ngIf="modificationdata.action==2">
+                        <p><code>Activity Name</code>:&nbsp;{{ modificationdata.old_data.activity_id.name}}</p>
+                        <p><code>Name</code>:&nbsp;{{ modificationdata.old_data.detailname}}</p>
+                        <p><code> code</code>:&nbsp;{{ modificationdata.old_data.code}}</p>
+                        <p><code>Remarks</code>:&nbsp;{{ modificationdata.old_data.remarks}}</p>
+                        <p><code>Raisor</code>:&nbsp;{{ modificationdata.old_data.raisor.full_name}}</p>
+                        <p><code>Approver</code>:&nbsp;{{ modificationdata.old_data.approver.full_name}}</p>
+
+                    </div>
+                </li>
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,358 @@
+<!-- <h3 style="margin-left: 50px;">
+    eClaim Local Deputation Charges Expense
+</h3>
+
+
+
+    <div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+        <h3 style="color:deeppink;">
+             Employee
+        </h3>
+            <div>
+              <form #taForm="ngForm">
+                    <table>
+                        <tr>
+                          <td>
+                            <mat-form-field  style="width: 175px;">
+                              <mat-label>Tour No</mat-label>
+                              <input  matInput placeholder="Tour No" [disabled]="true" [value]="expenseid" autocomplete="off"  required>
+                            </mat-form-field>
+                          </td>
+                          <td>
+                            <mat-form-field  style="width: 175px;margin-left: 50px;">
+                              <mat-label>Employee Name</mat-label>
+                              <input  matInput placeholder="Employee Name" [disabled]="true" [value]="employeename" autocomplete="off"  required>
+                            </mat-form-field>
+                          </td>
+                          <td>
+                          <mat-form-field  style="width: 175px;margin-left: 50px;">
+                            <mat-label>Designation</mat-label>
+                            <input  matInput placeholder="Designation" [disabled]="true" [value]="employeedesignation" autocomplete="off"  required>
+                          </mat-form-field>
+                        </td>
+                        <td>
+                          <mat-form-field  style="width: 175px;margin-left: 50px;">
+                            <mat-label>Employee Grade</mat-label>
+                            <input  matInput placeholder="Emp grade" [disabled]="true" [value]="employeegrade" autocomplete="off"  required>
+                          </mat-form-field>
+                        </td> 
+                       <td>
+                          <td>
+                         
+                            <button type="button" class="btn btn-outline-success"(click) ="addSection()"
+                            style="border-radius:40px;margin-left: 50px"><span class="fa fa-plus"></span>
+                               Deputation</button>
+                        
+                      </td>
+                    </tr> 
+                    </table>
+        
+                   
+        
+        <div class="table-responsive" style="width:80%;margin-top: 1%;">
+            <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+                <thead class="table_header" style="text-align: left;">
+        <tr>
+        <th>S.No</th>
+        <th>City</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th>System Calculated No of Days</th>
+        <th>Number of Days</th>
+        <th>No of leave Days</th>
+        <th>Eligible Amount</th>
+        <th>Claim Amount</th>
+        <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let dtl of deputation.data;let ind=index;" >
+				<td scope="row"  style="vertical-align: middle;"> {{(this.currentpage - 1)*pagesize +ind+1 }}</td>
+
+                <td> 
+                    <mat-form-field style="width: 175px;">
+                        <mat-select name="city_{{dtl.id}}"   [(ngModel)]="dtl.city">
+                          <mat-option placeholder="City" *ngFor="let city of citylist" [value]="city.id" (onSelectionChange)='getPosts(city.city)'>
+                              {{city.city}}
+                          </mat-option>
+                      </mat-select>
+                     </mat-form-field>
+                 </td>
+                 <td> 
+                    <mat-form-field style="width:175px;">
+                
+                        <input matInput [matDatepicker]="picker1" 
+                        placeholder="Start Date" autocomplete="off" [max]="DailydiemTodate"[min]="Dailydiemfromdate" name="dtlstartdate"[(ngModel)]="dtl.startdate" (change)="fromdate($event)">
+                        <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                 </td>
+                 <td> 
+                    <mat-form-field style="width:175px;">
+                
+                        <input matInput [matDatepicker]="picker2" 
+                        placeholder="End Date" autocomplete="off" [max]="DailydiemTodate"[min]="Dailydiemfromdate"  name="dtlenddate"[(ngModel)]="dtl.enddate" (change)="todate($event)">
+                        <mat-datepicker-toggle matSuffix [for]="picker2" ></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                 </td>
+                 <td> 
+                  <mat-form-field style="width: 175px;">
+                   <input matInput placeholder="System No Of Days" name="sysdays_{{dtl.id}}" [(ngModel)]="dtl.sysdays" autocomplete="off" required>
+                 </mat-form-field>
+               </td>
+                 <td> 
+                    <mat-form-field style="width: 175px;">
+                     <input matInput placeholder="No Of Days" name="no_of_days_{{dtl.id}}" [(ngModel)]="dtl.no_of_days" (change)="noofdays(dtl.no_of_days)" autocomplete="off" required>
+                   </mat-form-field>
+                 </td>
+                 <td> 
+                    <mat-form-field style="width: 175px;">
+                     <input matInput placeholder="No Of Leave Days" name="leave_{{dtl.id}}" [(ngModel)]="dtl.leave" (change)="leave(dtl.leave)" autocomplete="off" required>
+                   </mat-form-field>
+                 </td>
+                 <td> 
+                    <mat-form-field style="width: 175px;">
+                     <input matInput placeholder="Eligible Amount" name="eligibleamount_{{dtl.id}}" [(ngModel)]="dtl.eligibleamount" autocomplete="off" required>
+                   </mat-form-field>
+                 </td>
+               
+               <td> 
+                <mat-form-field style="width: 175px;">
+                 <input matInput placeholder="Totall Billed Amount " name="claimedamount_{{dtl.id}}" [(ngModel)]="dtl.claimedamount" autocomplete="off" required>
+               </mat-form-field>
+             </td>
+            
+            
+             
+            
+             
+            
+
+             <td><button mat-icon-button matTooltip="Delete" (click)="expensedelete()" (click)="removeSection(ind)" class="iconbutton" color="primary">
+           <mat-icon style="color:green;" aria-label="Delete">delete</mat-icon>
+           </button>
+        </td>
+    </tr>
+        </tbody>
+        
+        
+
+    
+ 
+       
+       
+      
+ 
+
+        </table>
+        </div>
+        <div class="col-md-12 text-center" >
+          <button type="submit" style="border-radius: 40px;margin-left: 10px;"(click)="submitForm()"
+              class="btn btn-outline-primary"  >Submit</button>
+          <button type="button"  class="btn btn-outline-primary"(click)="back()"
+            style="border-radius: 40px;margin-left: 10px;">Back</button>
+       </div>
+       </form>
+        </div>
+    </div>  -->
+
+
+
+<!-- <pre>
+        {{expenceeditForm.value|json}}
+    </pre> -->
+
+
+<div class="col-md-12">
+  <div>
+    <h2 style="margin-left: 44px;margin-top: 30px; font-size: 22px;font-weight: 500;">
+      eClaim Local Deputation Charges Expense
+    </h2>
+  </div>
+  <div *ngIf="isonbehalf">
+    <h3 style="margin-left: 44px;color:rgb(0, 0, 0);font-size: 18px; font-weight: 400;">
+      On Behalf Employee - {{onbehalf_empName}}
+    </h3>
+  </div>
+  <div style="margin-left: 50px;margin-right: 80%;margin-top: 3%;width: 100%;margin-bottom: 50px;">
+    <h3 style="color:rgb(0, 0, 0);font-size: 18px; font-weight: 500;">
+      Tour Details
+    </h3>
+    <div>
+      <form [formGroup]="deputationform">
+        <table>
+          <tr>
+            <td>
+              <mat-form-field style="width: 175px;">
+                <mat-label style="font-size: 20px;">Tour No</mat-label>
+                <input matInput class="disabled11" placeholder="Tour No" formControlName="tourno" [readonly]="true">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="width: 175px;margin-left: 50px;">
+                <mat-label style="font-size: 20px;">Employee Name</mat-label>
+                <input matInput class="disabled11" placeholder="employeename" formControlName="employeename"
+                  [readonly]="true">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="width: 175px;margin-left: 50px;">
+                <mat-label style="font-size: 20px;">Designation</mat-label>
+                <input matInput class="disabled11" placeholder="designation" formControlName="designation"
+                  [readonly]="true">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="width: 175px;margin-left: 50px;">
+                <mat-label style="font-size: 20px;">Employee Grade</mat-label>
+                <input class="disabled11" matInput placeholder="employeegrade" formControlName="employeegrade"
+                  [readonly]="true">
+              </mat-form-field>
+            </td>
+            <td>
+
+              <button type="button" class="btn btn-outline-success" (click)="adddata()"
+                style="border-radius:40px;margin-left: 50px" *ngIf="!approver"><span class="fa fa-plus"></span>
+                ADD</button>
+
+            </td>
+          </tr>
+        </table>
+        <div class="table-responsive" style="width:97%;margin-top: 1%;">
+          <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+            <tr class="table_header" style="text-align: left;">
+              <th>S.No</th>
+              <th>City</th>
+              <th>From Date</th>
+              <th>To Date</th>
+              <th>System Calculated No of Days</th>
+              <th>Number of Days</th>
+              <th>No of leave Days</th>
+              <th>Eligible Amount</th>
+              <th>Claim Amount</th>
+              <th *ngIf="!approver">Action</th>
+              <th *ngIf="approver && applevel == 2">Approve Amount</th>
+            </tr>
+            <tbody formArrayName="data"
+              *ngFor="let item of deputationform.get('data')['controls'] | paginate: { itemsPerPage: pageSize, currentPage: p } index as i">
+              <tr [formGroupName]="GlobalIndex(i)">
+                <td>{{((p-1)*pageSize)+i+1}}</td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+
+                      <mat-label>City</mat-label>
+                      <input (keypress)="citysearch(i)" type="text" required #inputassetid placeholder="Select City"
+                        matInput (keypress)="omit_special_char($event)" [matAutocomplete]="conoffice"
+                        formControlName="city">
+                      <mat-autocomplete #assetid #conoffice="matAutocomplete" (opened)="autocompleteid()">
+                        <mat-option *ngFor="let city of citylist" (click)="cityselectcall(i)" [value]="city.city">
+                          {{city.city}}
+
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <input matInput readonly [matDatepicker]="picker1" required [min]="minselect(i)" [max]="maximum"
+                        placeholder="Start Date" (dateChange)="cityselectcall(i);invaliddatestart(i)" autocomplete="off"
+                        formControlName="startdate" aria-readonly="true">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <input matInput readonly [matDatepicker]="picker2" required [min]="maxselect(i)" [max]="maximum"
+                        placeholder="To Date" autocomplete="off" (dateChange)="cityselectcall(i);invaliddateend(i)"
+                        formControlName="enddate" aria-readonly="true">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never" class="disabled11">
+                      <input matInput placeholder="System No of Days" readonly formControlName="sysdays">
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <input matInput required placeholder="No of Days" (keydown)="nospace($event);zero($event)"
+                        (keypress)="keyPressAmounts($event)" (change)="cityselectcall(i)" formControlName="no_of_days">
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <input matInput placeholder="Leave" (keydown)="nospace($event);zero($event)"
+                        (keypress)="keyPressAmounts($event)" required (change)="cityselectcall(i)"
+                        formControlName="leave">
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never" class="disabled11">
+                      <input matInput placeholder="Eligible Amount" formControlName="eligibleamount">
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <input matInput required placeholder="Claimed Amount" (keydown)="nospace($event);zero($event)"
+                        (keypress)="keyPressAmounts($event)" formControlName="claimedamount">
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td *ngIf="!approver">
+                  <button mat-icon-button [disabled]="deputationform.get('data')['controls'].length== 1"
+                    (click)="indexdelete(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+                <td *ngIf="approver && applevel == 2">
+                  <fieldset [disabled]="statusid > 2">
+                    <mat-form-field floatLable="never">
+                      <input matInput (keypress)="keyPressAmounts($event);zero($event)"
+                        formControlName="approvedamount">
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+          <div class="pagination">
+            <pagination-controls responsive="true" (pageChange)="p = $event"></pagination-controls>
+          </div>
+        </div>
+
+        <div class="col-md-12 text-center" style="margin-top: 50px;">
+          <button *ngIf='!approver' type="submit" style="border-radius: 40px;margin-left: 10px;" (click)="submit()"
+            class="btn btn-outline-primary"
+            [disabled]="deputationform.get('data')['controls'].length== 0">Submit</button>
+
+          <button *ngIf='applevel == 2 && statusid == 2' style="border-radius: 40px;margin-left: 10px;"
+            class="btn btn-outline-primary" (click)="getupdateapprove()"> Approve </button>
+          <button type="button" class="btn btn-outline-primary" (click)="back()"
+            style="border-radius: 40px;margin-left: 10px;">Back</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 1.5)" size="default" type="la-ball-scale-multiple la-3x">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner>

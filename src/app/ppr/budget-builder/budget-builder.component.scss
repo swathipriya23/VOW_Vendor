@@ -1,0 +1,105 @@
+// .tablescroll{
+//     height:400px;
+//     width:95%;
+//     overflow:auto;
+//     overflow: scroll;
+//     overflow:visible;
+//     display: block;
+//   }
+
+
+/* and one small fix for weird FF behavior, described in https://stackoverflow.com/questions/7517127/ */
+// table thead th {
+//   background-clip: padding-box
+// }
+
+// .example-section {
+//   margin: 0px 0;
+// }
+
+// .example-margin {
+//   margin: 0 0px;
+// }
+
+// table ,tr td{
+//   border:1px solid gray
+// }
+// tbody {
+//   display:block;
+//   height:500px;
+//   overflow:auto;
+// }
+// thead, tbody tr {
+//   display:table;
+//   width:100%;
+//   table-layout:auto;
+// }
+// thead {
+//   width: auto;
+// }
+// table {
+//   width:auto;
+// }
+
+// .body-half-screen{
+//   max-height: 50vh;
+// }
+
+
+.material-icons.md-18 { font-size: 18px;color: #0000FF;display: flex; justify-content: flex-end}
+::ng-deep .cdk-overlay-container {
+z-index: 1300 !important;
+}
+.example-form {
+min-width: 150px;
+max-width: 500px;
+width: 100%;
+}
+
+.example-full-width {
+width: 100%;
+}
+a:hover {
+    cursor:pointer;
+   }
+
+// slide-toggle 
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: rgb(49, 109, 44); /*replace with your color*/
+  }
+  
+  ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: rgba(15, 131, 31, 0.322);  /*replace with your color*/
+  }
+
+  .tableFixHead          { overflow: auto; height: 400px;margin-top: 5%; }
+  // // th {width: 100px;}
+  // .tableFixHead thead th { position: sticky; top: 0; z-index: -1; }
+  
+  // /* Just common table stuff. Really. */
+  // table  { border-collapse: collapse;width: 100%;font-size: 13px; }
+  // td { padding: 16px; }
+  // th     { background:#DDEFDD;}
+  
+  // table thead th {
+  // border-top: none !important;
+  // border-bottom: none !important;
+  // // box-shadow: inset 0 2px 0 gray,
+  // //             inset 0 -2px 0 ;
+  // padding: 4px 0;
+  // }
+
+
+
+#commonstyle{
+  border:15px none #f6f6f6;
+  // height: 400px;
+  }
+
+  tr:nth-child(even) {background: #EDF8FA}
+  tr:nth-child(odd) {background: #FFF}
+table,th,td{
+  text-align: left;
+  font-size: 13px;
+  // padding: 5px;
+}

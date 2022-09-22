@@ -1,0 +1,61 @@
+<div>
+    <h1 style="font-weight:bold;color:blue;font-family:Times New Roman; margin-left:3%;">Bucket Summary</h1>
+</div><hr>
+<div style="margin-left:2%">
+    <form [formGroup]="searchForm">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width:200px">
+                    <mat-label>Bucket ID</mat-label>
+                    <input type="text" matInput placeholder="search here" (keyup)="clickoff()" #assetidinputvalue [matAutocomplete]="bucketid" formControlName="assetid">
+                    <mat-autocomplete #assetidvalue #bucketid="matAutocomplete" [displayWith]="assetiddisplay" (opened)='autocompleteassetid()'>
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of assetIddata" [value]="d.code">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <button type="button" (click)="clickoff()" mat-icon-button  style="border-radius:30px;background-color:lightblue;margin-top:2%"><mat-icon matSuffix>search</mat-icon></button>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div style="margin-left:1%;width:80%;font-size:15px;">
+    <div class="table-hover table-responsive">
+        <table class="table table-bordered">
+            <tr class="table_header">
+                <th>S No.</th>
+                <th>Bucket ID</th>
+                <th>Bucket Name</th>
+                <th>Invoice Count</th>
+                <th>Total Asset Value</th>
+                <th>Capitalised Amount</th>
+                <th>Balance Amount</th>
+                <th>Action</th>
+            </tr>
+            <tr *ngFor="let d of bucketdata;let i=index">
+                <td>{{(currentPage-1)*pageSize+i+1}}</td>
+                <td>{{d.assettype.id }}</td>
+                <td>{{d.groupno}}</td>
+                <td>{{d.invoicecount}}</td>
+                <td>{{d.totamount}}</td>
+                <td>{{d.capitalizedamount}}</td>
+                <td>{{d.balanceamount}}</td>
+                <td><button type="button" (click)="viewofpage()" style="padding:0;background:none;border:0;color:blue;" >View</button></td>
+            </tr>
+            <tr *ngIf="bucketdata.length==0">
+                <td colspan="7">No Records Found..</td>
+            </tr>
+        </table>
+    </div>
+    <div class="text-right">
+        <button [disabled]="!has_previous" mat-icon-button type="button" color="primary"><mat-icon>arrow_backward</mat-icon></button>{{currentPage}}<button [disabled]="!has_next" mat-icon-button type="button" color="primary"><mat-icon>arrow_forward</mat-icon></button>
+
+    </div>
+</div>
+<button type="button" class="btn btn-outline-success"
+style="border-radius:40px;margin-left: 50px;margin-bottom: 30%;" [routerLink]='"/fa/assetmaker"'><span
+    class="fa fa-arrow-left"></span>Go Back</button>

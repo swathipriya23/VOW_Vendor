@@ -1,0 +1,417 @@
+<div *ngIf="isMergeAdd">
+    <app-mergemaker-add (onSubmit)="MergeCreateSubmit()" (onCancel)="MergeCreateCancel()"></app-mergemaker-add>
+</div>
+
+
+<div *ngIf="maker">
+    <!-- <a routerLink="/fa/fa" style="margin-left: 50px; font-size: 20px;">FA</a>/ Asset Merge Maker -->
+    <form [formGroup]="MergeSearchForm">
+        <h2 style="margin-left: 3%;font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;">Asset Merge Maker Summary</h2><hr>
+        <table>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="assetdetails_id" matInput
+                            autocomplete="off">
+                        <mat-placeholder>Asset Id</mat-placeholder>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="asset_value" matInput
+                            autocomplete="off">
+                        <mat-placeholder>Asset Value</mat-placeholder>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Cap Date</mat-label>
+                        <input matInput  [matDatepicker]="picker1" placeholder="Cap Date"
+                            formControlName="capdate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    <mat-form-field style="width: 200px; margin-left: 50px;" (click)="getCategoryFK()">
+                        <mat-label>Select Category</mat-label>
+                        <input #categoryInput placeholder="Select Category Code" matInput formControlName="assetcat_id"
+                            [matAutocomplete]="category">
+                        <mat-autocomplete #category="matAutocomplete" [displayWith]="displayFncategory.bind(this)"
+                            (opened)="autocompletecategoryScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let category of categoryList" [value]="category.id">
+                                    {{category.subcatname}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </td>
+                <td>
+
+                    <mat-form-field style="width: 200px; margin-left: 50px;" (click)="getbranchFK()">
+                        <mat-label>Select Branch Code</mat-label>
+                        <input #branchInput placeholder="Select Branch Code" matInput formControlName="branch_id"
+                            [matAutocomplete]="branch">
+                        <mat-autocomplete #branch="matAutocomplete" [displayWith]="displayFnbranch.bind(this)"
+                            (opened)="autocompletebranchScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let branch of branchList" [value]="branch.id">
+                                    {{branch.code}}-{{branch.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 50px;"
+                        (click)="getMergesummarySearch()" color="primary"><i class="fa fa-search"
+                            aria-hidden="true"></i></button>
+                </td>
+                <td><button class="btn btn-outline-primary" (click)="resetMerge()"
+                        style="border-radius:40px;margin-left: 50px;" color="primary">Reset</button></td>
+                <td><button style="border-radius:40px;margin-left: 50px;" type="button"
+                        class="buttonsize btn btn-outline-success" (click)="addMerge()">
+                        <span class="fa fa-plus"></span></button></td>
+            </tr>
+        </table>
+    </form>
+
+    <div class="table-responsive" style="margin-top: 1%;width: 94%;margin-left: 50px;">
+        <table class="table scrolltable table-bordered" fixed-header>
+            <thead>
+                <tr class="table_header" fixed-header>
+                    <th>S.No</th>
+                    <th>Asset Barcode ID</th>
+                    <th>Product Name</th>
+                    <th>Asset SubCategory</th>
+                    <th>Capitalisation date</th>
+                    <th>Asset Value</th>
+                    <th>Branch Name</th>
+                    <th>Location</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Merge Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let Merge of MergeMakerlist; index as i">
+                    <td>{{ (presentpageMerge-1)*pageSize+i+1 }}</td>
+                    <td>{{ Merge.barcode}}</td>
+                    <td>{{ Merge.product_id.name}}</td>
+                    <td>{{ Merge.assetcatchange_id.subcatname}}</td>
+                    <td>{{ Merge.capdate | date: 'dd-MMM-yyyy'}}</td>
+                    <td>{{ Merge.assetdetails_value}}</td>
+                    <td>{{ Merge.branch_id.name}}--{{ Merge.branch_id.code}}</td>
+                    <td>{{ Merge.assetlocation_id.name}}</td>
+                    <td style="color:blue; cursor: pointer;" (click)="ReasonShowOff(Merge)">Reason</td>
+                    <td>{{ Merge.requeststatus}}</td>
+                    <td>
+                        {{Merge.merge_status}}
+
+                    </td>
+                    <td>
+                        <span class="material-icons" data-toggle="modal" data-target=".bd-example-modal-lg"
+                            (click)="getAssetMergeIdData(Merge)">
+                            visibility
+                        </span>
+                    </td>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:rgb(62,178,113)"
+                                >
+                                    <h1 class="modal-title" style="margin-left:32%;" id="exampleModalLabel">Asset Details</h1>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <th>Asset ID</th>
+                                            <td>{{barcodeData}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <td>{{ProductNameData}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Catagory</th>
+                                            <td>{{CatagoryData}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Capitalization Date</th>
+                                            <td>{{CapitalizationDate}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Asset Value</th>
+                                            <td>{{AssetValueData}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Branch</th>
+                                            <td>{{BranchData}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Location</th>
+                                            <td>{{LocationData}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Reason</th>
+                                            <td>{{ReasonData}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status</th>
+                                            <td>{{StatusData}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="MergeMakerlist?.length==0; else paginationMerge" class="NodataAlign">No Records Found...</div>
+        <div style="text-align: center;margin-bottom:100px;" *ngIf="ReasonMergemaker">
+            <h2>Reason: {{ReasonShow}} </h2>
+        </div>
+        <ng-template #paginationMerge>
+            <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+                <button mat-icon-button [disabled]="has_previousMerge == false" color="primary"
+                    (click)="MergepreviousClick()">
+                    <mat-icon> arrow_back </mat-icon>
+                </button>
+                {{presentpageMerge}}
+                <button mat-icon-button [disabled]="has_nextMerge == false" color="primary" (click)="MergenextClick()">
+                    <mat-icon> arrow_forward </mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </div>
+
+
+</div>
+
+
+
+<div *ngIf="checker">
+    <!-- <a routerLink="/fa/fa" style="margin-left: 50px; font-size: 20px;">FA</a>/ Asset Merge Checker -->
+    <form [formGroup]="MergeCheckerSearchForm">
+        <h2 style="margin-left: 3%;font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;">Asset Merge Checker Summary</h2><hr>
+        <table>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="assetdetails_id" matInput
+                            autocomplete="off">
+                        <mat-placeholder>Asset Id</mat-placeholder>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="asset_value" matInput
+                            autocomplete="off">
+                        <mat-placeholder>Asset Value</mat-placeholder>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Cap Date</mat-label>
+                        <input matInput readonly [matDatepicker]="picker1" placeholder="Cap Date"
+                            formControlName="capdate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    <mat-form-field style="width: 200px; margin-left: 50px;" (click)="getCategoryFK()">
+                        <mat-label>Select Category</mat-label>
+                        <input #categoryInput placeholder="Select Category Code" matInput formControlName="assetcat_id"
+                            [matAutocomplete]="category">
+                        <mat-autocomplete #category="matAutocomplete" [displayWith]="displayFncategory.bind(this)"
+                            (opened)="autocompletecategoryScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let category of categoryList" [value]="category.id">
+                                    {{category.subcatname}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </td>
+                <td>
+                    
+                    <mat-form-field style="width: 200px; margin-left: 50px;" (click)="getbranchFK()">
+                        <mat-label>Select Branch Code</mat-label>
+                        <input #branchInput placeholder="Select Branch Code" matInput formControlName="branch_id"
+                            [matAutocomplete]="branch">
+                        <mat-autocomplete #branch="matAutocomplete" [displayWith]="displayFnbranch.bind(this)"
+                            (opened)="autocompletebranchScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let branch of branchList" [value]="branch.id">
+                                    {{branch.code}}-{{branch.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 50px;"
+                        color="primary" (click)="getAssetMergeAppsummarySearch()"><i class="fa fa-search"
+                            aria-hidden="true"></i></button>
+                </td>
+                <td><button class="btn btn-outline-primary" (click)="resetMergeApp()"
+                        style="border-radius:40px;margin-left: 50px;" color="primary">Reset</button></td>
+            </tr>
+        </table>
+    </form>
+
+    <nav>
+        <div class="nav nav-tabs" style="margin-left: 50px;">
+            <a class="nav-item nav-link active" data-toggle="tab"  role="tab" (click)="mergeTab()">MERGED ASSET</a>
+            <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="AssetTab()" >ASSET LIST</a>
+            
+        </div>
+    </nav>
+
+    <div *ngIf="isAsset" >
+        <div class="table-responsive" style="margin-top: 1%;width: 94%;margin-left: 50px;">
+            <table class="table scrolltable table-bordered" fixed-header>
+                <thead>
+                    <tr class="table_header" fixed-header>
+                            <th>S.No</th>
+                            <th>Asset Barcode Id</th>
+                            <th>Product Name</th>
+                            <th>Asset SubCategory </th>
+                            <th>Capitalisation Date</th>
+                            <th>Asset Value</th>
+                            <th>Asset Merge Date</th>
+                            <th>Branch Name</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let Merge of MergeApprovallist; index as i">
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }"> {{ i+1 }}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }"> {{ Merge.barcode}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge.product_id.name}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge.assetcatchange_id.subcatname}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge.capdate | date: 'dd-MMM-yyyy'}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge.merge_value}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge.date}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge.branch_id.name}}--{{ Merge.branch_id.code}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }"style="cursor: pointer;" (click)="ReasonShowOffApp(Merge)">Reason</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="MergeApprovallist?.length==0; else paginationMergeApp" class="NodataAlign">No Records
+                    Found...
+                </div>
+                <div style="text-align: center;margin-bottom:100px;" *ngIf="ReasonShowApproval">
+                    <h2>Reason: {{ReasonShowApp}} </h2>
+                </div>
+                <ng-template #paginationMergeApp>
+                    <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+                        <button mat-icon-button color="primary" [disabled]="has_previousMergeApp == false"
+                            (click)="MergeApppreviousClick()">
+                            <mat-icon>arrow_back</mat-icon>
+                        </button>
+                        {{presentpageMergeApp}}
+                        <button mat-icon-button color="primary" [disabled]="has_nextMergeApp == false"
+                            (click)="MergeAppnextClick()">
+                            <mat-icon>arrow_forward</mat-icon>
+                        </button>
+                    </div>
+                </ng-template>
+            </div>
+        <div class="row" style="margin-left: 100px; margin-bottom: 100px;" *ngIf="ReasonShowApprovalSubmit">
+            <mat-form-field style="margin-left: 15%;width: 220px;">
+                <input #rejectInput placeholder="Rejection Reason" type="text" matInput autocomplete="off">
+            </mat-form-field>
+            <button (click)="MergeChecker('', 2)" class="btn btn-outline-success"
+                style="border-radius: 40px;margin-left: 50px;font-size: large;">APPROVE</button>
+            <button class="btn btn-outline-danger" style="border-radius: 40px;margin-left: 50px;font-size: large;;"
+                (click)="MergeChecker(rejectInput.value, 3)">REJECT</button>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="ismerge">
+        <div class="table-responsive" style="margin-top: 1%;width: 94%;margin-left: 50px;">
+            <table class="table scrolltable table-bordered" fixed-header>
+                <thead>
+                    <tr class="table_header" fixed-header>
+                            <th> S.No </th>
+                            <th> Asset Id</th>
+                            <th> Product Name</th>
+                            <th> Catagory</th>
+                            <th> Capitalization Date </th>
+                            <th> Asset Value </th>
+                            <th> Branch </th>
+                            <th> Status </th>
+                            <th> Action</th>
+                        </tr>
+                    </thead>
+                    <!-- , 'color':'white'  -->
+                    <tbody>
+                        <tr *ngFor="let Merge of NonMergeListData; index as i">
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ i+1 }}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge?.assettran_id }}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge?.product_id?.name}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge?.assetcatchange_id?.subcatname}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge?.capdate | date: 'dd-MMM-yyyy'}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge?.assetdetails_value}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge?.branch_id?.name}}--{{ Merge?.branch_id?.code}}</td>
+                            <td [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }">{{ Merge?.merge_status}}</td>
+                            <td  [ngStyle]="{ 'background-color': colorsData[Merge.color_id] }"><input type="checkbox" 
+                                [checked]="Merge.checkbox == true" (click)="selectedAssetValue(Merge, $event)" class="checkboxsize" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+    </div>
+
+ 
+    <br>
+    <!-- <div *ngIf=ischecks> -->
+    <div class="row" style="margin-left: 100px; margin-bottom: 100px;" *ngIf="ReasonShowApprovalSubmit">
+        <mat-form-field style="margin-left: 15%;width: 220px;">
+            <input #rejectInput placeholder="Rejection Reason" type="text" matInput autocomplete="off">
+        </mat-form-field>
+        <button (click)="MergeChecker('', 1)" class="btn btn-outline-success"
+            style="border-radius: 40px;margin-left: 50px;font-size: large;">APPROVE</button>
+        <button class="btn btn-outline-danger" style="border-radius: 40px;margin-left: 50px;font-size: large;;"
+            (click)="MergeChecker(rejectInput.value, 3)">REJECT</button>
+    </div>
+</div>
+
+<div style="margin-left: 50px; margin-bottom: 100px; ">
+    <button type="button" class="btn btn-outline-primary" routerLink="/fa/fa"
+        style="border-radius: 40px;margin-left: 10px;">Back</button>
+</div>
+
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

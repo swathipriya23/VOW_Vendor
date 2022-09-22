@@ -1,0 +1,22 @@
+
+.btn-outline-success{
+  margin-left: 10px;
+}
+
+  .btn-cancel {
+    margin-left: 27%;
+  }
+  
+  
+  .memo-form{
+    width:300px !important;
+    margin-left: 10px;
+  }
+
+  .header{
+    margin-left: 3%;
+}
+
+tbody td {
+	padding: 0.5em 0.1em 0.1em;
+}

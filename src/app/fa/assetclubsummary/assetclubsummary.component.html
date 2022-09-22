@@ -1,0 +1,179 @@
+<div class="container">
+    <div class="row col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-body" style="margin-left: 30px; color: blue;font-family: 'Times New Roman', Times, serif;">Asset CLUB Summary
+
+            </div>
+        </div>
+    </div><hr>
+    <form class="example-form" [formGroup]="fasearchform" (ngSubmit)="fasearch()">
+        <div class="row col-md-12">
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label> Asset ID</mat-label>
+                    <input matInput placeholder="Asset" formControlName="barcode">
+                </mat-form-field>
+
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label> Asset Value</mat-label>
+                    <input matInput placeholder="Asset" formControlName="assetvalue">
+                </mat-form-field>
+
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Cap Date </mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="capstart_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Apcategory</mat-label>
+                    <input placeholder="Select Apcategory" matInput (click)="getcat()" formControlName="cat"
+                        [matAutocomplete]="apcattype">
+                    <mat-autocomplete #apcattype="matAutocomplete" [displayWith]="displayapsscat">
+                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let apcategory of apcategoryList" [value]="apcategory">
+                                {{apcategory.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Branch</mat-label>
+                    <input type="text" placeholder="Branch" (click)="branchget()" aria-label="Number" matInput
+                        formControlName='branch' [matAutocomplete]="autob">
+                    <mat-autocomplete #autob="matAutocomplete" [displayWith]="displayFnbranch">
+                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                        <ng-container *ngIf="!isLoading">
+
+                            <mat-option *ngFor="let p of branchdata " [value]="p">
+                                {{p.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;"
+                    color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-outline-primary" type="button"  style="border-radius:40px;margin-left: 15px;"[routerLink]='"/fa/clubmaker"' skipLocationChange 
+                    color="primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+
+            </div>
+        </div>
+    </form>
+    <!--GRID-->
+    <table class="table  table-bordered">
+
+        <thead class="table_header">
+            <tr>
+                <th> Expand</th>
+                <th>S.No</th>
+
+                <th>Asset  Id</th>
+                <th>Product Name</th>
+                <th>Category </th>
+                <th>Capitalization Date</th>
+                <th>Asset Value</th>
+                <th>Branch</th>
+                <th>Location</th>
+                <th>Status</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let i of clubdata_array; index as j">
+                <tr>
+                    <td (click)="i.expanded = !i.expanded">
+                        <span  *ngIf="i.expanded" class="coloricon"  ><mat-icon>arrow_drop_down</mat-icon>
+
+                        </span>
+
+                        <span  *ngIf="!i.expanded" class="coloricon"(click)="childget(i)"><mat-icon>arrow_drop_up</mat-icon>
+                            
+                        </span>
+                    </td>
+                    <td scope="row">{{ (page-1)*10+j+1 }}</td>
+                    <td>{{ i.barcode}}</td>
+                    <td>{{ i.product_id.name}}</td>
+                    <td>{{ i.cat.name}}</td>
+                    <td>{{ i.capdate}}</td>
+                    <td>{{i.assetdetails_value}}</td>
+                    <td>{{ i.branch_id.name}}</td>
+                    <td>{{i.assetlocation_id.name}}</td>
+ 
+                    <td>{{i.assetdetails_status}}</td>
+                </tr>
+                <ng-container *ngIf="i.expanded">
+                    <tr>
+
+                        <th colspan="2">S.No</th>
+
+                        <th>Asset  Id</th>
+                        <th>Product Name</th>
+                        <th>Category </th>
+                        <th>Capitalization Date</th>
+                        <th>Asset Value</th>
+                        <th>Branch</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+                <tr *ngFor="let p of childarray; index as k">
+                    <td scope="row" colspan="2">{{ (page-1)*10+k+1 }}</td>
+                    <td>{{ p.barcode}}</td>
+                    <td>{{ p.product_id.name}}</td>
+                    <td>{{ p.cat.name}}</td>
+                    <td>{{ p.capdate}}</td>
+                    <td>{{p.assetdetails_value}}</td>
+                    <td>{{ p.branch_id.name}}</td>
+                    <td>{{p.assetlocation_id.name}}</td>
+                    <td>{{p.assetdetails_status}}</td>
+                </tr>
+                </ng-container>  </ng-container>
+
+                <tr  *ngIf="clubdata_array ?.length == 0">
+                    <td colspan="10"> No Records </td>
+                </tr>
+          
+            <tr>
+                <td colspan="8"></td>
+
+                <td colspan='2'>
+
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)=" locpreviousClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{page}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary" (click)=" locnextClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+    <!--GRID-->
+</div>

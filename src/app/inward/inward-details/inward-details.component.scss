@@ -1,0 +1,80 @@
+// thead tr th{
+//     height: 20px;
+// }
+th, td{
+    
+    white-space: nowrap;
+    padding: 10px;
+}
+
+tbody td {
+	padding: 0.5em 0.1em 0.1em;
+    white-space: nowrap;
+    // vertical-align: baseline;
+
+}
+
+// .aligncenterBased{
+// 	// padding: 1.5em;
+//     // vertical-align: baseline;
+// }
+.tableset{
+    height: 60px;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.inward-details{
+    margin-left: 25rem;
+    font-size: 23px;
+}
+
+// input.inputStyle{
+//     outline: 0;
+//     border-width: 0 0 2px;
+//     width:150px;
+//     border-color: rgb(157, 154, 154)
+// }
+// input.inputStyle:focus{
+//     border-color: blue
+// }
+// tbody td {
+// 	padding: 0.5em 0.1em 0.1em;
+// }
+.cursor{
+    cursor: pointer;
+}
+// th, td{
+//     text-align:center;
+// }
+
+.commonbuttonstyle{
+    background-color: white;
+    border: None;
+    color: #0275d8;
+    
+}
+
+
+.commonbuttonstyledelete{
+    background-color: white;
+    border: None;
+    color: #d9534f;
+}
+
+
+
+
+.choosefile{
+    background-color: white;
+    width: 115px;
+    // display: none;
+}
+
+.filedesign{
+    display: block;
+    background-color: white;
+    border: 1px solid black;
+}

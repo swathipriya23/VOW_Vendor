@@ -1,0 +1,79 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+    <h3>
+       Edit CCBS Form
+    </h3>
+    <div>
+        <form [formGroup]="ccbsMappingEditForm" (ngSubmit)="submitForm()">
+            <table>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;">
+                            <mat-label>Code</mat-label>
+                            <input matInput placeholder="Code" formControlName="code" (keypress)="kyenbdata($event)" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-left: 50px;">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Name" formControlName="name" (keypress)="kyenbdata($event)" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;">
+                            <mat-label>No</mat-label>
+                            <input matInput placeholder="No" formControlName="no" (keypress)="kyenbdata($event)" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;margin-left: 50px;">
+                            <mat-label>Glno</mat-label>
+                            <input matInput placeholder="Glno" formControlName="glno" (keypress)="kyenbdata($event)" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;">
+                            <mat-label>Cost Centre</mat-label>
+                            <mat-select formControlName="costcentre">
+                                <mat-option *ngFor="let cc of costCentreList" [value]="cc.id">{{cc.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;margin-left: 50px;">
+                            <mat-label>Business Segment</mat-label>
+                            <mat-select formControlName="businesssegment">
+                                <mat-option *ngFor="let bs of businessSegmentList" [value]="bs.id">{{bs.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr> 
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;">
+                            <mat-label>Description</mat-label>
+                            <input rows="5" cols="25" matInput placeholder="Description"  (keypress)="kyenbdata($event)" formControlName="description" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-left: 50px;margin-top: 20px;">
+                            <mat-label>Remarks</mat-label>
+                            <textarea rows="5" cols="25" matInput placeholder="Remarks" (keypress)="kyenbdata($event)" formControlName="remarks"></textarea>
+                        </mat-form-field>
+                    </td>  
+                </tr>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                [disabled]="ccbsMappingEditForm.invalid">Submit</button>
+            <button [routerLink]='"/employeeSummary"' skipLocationChange class="btn btn-outline-primary"
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+        </form>
+    </div>
+</div>
+
+

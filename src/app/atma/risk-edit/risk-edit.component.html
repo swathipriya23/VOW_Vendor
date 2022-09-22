@@ -1,0 +1,68 @@
+
+
+<div style="margin-left: 19px;margin-top: 1%; width: 100%;">
+    <!-- <h3>
+        Activity Details Form
+    </h3> -->
+    <div>
+      
+        
+        <form [formGroup]="riskeditForm" autocomplete="off">
+            <table>
+                <tr>
+                    <td>
+                        <mat-label>Type of Risk(S)<label style="color:red">*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" style="width: 250px;" appearance="outline">
+                            <mat-select  class="matformfieldinputstyle" formControlName="risktype_id">
+                                <mat-option *ngFor="let mode of RiskList" [value]="mode.id">{{mode.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 60px;">Risk Description<label style="color:red">*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" style="margin-left: 60px;width: 300px;" appearance="outline">
+                            <textarea matInput  class="matformfieldinputstyle"
+                            formControlName="risktype_description" autocomplete="off"></textarea>
+                            <!-- <input matInput  class="matformfieldinputstyle"
+                                formControlName="risktype_description" autocomplete="off"> -->
+                        </mat-form-field>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td>
+                        <mat-label>Risk Mitigant<label style="color:red">*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" style="width: 250px;" appearance="outline">
+
+                            <input matInput  class="matformfieldinputstyle"
+                                formControlName="risk_mitigant" autocomplete="off">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 60px;" >Review mechanism of risk mitigation<label style="color:red">*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" style="width: 250px;margin-left: 60px;" appearance="outline">
+
+                            <input matInput  class="matformfieldinputstyle"
+                                formControlName="risk_mitigant_review" autocomplete="off">
+                        </mat-form-field>
+                    </td>           
+                </tr>      
+            </table>
+        
+        </form>
+    </div>
+</div>
+<div style="margin-top: 3%;margin-left: 10px;">
+    <button type="button" (click)="onCancelClick()" class="btn btn-light"
+    style="border-radius: 7px;
+border-color: black;
+background-color: white;margin-left: 10px;">Cancel</button>
+    <button type="submit" style="border-radius: 10px;
+    border-color: #f5c68b;
+    background-color: #f5c68b;margin-left: 10px;" 
+    class="btn btn-light" (click)="risksubmitForm()" >Submit</button>
+</div>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

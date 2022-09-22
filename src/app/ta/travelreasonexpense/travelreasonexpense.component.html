@@ -1,0 +1,362 @@
+<br>
+<br>
+<div>
+    <div style="margin-left:22px;margin-top: 20px; " class="col-md-12" #tavelreasons>
+        <h2>Travel Reason</h2>
+        <div class="row">
+            <div>
+                <form [formGroup]="reasonSearchForm">
+                    <mat-form-field style="width:250px;">
+                        <mat-label>Name</mat-label>
+                        <input matInput placeholder="Name" formControlName="expname">
+                    </mat-form-field>
+
+                    <button class="btn btn-outline-primary" (click)="reasonSearch()" type="submit"
+                        style="border-radius:40px;margin-left: 15px;" color="primary"><i class="fa fa-search"
+                            aria-hidden="true"></i></button>
+                    <button class="btn btn-outline-primary" type="clear" style="border-radius:40px;margin-left: 15px;"
+                        data-toggle="modal" data-target="#travelreasonaddmodal" color="primary">Add</button>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div class="table-responsive" style="width:98%;margin-top: 1%;">
+        <table class="table" style="margin-top: 10px;width: 100%;">
+            <thead class="table_header">
+                <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>International Travel</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tr *ngFor="let reasons of travelreasons;index as i">
+                <td>{{i+1}}</td>
+                <td>{{reasons.name}}</td>
+                <td>
+                    <p *ngIf="reasons.international_travel == 1">Yes</p>
+                    <p *ngIf="reasons.international_travel == 0">No</p>
+                </td>
+                <td>
+                    <button mat-icon-button data-toggle="modal" (click)="edittravelreasons(reasons)"
+                        data-target="#travelreasoneditmodal">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+                <td>
+                    <button mat-icon-button (click)="deletereason(reasons.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+
+            </tr>
+
+
+        </table>
+        <div *ngIf="travelreasons?.length==0; else paginationsummary" class="NodataAlign text-center">No Records
+            Found...
+        </div>
+        <ng-template #paginationsummary>
+            <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;float: right;">
+                <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+                    <mat-icon>arrow_back
+                    </mat-icon>
+                </button> {{currentpage}}
+                <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+                    <mat-icon>arrow_forward
+                    </mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="travelreasoneditmodal" aria-hidden="true"
+        id="travelreasoneditmodal" #travelreasoneditclose>
+        <div class="modal-dialog modal-xl" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background:#DDEFDD;">
+                    <h2 class="modal-title" style="color:black ;">Edit Travel Reason</h2>
+                    <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div style="margin-left: 70px;margin-right: 80%;margin-top: 2%; width: 40%;">
+
+                    <form [formGroup]="reasoneditform">
+                        <table>
+                            <div>
+                                <tr>
+                                    <td>
+                                        <mat-form-field style="width: 250px;">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput placeholder="name" name="name" formControlName="name"
+                                                autocomplete="off">
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field style="width: 175px;margin-left: 50px;">
+                                            <mat-label>International Travel</mat-label>
+
+                                            <mat-select formControlName="international_travel">
+                                                <mat-option *ngFor="let type of inttraveldropdown" [value]="type.id">
+                                                    {{type.name}}
+                                                </mat-option>
+                                            </mat-select>
+
+                                        </mat-form-field>
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <div style="margin-bottom: 5%;">
+                                        <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                                            class="btn btn-outline-primary" (click)="submitForm()">Submit</button>
+                                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                                            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+                                    </div>
+                                </tr>
+                            </div>
+                        </table>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="travelreasonaddmodal" aria-hidden="true"
+        id="travelreasonaddmodal" #travelreasonaddclose>
+        <div class="modal-dialog modal-xl" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background:#DDEFDD;">
+                    <h2 class="modal-title" style="color:black ;">Add Travel Reason</h2>
+                    <button type="button" #closeaddreason class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span> </button>
+                </div>
+
+                <div style="margin-left: 70px;margin-right: 80%;margin-top: 2%; width: 40%;">
+
+                    <form [formGroup]="reasonform">
+                        <table>
+                            <div>
+                                <tr>
+                                    <td>
+                                        <mat-form-field style="width: 250px;">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput placeholder="name" name="name" formControlName="name"
+                                                autocomplete="off">
+                                        </mat-form-field>
+
+                                    </td>
+                                    <td>
+                                        <mat-form-field style="width: 175px;margin-left: 50px;">
+                                            <mat-label>International Travel</mat-label>
+
+                                            <mat-select formControlName="international_travel">
+                                                <mat-option *ngFor="let type of inttraveldropdown" [value]="type.id">
+                                                    {{type.name}}
+                                                </mat-option>
+                                            </mat-select>
+
+                                        </mat-form-field>
+                                    </td>
+
+
+                                </tr>
+                            </div>
+                        </table>
+                        <tr>
+                            <div style="margin-bottom: 5%;">
+                                <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                                    class="btn btn-outline-primary" (click)="addsubmitForm()">Submit</button>
+                                <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                                    style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+                            </div>
+                        </tr>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<div style="margin-left: 22px;margin-top: 20px; " class="col-md-12">
+    <h2>Travel Expense</h2>
+    <div class="row">
+        <div>
+            <form [formGroup]="expenseSearchForm">
+                <mat-form-field style="width:250px;">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Name" formControlName="expname">
+                </mat-form-field>
+
+                <button class="btn btn-outline-primary" (click)="expenseSearch()" type="submit"
+                    style="border-radius:40px;margin-left: 15px;" color="primary"><i class="fa fa-search"
+                        aria-hidden="true"></i></button>
+                <button class="btn btn-outline-primary" type="clear" style="border-radius:40px;margin-left: 15px;"
+                    data-toggle="modal" data-target="#expenseaddmodal" color="primary">Add</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="table-responsive" style="width:98%;margin-top: 1%;">
+    <table class="table" style="margin-top: 10px;width: 100%;" id='commonstyle'>
+        <thead class="table_header">
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Edit</th>
+                <th>Delete</th>
+
+            </tr>
+        </thead>
+        <tr *ngFor="let expensess of travelexpenses;index as i">
+            <td>{{i+1}}</td>
+            <td>{{expensess.name}}</td>
+            <td>{{expensess.code}}</td>
+            <td>
+                <button mat-icon-button data-toggle="modal" data-target="#expenseeditmodal"
+                    (click)="edittravelexpense(expensess)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </td>
+            <td>
+                <button mat-icon-button (click)="deleteexpense(expensess.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+
+        </tr>
+
+
+    </table>
+    <div *ngIf="travelexpenses?.length==0; else paginationsummary" class="NodataAlign text-center">No Records
+        Found...
+    </div>
+    <ng-template #paginationsummary>
+        <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;float: right;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClicks()">
+                <mat-icon>arrow_back
+                </mat-icon>
+            </button> {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClicks()">
+                <mat-icon>arrow_forward
+                </mat-icon>
+            </button>
+        </div>
+    </ng-template>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="expenseeditmodal" #travelexpenseeditclose
+    aria-hidden="true" id="expenseeditmodal">
+    <div class="modal-dialog modal-xl" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#DDEFDD;">
+                <h2 class="modal-title" style="color:black ;">Edit Travel Expense</h2>
+                <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div style="margin-left: 70px;margin-right: 80%;margin-top: 2%; width: 40%;">
+
+                <form [formGroup]="expenseeditform">
+                    <table>
+                        <div>
+                            <tr>
+                                <td>
+                                    <mat-form-field style="width: 250px;">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput placeholder="name" name="name" formControlName="name"
+                                            autocomplete="off">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field style="width: 175px;margin-left: 50px;">
+                                        <mat-label>Code</mat-label>
+                                        <input matInput placeholder="code" name="code" formControlName="code"
+                                            autocomplete="off">
+
+                                    </mat-form-field>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <div style="margin-bottom: 5%;">
+                                    <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                                        class="btn btn-outline-primary" (click)="editsubmitForm()">Submit</button>
+                                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                                        style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+                                </div>
+                            </tr>
+                        </div>
+                    </table>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="expenseaddmodal" #travelexpenseaddclose
+    aria-hidden="true" id="expenseaddmodal">
+    <div class="modal-dialog modal-xl" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#DDEFDD;">
+                <h2 class="modal-title" style="color:black ;">Add Travel Expense</h2>
+                <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div style="margin-left: 70px;margin-right: 80%;margin-top: 2%; width: 40%;">
+
+                <form [formGroup]="expenseform">
+                    <table>
+                        <div>
+                            <tr>
+                                <td>
+                                    <mat-form-field style="width: 250px;">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput placeholder="name" name="name" formControlName="name"
+                                            autocomplete="off">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field style="width: 175px;margin-left: 50px;">
+                                        <mat-label>Code</mat-label>
+                                        <input matInput placeholder="code" name="code" formControlName="code"
+                                            autocomplete="off">
+
+                                    </mat-form-field>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <div style="margin-bottom: 5%;">
+                                    <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                                        class="btn btn-outline-primary" (click)="addsubmitForms()">Submit</button>
+                                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                                        style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+                                </div>
+                            </tr>
+                        </div>
+                    </table>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,286 @@
+<body>
+  <div>
+    
+    <div id="mySidenav" class="sidenav" *ngIf="sharedService.isLoggedin === true">
+      <div style="background-color:53A95A;cursor: pointer;color: #fff;">
+        <img id="LogoTag1" src="./assets/images/Nimbus-Logo-1.png" width="50px">
+        <span *ngIf="sharedService.isSideNav === false"> Northern ARC </span>
+      </div>
+      <div *ngIf="!isMasterList ||isTransactionList" class="scrollclass" style="margin-bottom:100px;"  >
+        <div *ngFor="let modrow of sharedService.transactionList; let i = index"
+          [ngClass]="{'parent_selected':checkIfCardIsClicked(i)}">
+          <div title="{{modrow.name}} " class="module_text" (click)="myModuleFunction(modrow,i)"><i
+              class={{modrow.logo}}></i>
+            <span class="sideNav-title" *ngIf="sharedService.isSideNav === false">{{modrow.name}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isMasterList" class="scrollclass">
+        <div *ngFor="let modrow of sharedService.masterList; let i = index"  [ngClass]="{'parent_selected':checkIfCardIsClicked(i)}">
+          <div title="{{modrow.name}} " class="module_text" (click)="myModuleFunction(modrow,i)"><i
+              class={{modrow.logo}}></i>
+            <span class="sideNav-title" *ngIf="sharedService.isSideNav === false">{{modrow.name}}</span>
+          </div>
+        </div>
+      </div>
+      <div id="sidenavfoot"  >
+        <p (click)="masterData()" style="margin-left: 21px;" ><i class="fa fa-bar-chart-o" style="color: white;" title="Master"></i>
+          <span *ngIf="sharedService.isSideNav === false" class="hidden-sm-down" style="margin-left: 10px;" title="Master">Master</span>
+        </p>
+        <p (click)="homes()" style="margin-left: 21px;" ><i class="fa fa-home" style="color: white;" title="Home "></i> <span *ngIf="sharedService.isSideNav === false" class="hidden-sm-down"
+            style="margin-left: 10px;" title="Home ">Home</span></p>
+      </div>
+    </div>
+    <div id="main"  style="margin-left: 12%;">
+      <nav class="navbar navbar-light  justify-content-between" style="box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);margin-top: -10px;"
+        *ngIf="sharedService.isLoggedin === true">
+        <span style="font-size:18px;cursor:pointer"
+          *ngIf="headerName !='vendorView' && headerName!='branchView' && headerName!='REMS'"
+          (click)="openNav()">&#9776;
+          {{sharedService.MyModuleName}}
+        </span>
+
+        <span *ngIf="headerName =='REMS' ">
+          <i class="fa fa-arrow-left" (click)="backpremise()"></i>
+          {{premiseCode_Name}}
+        </span>
+        <span *ngIf="headerName==='vendorView' "><i class=" fa fa-arrow-left" (click)="backVendor()"></i>
+          {{vendorCode_Name}}
+        </span>
+
+        <span *ngIf="headerName==='branchView' ">
+          <i class="fa fa-arrow-left" (click)="backBranchView()"></i>
+          <a routerLink="/atma/vendorView">
+            {{vendorCode_Name}}
+          </a>
+          / {{branchViewName}}
+        </span>
+        <!-- <span *ngIf="headerName==='activityView' ">
+          <i class="fa fa-arrow-left" (click)="backbranch()"></i>
+          <a routerLink="/vendorView">
+            {{vendorCode_Name}}
+          </a>/
+          <a routerLink="/Updatemobilenumber" (click)="backbranch()">
+            {{branchViewName}}
+          </a>
+          / {{activityname}}
+        </span> -->
+        <div>
+          <p *ngIf="lastPing"><small>Last keepalive ping <strong>{{lastPing}}</strong></small></p>
+          <span [ngStyle]="{'color': adcolor}" style="margin-right: 10px;font-size: 18px;">{{idleState}}</span>
+          <span id="UserNameContainer" style="margin-right: 10px;font-size: 18px;">{{sharedService.Loginname}}</span>
+          <span id="UserNameContainer" style="margin-right: 10px;font-size: 18px;">({{sharedService.entity_Name}})</span>
+
+          <img src="https://cdn-icons-png.flaticon.com/512/152/152360.png" data-toggle="modal"
+          data-target="#entityreloadpopup" (click)="onClickSwitchIcon()" style="width: 25px;cursor: pointer;">&nbsp;
+            <!-- <span  data-toggle="modal"
+            data-target="#entityreloadpopup" class="material-icons">
+            cached
+            </span>&nbsp; -->
+            <span class="material-icons" (click)="logout()">
+              logout
+              </span>
+          <!-- <img title="Logout" (click)="logout()" src="./assets/images/logout.png" -->
+            <!-- style="margin-right: 10px; width: 25px;">  -->
+
+        </div>
+      </nav>
+      <router-outlet></router-outlet>
+      <div class="row" *ngIf="sharedService.isLoggedin === true">
+        <div  style="background-color: #ddefdd;">
+          <div class="footer" >
+            <span>
+              <span  style="margin-left: 28rem;font-size: 15px;">
+                &#169;2021 -Vsolv Engineering India Pvt Ltd.
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="mymodal" class="modal"  [style.display]="showModal ? 'block' : 'none'">
+    <div class="modal-dialog">
+      <div class="modal-content">
+    <div class="modal-header">
+      <P class="modal-title" style="font-weight: bold;">Alert</P>
+    </div>
+    <div class="modal-body">
+      <div class="my-4" style="font-size: 1.25rem;">
+        <p>
+          Your session will expire in {{idleState}}.
+        </p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="logout()">
+        Logout
+      </button>
+      <button
+        type="button"
+        ngbAutofocus
+        class="btn btn-primary"
+        (click)="continue()"
+      >
+        Continue Session
+      </button>
+    </div>
+      </div></div>
+  </div>
+
+  <!-- entitiy reload -->
+  <div class="modal fade" id="entityreloadpopup" role="dialog">
+            <div class="modal-dialog modal-sm" role="document" style="margin-right: 0%;">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title">Entity</p>
+                  <button type="button" #closeentityreload class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form style="width: 10rem;font-family: Montserrat;" [formGroup]="ReloadForm" (ngSubmit)="viewDetail_Entityreload()">
+                    <!-- <h3 style="font-weight: bold;font-family: Montserrat;">Select Entity</h3> -->
+                    <mat-form-field appearance="fill" style="width: 250px;font-family: Montserrat;" (click)="entityReload()">
+                        <mat-label>Choose Entity</mat-label>
+                        <mat-select formControlName="entity">
+                            <mat-option *ngFor="let list of entityList" (click)="select_entityName(list)" [value]="list.id">{{list.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    
+                  </form>
+                <div class="modal-footer">
+                  <span class="col-md-12 text-center" style="margin-bottom: 5%;">
+                    <button type="submit" style="margin-left: 10px;" class="btn btn-light" id="primarybtn"
+                      (click)="viewDetail_Entityreload()">Submit</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-light" id="secondarybtn"
+                      style="margin-left: 10px;">Close</button>
+                  </span>
+                </div> 
+                <!-- <div style="margin-top: 3%; margin-left: 20px; ">
+                  <button type="button" class="btn btn-light"
+                  style="border-radius: 7px;margin-left: 10px;
+                  border-color: black;
+                  background-color: white;">Cancel</button>
+                  <button type="submit" style="border-radius: 10px;margin-left: 10px;
+                  border-color: #f5c68b;
+                  background-color: #f5c68b;"
+                  class="btn btn-light" (click)="viewDetail_Entityreload()" >Submit</button>
+              </div> -->
+                  
+                </div>
+              </div>
+            </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+  <!-- mobile updation starts-->
+  <div class="modal fade" id="mobileupdation" tabindex="-1" role="dialog" aria-labelledby="Employee"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content"  style="width:150%;"> 
+          <div class="modal-header text-center" style="background: #ddefdd;
+          ">
+              <!-- <h4 class="modal-title  w-100 font-weight-bold" id="Employee">Employee Personal Info</h4> -->
+              <h4><p>EMPLOYEE PERSONAL INFO</p></h4>
+              <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="mobileupdationform" autocomplete="off">
+                <div class="col-md-12 row">
+                  <div class="col-md-4" >
+          
+                      <mat-form-field appearance="legacy">
+                        <mat-label> Name</mat-label>
+                        <input matInput [readonly] ="true"   formControlName="name">
+              
+                      </mat-form-field>
+                    </div>
+          
+                  <div class="col-md-4" >
+          
+                      <mat-form-field appearance="legacy">
+                        <mat-label>Code</mat-label>
+                        <input matInput [readonly] ="true"   formControlName="code">
+              
+                      </mat-form-field>
+                    </div>
+          
+                  <div class="col-md-4" >
+          
+                      <mat-form-field appearance="legacy">
+                        <mat-label>Mobile</mat-label>
+                        <input type="text"  matInput  formControlName="mobile_number" >
+              
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-8" class="point" *ngIf="otpflag">
+                      <p *ngIf="otpflag">Please enter the 8-digit verification <br/>
+                        code we sent via SMS:(we want to make sure it's you before update)</p>
+                     
+                     
+                    </div>
+
+                  <div class="col-md-4"  *ngIf="otpflag">
+          
+                    <mat-form-field appearance="legacy">
+                      <mat-label>OTP</mat-label>
+                      <input type="text"  autocomplete="off" numbersOnly matInput formControlName="otp">
+                
+                    </mat-form-field>
+                    <p class="count">Did not Recieve in {{count}}s? </p>
+                    <p  class="count" *ngIf="count==0" style="text-align: right; color: blue;" (click)="submitForm()" > <a >Resend OTP</a></p>
+
+                  </div>
+
+
+                   
+          
+          </div>
+
+          <div class="text-right">
+            <button class="btn btn-outline-success" type="button" data-toggle="modal"
+                data-target="#mobileupdation">
+                Cancel </button> &nbsp;&nbsp;
+            <button  *ngIf="!otpflag" class="btn btn-outline-primary" type="submit" (click)="submitForm()" 
+                 >
+                Update</button>
+                <button   *ngIf="otpflag" class="btn btn-outline-primary" type="submit" (click)="updatemobile()" 
+                 >
+                Verify</button>
+        </div>
+          
+              </form>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+  <!-- mobile updation ends -->
+
+<ngx-spinner 
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple"
+> 
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner> 
+</body>
+<!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner> -->

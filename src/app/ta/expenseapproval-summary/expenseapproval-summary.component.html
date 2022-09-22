@@ -1,0 +1,155 @@
+<div style="width: 100%;margin-left: 5px;">
+    <p style="color:black;font-size: 20px;font-weight: 500">
+        eClaim Expense Approval Summary
+    </p>
+    <!-- <div class="row">
+        <div class="col-12">
+            <form [formGroup]="tourApprovalSearchForm">
+                <mat-form-field style="width:175px;">
+                    <mat-label>Travel No</mat-label>
+                    <input matInput placeholder="Travel No" formControlName="tourno">
+                </mat-form-field>
+               
+                    <mat-form-field style="width:175px;margin-left: 50px;">
+                        <mat-label>Travel Request Date</mat-label>
+                        <input matInput readonly [matDatepicker]="picker1" 
+                                placeholder="Request Date" autocomplete="off" formControlName="requestdate | date: 'dd-MMM-yyyy, EEE'">
+                                <mat-date | date: 'dd-MMM-yyyy, EEE'picker-toggle matSuffix [for]="picker1"></mat-date | date: 'dd-MMM-yyyy, EEE'picker-toggle>
+                                <mat-date | date: 'dd-MMM-yyyy, EEE'picker #picker1></mat-date | date: 'dd-MMM-yyyy, EEE'picker>
+                  </mat-form-field>
+                   <mat-form-field style="width: 175px;">
+                    <input matInput name="status"  [(ngModel)]="toursearch.claim_status_id" #accbybank="ngModel" placeholder="status" [matAutocomplete]="auto" required>
+                      <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option *ngFor="let status of statusList" [value]="status.value" (click)="getstatus(status.name)">
+                              {{status.name}}
+                          </mat-option>
+                      </mat-autocomplete>
+                  </mat-form-field> -->
+
+    <!-- <button class="btn btn-outline-primary" type="submit"  (click)="tourAdminSearch()" style="border-radius:40px;margin-left: 15px;"
+                            color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+
+                <button class="btn btn-outline-primary" type="submit"(click)="reset()" style="border-radius:40px;margin-left: 15px;"
+                color="primary">Clear</button>
+
+                <mat-form-field style="width: 200px;margin-left: 5%;">
+                    <mat-label>Status Filter</mat-label>
+                    <mat-select  [(value)]="statusselected" readonly="readonly" (selectionChange)="onStatusChange($event.value)">
+                        <mat-option *ngFor="let status of statusList" [value]="status.name">
+                            {{status.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+        </div>
+    </div> -->
+    <div class="table-responsive" style="width:98%;margin-top: 1%;">
+        <table class="table" fixed-header style="max-width: 100%;margin-top: 10px;" id='commonstyle'>
+            <thead class="table_header">
+                <tr>
+                    <th>S.No</th>
+                    <th>Travel No</th>
+                    <th>Requested Date</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Travel Reason</th>
+                    <th>Maker</th>
+                    <th>Maker Branch</th>
+                    <th>Raised By</th>
+                    <th>Maker Grade</th>
+                    <th>Claim Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let approvexpence of getapprovexpenceList; index as i">
+                    <td>{{(currentpage - 1)*pagesize +i+1 }}</td>
+                    <td [ngStyle]="{'background':(i%2 != 0) === false ? '#fff' : '#EDF8FA' }">{{approvexpence.tourid}}
+                    </td>
+                    <td>{{approvexpence.requestdate | date: 'dd-MMM-yyyy, EEE'}}</td>
+                    <td>{{approvexpence.startdate | date: 'dd-MMM-yyyy, EEE'}}</td>
+                    <td>{{approvexpence.enddate | date: 'dd-MMM-yyyy, EEE'}}</td>
+                    <td>{{approvexpence.reason}}</td>
+                    <td>({{approvexpence.employee_code}}) {{approvexpence.employee_name}}</td>
+                    <td>({{approvexpence.branch_code}}) {{approvexpence.branch_name}}</td>
+                    <td>({{approvexpence.onbehalfof.code}}) {{approvexpence.onbehalfof.full_name}}</td>
+                    <td>{{approvexpence.empgrade}}</td>
+                    <td id="amtper">{{approvexpence.claim_amount | currency:"INR"}}</td>
+                    <td>
+
+                        <p style="color: green;"
+                            *ngIf="approvexpence.claim_status_id == 3 && approvexpence.applevel== 1">
+                            Travel Claim RM Approved</p>
+
+                        <p style="color: red;"
+                            *ngIf="approvexpence.claim_status_id == 4  && approvexpence.applevel== 1">
+                            Travel Claim Rejected from RM</p>
+
+                        <p style="color: #f5af48;"
+                            *ngIf="approvexpence.claim_status_id == 2 && approvexpence.applevel== 1">
+                            Travel Claim Submitted To RM</p>
+
+                        <p *ngIf="approvexpence.claim_status_id == 5 && approvexpence.applevel== 1">
+                            Travel Claim Returned from RM</p>
+
+                        <p style="color: red;"
+                            *ngIf="approvexpence.claim_status_id == 4  && approvexpence.applevel== 3">
+                            Travel Claim Rejected from Admin</p>
+
+                        <p style="color: #f5af48;"
+                            *ngIf="approvexpence.claim_status_id == 2 && approvexpence.applevel== 3">
+                            Travel Claim verified and Submitted To Admin</p>
+
+                        <p *ngIf="approvexpence.claim_status_id == 5 && approvexpence.applevel== 3">
+                            Travel Claim Returned from Admin</p>
+
+                        <p style="color: green;"
+                            *ngIf="approvexpence.claim_status_id == 3 && approvexpence.applevel== 3">
+                            Travel Claim verified and Admin Approved</p>
+
+                        <p style="color: red;"
+                            *ngIf="approvexpence.claim_status_id == 4  && approvexpence.applevel== 2">
+                            Travel Claim Rejected from FH</p>
+
+                        <p style="color: #f5af48;"
+                            *ngIf="approvexpence.claim_status_id == 2 && approvexpence.applevel== 2">
+                            Travel Claim verified and Submitted To FH</p>
+
+                        <p *ngIf="approvexpence.claim_status_id == 5 && approvexpence.applevel== 2">
+                            Travel Claim Returned from FH</p>
+
+                        <p style="color: green;"
+                            *ngIf="approvexpence.claim_status_id == 3 && approvexpence.applevel== 2">
+                            Travel Claim verified and FH Approved</p>
+                    </td>
+                    <td [ngStyle]="{'background':(i%2 != 0) === false ? '#fff' : '#EDF8FA' }"><button mat-icon-button
+                            matTooltip="View" class="iconbutton" color="primary"
+                            (click)="approveexpenceEdit(approvexpence)">
+
+                            <mat-icon style="color: black;" class="material-icons">
+                                visibility</mat-icon>
+                        </button>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="getapprovexpenceList ?.length == 0" style="margin-left: 42%;">
+        <h3>Sorry data not found!.. </h3>
+    </div>
+    <div class="row" *ngIf="isTourChecker">
+        <div class="col-sm-12" style="font-size: small;text-align:right;margin-bottom: 5%;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                (click)="TourapprovepreviousClick()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="TourapprovenextClick()">
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

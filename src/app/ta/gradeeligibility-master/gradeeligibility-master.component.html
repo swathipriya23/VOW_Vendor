@@ -1,0 +1,153 @@
+<div class="Container" style="margin-left: 40px;">
+    <div class="table-responsive" style="margin-top: 1%;width: 90%; -ms-overflow-style: none;">
+        <button type="button" class="btn btn-outline-success"data-toggle="modal" data-target="#gradeeligibilitycreate"
+        style="border-radius:40px;margin-left: 670px"><span class="fa fa-plus"></span>
+           Grade Eligibility</button>
+    
+    <!-- <div class="container">
+      <div class="row">
+        <div class="table-responsive" >
+            <table class="table table-bordered" fixed-header
+            style="width: 95%;margin-top: 10px;margin-left:30px;overflow-x: hidden;">
+        <thead class="table_header" style="text-align: left;">  -->
+            <div class="container">
+    
+                <div class="row">
+                    <div class="table-responsive" >
+                        <table class="table table-bordered" fixed-header
+                            style="width: 95%;margin-top: 10px;margin-left:30px;overflow-x: hidden;">
+                            <thead class="table_header" style="text-align: left;">       
+        <tr>
+        <th style="text-align: center;">S.No</th>
+        <th style="text-align: center;">Grade</th>
+        <th style="text-align: center;">Gradelevel</th>
+        <th style="text-align: center;">Hillyregion</th>
+        <th style="text-align: center;">Maxtonnage</th>
+        <th style="text-align: center;">Tonnagefamily</th>
+        <th style="text-align: center;">Travelclass</th>
+        <th style="text-align: center;">Action</th>
+        
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let grade of getgradeeligibleList; index as i">
+            <td style="text-align: center;">{{i+1}}</td>
+            <td style="text-align: center;">{{grade.grade}}</td> 
+            <td style="text-align: center;">{{grade.gradelevel}}</td>
+            <td style="text-align: center;">{{grade.hillyregion}}</td>
+            <td style="text-align: center;">{{grade.maxtonnage}}</td>
+            <td style="text-align: center;">{{grade.tonnagefamily}}</td> 
+            <td style="text-align: center;">{{grade.travelclass}}</td>
+            
+           
+            <td style="text-align: center;"><button mat-icon-button matTooltip="Delete" class="iconbutton" (click)="deletegrade(grade.id)"
+                color="primary">
+            <mat-icon style="color: gray;" aria-label="Delete">delete</mat-icon>
+            </button>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+       
+        </div>
+</div>
+</div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+        id="gradeeligibilitycreate">
+        <div class="modal-dialog modal-xl" style="width: 80%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background:#DDEFDD;">
+                    <h2 class="modal-title" style="color:black ;">Grade Eligibility</h2>
+                    <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div style="margin-left: 70px;margin-right: 80%;margin-top: 2%; width: 40%;">
+
+                    <form #tagradeeligibilityForm="ngForm" >
+                        <table>
+                            <div>
+                                <tr>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;">
+                                            <mat-label>Grade</mat-label>
+                                            <input  matInput placeholder="grade"  name="grade" [(ngModel)]="gradeeligiblemodel.grade"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                            <mat-label>Grade Level</mat-label>
+                                            <input  matInput placeholder="gradelevel"  name="gradelevel" [(ngModel)]="gradeeligiblemodel.gradelevel"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td> 
+                                    <td>
+                                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                            <mat-label>Hilly Region</mat-label>
+                                            <input  matInput placeholder="hillyregion"  name="hillyregion" [(ngModel)]="gradeeligiblemodel.hillyregion"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                            <mat-label>MaxTonnage</mat-label>
+                                            <input  matInput placeholder="maxtonnage"  name="maxtonnage" [(ngModel)]="gradeeligiblemodel.maxtonnage"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                   
+                                </tr>
+                                    <tr>
+                                        <td>
+                                            <mat-form-field  style="width: 175px">
+                                                <mat-label>TonnageFamily</mat-label>
+                                                <input  matInput placeholder="tonnagefamily"  name="tonnagefamily" [(ngModel)]="gradeeligiblemodel.tonnagefamily"  autocomplete="off"  >
+                                            </mat-form-field>
+                                        </td>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;;margin-left: 50px;">
+                                            <mat-label>Travelclass</mat-label>
+                                            <input  matInput placeholder="travelclass"  name="travelclass" [(ngModel)]="gradeeligiblemodel.travelclass"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                            <mat-label>Travelmode</mat-label>
+                                            <input  matInput placeholder="travelmode"  name="travelmode" [(ngModel)]="gradeeligiblemodel.travelmode"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                            <mat-label>Twowheller</mat-label>
+                                            <input  matInput placeholder="twowheller"  name="twowheller" [(ngModel)]="gradeeligiblemodel.twowheller"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;">
+                                            <mat-label>Freight1000</mat-label>
+                                            <input  matInput placeholder="freight1000"  name="freight1000" [(ngModel)]="gradeeligiblemodel.freight1000"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                            <mat-label>Frieght1001</mat-label>
+                                            <input  matInput placeholder="freight1001"  name="freight1001" [(ngModel)]="gradeeligiblemodel.freight1001"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                            </div>
+                        </table>
+                        <tr>
+                            <div style="margin-bottom: 5%;">
+                                <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary" (click)="submitForm()"
+                                >Submit</button>
+                                <button type="button"  class="btn btn-outline-primary" (click)="OnCancelclick()" data-dismiss="modal"
+                                    style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+                            </div>
+                        </tr>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

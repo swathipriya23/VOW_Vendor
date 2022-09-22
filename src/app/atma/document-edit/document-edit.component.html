@@ -1,0 +1,341 @@
+
+
+<div style="margin-left: 19px;margin-right: 90%; width: 100%;">
+               <!-- tab for bcp & due  -->
+
+    <nav>
+        <div class="nav nav-tabs">
+            <!-- <span class="nav-item nav-link " data-toggle="tab" (click)="subModuleData(sub)" role="tab"
+                *ngFor="let sub of SGList">
+                {{sub.name}}
+            </span> -->
+        <a class="nav-item nav-link active" data-toggle="tab" (click)="document()">Document</a>
+        <a class="nav-item nav-link" *ngIf="this.comflag == true" data-toggle="tab" (click)="BCP_Questionnaire()">BCP Questionnaire</a>
+        <a class="nav-item nav-link" *ngIf="this.comflag == true" data-toggle="tab" (click)="due_diligence()">Due Diligence</a>
+        </div>
+    </nav>
+    <!-- <h3>
+       Document Edit Form
+    </h3> -->
+    <div *ngIf="show_document">
+        <form [formGroup]="DocumentEditForm" (ngSubmit)="documentEditCreateForm()" autocomplete="off">
+            <table>
+                
+                <tr>
+                    <td>
+                        <mat-label>Partner Id</mat-label><br>
+                        <mat-form-field style="width: 175px;" class="matformfieldstyle" appearance="outline" >
+                            
+                            <input matInput placeholder="partner id"  
+                            autocomplete="off" class="matformfieldinputstyle" formControlName="partner_id"
+                            >
+                        </mat-form-field>
+                   
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 50px;"  >DocGroup <label style="color:red;" >*</label></mat-label><br>
+                        <mat-form-field style="margin-left: 50px;width: 280px;" class="matformfieldstyle" appearance="outline"  (click)="docgroupname()">
+                       
+                           
+                            <input #docInput placeholder="Select parent" class="matformfieldinputstyle" matInput 
+                            formControlName="docgroup_id"
+                                [matAutocomplete]="parenttype" >
+                            <mat-autocomplete #parenttype="matAutocomplete" 
+                            [displayWith]="displayFnparent" (opened)="parentScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let doc of Documentlist" 
+                                     [value]="doc">
+                                        {{doc.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+                    </td>
+                   
+                </tr>
+
+                    <tr>
+                    <td>
+                        <mat-label>Period<label style="color:red;" >*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline" style="width: 175px;">
+                            
+                            <input matInput placeholder="enter period" class="matformfieldinputstyle" (keypress)="numberOnly($event)"  type="text" (keypress)="addressvalidation($event)"
+                            formControlName="period"  autocomplete="off" >
+                            </mat-form-field>
+                    </td>
+                    <td>
+                            <mat-label style="margin-left: 50px;" >Remarks</mat-label><br>
+                        <mat-form-field style="margin-left: 50px;"  class="matformfieldstyle" appearance="outline" >
+                            
+                            <input matInput 
+                            autocomplete="off" formControlName="remarks" class="matformfieldinputstyle"  type="text" (keypress)="addressvalidation($event)"
+                          >
+                        
+                        </mat-form-field>
+                    </td>
+                     
+                 </tr>
+                 </table>
+                 <br>
+                
+                <table>
+                 <tr>
+                
+                 <td>
+                    <label style="margin-right: 2em;border: none;">
+                        <input class="borderremove" type="file" #takeInput accept=".txt,.doc,.pdf,.ppt,.pot,.pps,.pptx,.odt,.odg,.odp,.ods,.docx,.docm,
+                        .dotx,.dotm,.docb,
+                        .xlsx,.xls,.xlt,.xlm,.xlsm,.xltx,.xltm,.jpg,.jpeg,.tiff,.tif,.png"
+                            multiple="true" formControlName="images" name="images"
+                            (change)="fileChange($event)">
+                    </label>
+                </td>
+                <td>
+                    <div
+                         *ngFor="let upload of images;index as i" class="btn-link">
+                            <!-- {{ upload}} -->
+                            <span  class="btn-link" style="cursor: pointer;"
+                                data-target="#my-modalpreview" data-toggle="modal" (click)="fileview(upload)">
+                                {{i+1}}. {{upload.name}}
+    
+                            </span>
+                            <button mat-icon-button type="button">
+                                <mat-icon style="color: gray;" aria-label="Edit" (click)="deleteUpload(upload, i)">
+                                    delete</mat-icon>
+                            </button>
+                           
+
+                       
+                    </div>
+                </td>
+              
+                
+            </tr>
+            <tr>
+                <td>
+                    <tr *ngFor="let multifile of fileList;index as i">
+                        <!-- <td>{{i+1}}</td> -->
+                        <!-- <a (click)="data(multifile)" >{{ multifile.file_name}}<i class="material-icons">
+                            get_app
+                        </i></a> -->
+                        <span  class="btn-link" style="cursor: pointer;"
+                                data-target="#my-modal" data-toggle="modal" (click)="docUpdateFile(multifile.id,multifile.file_name)">
+                                {{i+1}}. {{multifile.file_name}}
+    
+                        </span>
+                       
+                        <td>
+                            <mat-icon style="color: gray;cursor: pointer;" (click)="fileDeletes(multifile,i)">delete</mat-icon>
+                        </td> 
+                       </tr>
+                </td>
+            </tr>
+             
+                </table><br><br>
+                
+            </form>
+
+            <div style="margin-top: 3%;margin-left: 20px;">
+                <button type="button"  class="btn btn-light"
+                style="border-radius: 7px;margin-left: 10px;
+                  border-color: black;
+                  background-color: white;" 
+                (click)="onCancelClick()">close</button>
+                <button type="submit" style="border-radius: 10px;margin-left: 10px;
+                border-color: #f5c68b;
+                background-color: #f5c68b;"
+                class="btn btn-light" (click)="documentEditCreateForm()" >Submit</button>
+                 </div>
+            
+    </div>
+
+
+
+
+   
+
+
+<div *ngIf="show_BCPSummary">
+    <!-- <form [formGroup]="BCPQuestionnaireForm"> -->
+    <div class="table-responsive" style="width: 98%;margin-top: 10px;overflow-x: hidden;">
+        
+        <table class="table" id ='commonstyle'>
+        <thead class="table_header" >
+            <tr>
+            <th>Sl.no</th>
+            <th>Questionnaire</th>
+            <th>Yes/No</th>
+            <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor="let bcp of bcpList; let i = index; ">
+                <td>{{i+1}}</td>
+                <td>{{bcp.question}}</td>
+                <td>
+                    <mat-form-field style="width: 100px;margin-bottom: -24px;margin-top: -13px;">
+                        <!-- <mat-label>Yes/No</mat-label> -->
+                        <mat-select [ngModel]="bcp.ans_bool" (ngModelChange)="bcp.ans_bool = $event">
+                            <mat-option *ngFor="let branch of bcplistdata" [value]="branch.id">
+                                {{branch.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field style="width: 175px;margin-bottom: -24px;margin-top: -13px;">
+                        <mat-label>Remarks</mat-label>
+                        <input matInput placeholder="Remarks"
+                            autocomplete="off" [ngModel]="bcp.remarks"
+                             (ngModelChange)="bcp.remarks = $event">
+                    </mat-form-field>
+                </td>
+                <!-- <td>{{bcp.period}}</td>
+                <td>{{bcp.remarks}}</td> -->
+            </tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="margin-top:3%;margin-left: 10px;">
+        <!-- <button type="button" class="btn btn-light"
+        style="border-radius: 7px;margin-left: 10px;
+        border-color: black;
+        background-color: white;"
+        (click)="onCancelClick()">Cancel</button> -->
+        <button type="submit" style="border-radius: 10px;margin-left: 10px;
+        border-color: #f5c68b;
+        background-color: #f5c68b;"
+         class="btn btn-light" (click)="bcp_submitForm()" >Submit</button>
+    </div>
+    <!-- </form>  -->
+</div>
+
+
+<div *ngIf="show_DueSummary">
+    <!-- <form [formGroup]="DueDiligenceForm"> -->
+    <div class="table-responsive" style="width: 98%;margin-top: 10px;overflow-x: hidden;">
+        
+        <table class="table" id ='commonstyle'>
+        <thead class="table_header" >
+            <tr>
+            <th>Sl.no</th>
+            <th>Requirement</th>
+            <th>Direction No</th>
+            <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor="let due of duediligenceList; let i = index; ">
+                <td>{{i+1}}</td>
+                <td [innerHtml]= "due.question">{{due.question}}</td>
+                <td>
+                    <mat-form-field style="width: 175px;margin-bottom: -24px;margin-top: -13px;">
+                        <mat-label>Direction</mat-label>
+                        <input matInput placeholder="Direction"
+                            autocomplete="off" [ngModel]="due.direction"
+                             (ngModelChange)="due.direction = $event">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field style="width: 175px;margin-bottom: -24px;margin-top: -13px;">
+                        <mat-label>Remarks</mat-label>
+                        <input matInput placeholder="Remarks"
+                            autocomplete="off" [ngModel]="due.remarks"
+                             (ngModelChange)="due.remarks = $event">
+                    </mat-form-field>
+                </td>
+            </tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="margin-top:3%;margin-left: 10px;">
+        <!-- <button type="button" class="btn btn-light"
+        style="border-radius: 7px;margin-left: 10px;
+        border-color: black;
+        background-color: white;"
+        (click)="onCancelClick()">Cancel</button> -->
+        <button type="submit" style="border-radius: 10px;margin-left: 10px;
+        border-color: #f5c68b;
+        background-color: #f5c68b;"
+         class="btn btn-light" (click)="due_submitForm()" >Submit</button>
+    </div>
+    <!-- </form> -->
+</div>
+
+
+</div>
+    
+
+
+
+<div *ngIf="showimageHeaderAPI" id="my-modal" class="modal fade" aria-labelledby="my-modalLabel" aria-hidden="true"
+    tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" data-dismiss="modal" style="width: 60%;height: 80%;">
+        <div class="modal-content">
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button> -->
+            <div class="modal-body">
+                <img src="{{jpgUrls}}" class="img-responsive" style="width: 100%;">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showimagepdf" id="my-modal" class="modal fade" aria-labelledby="my-modalLabel" aria-hidden="true"
+    tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;">
+                <h2 class="modal-title">PDF View</h2>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+            </div>
+            <pdf-viewer [src]="pdfurl" [render-text]="true" [original-size]="false"
+                style="display: block;width: 800px; height: 800px;"></pdf-viewer>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div *ngIf="showimageHeaderPreviewPDF" id="my-modalpreview" class="modal fade" aria-labelledby="my-modalLabel"
+    aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;">
+                <h2 class="modal-title">PDF View</h2>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+            </div>
+            <pdf-viewer [src]="previewpdfurl" [render-text]="true" [original-size]="false"
+                style="display: block;width: 800px; height: 800px;"></pdf-viewer>
+        </div>
+    </div>
+</div>
+<div *ngIf="showimageHeaderPreview" id="my-modalpreview" class="modal fade" aria-labelledby="my-modalLabel"
+    aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" data-dismiss="modal" style="width: 60%;height: 80%;">
+        <div class="modal-content">
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button> -->
+            <div class="modal-body">
+                <img src="{{previewjpgUrls}}" class="img-responsive" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+        <p style="color: white">Please Wait. </p>
+    </ngx-spinner>
+
+  

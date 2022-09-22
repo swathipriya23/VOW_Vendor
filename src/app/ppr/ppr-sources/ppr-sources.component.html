@@ -1,0 +1,180 @@
+<div class="container">
+    <h2>PPR Source</h2>
+    <div class="col-md-12">
+        <div class="row">
+         <div class="col-md-3">
+        <mat-form-field (click)="source_dropdown()">
+            <mat-label>Source Name </mat-label>
+            <input placeholder="Source Name" matInput [formControl]="source" 
+                [matAutocomplete]="sourceauto">
+            <mat-autocomplete #sourceauto="matAutocomplete" [displayWith]="displayfnsource"
+                >
+                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                <ng-container *ngIf="!isLoading">
+                    <mat-option *ngFor="let name_code of source_data" [value]="name_code">
+                       ({{name_code.code}}){{name_code.name}} </mat-option>
+                </ng-container>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="col-md-3">
+            <button type="button" class="btn btn-outline-primary" style="border-radius: 40px;" (click)="source__summary_search(source.value)"> Search
+                </button>
+
+    </div>
+    <div class="col-md-3">
+        <button type="button" class="btn btn-outline-primary" style="border-radius: 40px;" data-toggle="modal" data-target="#sourceAdd">
+            Add
+            </button>
+    </div>
+    </div>
+    </div>
+    
+
+    <div style="margin-top: 6%;" class="tableFixHead">
+        <table class="table table-bordered" id="commonstyle" fixed-header>
+            <thead>
+                <th>Source Code</th>
+                <th>Source Name</th>
+                <th>Edit</th>
+                <th>View</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let sourcesummary of source_summary">
+                    <td>{{sourcesummary.code}}</td>
+                    <td>{{sourcesummary.name}}</td>
+                    <td class="text-center">
+                        <a style="color:#2177e5;cursor: pointer;"  data-toggle="modal" data-target="#sourceedit"  matTooltip="Edit"  (click)='editview_source(sourcesummary)'>
+                            <mat-icon>edit</mat-icon>
+                        </a>
+                    </td>
+                    <td style="text-align: center;">
+                        <a style="color:#2177e5;cursor: pointer;" matTooltip="View" data-toggle="modal" data-target="#sourceview" (click)='editview_source(sourcesummary)'>
+                            <mat-icon>visibility</mat-icon>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+                <mat-icon>arrow_back</mat-icon>
+            </button> {{presentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+
+        </div>
+    </div>
+
+  
+  <!--ADD Modal -->
+  <div class="modal fade" data-backdrop="static" id="sourceAdd" tabindex="-1" role="dialog" aria-labelledby="sourceAddLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="sourceAddLabel">PPR Scorce Add</h2>
+          <button type="button" class="close" #closepop data-dismiss="modal" (click)="clearsource()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+	        <form [formGroup]="pprsource">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Name</mat-label>
+                                <input matInput placeholder="Name" autocomplete="off" formControlName="sourcename">
+                            </mat-form-field>                       
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Description</mat-label>
+                                <textarea matInput placeholder="Description" autocomplete="off" formControlName="description"></textarea>
+                            </mat-form-field>                       
+                        </div> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="clearsource()" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="save_source(pprsource.value)">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--view  -->
+  <div class="modal fade" data-backdrop="static" id="sourceview" tabindex="-1" role="dialog" aria-labelledby="sourceviewLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="sourceviewLabel">PPR Scorce View</h2>
+          <button type="button" class="close" #closepopview data-dismiss="modal" (click)="clearsource_view()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+	        <form [formGroup]="pprsource">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Name</mat-label>
+                                <input matInput placeholder="Name" autocomplete="off" formControlName="sourcename" readonly>
+                            </mat-form-field>                       
+                        </div>
+                       
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="clearsource_view()" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- edit -->
+  <div class="modal fade" data-backdrop="static" id="sourceedit" tabindex="-1" role="dialog" aria-labelledby="sourceeditLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="sourceeditLabel">PPR Scorce Edit</h2>
+          <button type="button" class="close" #closepopedit data-dismiss="modal" (click)="clearsource_edit()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+	        <form [formGroup]="pprsource">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Name</mat-label>
+                                <input matInput placeholder="Name" autocomplete="off" formControlName="sourcename">
+                            </mat-form-field>                       
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Description</mat-label>
+                                <textarea matInput placeholder="Description" autocomplete="off" formControlName="description"></textarea>
+                            </mat-form-field>                       
+                        </div> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="clearsource_edit()" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="save_source_edit(pprsource.value)">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

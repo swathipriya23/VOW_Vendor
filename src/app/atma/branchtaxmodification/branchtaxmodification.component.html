@@ -1,0 +1,98 @@
+<div class="container">
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+        <h3>  Changes </h3>
+        </div>
+ <div class="col-md-7 text-right">
+  <button type="button" class="btn btn-light"  style="border-radius: 7px;margin-left: 10px;
+  border-color: black;
+  background-color: white;"
+      (click)="Cancel()">Cancel</button>
+      </div></div>
+    <div>
+        <div class="timeline">
+            <ul>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+                
+                <li><div class="content">
+<!--                     
+                    <p><code>Branch</code>:&nbsp;<span
+                        [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.branch_id.name!=modificationdata.old_data.branch_id.name'>{{
+                        modificationdata.new_data.branch_id.name}}</span></p> -->
+                <p><code>PAN</code>:&nbsp;<span
+                        [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.panno!=modificationdata.old_data.panno'>{{
+                        modificationdata.new_data.panno}}</span></p>
+                <p><code>Exempted</code>:&nbsp;<span
+                        [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.isexcempted!=modificationdata.old_data.isexcempted'>{{
+                        modificationdata.new_data.isexcempted}}</span></p>
+                <p><code>Tax</code>:&nbsp;<span
+                        [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.tax!=modificationdata.old_data.tax'>{{
+                        modificationdata.new_data.tax.name | titlecase}}</span></p>
+                <p><code>Sub Tax</code>:&nbsp;<span
+                        [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.subtax!=modificationdata.old_data.subtax'>{{
+                        modificationdata.new_data.taxrate.subtax_id.name | titlecase}}</span></p>
+                <p><code>Taxrate</code>:&nbsp;<span
+                        [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.taxrate!=modificationdata.old_data.taxrate'>{{
+                        modificationdata.new_data.taxrate.rate}}</span></p>
+                <p><code>MSME</code>:&nbsp;<span   [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.msme!=modificationdata.old_data.msme' *ngIf="modificationdata.new_data.msme==true">Yes</span><span 
+                    [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.msme!=modificationdata.old_data.msme'
+                        *ngIf="modificationdata.new_data.msme==false">No</span></p>
+                <p><code>Reg No</code>:&nbsp;<span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.msme_reg_no!=modificationdata.old_data.msme_reg_no'>{{
+                            modificationdata.new_data.msme_reg_no}}</span></p>
+                <p><code> Valid From</code>:&nbsp;<span
+                        [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.excemfrom!=modificationdata.old_data.excemfrom'>{{
+                        modificationdata.new_data.excemfrom  | date:'dd-MM-yyyy'}}</span></p>
+                <p><code>Valid To</code>:&nbsp;<span
+                        [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.excemto!=modificationdata.old_data.excemto'>{{
+                                     modificationdata.new_data.excemto  | date:'dd-MM-yyyy'}}</span></p>
+                <p><code>Exemp Threshold</code>:&nbsp;<span
+                        [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.excemthrosold!=modificationdata.old_data.excemthrosold'>{{
+                        modificationdata.new_data.excemthrosold}}</span></p>
+                <p><code>Exempted Rate</code>:&nbsp;<span
+                        [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.excemrate!=modificationdata.old_data.excemrate'>{{
+                        modificationdata.new_data.excemrate}}</span></p> 
+                <p><code>Files</code>:<br>
+                    <span *ngFor="let attachment of multifile;index as i">
+                        <tr>
+                        <td>{{i+1}}</td>&nbsp;&nbsp;
+                    <a (click)="download(attachment)">{{attachment.file_name | titlecase}}</a>
+                    </tr><br>
+                </span>
+                        </p>    
+                    </div>
+                </li>
+                <li>
+                    <div class="content" *ngIf="modificationdata.action==2">
+                        <!-- <p><code>Branch</code>:&nbsp;{{ modificationdata.old_data.branch_id.name}}</p>  -->
+                        <p><code>PAN</code>:&nbsp;{{ modificationdata.old_data.panno}}</p>
+                        <p><code>Exempted</code>:&nbsp;{{ modificationdata.old_data.isexcempted}}</p>
+                        <p><code>Tax</code>:&nbsp;{{ modificationdata.old_data.tax.name | titlecase}}</p>
+                        <p><code>Sub Tax</code>:&nbsp;{{ modificationdata.old_data.taxrate.subtax_id.name | titlecase}}</p>
+                        <p><code>Taxrate</code>:&nbsp;{{ modificationdata.old_data.taxrate.rate}}</p>
+                        <p><code>MSME</code>:&nbsp;<span *ngIf="modificationdata.old_data.msme==true">Yes</span><span *ngIf="modificationdata.old_data.msme==false">No</span></p>
+                        <p><code>Reg No</code>:&nbsp;{{ modificationdata.old_data.msme_reg_no}}</p>
+                        <p><code> Valid From</code>:&nbsp;{{ modificationdata.old_data.excemfrom  | date:'dd-MM-yyyy'}}</p>  
+                        <p><code>Valid To</code>:&nbsp;{{ modificationdata.old_data.excemto  | date:'dd-MM-yyyy'}}</p> 
+                        <p><code>Exemp Threshold</code>:&nbsp;{{ modificationdata.old_data.excemthrosold}}</p> 
+                        <p><code>Exempted Rate</code>:&nbsp;{{ modificationdata.old_data.excemrate}}</p>  
+                        <p><code>Files</code>:<br>
+                            <span *ngFor="let attachments of multifiles;index as i">
+                                <tr>
+                               <td>{{i+1}}</td>&nbsp;&nbsp;
+                                <a  (click)="download(attachments)">{{attachments.file_name | titlecase}}</a>
+                            </tr><br>
+                        </span>
+                        </p> 
+                    </div>
+                </li>
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+</div>

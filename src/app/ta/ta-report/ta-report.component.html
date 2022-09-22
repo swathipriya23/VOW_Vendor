@@ -1,0 +1,31 @@
+<div class="Container" style="margin-left: 40px;">
+    <nav>
+        <div class="nav nav-tabs" style="margin-top: 1%;">
+            <span class="nav-item nav-link " data-toggle="tab" (click)="subModuleData(sub)" role="tab"
+                *ngFor="let sub of vendorMasterList">
+                {{sub.name}}
+            </span>
+        </div>
+    </nav>
+   
+    <div>
+        <span *ngIf="istourreport">
+            <app-tour-report></app-tour-report>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isbranchwisereport">
+            <app-branchwise-pending-report></app-branchwise-pending-report>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isemployeereport">
+            <app-employee-tour-report></app-employee-tour-report>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="istaconsolidate">
+            <app-eclaim-bill-consolidate></app-eclaim-bill-consolidate>
+        </span>
+    </div>
+</div>

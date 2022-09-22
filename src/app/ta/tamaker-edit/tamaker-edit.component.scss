@@ -1,0 +1,351 @@
+::ng-deep {
+
+  .cdk-global-overlay-wrapper,
+  .cdk-overlay-container {
+    z-index: 9999 !important;
+  }
+}
+
+::ng-deep .mat-form-field-outline {
+  color: grey !important;
+}
+
+
+.mat-radio-button~.mat-radio-button {
+  margin-left: 16px;
+}
+
+.modal-dialog .modal-content1 {
+  position: relative;
+  display: flex;
+  border-radius: 20px;
+  flex-direction: column;
+  width: auto;
+  margin-left: -22%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+
+}
+
+#cardstyle {
+  margin: 20px 12px 20px 20px;
+}
+
+#clspace {
+  margin-left: 30px;
+  width: 200px
+}
+
+mat-form-field {
+  font-size: 8px;
+
+}
+
+mat-menu {
+  font-family: "Montserrat";
+}
+
+input,
+mat-select,
+textarea {
+  font-size: 15px;
+}
+
+.mat-label {
+  font-size: 14px;
+
+}
+
+mat-icon {
+  cursor: pointer;
+  font-size: 30px
+}
+
+// #reqpopup{
+//   margin-left:-43%;
+//   height: auto;
+//   overflow: auto;
+// }
+
+
+mat-datepicker-toggle {
+  font-size: 15px;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
+  color: red !important;
+  opacity: 0.8 !important;
+}
+
+// chatbot
+.float-button {
+  height: 40px;
+  width: 40px;
+  float: right;
+  border-radius: 50%;
+  text-align: center;
+  background-color: #21cbe5;
+  color: #fff;
+  box-shadow: 2px 2px 3px #999;
+  cursor: pointer;
+  border: none;
+}
+
+#successbtn {
+  background-color: #21cbe5;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+
+::ng-deep .mat-select-disabled .mat-select-value {
+  color: black;
+}
+
+::ng-deep .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+  color:black;
+}
+
+::ng-deep {
+  .cancelled .mat-select-value-text {
+    color: red;
+  }
+
+  // #tadate .timesuf .mat-form-field-appearance-outline .mat-form-field-prefix,
+  // .mat-form-field-appearance-outline .mat-form-field-suffix {
+  //   top: 0px;
+  // }
+
+  .booked .mat-select-value-text {
+    color: green;
+  }
+
+  .inprogress .mat-select-value-text {
+    color: #f5b048d7;
+  }
+
+  .notc .mat-select-value-text {
+    color: black;
+  }
+
+  .mat-tooltip {
+    font-family: "Montserrat";
+    font-size: 15px;
+  }
+}
+
+#reqhead {
+  font-weight: 600;
+}
+
+
+
+//  textarea.mat-input-element.cdk-textarea-autosize{
+//   overflow: auto;
+
+//  }
+
+.material-icons {
+
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#copyid{
+ margin-left:48%;
+ color: black;
+ margin-right:1%;
+}
+
+.chat-header[_ngcontent-mxe-c1] {
+  flex: 0 1 25px;
+  position: relative;
+  z-index: 2;
+  background: rgba(0, 0, 0, .2);
+  color: #fff;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 10px 10px 10px 50px;
+}
+
+.messages-content[_ngcontent-mxe-c1] {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 99%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.message-box[_ngcontent-mxe-c1] {
+  flex: 0 1 25px;
+  background: rgba(0, 0, 0, .2);
+  padding: 10px;
+  position: relative;
+}
+
+.noselect {
+
+  color: black;
+  border: none;
+  border-color: #F5C68B;
+  background-color: #F5C68B;
+  font-size: 10px;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+
+}
+
+
+.message-input {
+  width: 400px;
+  border: none;
+  margin-right: 0px;
+}
+
+.user-msg[_ngcontent-kyu-c1] {
+  float: right;
+  // color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+  text-align: left;
+  // background: #21cbe5;
+  border-radius: 10px 10px 0;
+  padding: 5px 12px;
+  margin: 2px 0px 2px 0px;
+  word-break: break-word;
+  font-size: 15px;
+  min-width: 100px;
+  margin-left:100px;
+  //resize:horizontal;
+  overflow: auto;
+}
+
+.user-msg1[_ngcontent-kyu-c1] {
+  float: left;
+  // color: white;
+  text-align: left;
+  // background:  #4A708B;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  // margin-right: 100px;
+  border-radius: 10px 10px 10px 0;
+  padding: 5px 12px;
+  margin: 2px 100px 2px 0px;
+  word-break: break-word;
+  font-size: 15px;
+  min-width: 100px;
+  max-width: auto;
+  // resize: horizontal;
+  overflow: auto;
+
+}
+
+::-webkit-datetime-edit-year-field:not([aria-valuenow]),
+::-webkit-datetime-edit-month-field:not([aria-valuenow]),
+::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
+  color: transparent;
+}
+
+.chaticon {
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+}
+
+label {
+  margin-bottom: 0px;
+}
+
+.inputtextred {
+  color: red;
+}
+
+#book {
+  font-size: 25px;
+  color: green;
+  width: -webkit-fill-available;
+}
+
+#cancel {
+  font-size: 25px;
+  color: black;
+  width: -webkit-fill-available;
+}
+
+#bookeddtl {
+  padding: auto;
+}
+
+fieldset,
+input,
+mat-select:read-only,
+textarea {
+  cursor: default;
+  pointer-events: all !important;
+}
+
+// fieldset:disabled{
+//  font-weight: bolder;
+// }
+.datecls {
+  pointer-events: none;
+  cursor: default;
+}
+
+.matselect {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+#canceldtl {
+  margin-top: 30px;
+}
+
+.float-button .badge {
+  position: absolute;
+  top: -4px;
+  right: -7px;
+  // padding: 3px 6px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
+
+#scrollstyle::-webkit-scrollbar {
+  width: 15px;
+  /* width of the entire scrollbar */
+}
+
+#scrollstyle::-webkit-scrollbar-track {
+  background: white;
+  /* color of the tracking area */
+}
+
+#scrollstyle::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  background-color: grey;
+  /* color of the scroll thumb */
+  border: 2px solid white;
+}
+
+#fileview
+{
+  cursor: move;
+}
+
+#bookingpopup
+{
+  cursor: move;
+}
+
+.modal-header
+{
+  cursor: all-scroll;
+}

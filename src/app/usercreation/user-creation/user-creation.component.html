@@ -1,0 +1,79 @@
+<div >
+    <mat-card style="margin-top: 13px;margin-left: 20px;margin-right: 20px;margin-bottom: 20px;" >
+    <div style="margin-left: 5px;margin-right: 80%;margin-top: 1%; width: 100%;">
+        <h2 class="header">
+            User Creation
+        </h2>
+        <div>
+            <form [formGroup]="UserCreation">
+                <!-- <div class="example-form"> -->
+                    <table>
+                        <div>
+                            <tr>
+                                <td>
+                                    <mat-label>Username<label style="color: red;" >*</label></mat-label><br>
+                                    <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
+                                        <input matInput placeholder="Username" formControlName="name" class="matformfieldinputstyle" 
+                                            autocomplete="off">
+                                    </mat-form-field>
+
+                                </td>
+                                <td>
+                                    <mat-label style="margin-left: 60px;">Email Id<label style="color: red;" >*</label></mat-label><br>
+                                    <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                        <input matInput placeholder="Email Id" formControlName="email" class="matformfieldinputstyle" 
+                                            autocomplete="off">
+                                            <mat-error *ngIf="UserCreation.controls['email'].hasError('email')">
+                                              Email is not Valid!
+                                          </mat-error>
+                                     </mat-form-field>
+
+                                </td>
+                            </tr>
+                            <!-- <div class="col-md-3">
+                                <mat-label>Username<label style="color: red;" >*</label></mat-label><br>
+                                <mat-form-field appearance="outline" class="matformfieldstyle">
+                                    <input matInput placeholder="Username" formControlName="name" class="matformfieldinputstyle" 
+                                        autocomplete="off">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-label>Email Address<label style="color: red;" >*</label></mat-label><br>
+                                <mat-form-field appearance="outline" class="matformfieldstyle">
+                                    <input matInput placeholder="Email Address" formControlName="email" class="matformfieldinputstyle" 
+                                        autocomplete="off">
+                                        <mat-error *ngIf="UserCreation.controls['email'].hasError('email')">
+                                          Email is not Valid!
+                                      </mat-error>
+                                 </mat-form-field>
+                            </div> -->
+                        </div>
+
+                    </table>
+                   
+                <!-- </div> -->
+            </form>
+        </div>
+
+    </div>
+</mat-card>
+
+<div style="margin-bottom: 5%;margin-left: 50px ;">
+    <button type="button"  class="btn btn-light" (click)="onCancelUser()" skipLocationChange
+    style="border-radius: 7px;margin-left: 10px;
+    border-color: black;
+    background-color: white;">Cancel</button>
+    <button type="submit" style="border-radius: 10px;margin-left: 10px;
+    border-color: #f5c68b;
+    background-color: #f5c68b;"
+        class="btn btn-light" (click)="submit_user_Creation()" >Submit</button>         
+</div>
+
+</div>
+
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>
+
+
+

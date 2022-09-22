@@ -1,0 +1,76 @@
+<h3>
+    eClaim Expense Approval
+</h3>
+
+    <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+        <thead class="table_header" style="text-align: left;">
+    <tr>
+    <th>S.No</th>
+    <th>Description</th>
+    <th>Eligible Amount</th>
+    <th>Claim Amount</th>
+    <th>Requester Comments</th>
+    <th>Expence Details</th>
+    
+    </tr>
+    </thead> 
+     <tbody> 
+        <tr *ngFor="let tourexpense of gettourexpenseList; index as i">
+       <td scope="row"  style="vertical-align: middle;">{{(this.tourexpensepage - 1)*pagesize +i+1 }}</td>
+        <td>{{tourexpense.expensename}}</td>
+        <td>{{tourexpense.approvedamount}}</td>
+        <td>{{tourexpense.claimedamount}}</td>
+        <td>{{tourexpense.requestercomment}}</td>
+        <td><span class="material-icons" matTooltip="view" style="color:deeppink;">
+            <mat-icon style="color:green;"class="material-icons">
+                visibility</mat-icon></span></td>
+            
+        </tr>
+    </tbody>
+    </table>
+    <!-- <div class="row">
+        <div class="col-sm-12" style="font-size: small;text-align:right;margin-bottom: 5%;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary"
+            >
+            <mat-icon >arrow_back</mat-icon>
+            </button>
+            {{tourexpenseviewsummarypage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary"
+           >
+            <mat-icon >arrow_forward</mat-icon>
+            </button>
+            </div>
+    </div> -->
+    <h3 style="color:deeppink;">
+     To Approve
+    </h3> 
+     <div>
+        <div class="col-md-12 text-center" >
+          <mat-form-field style="width: 175px;">
+          <mat-label>Branch</mat-label>
+          <input matInput placeholder="Branch" [(ngModel)]="expense.bank" name="bank" autocomplete="off" required>
+        </mat-form-field>
+        
+         <mat-form-field style="width: 175px;margin-left: 50px;">
+          <mat-label>Employee</mat-label>
+          <input matInput placeholder="Employee" [(ngModel)]="expense.approval" name="approval" autocomplete="off" required>
+          </mat-form-field>
+          <mat-form-field style="width: 175px;margin-left: 50px;">
+            <mat-label>Submit Comments</mat-label>
+            <input matInput placeholder="comments" [(ngModel)]="expense.comments" name="comments" autocomplete="off" required>
+            </mat-form-field> 
+
+          
+        
+         </div>
+         
+      </div>
+       <div class="col-md-12 text-center" >
+        <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+            class="btn btn-outline-primary" >Submit</button>
+        <button type="button"  class="btn btn-outline-primary"
+          style="border-radius: 40px;margin-left: 10px;">Reject</button>
+          <button type="button"  class="btn btn-outline-primary"
+          style="border-radius: 40px;margin-left: 10px;">Return</button>
+     </div>
+    

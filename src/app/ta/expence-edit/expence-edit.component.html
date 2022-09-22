@@ -1,0 +1,721 @@
+<div>
+  <mat-card id="cardstyle">
+    <div style="margin-left: 10px;margin-right: 80%;margin-top: 1%; width: 100%;">
+
+      <div class="row">
+        <div class="col-md-9">
+          <p style="color:rgb(0, 0, 0);font-size: 20px;font-weight: 500px;">
+            eClaim Travel Expense</p>
+        </div>
+        <div style="float: right;">
+
+          <button mat-button [matMenuTriggerFor]="menu" id="primarybtn" type="button" class="btn btn-light">Action
+            <mat-icon style="margin-bottom: 5px;">arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" style="width:150px">
+            <button *ngIf="status_id == 2 && maxapplevel < 3" type="button" mat-menu-item data-toggle="modal"
+              data-target="#skipapproval">MOVE TO NEXT LEVEL</button>
+            <button type="button" mat-menu-item data-toggle="modal" data-target="#approvalflow">APPROVAL FLOW</button>
+          </mat-menu>
+        </div>
+
+        <div style="float: right;" *ngIf="status_id >= 1">
+
+          <button type="button" class="btn btn-light" (click)="back()" id="secondarybtn">Back</button>
+
+        </div>
+      </div>
+      <hr>
+      <form [formGroup]="expenceform">
+        <div>
+          <table>
+            <tr>
+              <td>
+                <mat-label>Travel No</mat-label><br>
+                <mat-form-field style="width: 175px;" appearance="standard">
+
+
+                  <input readonly matInput placeholder="Travel No" formControlName="tourgid" autocomplete="off"
+                    required>
+
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-label style="margin-left: 50px;">Travel Expense Type<label style="color:red">*</label></mat-label>
+                <br>
+                <mat-form-field style="width: 270px;margin-left: 50px;">
+
+                  <mat-select placeholder="Select Expense Type" formControlName="expentype"
+                    [disabled]="status_id == 3 || status_id == 4">
+                    <mat-option *ngFor="let expencetypee of expencetypeList" [value]="expencetypee.id"
+                      matTooltipPosition="right" [matTooltip]="exptip(expencetypee.name)">
+                      {{expencetypee.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <fieldset [disabled]="status_id == 3 || status_id == 4">
+                  <mat-label style="margin-left: 50px;">Requester comments<label style="color:red">*</label></mat-label>
+                  <br>
+                  <mat-form-field style="width: 200px;margin-left: 50px;">
+
+
+                    <input matInput formControlName="comments" placeholder="Comments" name="comments"
+                      (keypress)="omit_special_char($event)" [(ngModel)]="tourmodell.comments" autocomplete="off">
+                  </mat-form-field>
+                </fieldset>
+              </td>
+
+
+              <td>
+                <button type="button" matTooltip="Create Expense" class="btn btn-light" (click)="addForm()"
+                  [disabled]="itemdisable" style="border-radius:40px;margin-left: 50px"><span class="fa fa-plus"></span>
+                </button>
+              </td>
+              <td *ngIf='status_id == 3' style="padding-left:60px;">
+                <span (click)="pdfdownload()">
+                  <mat-icon matTooltip="ECF Details" style="font-size: 40px;"> insert_drive_file</mat-icon>
+                </span>
+              </td>
+              <!-- <td *ngIf='status_id == 3' style="padding-left:60px;">
+                <button type="submit" style="margin-left: 60px;" id="secondarybtn" matTooltip="Payment Status" (click)="paymentstatus()"
+                  class="btn btn-light">STATUS</button>
+
+              </td> -->
+            </tr>
+          </table>
+          <div class="table-responsive" style="width:100%;margin-top: 1%; overflow-x: hidden;">
+            <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+              <thead class="table_header" style="text-align: left;">
+                <tr>
+                  <th>S.No</th>
+                  <th>Expense Type</th>
+                  <!-- <th>Eligible Amount</th> -->
+                  <th>Claim Amount (INR)</th>
+                  <th>Request Comments</th>
+                  <th>Expense Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let getclaim of getclaimrequest;index as i">
+                  <td>{{i+1}}</td>
+                  <!-- <td>{{getclaim.expenseid}}</td> -->
+                  <td>
+                    <div *ngIf="getclaim.expenseid == 1">Travelling Expenses</div>
+                    <div *ngIf="getclaim.expenseid == 2">Daily Reimbursement</div>
+                    <div *ngIf="getclaim.expenseid == 3">Incidental Expenses</div>
+                    <div *ngIf="getclaim.expenseid == 4">Local Conveyance</div>
+                    <div *ngIf="getclaim.expenseid == 5">Lodging</div>
+                    <div *ngIf="getclaim.expenseid == 6">Miscellaneous Charges</div>
+                    <div *ngIf="getclaim.expenseid == 7">Packaging Freight</div>
+                    <div *ngIf="getclaim.expenseid == 8">Local Deputation</div>
+                    <div *ngIf="getclaim.expenseid == 9">Associated Expense</div>
+                  </td>
+                  <!-- <td>{{getclaim.eligibleamount}}</td> -->
+                  <td>{{ getclaim.claimedamount | currency:'INR'}}</td>
+                  <td>{{getclaim.requestercomment}}</td>
+
+                  <td><button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary"
+                      (click)="expenseEdit(getclaim)">
+
+                      <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button matTooltip="Delete" class="iconbutton"
+                      *ngIf="status_id <=2 || status_id == 5"
+                      [disabled]="itemdisable || status_id == 4 || status_id ==3" (click)="expensedelete(getclaim,i)"
+                      color="primary">
+                      <mat-icon style="color: black;" aria-label="Delete">delete</mat-icon>
+                    </button>
+                    <button mat-icon-button matTooltip="Upload Attachments" class="iconbutton"
+                      style="margin-left: 15px;" data-toggle="modal" data-target="#filepopup"
+                      (click)="attachmentdtl(getclaim)" color="primary">
+                      <mat-icon style="color: black;" aria-label="Delete">insert_drive_file</mat-icon>
+                    </button>
+                    <!-- <button *ngIf="status_id < 5 && status_id >= 2" mat-icon-button matTooltip="View Attachments" class="iconbutton" style="margin-left: 15px;"
+                      data-toggle="modal" data-target="#filepopup" (click)="attachmentdtl(getclaim)"
+                      color="primary">
+                      <mat-icon style="color: black;" aria-label="Delete">visibility</mat-icon>
+                    </button> -->
+
+                  </td>
+              </tbody>
+              <tr>
+
+                <th class="totaldisplay" colspan="1"></th>
+                <td>
+                  Total Claim Amount:
+                </td>
+                <!-- <td>Total Eligible Amount:{{getTotal(getclaimrequest)}}</td> -->
+                <td>{{claimedamt | currency:'INR'}}</td>
+                <td class="totaldisplay" colspan="4"><button type="button" class="btn btn-light" data-toggle="modal"
+                    data-target="#ccbsModal" id="primarybtn" style="margin-left: 50px">
+                    <label *ngIf="status_id <= 1" style="margin-bottom:0px ;">Add CCBS</label> <label
+                      style="margin-bottom:0px ;" *ngIf="status_id > 1">View CCBS</label></button></td>
+
+              </tr>
+            </table>
+          </div>
+
+          <br>
+          <section>
+
+            <div class="row">
+              <div class="col-md-12" *ngIf="showadmin">
+                <mat-label style="font-weight: 500;font-size: 20px;">Admin Booking Details</mat-label>
+                <br>
+                <br>
+                <table class="table table-bordered" style="width: 80%;">
+                  <thead class="table_header">
+                    <tr>
+                      <th scope="col">S.No</th>
+                      <th scope="col">Requirements</th>
+                      <th scope="col">Official Amount</th>
+                      <th scope="col">Personal Amount</th>
+                      <th scope="col">Total (Official + Personal) Amount</th>
+                      <!-- <th scope="col">Total Amount</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of admindata;let ind=index">
+                      <td>{{ind+1}}</td>
+                      <td>
+                        {{data.name}}
+                      </td>
+                      <td>
+                        <label *ngIf="data.official_amt != 0"> {{data.official_amt | currency:"INR"}} </label>
+                      </td>
+                      <td><label *ngIf="data.personal_amt != 0">
+                          {{data.personal_amt | currency:"INR"}}</label>
+
+                      </td>
+                      <td><label *ngIf="data.total_amt != 0">
+                          {{data.total_amt | currency:"INR"}}</label>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td></td>
+                      <td>Total Amount:</td>
+                      <td> <label *ngIf="sumofficial != 0">{{sumofficial | currency:"INR"}} </label> </td>
+                      <td> <label *ngIf="sumpersonal != 0">{{sumpersonal | currency:"INR"}} </label> </td>
+                      <td> <label *ngIf="sumtotal != 0">{{sumtotal | currency:"INR"}} </label> </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </section>
+
+
+
+
+          <p style="color:rgb(0, 0, 0);font-size: 18px;font-weight: 500px;">
+            Acceptance
+          </p>
+          <div class="row">
+            <div class="col-md-12 text-left">
+              <div style=" border: 1px none black; ">
+                <p></p>
+                <p rows="1" style="color:red;width:100%; padding-left: 5px; margin:1px 1px 1px 1px;">
+                  <mat-checkbox (click)="$event.preventDefault()" [checked]='true' style="color: red">Bills are in order
+                    ,I
+                    have self attested the original of the bills.BH/BOM has affixed
+                    seal and signature on each bill.
+                  </mat-checkbox>
+
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <p style="color:rgb(0, 0, 0);font-size: 18px;font-weight: 500px;margin-top: 2%;">
+            To Forward/Check
+          </p>
+
+
+          <div *ngIf="daterelax == 1">
+            <div>
+              <fieldset [disabled]="status_id == 3 || status_id == 4">
+                <tr>
+
+
+                  <td>
+                    <mat-label>Remarks</mat-label><label style="color:red">*</label> <br>
+                    <mat-form-field style="width: 500px;">
+
+                      <textarea rows="1" cols="40" matInput placeholder="remarks" (keypress)="omit_special_char($event)"
+                        (change)="remarksupdate($event)" formControlName="appcomment" autocomplete="off"
+                        required></textarea>
+                    </mat-form-field>
+                  </td>
+                  <td style="padding-left: 50px;">
+                    <br>
+                    <button type="submit" [disabled]="tournotend"
+                      *ngIf="status_id == -1||status_id == 1 || status_id == 5"
+                      style="margin-left: 10px;margin-top: 8px;" id="primarybtn" class="btn btn-light"
+                      (click)="submitForm()">Submit</button>
+
+                    <!-- <button type="submit" *ngIf="this.maxapplevel == 1 && status_id == 2" id="primarybtn"
+                      style="margin-left: 10px;" class="btn btn-light" (click)="updatesubmit()">Submit</button> -->
+                  </td>
+                  <td style="padding-left: 50px;">
+                    <br>
+                    <button *ngIf="status_id == -1" type="button" class="btn btn-light" (click)="back()"
+                      id="secondarybtn" style="margin-left: 10px;margin-top: 8px;">Back</button>
+                  </td>
+                  <!-- <td>
+                    <fieldset style="margin-bottom: -50px;">  
+                    <mat-label *ngIf="claimedamt >= 25000" style="font-size: 15px;font-weight: 500px;">
+                     <mat-label style="color: red;">Please Note : </mat-label> This expense will be additionally routed for your Functional Head's approval, as it is above ₹25,000.00.
+                    </mat-label>
+                  </fieldset>
+                  </td> -->
+                </tr>
+                <mat-label *ngIf="claimedamt >= 25000" style="font-size: 15px;font-weight: 500px;">
+                  <mat-label style="color: red;">Please Note : </mat-label> This expense will be additionally routed for
+                  your Functional Head's approval, as it is above ₹25,000.00.
+                </mat-label>
+
+
+
+
+              </fieldset>
+
+
+            </div>
+            <div class="col-md-12 text-center" style="margin-bottom: 3%;">
+              <p *ngIf="tournotend" style="color: red;margin-left: 30px;margin-top: 10px;margin-bottom: 10px;">
+                Travel Date Not End</p>
+            </div>
+          </div>
+          <div *ngIf="daterelax == 0">
+            <p style="color:red;text-align: center;">
+              This Travel Needs Special Permission For Date Relaxation.
+            </p>
+          </div>
+
+
+          <div class="modal fade" id="skipapproval" data-backdrop="static" data-keyboard="false" tabindex="-1"
+            role="dialog" style="background-size: cover">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+
+                  <label>
+                    <mat-icon style="vertical-align:sub">info</mat-icon> <label
+                      style="margin-left:15px">Confirmation</label>
+                  </label>
+                </div>
+
+                <div>
+                  <br>
+                  <p style="margin-left:5%">Are you ok to skip next level approval, as it is routed for FH/RM approval.
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-light" id="primarybtn" data-dismiss="modal"
+                    (click)="skiprm()">Ok</button>
+                  <button type="button" class="btn btn-light" id="secondarybtn" s data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="approvalflow" role="dialog" aria-labelledby="Approval Flow" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+              <div class="modal-content" style="width:fit-content;">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle">Approval Flow</p>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="table-responsive" style="width:100%;margin-top: 1%; overflow-x: hidden;"
+                   >
+                    <table class="table table-bordered">
+                      <thead class="table_header" style="text-align: left;">
+                        <tr>
+                          <th>S.No</th>
+                          <th>Date</th>
+                          <th>Type </th>
+                          <th>Employee</th>
+                          <th>Raised by</th>
+
+                          <th>Comment</th>
+                          <th>Status</th>
+
+
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr
+                          *ngFor="let advanceapprove of getAdvanceapproveList|paginate: { itemsPerPage: pageSize, currentPage: p }; index as i">
+                          <td scope="row" style="vertical-align: middle;"> {{((p-1)*pageSize)+i+1}}</td>
+                          <td>{{advanceapprove.approveddate| date:'dd-MMM-yyyy, EEE'}}</td>
+                          <td>{{advanceapprove.apptype | titlecase}}</td>
+                          <td>({{advanceapprove.approver_code}}) {{advanceapprove.approvedby}}</td>
+                          <td>({{advanceapprove.onbehalfof.code}}) {{advanceapprove.onbehalfof.full_name}}</td>
+                          <td>{{advanceapprove.comment}}</td>
+
+                          <td>
+                            <p *ngIf="advanceapprove.status == 1">
+                              {{advanceapprove.status_name | titlecase}}</p>
+
+                            <p style="color: green;" *ngIf="advanceapprove.status == 3 && advanceapprove.applevel== 1">
+                              {{advanceapprove.status_name | titlecase}} By RM</p>
+
+                            <p style="color: red;" *ngIf="advanceapprove.status == 4  && advanceapprove.applevel== 1">
+                              {{advanceapprove.status_name | titlecase}} From RM</p>
+
+                            <p *ngIf="advanceapprove.status == 2 && advanceapprove.applevel== 1">
+                              {{advanceapprove.status_name | titlecase}} TO RM</p>
+
+                            <p *ngIf="advanceapprove.status == 5 && advanceapprove.applevel== 1">
+                              {{advanceapprove.status_name | titlecase}} From RM</p>
+
+                            <p style="color: red;" *ngIf="advanceapprove.status == 4  && advanceapprove.applevel== 3">
+                              {{advanceapprove.status_name | titlecase}} From Admin</p>
+
+                            <p *ngIf="advanceapprove.status == 2 && advanceapprove.applevel== 3">
+                              {{advanceapprove.status_name | titlecase}} TO Admin</p>
+
+                            <p *ngIf="advanceapprove.status == 5 && advanceapprove.applevel== 3">
+                              {{advanceapprove.status_name | titlecase}} From Admin</p>
+
+                            <p style="color: green;" *ngIf="advanceapprove.status == 3 && advanceapprove.applevel== 3">
+                              {{advanceapprove.status_name | titlecase}} By Admin</p>
+                            <p style="color: red;"
+                              *ngIf="advanceapprove.status == 4  && advanceapprove.applevel== 2 && advanceapprove.apptype == 'TRAVEL CREATION' ">
+                              {{advanceapprove.status_name | titlecase}} From CEO</p>
+                            <p style="color: #f5af48;"
+                              *ngIf="advanceapprove.status == 2 && advanceapprove.applevel== 2 && advanceapprove.apptype == 'TRAVEL CREATION'">
+                              {{advanceapprove.status_name | titlecase}} To CEO</p>
+
+                            <p
+                              *ngIf="advanceapprove.status == 5 && advanceapprove.applevel== 2 && advanceapprove.apptype == 'TRAVEL CREATION'">
+                              {{advanceapprove.status_name | titlecase}} From CEO</p>
+
+                            <p style="color: green;"
+                              *ngIf="advanceapprove.status == 3 && advanceapprove.applevel== 2 && advanceapprove.apptype == 'TRAVEL CREATION'">
+                              {{advanceapprove.status_name | titlecase}} By CEO</p>
+
+                            <p style="color: red;"
+                              *ngIf="advanceapprove.status == 4  && advanceapprove.applevel== 2 && advanceapprove.apptype == 'CLAIM CREATION'">
+                              {{advanceapprove.status_name | titlecase}} From FH</p>
+                            <p style="color: #f5af48;"
+                              *ngIf="advanceapprove.status == 2 && advanceapprove.applevel== 2 && advanceapprove.apptype == 'CLAIM CREATION'">
+                              {{advanceapprove.status_name | titlecase}} To FH</p>
+
+                            <p
+                              *ngIf="advanceapprove.status == 5 && advanceapprove.applevel== 2  && advanceapprove.apptype == 'CLAIM CREATION'">
+                              {{advanceapprove.status_name | titlecase}} From FH</p>
+
+                            <p style="color: green;"
+                              *ngIf="advanceapprove.status == 3 && advanceapprove.applevel== 2 && advanceapprove.apptype == 'CLAIM CREATION'">
+                              {{advanceapprove.status_name | titlecase}} By FH</p>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                      <tr>
+                        <th colspan="7">
+                          <div class="pagination">
+                            <pagination-controls responsive="true" (pageChange)="p = $event"></pagination-controls>
+                          </div>
+                        </th>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+            id="ccbsModal">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <div class="modal-header" style="background:#f6f6f6">
+                  <p class="modal-title" style="width: 1020px;margin-left: 20px;font-size: 18px">CCBS (Travel No) :
+                    {{this.id}}
+                    <label style="float: right;font-size: 18px;">Requested Amount :
+                      {{ claimedamt | currency:'INR'}}</label>
+                  </p>
+
+                  <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div formArrayName='ccbs'
+                  style="margin-left: 40px;margin-right: 40px;margin-top: 1%; width: 100%; margin-bottom: 2%;">
+                  <div class="row">
+                    <div class="col-md-4"> </div>
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-1">
+                      <button class="modal-title" type="button" class="btn btn-outline-success"
+                        [disabled]='isDisabled || applevel ==1 || itemdisable' (click)="addccbs()"
+                        style="border-radius:40px;margin-left: 110px;"><span class="fa fa-plus"></span>
+                      </button>
+                    </div>
+                  </div>
+                  <fieldset [disabled]="applevel ==1 ">
+                    <table>
+
+                      <tr *ngFor="let dt2 of expenceform.controls.ccbs['controls'];let ind=index;"
+                        [formGroupName]="ind">
+                        <td>
+                          <mat-label style="width: 250px;margin-left: 20px;">BS <label style="color:red">*</label>
+                          </mat-label> <br>
+                          <mat-form-field floatLabel="never" style="width: 250px;margin-left: 20px;">
+
+                            <input [readonly]="ccbsreadonly(dt2)" id="ccbssearch" type="text" #bsid
+                              placeholder="Select BS" matInput [matAutocomplete]="bsss" (keyup)="checkind(ind,$event)"
+                              formControlName="bsid">
+                            <mat-autocomplete #bssid #bsss="matAutocomplete" (opened)="bsidget()"
+                              [displayWith]="bsview">
+                              <mat-option *ngFor="let bsid of bisinesslist" (click)="getBS(bsid.id,ind)" [value]="bsid">
+                                {{bsid.code}}-{{bsid.name}}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                        </td>
+                        <td>
+                          <mat-label style="width: 250px;margin-left: 20px;">CC <label style="color:red">*</label>
+                          </mat-label> <br>
+                          <mat-form-field floatLabel="never" style="width: 250px;margin-left: 20px;"
+                            (keyup)="checkccind(ind,$event)">
+
+                            <input [readonly]="ccbsreadonly(dt2)" type="text" placeholder="Select BS" matInput
+                              [matAutocomplete]="csss" formControlName="ccid">
+                            <mat-autocomplete #csss="matAutocomplete" [displayWith]="csview">
+                              <mat-option *ngFor="let ccid of costlist" [value]="ccid">
+                                {{ccid.code}}-{{ccid.name}}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                        </td>
+                        <td>
+                          <mat-label style="width: 175px;margin-left: 20px;">Percentage <label
+                              style="color:red">*</label> </mat-label> <br>
+
+                          <mat-form-field floatLabel="never" style="width: 175px;margin-left: 20px;">
+
+                            <input matInput placeholder="Percentage" [readonly]="ccbsreadonly(dt2)" maxlength="3"
+                              min="1" [max]="100" (keypress)="numberOnly($event)" formControlName="percentage"
+                              [value]="percentage" (keyup)="amount_calc($event,ind)" autocomplete="off" required>
+                            <!-- {{this.value}} -->
+                          </mat-form-field>
+                        </td>
+
+                        <td>
+                          <mat-label style="width: 175px;margin-left: 20px;"> Amount <label style="color:red">*</label>
+                          </mat-label> <br>
+                          <mat-form-field floatLabel="never" style="width: 175px;margin-left: 20px;">
+                            <mat-icon matPrefix id="rupee">currency_rupee</mat-icon>
+                            <input matInput placeholder="Amount" [readonly]="ccbsreadonly(dt2)" formControlName="amount"
+                              [value]="amount" (keyup)="percen_calc($event,ind)" (keypress)="numberOnly($event)"
+                              autocomplete="off" required>
+                            <!-- {{this.value1}} -->
+                          </mat-form-field>
+                        </td>
+
+                        <td>
+                          <div style="width: 175px;margin-left: 32px;margin-top: 10px;">
+                            <button type="button" class="btn btn-outline-danger"
+                              [disabled]='ccbsreadonly(dt2)||isDisabled || applevel ==1 || itemdisable'
+                              (click)="removeSection1(ind,dt2)" style="border-radius:40px;margin-left: 15px"><span
+                                class="fa fa-trash"></span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <div class="col-md-11 text-center" style="margin-bottom: 4%;">
+
+                      <button [disabled]="itemdisable" type="submit" style="margin-left: 10px;" (click)="submitccbs()"
+                        [disabled]="applevel ==1" id="primarybtn" class="btn btn-light">Submit</button>
+
+                      <button type="button" data-dismiss="modal" class="btn btn-light" id="secondarybtn"
+                        style="margin-left: 20px;">Close</button>
+
+                    </div>
+                  </fieldset>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <div class="modal fade" id="filepopup" tabindex="-1" role="dialog" data-backdrop="static"
+            data-keyboard="false" aria-labelledby="actionpopupTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" style="margin-top: 10px;font-size: 18px;font-weight: 100;"
+                    id="exampleModalLongTitle">Attachments of {{ expensename}}</p>
+                  <button (click)="clearfile($event)" type="button" #closefilepopup class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="col-md-6">
+                    <table *ngIf="base64textString.length >= 1" class="table" style="border:hidden">
+                      <!-- <thead>
+                        <tr>
+                          <th scope="col">S. no</th>
+                          <th scope="col">File name</th>
+                          <th scope="col">View</th>
+                          <th scope="col">Remove</th>
+                        </tr>
+                      </thead> -->
+                      <tbody>
+                        <tr *ngFor="let files of base64textString;let ind=index">
+                          <td>{{list.files[ind].name}}</td>
+                          <td>
+                            <span (click)="fileview(ind)" data-toggle="modal" data-target="#fileview">
+                              <mat-icon matTooltip="View File">visibility
+                              </mat-icon>
+                            </span>
+                          </td>
+                          <td><span (click)="deleteUpload(ind)">
+                              <mat-icon matTooltip="Delete">delete
+                              </mat-icon>
+                            </span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <hr *ngIf="base64textString.length >= 1">
+
+                    <table class="table" style="border:hidden
+                    ">
+                      <!-- <thead>
+                        <tr>
+                          <th scope="col">S. no</th>
+                          <th scope="col">File name</th>
+                          <th scope="col">View</th>
+                          <th scope="col">Remove</th>
+                        </tr>
+                      </thead> -->
+                      <tbody>
+                        <tr *ngFor="let files of attachmentlist;let ind=index">
+                          <td>{{files.file_name}}</td>
+                          <td>
+                            <span (click)="fileeditview(ind)" data-toggle="modal" data-target="#fileview">
+                              <mat-icon matTooltip="View File">visibility
+                              </mat-icon>
+                            </span>
+                          </td>
+                          <td><span (click)="fileDelete(files.id,ind)">
+                              <mat-icon matTooltip="Delete">delete
+                              </mat-icon>
+                            </span></td>
+
+                          <td>
+                            <button class="btn btn-light" type="submit" style="border-radius:40px;margin-left: 15px;"
+                              color="primary" (click)="getimagedownload(ind)">
+                              <i matTooltip="Download" class="fa fa-download" aria-hidden="true"></i>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                      </tbody>
+                    </table>
+                    <div class="form-group">
+                      <tr>
+                        <!-- <input type="file" name="file" style="width:250px;" (change)="fileProgress($event)" /> -->
+                        <td *ngIf="!itemdisable">
+                          <input type="file" #fileInput id="uploadFile" [disabled]="(feilds_disable)? true:false"
+                            style="width:250px;margin-top: 10px;" (change)="onFileSelected($event)"
+                            multiple="multiple" />
+                        </td>
+
+                        <td style="padding-left: 100px;">
+                          <button [disabled]="itemdisable" type="submit" mat-button (click)="expfileupload($event)"
+                            id="primarybtn" class="btn btn-light">Upload<mat-icon
+                              style="margin-bottom: 5px;margin-left: 5px;">upload
+                            </mat-icon></button>
+                        </td>
+                        <td>
+                          <button type="button" (click)="clearfile($event)" data-dismiss="modal" class="btn btn-light"
+                            id="secondarybtn" style="margin-left: 100px;">Close</button>
+                        </td>
+
+                      </tr>
+
+                    </div>
+
+
+
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="fileview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" style="background-size: cover">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+
+                  <p id="exampleModalLabel">
+                    Travel Attachment View
+                  </p>
+
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">
+                      ×
+                    </span>
+                  </button>
+
+                </div>
+
+                <div class="modal-body">
+                  <!-- <tr *ngFor="let image of fileData; index as i">       -->
+                  <!-- <div *ngIf='this.fileextension !="pdf"'> -->
+
+                  <div class="row">
+                    <div class="col-lg-12 col-sm-12" fxLayoutAlign="space-between">
+                      <pdf-viewer *ngIf="pdfshow" [src]="filesrc" [original-size]="false" [render-text]='false'
+                        [show-borders]="true" [fit-to-page]="true" [show-all]="true"
+                        style="display: block; height: 500px;" [fit-to-page]="true">
+                      </pdf-viewer>
+                      <br>
+                      <img *ngIf="imgshow" [src]="filesrc" class="img-responsive"
+                        style="display: block; height: 500px;border-width: 2px;border-style: solid;width: 100%;" />
+                    </div>
+
+                    <div class="modal-footer">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>
+<!-- <pre>
+    {{ expenceform.value |json}}
+</pre> -->

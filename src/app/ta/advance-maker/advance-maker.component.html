@@ -1,0 +1,490 @@
+<h2 style="margin-left: 44px;margin-top: 30px;color: rgb(0, 0, 0);font-size: 22px; font-weight:500;
+">
+  eClaim Advance
+</h2>
+<div *ngIf='onbehalfenable'>
+  <h3 style="color: black;margin-left: 44px;font-size: 18px;font-weight: 500px;">
+    On BeHalf Employee - {{onbehalfname}}
+  </h3>
+</div>
+
+<hr>
+<div class="col-md-12" style="margin-left: 30px;margin-right: 30px;margin-top: 2%; width: 100%;">
+  <h3 style="color:rgb(0, 0, 0); font-size: 18px; font-weight:500;">
+    Tour Details
+  </h3>
+  <div>
+    <form [formGroup]="advanceform">
+      <table>
+        <tr>
+          <td>
+            <mat-form-field style="width: 175px;">
+              <mat-label>Tour No</mat-label>
+              <input matInput placeholder="Tour No" [disabled]="true" [value]="requestno" autocomplete="off" required>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field style="width:175px;margin-left: 50px;">
+              <mat-label>Requested Date</mat-label>
+              <input matInput [matDatepicker]="picker3" placeholder="Requested Date" autocomplete="off"
+                [disabled]="true" [value]="requestdate">
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3></mat-datepicker>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field style="width: 175px;">
+              <mat-label>Tour Reason</mat-label>
+              <input matInput placeholder="Tour No" [disabled]="true" [value]="reason" autocomplete="off" required>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field style="width:175px;margin-left: 50px;">
+              <mat-label>Tour Start Date</mat-label>
+              <input matInput [matDatepicker]="picker1" [disabled]="true" placeholder="Start Date" autocomplete="off"
+                [value]="startdate">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field style="width:175px;margin-left: 50px;">
+              <mat-label>Tour End Date</mat-label>
+              <input matInput [matDatepicker]="picker2" [disabled]="true" placeholder="End Date" autocomplete="off"
+                [min]="select" [value]="enddatee">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </td>
+          <!-- <td >
+                        <button (click)="addSection()" [disabled]='isDisabled'></button>
+                        <span class="fa fa-plus"></span>
+                    </td>  -->
+
+
+        </tr>
+        <h3 style="color:rgb(0, 0, 0);font-size: 18px; font-weight:500;">
+          Employee Details
+        </h3>
+        <tr>
+          <td>
+            <mat-form-field style="width: 150px;">
+              <mat-label>Employee Name</mat-label>
+              <input matInput placeholder="Employee Name" [disabled]="true" [value]="employee_name" autocomplete="off"
+                required>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field style="width: 175px;">
+              <mat-label>Employee Code</mat-label>
+              <input matInput placeholder="Employee Code" [disabled]="true" [value]="employee_code" autocomplete="off"
+                required>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field style="width: 175px;">
+              <mat-label>Designation</mat-label>
+              <input matInput placeholder="Employee Designation" [disabled]="true" [value]="empdesignation"
+                autocomplete="off" required>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field style="width: 175px;">
+              <mat-label>Employee Grade</mat-label>
+              <input matInput placeholder="Employee Grade" [disabled]="true" [value]="empgrade" autocomplete="off"
+                required>
+            </mat-form-field>
+          </td>
+          <td *ngIf="addbtn">
+            <button type="button" class="btn btn-outline-success" [disabled]='isAdvancebtn' (click)="addSection()"
+              style="border-radius:40px;margin-left: 50px"><span class="fa fa-plus"></span>
+              Advance
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-outline-success" [disabled]='isDisabled' data-toggle="modal"
+              data-target="#ccbsModal" (click)='valuecheck()' style="border-radius:40px;margin-left: 50px"><span
+                class="fa fa-plus"></span>
+              CCBS</button>
+          </td>
+        </tr>
+      </table>
+      <div formArrayName="advance" class="table-responsive" style="width:100%;margin-top: 1%; overflow-x: hidden;">
+        <table class="table table-bordered" fixed-header>
+          <thead class="table_header" style="text-align: left;">
+            <tr>
+              <th>S.No</th>
+              <th>Reason</th>
+              <th>Advance Amount</th>
+              <th>Approved Amount</th>
+              <th>CRN No</th>
+              <th>Status</th>
+              <th>PDF</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let dtl of advanceform.controls.advance['controls']|paginate: { itemsPerPage: pageSize, currentPage: p }; index as ind"
+              [formGroupName]="fieldGlobalIndex(ind)" [formGroupName]="ind">
+              <td scope="row" style="vertical-align: middle;"> {{((p-1)*pageSize)+ind+1}}</td>
+
+              <td>
+                <mat-form-field floatLabel="never">
+                  <input matInput placeholder="Reason" formControlName="reason"
+                    [readonly]="checkdisable(dtl) || applevel ==1" [value]="dtl.reason"
+                    (keypress)="omit_special_char($event)" autocomplete="off" required>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field floatLabel="never">
+                  <input matInput placeholder="Advance Amount" [readonly]="checkdisable(dtl) || applevel ==1"
+                    type="number" min="0" (keypress)="numberOnly($event)" (change)="datasums()" (mouseout)="datasums()"
+                    formControlName="reqamount" [value]="dtl.reqamount" autocomplete="off" required>
+                </mat-form-field>
+              </td>
+
+              <td>
+                <mat-form-field floatLabel="never">
+
+                  <input *ngIf="approver == false" matInput placeholder="Approved Amount" formControlName="appamount"
+                    [value]="dtl.appamount" autocomplete="off" [readonly]="true" type="number" min="1">
+                  <input *ngIf="approver" matInput placeholder="Approved Amount" formControlName="appamount"
+                    [readonly]="checkdisable(dtl)" (keyup)="amountcheck($event)"
+                    (mouseout)="updateapproveamt($event,dtl)" (keypress)="numberOnly($event)" [value]="dtl.appamount"
+                    autocomplete="off">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field floatLabel="never">
+                  <input matInput placeholder="CRN NO" formControlName="crnno" [value]="dtl.crnno" autocomplete="off"
+                    [readonly]="true">
+                </mat-form-field>
+              </td>
+              <td>
+
+                <mat-form-field floatLabel="never">
+                  <input matInput placeholder="Status" formControlName="statuss" [value]="dtl.statuss"
+                    autocomplete="off" [readonly]="true">
+                </mat-form-field>
+              </td>
+              <td>
+
+                <!-- <span (click)="advpdfdownload(dtl)" *ngIf="dtl.statuss =='APPROVED'">
+                          <mat-icon>file_download</mat-icon>
+                        </span> -->
+                <button *ngIf="pdfcheck(dtl)" mat-icon-button matTooltip="ACF" (click)="advpdfdownload(dtl)"
+                  class="iconbutton" color="primary">
+                  <mat-icon style="color:green;" aria-label="Delete">file_download</mat-icon>
+                </button>
+
+              </td>
+
+              <td>
+                <button mat-icon-button matTooltip="Delete" class="iconbutton"
+                  [disabled]='checkremove(dtl)||isDisabled || ind == 0 || applevel == 1'
+                  (click)="removeSection(((p-1)*pageSize)+ind)" color="primary">
+                  <mat-icon style="color:green;" aria-label="Delete">clear</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tr>
+
+            <th class="totaldisplay" colspan="2"> Total Amount </th>
+            <td>{{sum | currency:'INR' }}</td>
+            <td>{{approvesum | currency:'INR' }}</td>
+
+
+            <!-- <th class="totaldisplay" colspan="2"></th>
+                    <td>&#8377;{{summ}}</td> -->
+          </tr>
+          <tr>
+            <th colspan="7">
+              <div class="pagination" style="text-align: center;">
+                <pagination-controls responsive="true" (pageChange)="p = $event"></pagination-controls>
+              </div>
+            </th>
+          </tr>
+        </table>
+
+      </div>
+      <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+        id="ccbsModal">
+        <div class="modal-dialog modal-xl" style="width: 50%;">
+          <div class="modal-content">
+            <div class="modal-header" style="background:#DDEFDD">
+              <h2 class="modal-title" style="width: 250px;margin-left: 20px;">CCBS (Tour No) : {{this.dataa}} </h2>
+
+              <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div formArrayName='ccbss'
+              style="margin-left: 40px;margin-right: 40px;margin-top: 4%; width: 100%; margin-bottom: 2%;">
+              <div class="row">
+                <div class="col-md-4"> </div>
+                <div class="col-md-3">
+                  <h3 class="modal-title" style="width: 250px;margin-left: 50px;">Approved Amount : {{approvesum}}</h3>
+                </div>
+                <div class="col-md-2">
+                  <h3 class="modal-title" style="width: 250px;margin-left: 50px;">Requested Amount : {{this.amt}}</h3>
+                </div>
+                <div class="col-md-1">
+                  <button class="modal-title" type="button" class="btn btn-outline-success"
+                    [disabled]='isDisabled || applevel ==1' (click)="addccbs()"
+                    style="border-radius:40px;margin-left: 130px;"><span class="fa fa-plus"></span>
+                  </button>
+                </div>
+              </div>
+              <fieldset [disabled]="applevel ==1 ">
+                <table>
+
+                  <tr *ngFor="let dt2 of advanceform.controls.ccbss['controls'];let ind=index;" [formGroupName]="ind">
+                    <td>
+
+                      <mat-form-field floatLabel="never" style="width: 250px;margin-left: 20px;">
+                        <mat-label>BS</mat-label>
+                        <input [readonly]="ccbsreadonly(dt2)" type="text" #bsid placeholder="Select BS" matInput
+                          [matAutocomplete]="bsss" (keypress)="checkind(ind)" formControlName="bsid">
+                        <mat-autocomplete #bssid #bsss="matAutocomplete" (opened)="bsidget()" [displayWith]="bsview">
+                          <mat-option *ngFor="let bsid of bisinesslist" (click)="getBS(bsid.id,ind)" [value]="bsid">
+                            {{bsid.code}}-{{bsid.name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </td>
+                    <td>
+
+                      <mat-form-field floatLabel="never" style="width: 250px;margin-left: 20px;">
+                        <mat-label>CC</mat-label>
+                        <input [readonly]="ccbsreadonly(dt2)" type="text" placeholder="Select BS" matInput
+                          (keypress)="checkccind(ind)" [matAutocomplete]="csss" formControlName="ccid">
+                        <mat-autocomplete #csss="matAutocomplete" [displayWith]="csview">
+                          <mat-option *ngFor="let ccid of costlist" [value]="ccid">
+                            {{ccid.code}}-{{ccid.name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </td>
+
+                    <td>
+                      <mat-form-field floatLabel="never" style="width: 175px;margin-left: 20px;">
+                        <mat-label>Advance Amount</mat-label>
+                        <input matInput placeholder="amount" [readonly]="ccbsreadonly(dt2)" formControlName="amount"
+                          [value]="dt2.amount" (change)="percen_calc($event,ind)" (keypress)="numberOnly($event)"
+                          autocomplete="off" required>
+                        <!-- {{this.value1}} -->
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field floatLabel="never" style="width: 175px;margin-left: 20px;">
+                        <mat-label>Percentage</mat-label>
+                        <input matInput placeholder="percentage" [readonly]="ccbsreadonly(dt2)" maxlength="4" min="1"
+                          [max]="100" (keypress)="numberOnly($event)" formControlName="percentage"
+                          [value]="dt2.percentage" (change)="amount_calc($event,ind)" autocomplete="off" required>
+                        <!-- {{this.value}} -->
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <div style="width: 175px;margin-left: 35px;">
+                        <button type="button" class="btn btn-outline-danger"
+                          [disabled]='ccbsreadonly(dt2)||isDisabled || applevel ==1' (click)="removeSection1(ind,dt2)"
+                          style="border-radius:40px;margin-left: 15px"><span class="fa fa-trash"></span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+              <div class="col-md-11 text-center" style="margin-bottom: 4%;">
+                <button type="submit" style="border-radius: 40px;margin-left: 10px;" (click)="submitccbs()"
+                  [disabled]="applevel ==1" class="btn btn-outline-primary">Submit</button>
+
+                <button type="button" data-dismiss="modal" class="btn btn-outline-primary"
+                  style="border-radius: 40px;margin-left: 20px;">Close</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngIf="show_approvediv" style="margin-top: 1%;margin-left :40px">
+        <div class='row'>
+          <div class="col-md-4">
+            <mat-form-field style="width: 300px;">
+              <mat-label>Reason</mat-label>
+              <input [disabled]="ischanged" (keypress)="omit_special_char($event)" matInput placeholder="Enter Reason"
+                (change)="reson($event)" [value]="lastcomment" autocomplete="off" required>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <h3 *ngIf="applevel != 1" style="color:rgb(0, 0, 0);font-size: 18px; font-weight:500; margin-top: 0.5%;">
+        To Approver
+      </h3>
+      <div *ngIf="applevel != 1">
+        <mat-form-field style="width: 250px;margin-left: 20px;">
+          <mat-label>Branch</mat-label>
+          <input type="text" #inputassetid placeholder="Select Branch" matInput [matAutocomplete]="conoffice"
+            formControlName="empbranchid">
+          <mat-autocomplete #assetid #conoffice="matAutocomplete" (opened)="autocompleteid()">
+            <mat-option *ngFor="let branch of branchlist" (click)="selectBranch(branch.id)"
+              [value]="'('+(branch.code)+') '+(branch.name)">
+              ({{branch.code}}) {{branch.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field style="width: 195px;margin-left: 50px;">
+          <mat-label>Employee</mat-label>
+          <input type="text" placeholder="Select Employee" matInput [matAutocomplete]="empc" formControlName="approval">
+          <mat-autocomplete #empc="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let emp of employeelist" [value]="emp" (click)="empidupdate(emp.id)">
+              ({{emp.code}}) {{emp.full_name}}-{{emp.employee_designation}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- <mat-form-field style="width: 175px;margin-left: 50px;">
+                <mat-label>Employee</mat-label>
+                <input matInput placeholder="Employee" [value]
+="tourmodel.approval" formControlName=
+"approval" autocomplete="off" required>
+                </mat-form-field> -->
+                <mat-form-field *ngIf="remarksbtn" style="width: 175px;margin-left: 50px;">
+                  <mat-label>Remarks</mat-label>
+                  <input matInput placeholder="remarks" (keypress)="omit_special_char($event)" (change)="remarksupdate($event)"  formControlName=
+"remarks" autocomplete="off" required>
+                  </mat-form-field>
+
+            </div>
+            <div *ngIf="submitbtn" class="col-md-12 text-center" style="margin-bottom: 30px; margin-top: 1%;">
+              <button *ngIf="approver == false"type="submit" style="border-radius: 40px;margin-left: 20px;"
+                  class="btn btn-outline-primary"[disabled]="isSumbitbtn" (click)="submitForm()">Submit</button>
+                  <button  *ngIf="approver" [disabled]="ischanged"type="submit" style="border-radius: 40px;margin-left: 20px;"
+                  class="btn btn-outline-primary"[disabled]="isSumbitbtn" (click)="approved()">Approve</button>
+                  <button *ngIf="approver"  type="submit" [disabled]="ischanged" style="border-radius: 40px;margin-left: 20px;"
+                  class="btn btn-outline-primary"[disabled]="ischanged" (click)="returned()">Return</button>
+                  <button *ngIf="approver"  type="submit" style="border-radius: 40px;margin-left: 20px;"
+                  class="btn btn-outline-primary"[disabled]="ischanged" (click)="rejected()">Reject</button>
+
+                <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                style="border-radius: 40px;margin-left: 20px;">Back</button>
+            </div>
+            <div *ngIf="show_cancelbtn" style="margin-bottom: 50px;text-align: center;">
+              <mat-form-field style="width: 175px;">
+                <mat-label>Reason</mat-label>
+                <input matInput placeholder="Enter Reason" (change)="reasonvals($event)"  
+                  autocomplete="off" required>
+              </mat-form-field>
+              <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                  class="btn btn-outline-primary" (click)="cancelapprove()">Approve</button>
+                 
+                       
+                  <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                  class="btn btn-outline-primary"(click)="cancelreject()" >Reject</button>
+                  
+      
+                <button type="button" (click)="cancelback()" class="btn btn-outline-primary"
+                style="border-radius: 40px;margin-left: 10px;">Back</button>
+                </div>
+            <div *ngIf="ishidden" style="text-align: center;margin-bottom: 20px;">
+            <span>
+              <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+              class="btn btn-outline-primary" (click)="cancel()">Submit</button>
+              </span>
+              <span class="col-md-12 text-center" >
+                <button type="button" (click)="CancelClick()" class="btn btn-outline-primary"
+                style="border-radius: 40px;margin-left: 20px;">Back</button>
+              </span>
+              </div>
+          <div *ngIf="showccbs">CCBS is Required</div>
+          <div *ngIf="appflow" style="margin-bottom: 2%;">
+          <h3 style="color:rgb(0, 0, 0);font-size: 18px; font-weight:500;">
+            Approval Flow
+          </h3>
+          <div class="table-responsive"  >
+            <table class="table table-bordered" >
+              <thead class="table_header" style="text-align: left;">
+          <tr >
+          <th>S.No</th>
+          <th>Date</th>
+          <th>Type </th>
+          <th>Employee</th>
+          <th>Raised by</th>
+          
+          <th>Comment</th>
+          <th>Status</th>
+          
+          
+          </tr>
+          </thead>
+         
+          <tbody > 
+            <tr *ngFor="let advanceapprove of getAdvanceapproveList|paginate: { itemsPerPage: pageSize, currentPage: p }; index as i" >
+              <td scope="row"  style="vertical-align: middle;"> {{((p-1)*pageSize)+i+1}}</td>
+              <td>{{advanceapprove.approveddate| date:'dd-MMM-yyyy'}}</td>
+              <td>{{advanceapprove.apptype}}</td>
+              <td>({{advanceapprove.approver_code}}) {{advanceapprove.approvedby}}</td>
+              <td>({{advanceapprove.onbehalfof.code}}) {{advanceapprove.onbehalfof.full_name}}</td>
+              
+              <td>{{advanceapprove.comment}}</td>
+              <td *ngIf="applevel == 1">
+                <p *ngIf="advanceapprove.status == 1">
+                  REQUESTED</p>
+                  <p *ngIf="advanceapprove.status == 2">
+                    PENDING</p>
+                  <p *ngIf="advanceapprove.status == 3">
+                    APPROVED</p>
+                  <p *ngIf="advanceapprove.status == 4">
+                    REJECTED</p>
+                  <p *ngIf="advanceapprove.status == 5">
+                    RETURNED</p>
+                  <p *ngIf="advanceapprove.status == 6"> Tour Advance Submitted</p>
+                  <p *ngIf="advanceapprove.status == 17">
+                    Tour Advance Cancel Submitted</p>
+
+
+                </td>
+
+                <td *ngIf="applevel != 1">
+                  <p *ngIf="advanceapprove.status == 4">
+                    Tour Advance Rejected</p>
+                  <p *ngIf="advanceapprove.status == 3">
+                    Tour Advance Approved</p>
+                  <p *ngIf="advanceapprove.status == 2">
+                    Tour Advance Submitted To Approver</p>
+                  <p *ngIf="advanceapprove.status == 15">
+                    Tour Advance Cancel Submitted To Approver</p>
+                  <p *ngIf="advanceapprove.status == 5">
+                    Tour Advance Returned From Approver</p>
+                  <p *ngIf="advanceapprove.status == 1"> Tour Advance Submitted</p>
+                  <p *ngIf="advanceapprove.status == 15">
+                    Tour Advance Cancel Submitted</p>
+                </td>
+              </tr>
+
+            </tbody>
+            <tr>
+              <th colspan="7">
+                <div class="pagination">
+                  <pagination-controls responsive="true" (pageChange)="p = $event"></pagination-controls>
+                </div>
+              </th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- <pre>
+    {{tourmodel|json}}
+</pre> -->

@@ -1,0 +1,452 @@
+
+
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+  <h1 style="color:rgb(0, 162, 255);">
+    <b> eClaim Advance</b>
+</h1>
+    <h3 style="color:deeppink;">
+          Tour
+    </h3>
+        <div>
+            <form #taForm="ngForm">
+                    <table>
+                        <tr>
+                            <td>
+                                <mat-form-field  style="width: 175px;">
+                                    <mat-label>Tour No</mat-label>
+                                    <input matInput placeholder="Tour No" name="tourgid" [disabled]="true" [(ngModel)]="tourmodel.tourgid"  autocomplete="off"  required>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                            <mat-form-field style="width:175px;margin-left: 50px;">
+                              <mat-label>Request Date</mat-label>
+                              <input matInput [matDatepicker]="picker3"  
+                              placeholder="Start Date" autocomplete="off" [disabled]="true" [(ngModel)]="tourmodel.requestdate" name="requestdate">
+                              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                              <mat-datepicker #picker3></mat-datepicker>
+                             </mat-form-field>
+                        </td>
+                        </tr>
+                        <h3 style="color:deeppink;">
+                          TourDetails 
+                        </h3>
+                        <tr>
+                          <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>Tour Reason</mat-label>
+                                <input  matInput placeholder="Tour No" name="reason" [disabled]="true" [(ngModel)]="tourmodel.reason"  autocomplete="off"  required>
+                            </mat-form-field>
+                          </td>
+                          <td>
+                            <mat-form-field style="width:175px;margin-left: 50px;">
+                              <mat-label>Tour StartDate</mat-label>
+                              <input matInput [matDatepicker]="picker1" [disabled]="true" (dateChange)="fromDateSelection($event.value)" 
+                              placeholder="Start Date" autocomplete="off" [(ngModel)]="tourmodel.startdate" name="startdate">
+                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                              <mat-datepicker #picker1></mat-datepicker>
+                          </mat-form-field>
+                          </td>
+                          <td>
+                          <mat-form-field style="width:175px;margin-left: 50px;">
+                            <mat-label>Tour EndDate</mat-label>
+                            <input matInput [matDatepicker]="picker2" [disabled]="true" (dateChange)="toDateSelection($event.value)" 
+                            placeholder="End Date" autocomplete="off"[min]="select" [(ngModel)]="tourmodel.enddate" name="enddate">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                          </mat-form-field>
+                        </td>
+                        <!-- <td >
+                          <button (click)="addSection()" [disabled]='isDisabled'></button>
+                          <span class="fa fa-plus"></span>
+                      </td>  -->
+                      <td>
+                      <button type="button" class="btn btn-outline-success"[disabled]='true' (click)="addSection()"
+                      style="border-radius:40px;margin-left: 50px"><span class="fa fa-plus"></span>
+                      Advance</button>
+                      </td>
+                      
+                    </tr>
+                   
+                  </table>
+                <div class="table-responsive" style="width:100%;margin-top: 1%; overflow-x: hidden;" >
+                  <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+                    <thead class="table_header" style="text-align: left;">
+                        <tr>
+                          <th>Reason</th>
+                          <th>Advance Amount</th>
+                          <th>Approver Amount</th>
+                          <th>Status</th>
+                          <th>PDF</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let dtl of tourmodel.detail;let ind=index;" >
+                          <td> 
+                            <mat-form-field style="width: 175px;">
+                            <input matInput placeholder="Reason" [disabled]="true" name="reason_{{dtl.id}}"  [(ngModel)]="dtl.reason" autocomplete="off" required>
+                          </mat-form-field>
+                        </td>
+                        <td> 
+                          <mat-form-field style="width: 175px;">
+                          <input matInput placeholder="Advance Amount" type="number" [disabled]="true" (focusout)="datasums()" name="appamount_{{dtl.id}}"  [(ngModel)]="dtl.appamount" autocomplete="off" required>
+                        </mat-form-field>
+                      </td>
+                        
+                        <td> 
+                            <mat-form-field style="width: 175px;">
+                            <input matInput placeholder="Approver Amount" type="number" [disabled]="true" (focusout)="dataasums()" (click)="req($event)" name="reqamount_{{dtl.id}}"  [(ngModel)]="dtl.reqamount" autocomplete="off" required>
+                          </mat-form-field>
+                        </td>
+                        <td> 
+                            <mat-form-field style="width: 175px;">
+                            <input matInput placeholder="Status" [disabled]="true"  [value]="statusval"  autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                        <td> 
+                            <mat-form-field style="width: 175px;">
+                              <input matInput placeholder="Purpose of Visit" [disabled]="true"  name="purposeofvisit_{{dtl.id}}"  [(ngModel)]="dtl.purposeofvisit" autocomplete="off" required>
+                            </mat-form-field>
+                          </td>
+                          
+                          <td><button mat-icon-button matTooltip="Delete" class="iconbutton" (click)="removeSection(ind)" color="primary">
+                            <mat-icon style="color:green;" aria-label="Delete">clear</mat-icon>
+                            </button>
+                           </td> 
+                        </tr>
+                    </tbody>
+                    <tr>
+  
+                      <th class="totaldisplay" colspan="1">Total </th>
+                      <td>Total Advance Amount: {{reqamount1}}</td>
+                      <td>Total Approved Amount: {{appamount1}}</td>
+                    
+                   
+                      <!-- <th class="totaldisplay" colspan="2"></th>
+                      <td>&#8377;{{summ}}</td> -->
+                    </tr>
+                  </table>
+                </div>
+  
+                <!-- <div class="col-md-6">
+                  <h4 style="color:deeppink">Attachment</h4>            
+                  <div class="form-group">
+                      <input type="file" name="image"style="width:250px;" (change)="fileProgress($event)" />
+                  </div>
+                  <div *ngIf="fileUploadProgress">
+                      Upload progress:{{ fileUploadProgress }}
+                  </div>
+                  <div class="image-preview mb-3" *ngIf="previewUrl">
+                      <img [src]="previewUrl" height="300" />                 
+                  </div>
+                  <div class="mb-3" *ngIf="uploadedFilePath">
+                      {{uploadedFilePath}}
+                  </div>
+                </div> -->
+              <!-- <h3 style="color:deeppink;">
+                To Approver
+              </h3> -->
+              <div>
+                  <mat-form-field style="width: 175px;">
+                  <mat-label>Branch</mat-label>
+                  <input matInput placeholder="Branch" [disabled]="true" [(ngModel)]="tourmodel.branch_name" name="branch_name" autocomplete="off" required>
+                </mat-form-field>
+                
+                <mat-form-field style="width: 175px;;margin-left: 50px;">
+                  <mat-label>Employee</mat-label>
+                  <input matInput placeholder="Approver" [disabled]="true" [(ngModel)]="tourmodel.approval" name="approvedby" autocomplete="off" required>
+
+              </mat-form-field>
+                  <span *ngIf="ishidden">
+                    <mat-form-field style="width: 175px;margin-left: 50px;">
+                    <mat-label>Cancel Reason</mat-label>
+                    <input matInput placeholder="Cancel Reason" [(ngModel)]="tourmodel.comments" name="approval" autocomplete="off" required>
+                    </mat-form-field>
+                    </span>
+                    <span class="col-md-12 text-center" *ngIf="ishidden">
+                      <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                          class="btn btn-outline-primary" (click)="submitForm()">Submit</button>
+                    </span>
+                    <!-- <span class="col-md-12 text-center" *ngIf="ishide">
+                      <button style="border-radius: 40px;margin-left: 10px;"
+                    class="btn btn-outline-primary" (click)="allowAmount()">Allow Amount</button>
+                      </span> -->
+              </div>
+              
+             <!-- <span *ngIf="isshow">
+              <mat-form-field style="width: 175px;margin-left: 50px;">
+              <mat-label>Approve</mat-label>
+              <input matInput placeholder="Cancel Reason" [(ngModel)]="tourmodel.comments" name="approval" autocomplete="off" required>
+              </mat-form-field>
+              </span>
+              <div class="col-md-12 text-center" *ngIf="isshow">
+                <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                    class="btn btn-outline-primary" (click)="submitApprove()">Submit</button>
+             </div> -->
+                    <div *ngIf="show_approvediv">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-form-field style="width: 175px;">
+                        <mat-label>Approve Reason</mat-label>
+                            <input matInput placeholder="Comments for Approve" [(ngModel)]="tourapprove.comments" 
+                            name="comments" autocomplete="off" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                      <button class="md-icon-button" aria-label="Reject"
+                                (click)="approve()">
+                          <mat-icon class="material-icons editlink">done</mat-icon>
+                      </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="md-icon-button" aria-label="Reject"
+                              (click)="close_div()">
+                            <mat-icon class="material-icons editlink">close</mat-icon>
+                        </button>
+                    </div>
+                  </div>
+                </div>
+         </div>
+         <div *ngIf="show_rejectdiv">
+          <div class="col-md-4">
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field style="width: 175px;">
+                  <mat-label>Reject Reason</mat-label>
+                  <input matInput placeholder="Comments for Reject" [(ngModel)]="tourapprove.comments" 
+                  name="comments" autocomplete="off" required>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <button class="md-icon-button" aria-label="Reject"
+                          (click)="reject()">
+                    <mat-icon class="material-icons editlink">done</mat-icon>
+                </button>
+              </div>
+              <div class="col-md-2">
+                  <button class="md-icon-button" aria-label="Reject"
+                        (click)="close_div()">
+                      <mat-icon class="material-icons editlink">close</mat-icon>
+                  </button>
+              </div>
+            </div>
+          </div>
+         </div>
+         <div *ngIf="show_cancelapprovediv">
+          <div class="col-md-4">
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field style="width: 175px;">
+                  <mat-label>Approve Reason</mat-label>
+                      <input matInput placeholder="Comments for Approve" [(ngModel)]="tourapprove.comments" 
+                      name="comments" autocomplete="off" required>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <button class="md-icon-button" aria-label="Reject"
+                          (click)="cancelapprove()">
+                    <mat-icon class="material-icons editlink">done</mat-icon>
+                </button>
+              </div>
+              <div class="col-md-2">
+                  <button class="md-icon-button" aria-label="Reject"
+                        (click)="close_div()">
+                      <mat-icon class="material-icons editlink">close</mat-icon>
+                  </button>
+              </div>
+            </div>
+          </div>
+   </div>
+   <div *ngIf="show_cancelrejectdiv">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field style="width: 175px;">
+            <mat-label>Reject Reason</mat-label>
+            <input matInput placeholder="Comments for Reject" [(ngModel)]="tourapprove.comments" 
+            name="comments" autocomplete="off" required>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <button class="md-icon-button" aria-label="Reject"
+                    (click)="cancelreject()">
+              <mat-icon class="material-icons editlink">done</mat-icon>
+          </button>
+        </div>
+        <div class="col-md-2">
+            <button class="md-icon-button" aria-label="Reject"
+                  (click)="close_div()">
+                <mat-icon class="material-icons editlink">close</mat-icon>
+            </button>
+        </div>
+      </div>
+    </div>
+   </div>
+         <div *ngIf="show_returndiv">
+          <div class="col-md-4">
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field style="width: 175px;">
+                  <mat-label>Return Reason</mat-label>
+                  <input matInput placeholder="Comments for Return" [(ngModel)]="tourapprove.comments" 
+                  name="comments" autocomplete="off" required>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <button class="md-icon-button" aria-label="Reject"
+                          (click)="return()">
+                    <mat-icon class="material-icons editlink">done</mat-icon>
+                </button>
+              </div>
+              <div class="col-md-2">
+                  <button class="md-icon-button" aria-label="Reject"
+                        (click)="close_div()">
+                      <mat-icon class="material-icons editlink">close</mat-icon>
+                  </button>
+              </div>
+            </div>
+          </div>
+         </div>
+         <div *ngIf="show_approvebtn" style="margin-bottom: 50px;">
+                <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                    class="btn btn-outline-primary" (click)="Approve()">Approve</button>
+                   
+                         
+                    <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                    class="btn btn-outline-primary"(click)="Reject()" >Reject</button>
+                    
+                    <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                    class="btn btn-outline-primary" (click)="Return()">Return</button>
+  
+                  <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                  style="border-radius: 40px;margin-left: 10px;">Back</button>
+                  </div>
+                  <div *ngIf="show_cancelbtn" style="margin-bottom: 50px;">
+                    <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                        class="btn btn-outline-primary" (click)="cancelApprove()">Approve</button>
+                       
+                             
+                        <button type="submit" style="border-radius: 40px;margin-left: 10px;"
+                        class="btn btn-outline-primary"(click)="cancelReject()" >Reject</button>
+                        
+      
+                      <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                      style="border-radius: 40px;margin-left: 10px;">Back</button>
+                      </div>
+                      <h3 style="color:deeppink;">
+                        CCBS
+                      </h3>
+                      <button type="button" class="btn btn-outline-success" (click)="getadvanceCCBSsumm()" [disabled]='isDisabled' data-toggle="modal"
+                      data-target="#ccbsModal" style="border-radius:40px;margin-left: 50px">
+                            CCBS</button>
+                            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+                            id="ccbsModal">
+                            <div class="modal-dialog modal-xl" style="width: 50%;">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background:#01A85A">
+                                            <h2 class="modal-title">CCBS</h2>
+                                            <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                <div style="margin-left: 70px;margin-right: 80%;margin-top: 2%; width: 80%;">
+                                <table>
+                                  <tr>
+                                    <td>
+                                      <h5>Value : {{this.appamount1}}</h5>
+                                    </td>
+                                    <td>
+                                      <h5>Tour No : {{this.dataa}}</h5>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <mat-form-field style="width: 175px;;margin-left: 50px;">
+                                          <mat-label>BS</mat-label>
+                                          <input  matInput placeholder="CCID" [value]="bsidval"  autocomplete="off"  required>
+                                             <!-- {{this.ccid}} -->
+                                      </mat-form-field>
+                                      </td>
+                                      <td>
+                                        <mat-form-field style="width: 175px;;margin-left: 50px;">
+                                          <mat-label>CC</mat-label>
+                                          <input  matInput placeholder="BSID" [value]="ccbsval"  autocomplete="off"  required>
+                                            <!-- {{this.bsid}} -->
+                                      </mat-form-field>
+                                  </td>
+                                  
+                                
+                                  <td>
+                                    <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                      <mat-label>Advance Amount</mat-label>
+                                      <input  matInput placeholder="Amount" [value]="amountval"  autocomplete="off"  required>
+                                          <!-- {{this.amount}} -->
+                                    </mat-form-field>
+                                  </td>
+                                  <td>
+                                    <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                      <mat-label>Percentage</mat-label>
+                                      <input  matInput placeholder="Percentage" [value]="percentageval"  autocomplete="off"  required>
+                                        <!-- {{this.percentage}} -->
+                                    </mat-form-field>
+                                  </td>
+                                 
+                                   
+                                </tr>
+                            </table>
+                           
+                              </div>
+                            </div>
+                       
+                          </div>
+                      </div>
+                      <h3 style="color:deeppink;">
+                        Approval Flow
+                      </h3>
+                      <div class="table-responsive"  >
+                        <table class="table table-bordered" fixed-header style="width: 60%;margin-top: 10px;">
+                          <thead class="table_header" style="text-align: left;">
+                      <tr> 
+                      <th>Employee</th>
+                      <th>Raisedby</th>
+                      <th>Type </th>
+                      <th>Date</th>
+                      <th>Comment</th>
+                      <th>Status</th>
+                      </tr>
+                      </thead>
+                     
+                      <tbody> 
+                        <tr *ngFor="let advanceapprove of getAdvanceapproveList; index as i">
+                          <td>{{advanceapprove.approvedby}}</td>
+                          <td>{{advanceapprove.approvedby}}</td>
+                          <td>{{advanceapprove.apptype}}</td>
+                          <td>{{advanceapprove.approveddate| date:'dd-MMM-yyyy'}}</td>
+                          <td>{{advanceapprove.status}}</td>
+                          <td>{{advanceapprove.comment}}</td>
+                          </tr>
+                        
+                      </tbody>
+                      </table>
+                      </div>
+          </form>
+        </div>
+  </div>
+  <!-- <pre>
+      {{tourmodel|json}}
+  </pre> -->
+    
+    
+    
+    

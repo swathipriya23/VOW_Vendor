@@ -1,0 +1,383 @@
+<div style="background-color: #F6F6F6;">
+  <mat-card id="cardstyle">
+    <div class="col-12-md" style="margin-left: 10px;margin-right: 10px;margin-top: 1%; width: 100%;">
+
+      <p style="color:rgb(0, 0, 0);font-size: 20px;font-weight: 500px;">
+        Daily Reimbursement
+      </p>
+
+      <!-- <div *ngIf="isonbehalf">
+        <h3 style="margin-left: 44px;color:rgb(0, 0, 0);font-size: 18px; font-weight: 400;">
+          On Behalf Employee - {{onbehalf_empName}}
+        </h3>
+      </div> -->
+
+      <hr style="width: 99%;">
+      <br>
+      <div>
+        <form [formGroup]="dailydiemform">
+          <table>
+            <tr>
+              <td>
+                <mat-label>Travel No</mat-label> <br>
+                <mat-form-field style="width: 175px;" appearance="standard">
+
+                  <input matInput class="disabled11" placeholder="Travel No" formControlName="tourno" [readonly]="true">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-label style="width: 175px;margin-left: 50px;">Employee Code </mat-label> <br>
+                <mat-form-field style="width: 175px;margin-left: 50px;" appearance="standard">
+
+                  <input matInput class="disabled11" placeholder="employeename" [value]="employeecode"
+                    [readonly]="true">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-label style="width: 175px;margin-left: 50px;">Employee Name</mat-label> <br>
+                <mat-form-field style="width: 300px;margin-left: 50px;" appearance="standard">
+
+                  <input matInput class="disabled11" placeholder="employeename" formControlName="employeename"
+                    [readonly]="true">
+                </mat-form-field>
+              </td>
+              
+              <!-- <td>
+                <mat-form-field style="width: 175px;margin-left: 50px;">
+                  <mat-label style="font-size: 20px;">Designation</mat-label>
+                  <input matInput class="disabled11" placeholder="designation" formControlName="designation"
+                    [readonly]="true">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field style="width: 175px;margin-left: 50px;">
+                  <mat-label style="font-size: 20px;">Employee Grade</mat-label>
+                  <input class="disabled11" matInput placeholder="employeegrade" formControlName="employeegrade"
+                    [readonly]="true">
+                </mat-form-field>
+              </td> -->
+
+              <td>
+
+                <!-- <button type="button" class="btn btn-light" (click)="adddata()" id="#secondarybtn" *ngIf="!approver"
+                  style="margin-left: 50px"><span class="fa fa-plus"></span>
+                  ADD</button> -->
+
+                <!-- <button type="button" class="btn btn-outline-success"
+                  [disabled]="dailydiemform.get('data')['controls'].length== 1" (click)="adddata1()" *ngIf="transferreason"
+                  style="border-radius:40px;margin-left: 50px"><span class="fa fa-plus"></span>
+                  ADD</button> -->
+
+              </td>
+            </tr>
+          </table>
+
+          <div class="table-responsive" style="width:100%;margin-top: 1%;">
+            <table class="table table-bordered" fixed-header style="width: 100%;margin-top: 10px;">
+              <tr class="table_header" style="text-align: left;">
+                <th>S.No</th>
+                <th>Boarding provided by Organizer<label style="color:red">*</label></th>
+                <!-- <th>Sub Category</th> -->
+                <th>Sub Category<label style="color:red">*</label></th>
+                <th>City<label style="color:red">*</label></th>
+                <th>From Date and Time <br> (DD-MM-YYYY HH:MM)<label style="color:red">*</label></th>
+
+                <th>To Date and Time <br>(DD-MM-YYYY HH:MM)<label style="color:red">*</label></th>
+                <th>No of Hours </th>
+                <th>Food Allowance <label style="color:red">*</label></th>
+                <th>Medical Expenses<label style="color:red">*</label></th>
+
+
+                <th>Bill Number</th>
+                <th>Remarks</th>
+                <!-- <th>Declaration for boarding submitted</th> -->
+                <!-- <th>No of leaveDays</th> -->
+                <!-- <th>Eligible Amount</th> -->
+                <th>Claim Amount (INR)<label style="color:red">*</label></th>
+
+                <!-- <th>No of Days </th> -->
+                <!-- <th *ngIf="approver && applevel >= 1">Approved Amount</th> -->
+                <!-- <th *ngIf="!approver">Action</th> -->
+              </tr>
+              <tbody formArrayName="data"
+                *ngFor="let item of dailydiemform.get('data')['controls'] | paginate: { itemsPerPage: pageSize, currentPage: p } index as i">
+                <tr [formGroupName]="GlobalIndex(i)">
+                  <td>{{((p-1)*pageSize)+i+1}}</td>
+                  <td>
+                    <fieldset>
+                      <mat-form-field floatLabel="never">
+
+                        <mat-select formControlName="boardingbyorganiser" [disabled]="approver">
+                          <mat-option *ngFor="let board of boardingList" (click)="geteligibleamount(i)"
+                            [value]="board.value">
+                            {{board.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </fieldset>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <mat-select placeholder="Select Center" formControlName="citytype" [disabled]="approver">
+                        <mat-option *ngFor="let board of typelist" (click)="geteligibleamount(i)" [value]="board.value">
+                          {{board.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <fieldset [disabled]="approver">
+
+                      <mat-form-field floatLabel="never">
+
+                        <!-- <mat-label>City</mat-label> -->
+                        <input (keyup)="citysearch(i,$event)" type="text" required #inputassetid
+                          placeholder="Select City" matInput (keypress)="omit_special_char($event)"
+                          [matAutocomplete]="conoffice" formControlName="visitcity">
+                        <mat-autocomplete #assetid #conoffice="matAutocomplete" (opened)="autocompleteid()">
+                          <mat-option (click)="getcityValue()" *ngFor="let city of checkcity(i)"
+                            (click)="geteligibleamount(i)" [value]="city.name">
+                            {{city.name}}
+
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset [disabled]="approver"style="width:310px">
+                      <mat-form-field floatLabel="never" id="tadate">
+
+                        <input matInput [matDatepicker]="picker1" readonly [min]="minselect(((p-1)*pageSize)+i)"
+                          [max]="maxselect(((p-1)*pageSize)+i)" (dateChange)="geteligibleamount(i)"
+                          placeholder="From Date" autocomplete="off" formControlName="fromdate">
+                        <mat-datepicker-toggle matPrefix [for]="picker1" [disabled]="true"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                      </mat-form-field>
+                      <mat-form-field matSuffix id="tatime" style="margin-left:15px">
+                        <span matSuffix class="material-icons">watch_later</span>
+                        <input (keyup)="timefilter($event)" #time (blur)="timedropdowncheck(time,i)" (keypress)="numberOnly($event)" formControlName="fromtime"
+                          type="text" placeholder="Time" required matInput [matAutocomplete]="timefile">
+                        <mat-autocomplete #timefile="matAutocomplete">
+                          <mat-option (click)="geteligibleamount(i)" *ngFor="let time of timeclone" [value]="time.name">
+                            {{time.name}}
+
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset [disabled]="approver" style="width:310px">
+                      <mat-form-field floatLabel="never" id="tadate">
+                        <input matInput [matDatepicker]="picker2" readonly [min]="minselect(((p-1)*pageSize)+i)"
+                          [max]="maxselect(((p-1)*pageSize)+i)" (dateChange)="geteligibleamount(i)"
+                          placeholder="To Date" autocomplete="off" formControlName="todate">
+                        <mat-datepicker-toggle matPrefix [for]="picker2" [disabled]="true"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                      </mat-form-field>
+                      <mat-form-field id="tatime" style="margin-left:15px">
+
+                        <span matSuffix class="material-icons">watch_later</span>
+                        <input  (keypress)="numberOnly($event)" formControlName="totime" #totime (change)="totimechange(i,totime);timedropdowncheck(totime,i)"
+                          type="text" placeholder="Time" required matInput [matAutocomplete]="timeto">
+                        <mat-autocomplete #timeto="matAutocomplete">
+                          <mat-option (click)="geteligibleamount(i)" *ngFor="let time of totimes(i,totime)"
+                            [value]="time.name">
+                            {{time.name}}
+
+                          </mat-option>
+                        </mat-autocomplete>
+
+                      </mat-form-field>
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset [disabled]="true">
+                      <mat-form-field floatLabel="never" style="width: 101px;">
+                        <input matInput formControlName="noofhours"  placeholder="No of Hours">
+                      </mat-form-field>
+                    </fieldset>
+                  </td>
+
+
+                  <td>
+                    <fieldset [disabled]="approver || eligcheck(i)">
+                      <mat-form-field floatLabel="never" id="amountlen">
+                        <mat-icon matPrefix id="rupee">currency_rupee</mat-icon>
+                        <input matInput placeholder="Food Allowance" (keydown)="nospace($event);zero($event)"
+                          (change)="claimpatch(i)" (keypress)="keyPressAmounts($event)" #fa (blur)="decs(fa,i,$event)"
+                          formControlName="foodallowance" required>
+                      </mat-form-field>
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset [disabled]="approver || eligcheck(i)">
+                      <mat-form-field floatLabel="never" id="amountlen">
+                        <input matInput placeholder="Medical Expenses" #me (blur)="decs(me,i,$event)"
+                          (keydown)="nospace($event);zero($event)" (change)="claimpatch(i)"
+                          (keypress)="keyPressAmounts($event)" formControlName="medicalexpense" required>
+
+                        <mat-icon matPrefix id="rupee">currency_rupee</mat-icon>
+                      </mat-form-field>
+                    </fieldset>
+                  </td>
+
+                  <!-- <td>
+                    <fieldset>
+                      <mat-form-field floatLabel="never">
+                        <mat-label>Accommodtion</mat-label>
+                        <mat-select formControlName="accbybank" [disabled]="approver">
+                          <mat-option *ngFor="let yesno of yesnoList" (click)="geteligibleamount(i)" [value]="yesno.value">
+                            {{yesno.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </fieldset>
+                  </td> -->
+
+                  <td>
+                    <fieldset [disabled]="approver">
+                      <mat-form-field floatLabel="never">
+                        <input matInput formControlName="billno" placeholder="Bill Number">
+                      </mat-form-field>
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset [disabled]="approver">
+                      <!-- <label *ngIf="limitcheck(i)" style="color:red">*</label>
+                      <mat-form-field [ngStyle]="{'margin-bottom':limitcheck(i) === false ? '0px' : '26px' }"
+                        floatLabel="never">
+                        <input matInput formControlName="remarks" placeholder="Remarks">
+                      </mat-form-field> -->
+                      <mat-form-field *ngIf="limitcheck(i)===false" floatLabel="never">
+                        <textarea matInput rows="1" cols="40" 
+                          placeholder="Remarks" formControlName="remarks" autocomplete="off">
+                  </textarea>
+                      </mat-form-field>
+                      <mat-form-field *ngIf="limitcheck(i)===true" floatLabel="never">
+                        <textarea matInput rows="1" cols="40" 
+                          placeholder="Remarks*" formControlName="remarks" autocomplete="off" [required]="true">
+                  </textarea>
+                      </mat-form-field>
+                    </fieldset>
+                  </td>
+                  <!-- <td
+                    *ngIf="dailydiemform.value.data[GlobalIndex(i)].accbybank == 1 && dailydiemform.value.data[GlobalIndex(i)].boardingbybank == 1">
+                    <fieldset>
+                      <mat-form-field floatLabel="never">
+                        <mat-label>Declaration</mat-label>
+                        <mat-select formControlName="declaration" [disabled]="approver || true">
+                          <mat-option *ngFor="let declare of declareList" (click)="geteligibleamount(i)"
+                            [value]="declare.value">
+                            {{declare.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </fieldset>
+                  </td> -->
+                  <!-- <td
+                    *ngIf="dailydiemform.value.data[GlobalIndex(i)].accbybank != 1 || dailydiemform.value.data[GlobalIndex(i)].boardingbybank  != 1">
+                    <fieldset>
+                      <mat-form-field floatLabel="never">
+                        <mat-label>Declaration of boarding</mat-label>
+                        <mat-select formControlName="declaration" [disabled]="approver">
+                          <mat-option *ngFor="let declare of declareList" (click)="geteligibleamount(i)"
+                            [value]="declare.value">
+                            {{declare.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </fieldset>
+                  </td> -->
+                  <!-- <td>
+                    <fieldset [disabled]="approver">
+                      <mat-form-field floatLabel="never">
+                        <input matInput formControlName="isleave" (keydown)="nospace($event);zero($event)"
+                          (keypress)="keyPressAmounts($event)" (change)="geteligibleamount(i)" placeholder="No of leaveDays"
+                          autocomplete="off" required>
+                      </mat-form-field>
+                    </fieldset>
+                  </td> -->
+                  <!-- <td>
+                    <fieldset [disabled]="approver">
+                      <mat-form-field floatLabel="never">
+                        <input matInput placeholder="Eligible Amount" formControlName="eligibleamount" [disabled]="true"
+                          required>
+                      </mat-form-field>
+                    </fieldset>
+                  </td> -->
+                  <td>
+                    <fieldset [disabled]="approver">
+                      <mat-form-field floatLabel="never" id="amountlen" *ngIf="limitcheck(i)">
+                        <mat-icon style="color: red;" matPrefix id="rupee">currency_rupee</mat-icon>
+                        <input matInput placeholder="Claim Amount" style="color:red"
+                          (keydown)="nospace($event);zero($event)" readonly (keypress)="keyPressAmounts($event)"
+                          formControlName="claimedamount">
+                      </mat-form-field>
+                      <mat-form-field floatLabel="never" id="amountlen" *ngIf="limitcheck(i) == false">
+                        <mat-icon matPrefix id="rupee">currency_rupee</mat-icon>
+                        <input matInput placeholder="Claim Amount" (keydown)="nospace($event);zero($event)" readonly
+                          (keypress)="keyPressAmounts($event)" formControlName="claimedamount">
+                      </mat-form-field>
+                    </fieldset>
+                  </td>
+
+                  <!-- <td>
+                    <fieldset [disabled]="approver">
+                      <mat-form-field floatLabel="never">
+                        <input matInput formControlName="noofdays" (keydown)="nospace($event);zero($event)"
+                          (keypress)="keyPressAmounts($event)" (keyup)="limit($event,i)" placeholder="No of Days">
+                      </mat-form-field>
+                    </fieldset>
+                  </td> -->
+                  <!-- <td *ngIf="!approver">
+                    <button mat-icon-button [disabled]="dailydiemform.get('data')['controls'].length== 1"
+                      (click)="indexdelete(i)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td> -->
+                  <!-- <td *ngIf="approver && applevel >=1 ">
+                    <fieldset [disabled]="statusid > 2">
+                      <mat-form-field floatLabel="never">
+                        <input matInput placeholder="Approved Amount" (keydown)="nospace($event);zero($event)"
+                          formControlName="approvedamount" (keypress)="keyPressAmounts($event)" autocomplete="off" required>
+                      </mat-form-field>
+                    </fieldset>
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+            <div class="pagination">
+              <pagination-controls responsive="true" (pageChange)="p = $event"></pagination-controls>
+            </div>
+          </div>
+        </form>
+        <div class="col-md-12 text-center" style="margin-top: 50px;">
+
+          <mat-label>CEO's approval email attachment - is mandatory if Alcohol / Tobacco is included in the bill.
+          </mat-label>
+          <br>
+          <br>
+          <button *ngIf='!approver' type="submit" style="margin-left: 10px;" (click)="submitfunction()" id="primarybtn"
+            class="btn btn-light">Submit</button>
+
+          <!-- <button *ngIf='applevel >= 1 && statusid == 2' type="button" (click)="Approve()" class="btn btn-light" 
+          id="primarybtn"
+          style="border-color: black; background-color: green; color: white;" >Approve</button> -->
+          <button type="button" class="btn btn-light" (click)="back()" id="secondarybtn"
+            style="margin-left: 10px;">Back</button>
+        </div>
+      </div>
+    </div>
+    
+
+  </mat-card>
+
+</div>
+
+
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 1.5)" size="default" type="la-ball-scale-multiple la-3x">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner> -->

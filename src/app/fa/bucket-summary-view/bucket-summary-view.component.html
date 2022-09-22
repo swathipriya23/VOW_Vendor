@@ -1,0 +1,97 @@
+<div style="margin-left:4%;">
+    <h1 style="font-weight:bold;color:blue;font-family:Times New Roman;font-size:20px">Bucket Summary View</h1>
+</div>
+<h2 style="margin-left:2%;">Additions:</h2>
+<div style="margin-left:2%;width:75%;font-size:15px">
+    <div class="table-hover ">
+        <table class="table  table-bordered" style="width:95%">
+            <thead>
+                <tr class="table_header">
+                    <th>S No.</th>
+                    <th>CR Number</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Invoice Number</th>
+                    <th>Invoice Date</th>
+                    <th>Qty</th>
+                    <th>Invoice value</th>
+                    <th>Asset Value</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let d of additionData;let i=index" >
+                    <td>{{(i-1)*presentPage+i+1}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                </tr>
+                <tr *ngIf="additionData.length==0">
+                    <td colspan="9">No Records Found..</td>
+                </tr>
+            </tbody>
+            <tr *ngIf="additionData.length !=0">
+                <td colspan="7">Total</td>
+                <td>{{sum_add_invoice_value}}</td>
+                <td>{{sum_add_asset_value}}</td>
+            </tr>
+
+        </table>
+
+    </div>
+</div>
+<h1 style="margin-left:2%">Removals:</h1>
+
+   
+        <table class="table table-bordered  table-hover" style="width:96%;margin-left:2%;font-size:15px">
+            <thead>
+                <tr class="table_header">
+                    <th>S No.</th>
+                    <th>CR Number</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Invoice Number</th>
+                    <th>Invoice Date</th>
+                    <th>Qty</th>
+                    <th>Invoice value</th>
+                    <th>Asset Value</th>
+                    <th>Capitalised Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let d of removalData;let i=index">
+                    <td>{{(i-1)*presentremovepage+i+1}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.name}}</td>
+                </tr>
+                <tr *ngIf="removalData.length==0">
+                    <td colspan="10">No Records Found..</td>
+                </tr>
+                <tr *ngIf="removalData.length !=0">
+                    <td colspan="7">Total</td>
+                    <td>{{sum_rem_invoice_value}}</td>
+                    <td>{{sum_rem_asset_value}}</td>
+                    <td>{{sum_rev_cap_value}}</td>
+                </tr>
+                <tr *ngIf="removalData.length !=0">
+                    <td colspan="9"><b>Net Bucket Value</b></td>
+                    <td>{{sum_total_net_value}}</td>
+                </tr>
+            </tbody>
+        </table>
+    
+        <button type="button" class="btn btn-outline-success"
+        style="border-radius:40px;margin-left: 50px;margin-bottom: 30%;" [routerLink]='"/fa/bucketsummary"'><span
+            class="fa fa-arrow-left">  </span>Go Back</button>

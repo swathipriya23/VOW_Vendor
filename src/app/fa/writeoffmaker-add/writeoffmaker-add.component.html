@@ -1,0 +1,172 @@
+
+
+<div>
+    <form [formGroup]="writeOffSearchForm">
+        <h2 style="margin-left: 3%;font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;">Asset Write off Maker Add</h2><hr>
+        <table>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="assetdetails_id" matInput
+                            autocomplete="off">
+                        <mat-placeholder>Asset Barcode Id</mat-placeholder>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="asset_value" matInput
+                            autocomplete="off">
+                        <mat-placeholder>Asset Value</mat-placeholder>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Cap Date</mat-label>
+                        <input matInput readonly [matDatepicker]="picker1" placeholder="Cap Date"
+                            formControlName="capdate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+
+                <td>
+                    <!-- <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="assetcat_id" matInput
+                            autocomplete="off">
+                        <mat-placeholder>Category</mat-placeholder>
+                    </mat-form-field> -->
+
+                    <mat-form-field style="width: 200px; margin-left: 50px;" (click)="getCategoryFK()">
+                        <mat-label>Asset SubCategory</mat-label>
+                        <input #categoryInput placeholder="Select Category Code" matInput formControlName="assetcat_id"
+                            [matAutocomplete]="category">
+                        <mat-autocomplete #category="matAutocomplete" [displayWith]="displayFncategory.bind(this)"
+                            (opened)="autocompletecategoryScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let category of categoryList" [value]="category.id">
+                                    {{category.subcatname}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <!-- <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="branch_id" matInput autocomplete="off">
+                        <mat-placeholder>Branch</mat-placeholder>
+                    </mat-form-field> -->
+                    <mat-form-field style="width: 200px; margin-left: 50px;" (click)="getbranchFK()">
+                        <mat-label>Branch Name</mat-label>
+                        <input #branchInput placeholder="Select Branch Code" matInput formControlName="branch_id"
+                            [matAutocomplete]="branch">
+                        <mat-autocomplete #branch="matAutocomplete" [displayWith]="displayFnbranch.bind(this)"
+                            (opened)="autocompletebranchScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let branch of branchList" [value]="branch.id">
+                                    {{branch.code}}-{{branch.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <button mat-fab color="basic" type="submit" style="margin-left: 50px;" matTooltip="search"
+                         (click)="getwriteOffsummarySearch('search')"><mat-icon>search</mat-icon>
+                        </button>
+                </td>
+                <td><button mat-fab color="basic" (click)="resetWriteOff()" matTooltip="Clear"
+                        style="margin-left: 50px;" >Clear</button></td>
+            </tr>
+        </table>
+    </form>
+    <div class="table-responsive" style="margin-top: 1%;width: 94%;margin-left: 50px;">
+        <table class="table scrolltable table-bordered" fixed-header>
+            <thead>
+                <tr class="table_header" fixed-header>
+                    <th>S.No</th>
+                    <th>Asset Barcode ID</th>
+                    <th>Product Name</th>
+                    <th>Asset SubCategory</th>
+                    <th>Capitalisation date</th>
+                    <th>Asset Value</th>
+                    <th>Branch Name</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <!-- <th><label class="btn btn-filter"> 
+                            <input type="checkbox" [checked]="HeaderCheckBox == true" (click)="allCheckBox($event)">Action
+                        </label>&nbsp;</th> -->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let writeoff of WriteOfflist; index as i">
+                    <td>{{ (presentpageWriteOff-1)*pageSize+i+1 }}</td>
+                    <td>{{ writeoff.barcode}}</td>
+                    <td>{{ writeoff.product_id.name}}</td>
+                    <td>{{ writeoff.assetcatchange_id.subcatname}}</td>
+                    <td>{{ writeoff.capdate | date: 'dd-MMM-yyyy'}}</td>
+                    <td>{{ writeoff.assetdetails_value}}</td>
+                    <td>{{ writeoff.branch_id.name}}--{{ writeoff.branch_id.code}}</td>
+                    <td>{{ writeoff.assetlocation_id.name}}</td>
+                    <td>{{ writeoff.assetdetails_status}}</td>
+                    <!-- <td> <input type="checkbox" id="vehicle1" name="vehicle1" value=""
+                            [(ngModel)]="checkedValues[i]"></td> -->
+                    <td> <input type="checkbox" [checked]="writeoff.checkbox == true"
+                            (click)="selectedAssetValue(writeoff, $event)"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+                <button mat-icon-button [disabled]="has_previousWriteOff == false" color="primary"
+                    (click)=" getwriteOffsummarySearch('previous')">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                {{presentpageWriteOff}}
+                <button mat-icon-button [disabled]="has_nextWriteOff == false" color="primary"
+                    (click)="getwriteOffsummarySearch('next')">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div *ngIf=ischeck> -->
+    <form [formGroup]="writeOffCreateForm">
+        <mat-form-field class="example-full-width" style="margin-left: 50px;">
+            <input class="toolbar-search" type="text" formControlName="reason" matInput autocomplete="off" required>
+            <mat-placeholder>Write Off Reason</mat-placeholder>
+        </mat-form-field>
+        <mat-form-field style="width:175px;margin-left: 50px;">
+            <mat-label> Date</mat-label>
+            <input matInput readonly [matDatepicker]="picker2" [max]="maxDate" placeholder="Date" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+    </form>
+    <!-- </div> -->
+
+
+
+<div style="margin-bottom: 100px;">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px;"
+        (click)="submitWriteOff()">Submit</button>
+    <button type="button" class="btn btn-outline-primary" (click)="onCancelClick()" style="border-radius:40px;margin-left: 50px;"
+        >Cancel</button>
+</div>
+    <!-- </div> -->
+</div>
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

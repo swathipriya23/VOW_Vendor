@@ -1,0 +1,62 @@
+:host /deep/ .timepicker__header {
+    background-color: #FF7043 !important;
+}
+::ng-deep { .cdk-global-overlay-wrapper, .cdk-overlay-container { z-index: 9999!important; } }
+::ng-deep .mat-form-field-outline {
+  color:grey !important;
+}
+.modal-dialog .modal-content {
+    width: 1116px !important;
+    margin-left: -213px !important;
+}
+
+// #cardstyle {
+//     margin:20px 12px 0px 20px;
+// }
+th,td {
+  vertical-align: middle;
+}
+mat-form-field {
+  font-size: 8px;
+  
+}
+
+mat-menu{
+  font-family:"Montserrat";
+}
+
+input,mat-select,textarea{
+  font-size: 15px;
+}
+
+.mat-label{
+  font-size: 14px;
+  
+}
+
+#rupee{
+font-size: 15px;
+}
+
+mat-icon{
+  cursor: pointer;
+  font-size:30px
+}
+
+
+
+mat-datepicker-toggle{
+  font-size: 15px;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+  color: red!important;
+  opacity: 0.8!important;
+}
+
+.mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+  color:black;
+}
+::ng-deep .mat-select-disabled .mat-select-value{
+  color:black
+}

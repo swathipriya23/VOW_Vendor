@@ -1,0 +1,51 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h3>
+        Edit Pincode Form
+    </h3>
+    <div>
+        <form [formGroup]="pincodeEditForm" (ngSubmit)="submitForm()">
+            <table>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;">
+                            <mat-label>City Name</mat-label>
+                            <mat-select formControlName="city_id">
+                                <mat-option *ngFor="let city of cityList" [value]="city.id">{{city.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-left: 50px;">
+                            <mat-label>District Name</mat-label>
+                            <mat-select formControlName="district_id">
+                                <mat-option *ngFor="let district of districtList" [value]="district.id">{{district.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;">
+                            <mat-label>No</mat-label>
+                            <input matInput placeholder="No" formControlName="no" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>    
+                </tr>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                [disabled]="pincodeEditForm.invalid">Submit</button>
+            <button (click)="onCancelClick()"skipLocationChange class="btn btn-outline-primary"
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+
+        </form>
+    </div>
+</div>
+
+
+
+
+
+

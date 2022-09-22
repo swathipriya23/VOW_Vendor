@@ -1,0 +1,695 @@
+<div style="background-color: #f6f6f6;" >
+<mat-card style="margin:20px 12px 20px 20px;" class="mat-elevation-z0"  >
+<div style="margin-left: 15px;">
+
+    <div>
+        <p style="padding-top: 20px;margin: 0;font-size: 22px;">Activity View</p>
+        <button class="btn btn-outline-primary"
+            style="border-radius:40px;margin-top: -38px;float:right;margin-right: 21%;"
+            (click)="backButton()">Back</button>
+        <button type="button" *ngIf="vendor_flag" class="btn btn-success" (click)="activityUpdate()">Edit</button>
+
+        <button type="button" *ngIf="vendor_flag" class="btn btn-danger" data-toggle="modal"
+            data-target="#rejectModal">Delete</button>
+        <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title  w-100 font-weight-bold" id="rejectModalLabel">Please Confirm..</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <h3 style="margin-left: 3%;font-size: larger;">{{message}}</h3>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-primary" type="button" data-toggle="modal"
+                            data-target="#rejectModal" style="border-radius:40px; margin-left: 3px;"
+                            (click)="activityDelete()">
+                            OK </button>
+                        <button class="btn btn-light" type="button" data-toggle="modal"
+                            data-target="#rejectModal" style="border-radius: 7px;
+                            border-color: black;
+                            background-color: white;margin-left: 10px;">
+                            Cancel </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="margin-top: 0;">
+        <div *ngIf="activityUpdateCard">
+            <mat-accordion class="example-headers-align">
+                <mat-expansion-panel [expanded]="true" >
+    
+                    <mat-expansion-panel-header>
+                        <mat-panel-title style="font-weight: bold;" >
+                            Activity Name-{{ updatename}}
+                        </mat-panel-title>
+                        <mat-panel-description style="color: black;margin-left: 113px;">
+                        
+                        </mat-panel-description>
+                        <!-- <h3 class="card-title">Activity Name-{{ updatename}}</h3> -->
+                            <!-- <p class="card-text"> Name: <span style="color: black;margin-left: 71px;">{{ name}}
+                                    </span></p> -->
+
+                            <p class="card-text ">Activity Type <span
+                                    style="color: black;margin-left: 24px;">{{updatetype | titlecase}}
+                                </span></p>
+
+                            <p class="card-text">Start Date <span
+                                    style="color: black;margin-left: 28px;">{{ updatestartDate | date:'dd-MM-yyyy'}}
+                                </span></p>
+
+                            <p class="card-text">End Date <span
+                                    style="color: black;margin-left: 24px;">{{updateendDate | date:'dd-MM-yyyy'}}</span>
+                            </p>
+
+                            <p class="card-text"> Contract Spend <span
+                                    style="color: black;margin-left: 40px;">{{ updatecontractSpend}}
+                                </span></p>
+
+                            <p class="card-text"> Activity RM <span
+                                    style="color: black;margin-left: 50px;">{{updaterm | titlecase}}
+                                </span></p>
+
+                            <p class="card-text"> Activity Status <span
+                                    style="color: black;margin-left: 3%;">{{updateactivityStatus | titlecase}}
+                                </span></p>
+
+                            <p class="card-text"> Fidelity <span
+                                    style="color: black;margin-left: 71px;">{{updatefidelity | titlecase}}
+                                </span></p>
+
+                            <p class="card-text"> Bidding <span
+                                    style="color: black;margin-left: 70px;">{{updatebidding | titlecase}}
+                                </span></p>
+
+                            <p class="card-text"> Description <span
+                                    style="color: black;margin-left: 47px;">{{updatedescription | titlecase}}
+                                </span></p>
+                    </mat-expansion-panel-header>
+                 
+    
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+        <div style="margin-top: 0.8%;" >
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel [expanded]="true" >
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title style="font-weight: bold;" >
+                        Activity
+                    </mat-panel-title>
+                    <mat-panel-description style="color: black;margin-left: 113px;">
+                    
+                    </mat-panel-description>
+                    
+                </mat-expansion-panel-header>
+             
+
+          
+        <table width="100%" style="margin-top: 1%;">
+            <tbody>
+                <tr>
+                    <td width="12%">
+                        <table width="100%;" style="font-size:14px;">
+                            <tbody>
+                                <tr>
+                                    
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Activity Name <span
+                                            style="color: black;margin-left: 25px;">{{ name | titlecase}}
+                                        </span></p>
+
+                                    <p style="color: #808080; margin: 0px 0 4px;">Activity Type <span
+                                            style="color: black;margin-left: 34px;">{{type | titlecase}}
+                                        </span></p>
+                                    <p style="color: #808080; margin: 0px 0 4px;">Start Date <span
+                                            style="color: black;margin-left: 51px;">{{ startDate | date:'dd-MM-yyyy'}}
+                                        </span></p>
+                                    <p style="color: #808080; margin: 0px 0 4px;">End Date <span
+                                            style="color: black;margin-left: 57px;">{{ endDate | date:'dd-MM-yyyy'}}
+                                        </span></p>
+                                    <p style="color: #808080; margin: 0px 0 4px;">Contract Spend <span
+                                            style="color: black;margin-left: 4.1%;">{{ contractSpend}}
+                                        </span></p>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+                    <td width="30%">
+                        <table width="100%;" style="font-size:14px;">
+                            <tbody>
+                                <tr>
+                                    <p style="color: #808080; margin: 0px 0 4px;">Activity RM <span
+                                            style="color: black;margin-left: 5.6%;">{{rm | titlecase}}</span>
+                                    </p>
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Activity Status <span
+                                            style="color: black;margin-left: 3%;">{{activityStatus | titlecase}}
+                                        </span></p>
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Fidelity <span
+                                            style="color: black;margin-left: 75px;">{{fidelityBox | titlecase}}
+                                        </span></p>
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Bidding <span
+                                            style="color: black;margin-left: 71px;">{{biddingBox | titlecase}}
+                                        </span></p>
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Description <span
+                                            style="color: black;margin-left: 45px;">{{description | titlecase}}
+                                        </span></p>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-expansion-panel>
+</mat-accordion>
+</div>
+    </div>
+
+    <div style="margin-top: 0.8%;" >
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel  >
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title style="font-weight: bold;" >
+                        Contact Details
+                    </mat-panel-title>
+                    <mat-panel-description style="color: black;margin-left: 113px;">
+                    
+                    </mat-panel-description>
+                    
+                </mat-expansion-panel-header>
+             
+
+           
+        <table width="100%" style="margin-top: 1%;">
+            <tbody>
+                <tr>
+                    <td width="12%">
+                        <table width="100%;" style="font-size:14px;">
+                            <tbody>
+                                <tr>
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Name <span
+                                            style="color: black;margin-left: 57px;">{{ contactName | titlecase}}
+                                        </span></p>
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Email <span
+                                            style="color: black;margin-left: 57px;">{{ contactEmail}}
+                                        </span></p>
+                                    <!-- <p style="color: #808080; margin: 0px 0 4px;"> DO <span
+                                            style="color: black;margin-left: 61px;">{{ contactDOB | date:'dd-MMM-yyyy'}}
+                                        </span></p> -->
+                                    <!-- <p style="color: #808080; margin: 0px 0 4px;"> Type: <span style="color: black;margin-left: 61px;">{{ contactType}}
+                                    </span></p> -->
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Designation <span
+                                            style="color: black;margin-left: 5%;">{{ contactDesignation | titlecase}}
+                                        </span></p>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+                    <td width="30%">
+                        <table width="100%;" style="font-size:14px;">
+                            <tbody>
+                                <tr>
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Line1 <span
+                                            style="color: black;margin-left: 3%;">{{ contactLine1 | titlecase}}
+                                        </span></p>
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Line2 <span
+                                            style="color: black;margin-left: 3%;">{{ contactLine2 | titlecase}}
+                                        </span></p>
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Mobile1 <span
+                                            style="color: black;margin-left: 12px;">{{ contacMobile1}}
+                                        </span></p>
+                                    <p style="color: #808080; margin: 0px 0 4px;"> Mobile2 <span
+                                            style="color: black;margin-left: 12px;">{{ contacMobile2}}
+                                        </span></p>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-expansion-panel>
+</mat-accordion>
+    </div>
+
+    <div style="margin-bottom: 10%;margin-top: 1%;">
+        <!-- <nav>
+            <div class="nav nav-tabs">
+                <a *ngIf="catalogTab" class="nav-item nav-link" data-toggle="tab" role="tab"
+                    (click)="catalogBtn()">Catalog:>>{{catname}}
+                </a>
+                <a *ngIf="isActivityDetail" class="nav-item nav-link" data-toggle="tab" role="tab"
+                    (click)="activityDetailBtn()">Activity Detail
+                </a>
+
+
+            
+          
+    </div>
+    </nav> -->
+    <!-- <div>
+        <span *ngIf="isActivityDetailForm">
+            <app-activitydetail (onCancel)="activityDetailCancel()" (onSubmit)="activityDetailSubmit()">
+            </app-activitydetail>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isActivityDetailEditForm">
+            <app-activitydetail-edit (onCancel)="activityDetailEditCancel()" (onSubmit)="activityDetailEditSubmit()">
+            </app-activitydetail-edit>
+        </span>
+    </div> -->
+    <div *ngIf="isActivityDetail">
+        <!-- <div class=" row col-md-10 ">
+            <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                <button *ngIf="isActivityDetail" type="button" class="btn btn-outline-success"
+                    (click)="addActivityDetail()" style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span
+                        class="fa fa-plus"></span>
+                    Add</button>
+
+               
+            </div>
+        </div> -->
+        <!-- <div class="table-responsive" style="width: 80%;margin-top: 1%;overflow-x: hidden;">
+            <table class="styled-table">
+                <thead class="tableheader"> -->
+          <p style="margin-top: 20px;font-size: 22px;"> Activity Detail Summary</p>
+            <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                    <tr>
+                        <th>S.no</th>
+                        <th>Code</th>
+                        <th>Detail Name</th>
+                        <th>Raisor</th>
+                        <th>Approver</th>
+                        <th>Remarks</th>
+                        <!-- <th>Action</th> -->
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let activityDetail of activityDetailList; index as i">
+                        <td> {{(presentpage - 1)*pageSize +i+1 }} </td>
+                        <td (click)="catalogData(activityDetail)" data-toggle="modal"
+                        data-target="#catelogsummarypopup" style="cursor: pointer;color:blue;">{{ activityDetail.code}}</td>
+                        <td>
+                            {{ activityDetail.detailname | titlecase}}</td>
+                        <!-- <td (click)="catalogData(activityDetail)" style="cursor: pointer;color:blue;">
+                            {{ activityDetail.detailname}}</td> -->
+                        <td>{{ activityDetail.raisor.full_name | titlecase}}</td>
+                        <td>{{ activityDetail.approver.full_name | titlecase}}</td>
+                        <td>{{ activityDetail.remarks | titlecase}}</td>
+                        <!-- <td *ngIf=" vendor_flag==true">
+                            <button *ngIf="activityDetail.modify_ref_id>0" mat-icon-button matTooltip=" Edit"
+                                class="iconbutton" (click)="activityDetailEditForm(activityDetail)" [disabled]="true"
+                                color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button *ngIf="activityDetail.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit"
+                                class="iconbutton" (click)="activityDetailEditForm(activityDetail)" color="primary">
+                                <mat-icon style="color:green;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton"
+                                (click)="activityDetailEditForm(activityDetail)" [disabled]="true" color="primary">
+                                <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td> -->
+                        <td *ngIf=" vendor_flag==true">
+                            <button *ngIf="activityDetail.modify_ref_id>0" mat-icon-button class="iconbutton"
+                                [disabled]="true" (click)="deleteActivityDetail(activityDetail)" color="primary">
+                                <mat-icon style="color: gray;">delete</mat-icon>
+                            </button>
+                            <button *ngIf="activityDetail.modify_ref_id=='-1'" mat-icon-button class="iconbutton"
+                                (click)="deleteActivityDetail(activityDetail)" color="primary">
+                                <mat-icon style="color:black;">delete</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button class="iconbutton" (click)="deleteActivityDetail(activityDetail)"
+                                color="primary" [disabled]="true">
+                                <mat-icon class="disabled_icon">delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="activityDetailList ?.length == 0" style="margin-left: 42%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+            <div class="row" *ngIf="isActivityDetailPagination">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClickActivityDetail()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button> {{presentpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary"
+                        (click)="nextClickActivityDetail()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="activitydetail_modify">
+                <p style="font-size: 22px;"> Activity detail Modification Summary</p>
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <th>S.no</th>
+                            <th>Code</th>
+                            <th>Detail Name</th>
+                            <th>Raisor</th>
+                            <th>Approver</th>
+                            <th>Remarks</th>
+                            <th>Status</th>
+                            <!-- <th>Action</th> -->
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let j of activitydetail_data; index as i">
+
+                            <td> {{i+1}} </td>
+                            <td style="cursor: pointer;color:blue;" (click)="catalogList(j)" data-toggle="modal"
+                            data-target="#catelogsummarypopup"> {{ j.code}}</td>
+                            <td *ngIf="j.modify_status==1">{{ j.detailname | titlecase}}</td>
+                            <td *ngIf="j.modify_status==2 || j.modify_status==0" > {{ j.detailname | titlecase}}</td>
+                            <td>{{ j.raisor.full_name | titlecase }}</td>
+                            <td>{{ j.approver.full_name | titlecase}}</td>
+                            <td>{{ j.remarks | titlecase}}</td>
+                            <td *ngIf="j.modify_status==1">Create</td>
+                            <td *ngIf="j.modify_status==2">Update</td>
+                            <td *ngIf="j.modify_status==0">Delete</td>
+                            <!-- <td>
+                                <span *ngIf="j.modify_ref_id !=j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="activityDetailEditForm(j)" color="primary" [disabled]="true">
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_ref_id ==j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="activityDetailEditForm(j)" color="primary">
+                                        <mat-icon style="color:green;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id != true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="activityDetailEditForm(j)" color="primary">
+                                        <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id ==true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="activityDetailEditForm(j)" color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                            </td> -->
+                            <td>
+                                <span *ngIf="j.modify_status!=0">
+                                    <button mat-icon-button class="iconbutton" (click)="deleteActivityDetail(j)"
+                                        color="primary">
+                                        <mat-icon class="enabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==0">
+                                    <button mat-icon-button class="iconbutton" (click)="deleteActivityDetail(j)"
+                                        color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="activitydetail_data ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- <div>
+        <span *ngIf="isCatalogForm">
+            <app-create-catalog (onCancel)="onCancelClick()" (onSubmit)="catalogSubmit()"></app-create-catalog>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="catelog_RMView">
+            <app-catalougemodification (onCancel)="onCancelClick()"></app-catalougemodification>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="isCatalogEditForm">
+            <app-catalog-edit (onCancel)="catalogEditCancel()" (onSubmit)="catalogEditSubmit()"></app-catalog-edit>
+        </span>
+    </div> -->
+    <div *ngIf="isCatalog">
+        <div class="modal fade" id="catelogsummarypopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Catalog</p>
+              <button type="button" #closebuttoncatelogback class="close" (click)="catelogbackCancel()"  data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <!-- <app-branchactivity (onCancel)="activityCancel()" (onSubmit)="activitySubmit()"></app-branchactivity> -->
+                <p style="margin-top: 20px;font-size: 22px;"> Catalog Summary</p>
+                <div class="table-responsive" style="width: 100%;margin-top: 10px;overflow-x: hidden;">
+                    <table class="table" id ='commonstyle'>
+                        <thead class="table_header" >
+            <!-- <div class="table-responsive" style="width: 100%;margin-top: 1%;overflow-x: hidden;">
+                <table class="styled-table">
+                    <thead class="tableheader"> -->
+                        <tr>
+                            <th>S.No</th>
+                            <th>DetailsName</th>
+                            <th>Product</th>
+                            <th>Category </th>
+                            <th>SubCategory</th>
+                            <th>Name</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <!-- <th>View</th>
+                            <th>Action</th> -->
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let catalog of getCatalogList; index as i">
+                            <td scope="row">{{ (catalogpage-1)*pageSize+i+1 }}</td>
+                            <td>{{ catalog.detailname | titlecase }}</td>
+                            <td>{{ catalog.productname.name | titlecase}}</td>
+                            <td>{{ catalog.category.name | titlecase }}</td>
+                            <td>{{ catalog.subcategory.name | titlecase}}</td>
+                            <td>{{ catalog.name | titlecase}}</td>
+                            <td>{{ catalog.fromdate | date:'dd-MM-yyyy' }}</td>
+                            <td>{{ catalog.todate | date:'dd-MM-yyyy' }}</td>
+                            <!-- <td>
+                                <button mat-icon-button matTooltip="view" class="iconbutton"
+                                    (click)="RMView_catelog({'new_data':catalog})" color="primary">
+                                    <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                                </button>
+                            </td>
+                            <td *ngIf=" vendor_flag==true">
+                                <button *ngIf="catalog.modify_ref_id>0" mat-icon-button matTooltip=" Edit"
+                                    class="iconbutton" (click)="catalogEdit(catalog)" [disabled]="true" color="primary">
+                                    <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                                </button>
+                                <button *ngIf="catalog.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit"
+                                    class="iconbutton" (click)="catalogEdit(catalog)" color="primary">
+                                    <mat-icon style="color:green;" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </td>
+                            <td *ngIf=" vendor_flag==false">
+                                <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="catalogEdit(catalog)"
+                                    [disabled]="true" color="primary">
+                                    <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </td> -->
+                            <td *ngIf=" vendor_flag==true">
+                                <button *ngIf="catalog.modify_ref_id>0" mat-icon-button class="iconbutton" [disabled]="true"
+                                    (click)="deleteCatalog(catalog,i)" color="primary">
+                                    <mat-icon style="color: gray;">delete</mat-icon>
+                                </button>
+                                <button *ngIf="catalog.modify_ref_id=='-1'" mat-icon-button class="iconbutton"
+                                    (click)="deleteCatalog(catalog,i)" color="primary">
+                                    <mat-icon style="color:black;">delete</mat-icon>
+                                </button>
+                            </td>
+                            <td *ngIf=" vendor_flag==false">
+                                <button mat-icon-button class="iconbutton" (click)="deleteCatalog(catalog,i)"
+                                    color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon">delete</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="getCatalogList ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+                <div class="row" *ngIf="isCatalogPagination">
+                    <div class="col-sm-12" style="font-size: small;text-align:right;margin-bottom: 5%;">
+                        <button mat-icon-button [disabled]="catalog_previous === false" color="primary"
+                            (click)="previousClickCatalog()">
+                            <mat-icon>arrow_back</mat-icon>
+                        </button>
+                        {{catalogpage}}
+                        <button mat-icon-button [disabled]="catalog_next === false" color="primary"
+                            (click)="nextClickCatalog()">
+                            <mat-icon>arrow_forward</mat-icon>
+                        </button>
+                    </div>
+                </div>
+    
+                <div *ngIf="catalog_modify">
+                    <p style="font-size: 22px;"> Catalog Modification Summary</p>
+                    <table class="table" id ='commonstyle'>
+                        <thead class="table_header" >
+                    <!-- <table class="styled-table">
+                        <thead class="tableheader"> -->
+                            <tr>
+                                <th>S.no</th>
+                                <th>DetailsName</th>
+                                <th>Product</th>
+                                <th>Category </th>
+                                <th>SubCategory</th>
+                                <th>Name</th>
+                                <th>FromDate</th>
+                                <th>Todate</th>
+                                <th>Status</th>
+                                <!-- <th>Action</th> -->
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let j of catalog_data; index as i">
+    
+                                <td> {{i+1}} </td>
+                                <td>{{ j.detailname  | titlecase}}</td>
+                                <td>{{ j.productname.name | titlecase }}</td>
+                                <td>{{ j.category.name | titlecase }}</td>
+                                <td>{{ j.subcategory.name | titlecase}}</td>
+                                <td>{{ j.name | titlecase}}</td>
+                                <td>{{ j.fromdate | date:'dd-MM-yyyy' }}</td>
+                                <td>{{ j.todate | date:'dd-MM-yyyy' }}</td>
+                                <td *ngIf="j.modify_status==1">Create</td>
+                                <td *ngIf="j.modify_status==2">Update</td>
+                                <td *ngIf="j.modify_status==0">Delete</td>
+                                <!-- <td>
+                                    <span *ngIf="j.modify_ref_id !=j.id && j.modify_status==1">
+                                        <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                            (click)="catalogEdit(j)" color="primary" [disabled]="true">
+                                            <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                        </button>
+                                    </span>
+                                    <span *ngIf="j.modify_ref_id ==j.id && j.modify_status==1">
+                                        <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                            (click)="catalogEdit(j)" color="primary">
+                                            <mat-icon style="color:green;" aria-label="Edit">edit</mat-icon>
+                                        </button>
+                                    </span>
+                                    <span *ngIf="j.modify_status==2  &&  j.modify_ref_id != true">
+                                        <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                            (click)="catalogEdit(j)" color="primary">
+                                            <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                        </button>
+                                    </span>
+                                    <span *ngIf="j.modify_status==2  &&  j.modify_ref_id ==true">
+                                        <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                            (click)="catalogEdit(j)" color="primary" [disabled]="true">
+                                            <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                        </button>
+                                    </span>
+    
+                                </td> -->
+                                <td>
+                                    <span *ngIf="j.modify_status!=0">
+                                        <button mat-icon-button class="iconbutton" (click)="deleteCatalog(j,i)"
+                                            color="primary">
+                                            <mat-icon class="enabled_icon">delete</mat-icon>
+                                        </button>
+                                    </span>
+                                    <span *ngIf="j.modify_status==0">
+                                        <button mat-icon-button class="iconbutton" (click)="deleteCatalog(j,i)"
+                                            color="primary" [disabled]="true">
+                                            <mat-icon class="disabled_icon">delete</mat-icon>
+                                        </button>
+                                    </span>
+                                </td>
+    
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="catalog_data ?.length == 0" style="margin-left: 42%;">
+                        <h3>Sorry data not found!.. </h3>
+                    </div>
+    
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- <div class=" row col-md-10 ">
+            <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                
+
+                <button *ngIf="catalogTab" type="button" class="btn btn-outline-success" (click)="addCatalog()"
+                    style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span class="fa fa-plus"></span>
+                    Add</button>
+            </div>
+        </div> -->
+    </div>
+
+
+
+</div>
+<!-- 
+    <div style="margin-bottom: 10%;margin-top: 1%;">
+        <nav>
+            <div class="nav nav-tabs">
+                <div *ngIf="catalogTab">
+                    <a class="nav-item nav-link" data-toggle="tab" role="tab"
+                        (click)="catalogBtn()">Catalog:({{catname}})
+                    </a>
+                </div>
+
+                <!<div *ngIf="isCatalog">
+                <button type="button" class="btn btn-outline-success" (click)="addCatalog()" style="border-radius:40px;margin-left: 50px"><span class="fa fa-plus"></span>
+                    Catalog</button>
+            </div> -->
+<!-- </div> -->
+<!-- </nav>  -->
+
+
+
+
+</div>
+</mat-card>
+</div>

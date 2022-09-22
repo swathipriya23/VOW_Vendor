@@ -1,0 +1,283 @@
+<div>
+  <mat-card>
+  <div style="margin-left: 10px;margin-right: 80%;margin-top: 1%; width: 100%;">
+    <p style="font-size: 22px;font-weight: 500;">
+      Local Conveyance Expense
+    </p>
+    <hr>
+    <p style="color:rgb(0, 0, 0);font-size: 18px; font-weight: 500;">
+      Travel Details
+    </p>
+
+    <div>
+      <form [formGroup]="localform">
+        <table>
+          <tr>
+            <td>
+              <mat-label >Travel No</mat-label>  <br>
+              <mat-form-field style="width: 175px;"appearance="standard">
+                <input matInput class="disabled11" placeholder="Tour No" formControlName="tourno" [readonly]="true">
+              </mat-form-field>
+            </td>
+            <td><mat-label style="width: 175px;margin-left: 50px;">Employee Code</mat-label> <br>
+              <mat-form-field style="width: 175px;margin-left: 50px;" appearance="standard">
+                
+                <input matInput class="disabled11" placeholder="employeename" [value]="employeecode"
+                  [readonly]="true">
+              </mat-form-field>
+            </td>
+            <td><mat-label style="width: 175px;margin-left: 50px;">Employee Name</mat-label> <br>
+              <mat-form-field style="width: 300px;margin-left: 50px;" appearance="standard">
+                
+                <input matInput class="disabled11" placeholder="employeename" formControlName="employeename"
+                  [readonly]="true">
+              </mat-form-field>
+            </td>
+            
+            <!-- <td>
+              <mat-form-field style="width: 175px;margin-left: 50px;">
+                <mat-label style="font-size: 20px;">Designation</mat-label>
+                <input matInput class="disabled11" placeholder="designation" formControlName="designation"
+                  [readonly]="true">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="width: 175px;margin-left: 50px;">
+                <mat-label style="font-size: 20px;">Employee Grade</mat-label>
+                <input class="disabled11" matInput placeholder="employeegrade" formControlName="employeegrade"
+                  [readonly]="true">
+              </mat-form-field>
+            </td> -->
+
+            <td>
+
+
+              <button type="button" *ngIf="!approver" class="btn btn-light" (click)="adddata()" id="secondarybtn"
+                style="margin-left: 50px"><span class="fa fa-plus"></span>
+                ADD</button>
+
+            </td>
+          </tr>
+        </table>
+
+        <div class="table-responsive" style="width:98%;margin-top: 1%;">
+          <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+            <tr class="table_header" style="text-align: left;">
+              <th>S.No</th>
+              <th>Sub Category<label style="color:red">*</label></th>
+              <th>Date<label style="color:red">*</label></th>
+              <!-- <th>Subcatogory</th>
+              <th>Center</th> -->
+              <th>From Place<label style="color:red">*</label></th>
+              <th>To Place<label style="color:red">*</label></th>
+              <th>Distance in KM <label style="color:red">*</label></th>
+              <th>Bill Number</th>
+              <th>Remarks</th>
+              <!-- <th>Onward/Return</th> -->
+              <!-- <th *ngIf="approver && applevel >= 1">Eligible Amount</th> -->
+              <th>Claim Amount (INR)<label style="color:red">*</label></th>
+              <th *ngIf="!approver">Action</th>
+              <!-- <th *ngIf="approver && applevel >=1 ">Approver Amount</th> -->
+
+            </tr>
+            <tbody formArrayName="data"
+              *ngFor="let item of localform.get('data')['controls'] | paginate: { itemsPerPage: pageSize, currentPage: p } index as i">
+              <tr [formGroupName]="GlobalIndex(i)">
+                <td>{{((p-1)*pageSize)+i+1}}</td>
+                <td>
+                  <fieldset>
+                    <mat-form-field floatLabel="never">
+
+                      <mat-select required placeholder="Mode of Travel" [disabled]="approver"
+                        formControlName="modeoftravel">
+                        <mat-option *ngFor="let mode of trvlmodeList" (click)="centerselect(i)"
+                          [value]="mode.name">
+                          {{mode.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never" id="tadate">
+                      <input matInput readonly [matDatepicker]="picker1" required
+                        placeholder="Start Date" autocomplete="off" [min]="fromdatemin(i)" [max]="enddate"
+                        formControlName="fromdate" aria-readonly="true">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </fieldset>
+                </td>
+                <!-- <td *ngIf="localform.value.data[GlobalIndex(i)].modeoftravel==null">
+                  <fieldset>
+                    <mat-form-field floatLabel="never">
+                      <mat-select placeholder="Subcatogory" [disabled]="approver" (click)="getsubcatogorychange(i)"
+                        formControlName="subcatogory">
+                        <mat-option *ngFor="let subcat of emptyarray" [value]="subcat.value">
+                          {{subcat.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td *ngIf="localform.value.data[GlobalIndex(i)].modeoftravel=='Train'">
+                  <fieldset>
+                    <mat-form-field floatLabel="never">
+                      <mat-select placeholder="Subcatogory" [disabled]="approver" (click)="getsubcatogorychange(i)"
+                        formControlName="subcatogory">
+                        <mat-option *ngFor="let subcat of trainlist" [value]="subcat.value">
+                          {{subcat.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td *ngIf="localform.value.data[GlobalIndex(i)].modeoftravel=='Road'">
+                  <fieldset>
+                    <mat-form-field floatLabel="never">
+                      <mat-select placeholder="Subcatogory" [disabled]="approver" (click)="getsubcatogorychange(i)"
+                        formControlName="subcatogory">
+                        <mat-option *ngFor="let subcat of roadlist" [value]="subcat.value">
+                          {{subcat.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </fieldset>
+                </td> -->
+                <!-- <td>
+                  <fieldset>
+                    <mat-form-field floatLabel="never">
+                      <mat-select placeholder="Center" [disabled]="center_check(i) || approver "
+                        formControlName="center">
+                        <mat-option *ngFor="let center of centerList" (focusout)="centerselect(center,i)"
+                          [value]="center.value">
+                          {{center.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </fieldset>
+                </td> -->
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <input matInput required placeholder="From Place" (keypress)="omit_special_char($event)"
+                        formControlName="fromplace">
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <input matInput required placeholder="To Place" (keypress)="omit_special_char($event)"
+                        formControlName="toplace">
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <input matInput required placeholder="Distance" 
+                        (keyup)="centerselect(i)"  (keypress)="numberOnly($event)"
+                        formControlName="distance">
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <input matInput  placeholder="Bill No"
+                        formControlName="billno">
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field *ngIf="limitcheck(i)===false" floatLabel="never">
+                      <textarea matInput rows="1" cols="40" 
+                        placeholder="Remarks" formControlName="remarks" autocomplete="off">
+                </textarea>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="limitcheck(i)===true" floatLabel="never">
+                      <textarea matInput rows="1" cols="40" 
+                        placeholder="Remarks*" formControlName="remarks" autocomplete="off" [required]="true">
+                </textarea>
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                <!-- <td>
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <mat-select required placeholder="Onward/Return" [disabled]="approver"
+                        formControlName="onwardreturn">
+                        <mat-option *ngFor="let onward of onwardLists" [value]="onward.value">
+                          {{onward.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </fieldset>
+                </td> -->
+                <!-- <td *ngIf="approver && applevel >= 1">
+                  <fieldset [disabled]="approver">
+                    <mat-form-field floatLabel="never">
+                      <input required matInput placeholder="Eligibleamount" formControlName="eligibleamount">
+                    </mat-form-field>
+                  </fieldset>
+                </td> -->
+                <td>
+                  <fieldset [disabled]="approver || eligcheck(i)">
+                    <mat-form-field floatLabel="never" id="amountlen">
+                      <mat-icon [ngStyle]="{'color':limitcheck(i) === false ? 'black' : 'red' }" matPrefix
+                        id="rupee">currency_rupee</mat-icon>
+                      <input [ngStyle]="{'color':limitcheck(i) === false ? 'black' : 'red' }" matInput
+                        placeholder="Claim Amount" (keyup)="exceednot(i)" (keypress)="numberOnly($event)" #clamt (blur)="decs(clamt,i,$event)"
+                        formControlName="claimedamount" required>
+                    </mat-form-field>
+                  </fieldset>
+                </td>
+                
+                <td *ngIf="!approver">
+                  <button mat-icon-button [disabled]="localform.get('data')['controls'].length== 1"
+                    (click)="getdelete(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+                <!-- <td *ngIf="approver && applevel >= 1">
+                  <fieldset [disabled]="statusid > 2">
+                    <mat-form-field floatLabel="never">
+                      <input matInput formControlName="approvedamount" (keydown)="nospace($event);zero($event)"
+                        placeholder="ApproverAmount">
+                    </mat-form-field>
+                  </fieldset>
+                </td> -->
+
+              </tr>
+            </tbody>
+          </table>
+          <div class="pagination">
+            <pagination-controls responsive="true" (pageChange)="p = $event"></pagination-controls>
+          </div>
+        </div>
+        <div style="margin-top: 50px;" class="col-md-12 text-center">
+          <button *ngIf='!approver' type="submit" [disabled]="localform.get('data')['controls'].length== 0" id="primarybtn"
+            style="margin-left: 10px;" class="btn btn-light"
+            (click)="submitcall()">Submit</button>
+
+          <!-- <button *ngIf="approver && applevel >= 1" class="btn btn-light" id="primarybtn"
+          style="border-color: black; background-color: green; color: white;" 
+            (click)="localconveyance()">Approve</button> -->
+          <button type="button" class="btn btn-light" (click)="back()" id="secondarybtn"
+            style="margin-left: 10px;">Back</button>
+        </div>
+
+      </form>
+    </div>
+  </div></mat-card>
+</div>
+<!-- <pre>
+      {{localform.value|json}}
+  </pre> -->
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 1.5)" size="default" type="la-ball-scale-multiple la-3x">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner> -->

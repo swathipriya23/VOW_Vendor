@@ -1,0 +1,12 @@
+.modal-dialog .modal-content {
+    width: 1116px !important;
+    margin-left: -213px !important;
+}
+::ng-deep { .cdk-global-overlay-wrapper, .cdk-overlay-container { z-index: 9999!important; } }
+
+// input[type=number]::-webkit-inner-spin-button, 
+// input[type=number]::-webkit-outer-spin-button { 
+//   -webkit-appearance: none; 
+//   margin: 0; 
+// }
+ 

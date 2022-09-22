@@ -1,0 +1,550 @@
+<!-- <div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h2 style="margin-left: 30px;font-size:25px;font-family:Times New Roman;fond-weight:bold;color:blue">
+      Product EditForm
+    </h2><hr>
+    <div>
+        <form [formGroup]="productCreateForm" (ngSubmit)="productEditForm()" autocomplete="off">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 200px;margin-left: 10px;">
+                                <mat-label>Code</mat-label>
+                                <input matInput placeholder="Code" [readonly] = "true" formControlName="code" autocomplete="off" readonly>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 10px;">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>Productcategory</mat-label>
+                                <input #productcatInput placeholder="Select Productcategory" matInput formControlName="productcategory_id" autocomplete="off"
+                                [matAutocomplete]="pdtcat">
+                            <mat-autocomplete #pdtcat="matAutocomplete" [displayWith]="displayFnPdtcategory" (opened)="PdtcategoryScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let procat of productcatlist" [value]="procat">{{procat.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>Producttype</mat-label>
+                                <input #producttypeInput placeholder="Select Producttype" matInput formControlName="producttype_id" autocomplete="off"
+                                [matAutocomplete]="pdttype">
+                            <mat-autocomplete #pdttype="matAutocomplete" [displayWith]="displayFnProducttype" (opened)="ProducttypeScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let protype of producttypelist" [value]="protype">{{protype.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 10px;">
+                                <mat-label>APCategory</mat-label>
+                                <input #apcaatInput placeholder="Select APCategory" matInput formControlName="category_id"
+                                [matAutocomplete]="apcat">
+                            <mat-autocomplete #apcat="matAutocomplete" [displayWith]="displayFnApcategory" (opened)="ApcategoryScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let cat of categorylist" [value]="cat" >{{cat.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>APSubCategory</mat-label>
+                                <input #apsubcaatInput placeholder="Select APSubCategory" matInput formControlName="subcategory_id"
+                                [matAutocomplete]="apsubcat">
+                            <mat-autocomplete #apsubcat="matAutocomplete" [displayWith]="displayFnApsubcategory" (opened)="ApsubcategoryScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let sub of subcatlist" [value]="sub">{{sub.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>UOM</mat-label>
+                                <input #uomInput placeholder="Select UOM" matInput formControlName="uom_id"
+                                [matAutocomplete]="uomm">
+                            <mat-autocomplete #uomm="matAutocomplete" [displayWith]="displayFnUOM" (opened)="UOMScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let uom of uomlist" [value]="uom">{{uom.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 10px;">
+                                <mat-label>HSN</mat-label>
+                                <input matInput placeholder="unitprice" formControlName="hsn" 
+                                autocomplete="off" pattern="^\d*(\.\d{0,2})?$" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>UnitPrice</mat-label>
+                                <input matInput placeholder="unitprice" formControlName="unitprice" autocomplete="off" pattern= "^\d{1,5}(\.\d{1,2})?$" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>Weight</mat-label>
+                                <input matInput placeholder="weight" formControlName="weight" autocomplete="off"
+                                    pattern= "^\d{1,5}(\.\d{1,2})?$" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                 >Submit</button>
+            <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+            
+        </form>
+    </div>
+</div> -->
+<div style="margin-left: 10px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h3 style="margin-left: 30px;font-size:25px;font-family:Times New Roman;font-weight:bold;color:blue">
+        Product Edit Form
+    </h3>
+    <hr>
+</div>
+<div>  
+ <form [formGroup]="productForm" (ngSubmit)="productCreateForm()" autocomplete="off">
+           
+                <div class="col-12 row">
+                    <div class="col-md-2">
+                        <mat-form-field >
+                            <mat-label>Product Code:</mat-label>
+                            <input type="text" formControlName="code" readonly matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field >
+                            <mat-label>Product Type</mat-label>
+                            <input type="text" matInput  formControlName="product_type" (click)="getproducttypedata()" [matAutocomplete]="protype">
+                            <mat-autocomplete #protype="matAutocomplete" [displayWith]="displayproducttype">
+                                <mat-option *ngFor="let d of producttypearray" [value]="d" (focusout)="getproductdatatypefocus()">{{d.name}}</mat-option>
+
+                            </mat-autocomplete>
+                            <!-- <mat-select formControlName="product_type">
+                                <mat-option value="Goods & Service">Goods & Service</mat-option>
+                                <mat-option value="Goods">Goods</mat-option>
+                                <mat-option value="Service">Service</mat-option>
+                            </mat-select> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field style="width: 300px;">
+                            <mat-label>Product Main Category</mat-label>
+                            <input type="text"  matInput formControlName="product_main_cat"  #productcategorydatavalue [matTooltip]="productcategorydatavalue.value" required [matAutocomplete]="catgorydata" (click)="getproductcategorydata()">
+                       
+                        <mat-autocomplete #catgorydatascroll #catgorydata="matAutocomplete" [displayWith]="displatproductcategory" (opened)="getproductcategorydatascroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let sub of prodcutcategorylist" [value]="sub" (focusout)="getproductdatafocus()">{{sub.product_category}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                        <button type="button" mat-mini-fab style="border-radius: 40px;background-color: rgb(162, 206, 162);" data-toggle="modal" data-target="#productmodal"><mat-icon>add</mat-icon></button>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field style="width: 300px;">
+                            <mat-label>Product Subcategory</mat-label>
+                            <input type="text"  #productsubcategorydatavalue [matTooltip]="productsubcategorydatavalue.value" matInput formControlName="product_subcat" required [matAutocomplete]="subcatgorydata" (click)="getproductsubcategorydataclick()">
+                            <mat-autocomplete #subcatgorydatascroll #subcatgorydata="matAutocomplete" [displayWith]="displayproductsubcategory" (opened)="getproductsubcategorydata()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let sub of productsubcatlist" [value]="sub" (focusout)="getproductsubcaterydats(sub)" >{{sub.product_subcategory}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <button type="button" mat-mini-fab style="border-radius: 40px;background-color: rgb(178, 223, 178);" data-toggle="modal" data-target="#productmodalsub"><mat-icon>add</mat-icon></button>
+
+                    </div>
+                    </div>
+                <br>
+                 <div class="col-12 row">
+                   <div class="col-md-3">
+                       
+                            <mat-form-field  style="width: 250px;">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
+                            </mat-form-field>
+                        </div>
+                        <!-- <div class="col-md-3">
+                       
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>Productcategory</mat-label>
+                                <input #productcatInput placeholder="Select Productcategory" matInput formControlName="productcategory_id" autocomplete="off"
+                                [matAutocomplete]="pdtcat">
+                            <mat-autocomplete #pdtcat="matAutocomplete" [displayWith]="displayFnPdtcategory" (opened)="PdtcategoryScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let procat of productcatlist" [value]="procat">{{procat.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </div> -->
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>Product Trading Item</mat-label>
+                                <mat-select formControlName="product_tradingitem">
+                                    <mat-option value="Yes">Yes</mat-option>
+                                    <mat-option value="No">No</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>Product Display Name</mat-label>
+                                <input #producttypeInput placeholder="Select Producttype" matInput formControlName="producttype_id" autocomplete="off"
+                                ><!--[matAutocomplete]="pdttype"-->
+                            <!-- <mat-autocomplete #pdttype="matAutocomplete" [displayWith]="displayFnProducttype" (opened)="ProducttypeScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let protype of producttypelist" [value]="protype">{{protype.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete> -->
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>HSN</mat-label>
+                                <input matInput  #hsninput formControlName="hsn_id" 
+                                autocomplete="off" pattern="^\d*(\.\d{0,2})?$"  [matAutocomplete]="apcathsn" (click)="gethsndata()">
+                                <mat-autocomplete #apcathsn="matAutocomplete" [displayWith]="displayhsncodeData" (opened)="getproducthsnscrool()" >
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let cat of producthsndata" [value]="cat" >{{cat.code}}-{{cat.igstrate}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-12 row">
+                       
+                    
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>AP Category</mat-label>
+                                <input #apcaatInput placeholder="Select APCategory" matInput formControlName="category_id" (click)="getApcateValue('')"
+                                [matAutocomplete]="apcat">
+                            <mat-autocomplete #apcat="matAutocomplete" [displayWith]="displayFnApcategory" (opened)="ApcategoryScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let cat of categorylist" [value]="cat" (onSelectionChange)="getApSubcateValue(cat.id)">{{cat.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                       
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>AP Subcategory</mat-label>
+                                <input #apsubcaatInput placeholder="Select APSubCategory" matInput formControlName="subcategory_id"
+                                [matAutocomplete]="apsubcat">
+                            <mat-autocomplete #apsubcat="matAutocomplete" [displayWith]="displayFnApsubcategory" (opened)="ApsubcategoryScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let sub of subcatlist" [value]="sub">{{sub.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>UOM</mat-label>
+                                <input #uomInput placeholder="Select UOM" matInput formControlName="uom_id"
+                                [matAutocomplete]="uomm">
+                            <mat-autocomplete #uomm="matAutocomplete" [displayWith]="displayFnUOM" (opened)="UOMScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let uom of uomlist" [value]="uom">{{uom.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                       
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>Unit Price</mat-label>
+                                <input matInput placeholder="unitprice" formControlName="unitprice" 
+                                autocomplete="off" pattern="^\d*(\.\d{0,2})?$" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <br>
+                        <div class="col-12 row">
+                            
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>Weight</mat-label>
+                                <input matInput placeholder="weight" formControlName="weight" autocomplete="off"
+                                    required>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 220px;">
+                                <mat-label>Choose Specification</mat-label>
+                                <input matInput placeholder="unitprice" formControlName="specificationstype" 
+                                autocomplete="off"  (click)="getproductspecificationclick()" #specification [matAutocomplete]="specitype">
+                                <mat-autocomplete #specificationtye #specitype="matAutocomplete" (opened)="getproductspecificationscrool()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                        <ng-container *ngIf="!isLoading">
+                                            <mat-option *ngFor="let uom of productspecificationArray" [value]="uom.template_name">{{uom.template_name}}
+                                            </mat-option>
+                                        </ng-container>
+                                </mat-autocomplete>
+
+                            </mat-form-field>
+                            <button type="button" mat-mini-fab style="border-radius: 40px;background-color: rgb(162, 206, 162);"  data-toggle="modal" data-target="#productmodalsubspe"><mat-icon>add</mat-icon></button>
+
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>Configuration</mat-label>
+                                <input matInput  formControlName="configuration" 
+                                autocomplete="off" >
+                            </mat-form-field>
+                        </div>
+                        <button *ngIf="productForm.get('configuration').value !='' "type="button" style="border-radius: 40px;background-color: rgb(162, 206, 162);height: 30px;" (click)="clicktablevisible()"><mat-icon>add</mat-icon></button>
+                </div>
+                <br>
+                <div style="float: right;">
+                    <mat-checkbox  formControlName="product_isblocked" value="IS_BLOCKED" color="accent">IS BLOCKED</mat-checkbox>&nbsp;&nbsp;
+                    <mat-checkbox formControlName="product_isrcm" value="IS_RCM" color="accent">IS RCM</mat-checkbox>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div *ngIf="table_visible">
+                            <table class="table table-bordered " style="width: 50%;">
+                                <tr class="table_header">
+                                    <th>S.No</th>
+                                    <th>Specification(s)</th>
+                                    <th>Configuration(s)</th>
+                                    <th>Delete</th>
+                                </tr>
+                                <tr *ngFor="let d of e | keyvalue;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{d.key}}</td>
+                                    <td>{{d.value}}</td>
+                                    <td><button type="button" (click)="deletedata(d.key)" style="border: none;background: none;"><mat-icon>delete</mat-icon></button></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit"  class="btn btn-outline-success text-center"
+                        style="border-radius: 40px;margin-left: 10px;">Submit</button>
+                        <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary text-center"
+                            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+                    </div>
+                </div>
+               
+
+ </form>
+
+</div>
+<div class="modal fade" id="productmodal" data-backdrop="static" data-keyboard="false"  
+        role="dialog" tabindex="-5">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form [formGroup]="productcategorydetails">
+                <div class="modal-header" style="background-color:rgb(33, 226, 217)">
+                    <h2 class="modal-title" style="font-weight:bold;font-family:Times New Roman;font-size:20px;margin-left:30%;">Product Main Category Details</h2>
+                    <button #modalclose class="close" type="button" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    
+                        <div class="row">
+                        
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-label>Product Category Name</mat-label>
+                                    <input type="text" formControlName="namess"  matInput required >
+                                </mat-form-field>
+                            </div>
+                        <div class="col-md-4">
+                                <mat-form-field>
+                                    <mat-label>Product Category StockImpact</mat-label>
+                                    <mat-select formControlName="productstockimpact">
+                                        <mat-option value="Yes">Yes</mat-option>
+                                        <mat-option value="No">No</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                         <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-label>Product Category Division</mat-label>
+                                    <mat-select formControlName="productdivision">
+                                        <mat-option value="Goods & Service">Goods & Service</mat-option>
+                                        <mat-option value="Goods">Goods</mat-option>
+                                        <mat-option value="Service">Service</mat-option>
+                                    </mat-select>
+                                    <!-- <input type="text" matInput formControlName="productdivision" required> -->
+                                </mat-form-field>
+                            </div>
+                    
+                    </div>
+               
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="createproductcategory()" class="btn btn-outline-success text-center">Submit</button>
+                    <button type="button" class="btn btn-outline-danger text-center" data-dismiss="modal">Cancel</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div> 
+<div class="modal fade" id="productmodalsub" data-backdrop="static" data-keyboard="false"  
+        role="dialog" tabindex="-5">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form [formGroup]="productsubcatdetails">
+                <div class="modal-header" style="background-color:rgb(36, 224, 238)">
+                    <h2 class="modal-title" style="font-weight:bold;font-family:Times New Roman;font-size:20px;margin-left:30%;">Product SubCategory Details</h2>
+                    <button #modalclosen class="close" type="button" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    
+                        <div class="row">
+                        
+                            <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-label>Product Category Name</mat-label>
+                                    <input type="text" formControlName="productcat"  matInput required [matAutocomplete]="pdtcat" (click)="getproductdetailsdata()">
+                                    <mat-autocomplete #pdtcat="matAutocomplete" [displayWith]="displatproductcategory" (opened)="PdtcategoryScroll()">
+                                        <!-- <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                        <ng-container *ngIf="!isLoading">
+                                            <mat-option *ngFor="let procat of productcatlist" [value]="procat">{{procat.name}}
+                                            </mat-option>
+                                        </ng-container> -->
+                                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                        <ng-container *ngIf="!isLoading">
+                                            <mat-option *ngFor="let sub of productcatlist" [value]="sub">{{sub.product_category}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                        <!-- <div class="col-md-4">
+                                <mat-form-field>
+                                    <mat-label>Product Category Impact</mat-label>
+                                    <mat-select formControlName="productcat">
+                                        <mat-option value="Yes">Yes</mat-option>
+                                        <mat-option value="No">No</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div> -->
+                         <div class="col-md-3">
+                                <mat-form-field>
+                                    <mat-label>Product SubCategory Name</mat-label>
+                                    <input type="text"  matInput formControlName="productcatname" required>
+                                </mat-form-field>
+                            </div>
+                    
+                    </div>
+               
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="createproductsubcategoryData()" class="btn btn-outline-success">Submit</button>
+                    <button type="button" class="close" data-dismiss="modal" class="btn btn-outline-danger">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div> 
+<div class="modal fade" id="productmodalsubspe" data-backdrop="static" data-keyboard="false"  
+        role="dialog" tabindex="-5">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form [formGroup]="productForm">
+                <div class="modal-header" style="background-color:rgb(87, 240, 232)">
+                    <h2 class="modal-title" style="font-weight:bold;font-family:Times New Roman;font-size:20px;margin-left:30%;">Add a new Specification</h2>
+                    <button #modalcloses class="close" type="button" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    
+                        <div class="row">
+                        
+                            <div class="col-md-3">
+                                <mat-form-field style="width:280px">
+                                    <mat-label>New Specifications</mat-label>
+                                    <input type="text"  matInput formControlName="specificationed" required >
+                                </mat-form-field>
+                            </div>
+                    </div>
+               
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="createspecificationsdata()" class="btn btn-outline-success">Submit</button>
+                    <button type="button" class="close" data-dismiss="modal" class="btn btn-outline-danger">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div> 
+<!-- <div *ngIf="table_visible">
+    <table class="table table-bordered " style="width: 50%;">
+        <tr class="table_header">
+            <th>S.No</th>
+            <th>Specification(s)</th>
+            <th>Configuration(s)</th>
+            <th>Delete</th>
+        </tr>
+        <tr *ngFor="let d of table_data;">
+            <td>{{d.No}}</td>
+            <td>{{d.Specification}}</td>
+            <td>{{d.Configuration}}</td>
+            <td><button type="button" (click)="deletedata(d.No)" style="border: none;background: none;"><mat-icon>delete</mat-icon></button></td>
+        </tr>
+    </table>
+</div> -->

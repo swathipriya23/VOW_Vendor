@@ -1,0 +1,465 @@
+<div class="container">
+    <div>
+        <h2>DSS Report</h2>
+       
+    </div>
+    <div class="col-md-12">
+        <div class="row">
+            <div [hidden]="average">
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="picker1" [formControl]="dssreport_date" 
+                         readonly required>
+                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker1 startView="multi-year"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            </div>
+            <div [hidden]="!average">
+                <form [formGroup]="dssaverage">
+    <div class="col-md-12">
+
+        <div class="row">
+
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>From Date</mat-label>
+                        <input matInput [matDatepicker]="from_date" (dateChange)="fromdatechanges()" [max]="current_date" formControlName="averagefrom_date" 
+                             readonly required>
+                        <mat-datepicker-toggle matSuffix [for]="from_date">
+                            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #from_date startView="multi-year"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>To Date</mat-label>
+                        <input matInput [matDatepicker]="to_date" [max]="current_date" [min]="dssaverage?.value?.averagefrom_date" formControlName="averageto_date" 
+                             readonly required>
+                        <mat-datepicker-toggle matSuffix [for]="to_date">
+                            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #to_date startView="multi-year"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                </div>
+                </div>
+            </form>
+            </div>
+            <div class="col-md-2">
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" (change)="report_to_average($event)">Average</mat-checkbox>
+                </section>
+            </div>
+            <div class="col-md-2">
+                <div style="text-align: center;cursor: pointer;">
+                    <button class="btn btn-outline-primary" style="border-radius: 40px;"
+                        (click)="dss_summary_search(dssreport_date.value,1)">
+                        Search
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div style="text-align: center;cursor: pointer;">
+                    <button class="btn btn-outline-primary" style="border-radius: 40px;"
+                        (click)="dss_summary_clear()">
+                        Clear
+                    </button>
+                </div>
+            </div>
+            <div  class="col-md-1" [hidden]="!upload_dss">
+                <button class="btn btn-outline-primary" matTooltip="Upload"
+                    style="border-radius: 40px;" data-toggle="modal" 
+                    data-target=".bd-fileupload-modal-lg"><i class="fa fa-upload"
+                        aria-hidden="true"></i></button>
+            </div>
+        </div>
+    </div>
+    
+    <div >
+        <!-- <div style="text-align: start; font-weight: bold ;color:hsl(211, 100%, 50%)" [hidden]="!dssuploaddetails"></div> -->
+        <div>
+    <div style="font-weight: bold ;color:hsl(211, 100%, 50%)" [hidden]="!dss_report"><span style="text-align: start; font-weight: bold ;color:hsl(211, 100%, 50%)" [hidden]="!dssuploaddetails"> Error: The following GLs are not maintained in DSS Master</span><span style="float: right;"> Amounts In Crores &nbsp;&nbsp;&nbsp; <button class="btn btn-outline-primary" style="border-radius: 40px;margin-left: 40px
+    ;" (click)="export()" matTooltip="Download" *ngIf="dss_report_data?.length!=0 || filedata?.length!=0"><i class="fa fa-download"
+                    aria-hidden="true"></i></button></span>
+                    </div>
+</div>
+    <div class="table-responsive" class="tablescroll" [hidden]="!dss_report_view"
+        style="margin-top: 2%;width: 100%;max-height: 450px; margin-left: 10px; margin-bottom: 2%;overflow: auto;">
+        <table #tabledata  class="table table scrolltable table-bordered" style="width: 99%; margin-top: 20px;top: 0; position: sticky;"  id ='commonstyle'>
+            <thead class="table_header" style="    top: 0;position: sticky;">
+                <!-- <tr style="display: none;text-align: center;" colspan="10">Data</tr> -->
+                <tr style="white-space: nowrap;">
+                    <th class="chageview" (click)="dss_report_change(!changeview)">Name</th>
+                    <th>{{dss_date}}</th>
+                    <th>{{end_date}}</th>                 
+                    <th>Daily Growth &nbsp;(%)</th>
+                    <th>Prior Month Balance</th>
+                    <th>MTD Growth &nbsp;(%)</th>
+                    <th>Month Plan</th>
+                    <th>B/(W) M Plan</th>
+                    <th>FYP</th>
+                    <th>B/(W) FYP</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let dssreport of dss_report_data;index as i" >
+                <tr>
+                    <td [ngStyle]="{'padding-left':dssreport.Padding_left}">
+
+                        <div *ngIf="dssreport.Padding_left=='10px';else first">
+                            <a [style]="{ color: dssreport.color }"
+                            class="ng-binding"
+                            (click)="changeview ? treelevel_click(i,dssreport,dss_report_data) :'' ">
+                            {{dssreport?.name}}</a>
+                        </div>
+                        <ng-template #first>
+                            <div *ngIf="dssreport.Padding_left=='50px';else secound">
+                                <a [style]="{ color: dssreport.color }"
+                                class="ng-binding"
+                                (click)="changeview ? treelevel_click(i,dssreport,dss_report_data) : ''">
+                                {{dssreport?.name}}</a>
+                            </div>
+                        </ng-template>
+                        <ng-template #secound>
+                            <div style="color:'blue'" *ngIf="dssreport.Padding_left=='100px';else third">
+                                <a [style]="{ color: dssreport.color }"
+                                class="ng-binding"
+                                (click)="changeview ? treelevel_click(i,dssreport,dss_report_data) : '' ">
+                                {{dssreport?.name}}</a>
+                            </div>
+                        </ng-template>
+                        <ng-template #third>
+                            <div style="color:'black'" *ngIf="dssreport.Padding_left=='120px' && dssreport?.gl=='true';else four">
+                                <a (click)="changeview ? treelevel_click(i,dssreport,dss_report_data) : '' ">{{dssreport?.name}}</a>
+                            </div>
+                        </ng-template>
+                        <ng-template #four>
+                            <div *ngIf="dssreport.Padding_left=='120px' && dssreport?.gl=='false';else five" [style]="{ color: dssreport.color }">
+                           
+                                {{dssreport?.name}}
+                            </div>
+                        </ng-template>
+                        <ng-template #five>
+                            <div  [style]="{ color: dssreport.color }">
+                           
+                                Profit Or Loss
+                            </div>
+                        </ng-template>
+                        <!-- <div *ngIf="dssreport.Padding_left!='130px' || (dssreport.Padding_left=='120px' && dssreport?.gl==false)"> <a [style]="{ color: dssreport.color }"
+                            class="ng-binding"
+                            (click)="treelevel_click(i,dssreport,dss_report_data)">
+                            {{dssreport?.name}}1</a>
+                        </div>
+                        <div *ngIf="dssreport.Padding_left=='120px' && dssreport?.gl==false" [style]="{ color: dssreport.color }">
+                           
+                            {{dssreport?.name}}2
+                        </div>
+                        <div *ngIf="dssreport.Padding_left=='120px' && dssreport?.gl==true" [style]="{ color: dssreport.color }">
+                            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                Link with href
+                              </a> -->
+                           <!-- <a (click)="treelevel_click(i,dssreport,dss_report_data)">{{dssreport?.name}}</a>  -->
+                        <!-- </div>
+                        <div *ngIf="dssreport.Padding_left=='130px'"  [style]="{ color: dssreport.color }">
+                           
+                            {{dssreport?.name}}3
+                        </div> -->
+                    </td>
+                  <ng-container *ngFor="let headername of header_name">
+                        <td class="tablechange"  style="text-align: right;white-space: nowrap;">
+                            <ng-container *ngFor="let val of dssreport.value">
+                                <ng-container class="tsbleshow"
+                                    *ngIf="val?.date == headername">
+                                    <div *ngIf="dssreport.Padding_left=='130px';else closingelse">
+                                        <div *ngIf="val.closing_balance==0" style="color:#66bb6a">{{0.00 | number:'1.2-2'}} </div>
+                                        <div *ngIf="val.closing_balance!=0" [matTooltip]="val.closing_balance"  [ngStyle]="{'color': val.closing_balance>=0 ? '#66bb6a' : 'red'}">
+                                            {{val.closing_balance/10000000 | number:'1.2-2'}}</div>
+                                    </div>
+                                    <ng-template #closingelse style="color:'#000'">
+                                        <div *ngIf="val.closing_balance==0">{{0.00 | number:'1.2-2' }} </div>
+                                        <div *ngIf="val.closing_balance!=0">{{val.closing_balance/10000000 | number:'1.2-2'}}</div>
+                                    </ng-template>
+                                </ng-container>
+                            </ng-container>
+                        </td>
+                    </ng-container>
+                    <!-- Growth -->
+                    <td class="tablechange" style="text-align: right;white-space: nowrap;">
+                        <ng-container class="tsbleshow"
+                          ><div >
+                              <!-- <div *ngIf="growth.opening_balance==0">0.00</div> -->
+                             
+                                <div *ngIf="dssreport.Padding_left=='130px';else mtdblance" > 
+                                   <div *ngIf="dssreport.value[1].closing_balance!=0"  [ngStyle]="{'color': dssreport.value[0].closing_balance >=0 ? '#66bb6a' : 'red'}" [matTooltip]="growth_uses" >
+                                    {{((dssreport.value[0].closing_balance - dssreport.value[1].closing_balance) / dssreport.value[1].closing_balance) * 100 | number:'1.2-2'}}
+                                    </div>
+                                    <div *ngIf="dssreport.value[1].closing_balance==0" style="color:#66bb6a">{{0.00 | number:'1.2-2'}}</div>
+                                </div>
+                                <ng-template #mtdblance style="color:'#000'">
+                                    <div *ngIf="dssreport.value[1].closing_balance!=0"> 
+                                    <div>{{((dssreport.value[0].closing_balance - dssreport.value[1].closing_balance) / dssreport.value[1].closing_balance) * 100 | number:'1.2-2'}}</div>
+                                    </div>
+                                    <div *ngIf="dssreport.value[1].closing_balance==0">{{0.00 | number:'1.2-2'}}</div>
+                                </ng-template>
+
+                            
+
+                          
+                          </div>
+                        </ng-container>
+                      </td>
+                    <td style="text-align: right;white-space: nowrap;">
+                        <div *ngIf="dssreport.Padding_left=='130px';else monthbal">
+                            <div *ngIf="dssreport?.value[0].opening_balance==0" style="color:#66bb6a">{{0.00 | number:'1.2-2'}}</div>
+                            <div *ngIf="dssreport?.value[0].opening_balance!==0"  [matTooltip]="dssreport?.value[0].opening_balance" [ngStyle]="{'color': dssreport?.value[0].opening_balance >= 0 ? '#66bb6a' : 'red' }">
+                                {{dssreport?.value[0].opening_balance/10000000 | number:'1.2-2'}}</div>
+                        </div>
+                        <ng-template #monthbal style="color:#000">
+                            {{dssreport?.value[0].opening_balance/10000000 | number:'1.2-2'}}
+                        </ng-template>
+                    </td>
+                    <td class="tablechange" style="text-align: right;white-space: nowrap;" >
+                        <ng-container *ngFor="let growth of dssreport.value"
+                          ><div *ngIf="growth?.date == header_name[0]">
+                            <div *ngIf="dssreport.Padding_left=='130px';else growthamount" >
+                               <div *ngIf="growth?.opening_balance==0" style="color:#66bb6a">{{0.00 | number:'1.2-2'}}</div> 
+                               <div *ngIf="growth?.opening_balance!=0"  [matTooltip]="uses_mtd" [ngStyle]="{'color': uses_mtd >= 0 ? '#66bb6a' : 'red' }">
+                                {{((growth?.closing_balance - growth?.opening_balance) /
+                                growth?.opening_balance) *
+                                  100 | number:'1.2-2'
+                              }}</div>
+                            </div>
+                            <ng-template #growthamount style="color:#000">
+                              <div *ngIf="growth?.opening_balance==0">{{0.00 | number:'1.2-2'}}</div>
+                              <div *ngIf="growth?.opening_balance!=0"> {{
+                                ((growth?.closing_balance - growth?.opening_balance) /
+                                growth?.opening_balance) *
+                                  100 | number:'1.2-2'
+                              }}</div>
+                           </ng-template>
+                          </div>
+                        </ng-container>
+                      </td>
+                    <td class="tablechange" style="text-align: right;white-space: nowrap;" >
+                        <div *ngIf="dssreport.Padding_left=='130px';else monthpal">
+                            <div *ngIf="dssreport.value[0].month_plan==0" style="color:#66bb6a">{{0.00 | number:'1.2-2'}}</div>
+                            <div *ngIf="dssreport.value[0].month_plan!==0"  [matTooltip]="dssreport.value[0].month_plan" [ngStyle]="{'color': dssreport.value[0].month_plan >= 0 ? '#66bb6a' : 'red' }">
+                                {{dssreport.value[0].month_plan/10000000 | number:'1.2-2'}}</div>
+                        </div>
+                        <ng-template #monthpal style="color:#000">
+                            {{dssreport.value[0].month_plan/10000000 | number:'1.2-2'}}
+                        </ng-template>
+                    </td>
+                    <td class="tablechange" style="text-align: right;white-space: nowrap;" >
+                        <div>
+                            <div *ngIf="dssreport.Padding_left=='130px';else elsestatmentvalue" >
+                            <div *ngIf="dssreport.value[0].closing_balance-dssreport.value[0].month_plan==0" style="color:#66bb6a">
+                                {{0.00 | number:'1.2-2'}}
+                            </div>
+                            <div *ngIf="dssreport.value[0].closing_balance-dssreport.value[0].month_plan!=0"  [matTooltip]="dssreport.value[0].closing_balance-dssreport.value[0].month_plan" [ngStyle]="{'color': dssreport.value[0].closing_balance-dssreport.value[0].month_plan >= 0 ? '#66bb6a' : 'red' }">
+                                 {{(dssreport.value[0].closing_balance-dssreport.value[0].month_plan)/10000000 | number:'1.2-2'}}
+                            </div>
+                         </div>
+                         <ng-template #elsestatmentvalue style="color:#000">
+                            <div *ngIf="dssreport.value[0].closing_balance-dssreport.value[0].month_plan==0">
+                                {{0.00 | number:'1.2-2'}}
+                            </div>
+                            <div *ngIf="dssreport.value[0].closing_balance-dssreport.value[0].month_plan!=0">
+                                {{(dssreport.value[0].closing_balance-dssreport.value[0].month_plan)/10000000 | number:'1.2-2'}}
+                            </div>
+                         </ng-template>
+                        </div>
+                    </td>
+                    <td class="tablechange" style="text-align: right;white-space: nowrap;" >
+                        <div *ngIf="dssreport.Padding_left=='130px';else fyp" >
+                            <div *ngIf="dssreport.value[0].fyp_amount==0" style="color:#66bb6a">
+                                {{0.00 | number:'1.2-2'}}
+                            </div>
+                            <div *ngIf="dssreport.value[0].fyp_amount!=0"  [matTooltip]="dssreport.value[0].fyp_amount" [ngStyle]="{'color': dssreport.value[0].fyp_amount >= 0 ? '#66bb6a' : 'red' }">
+                                  {{(dssreport.value[0].fyp_amount)/10000000 | number:'1.2-2'}}
+                            </div>
+                         </div>
+                         <ng-template #fyp style="color:#000">
+                            <div *ngIf="dssreport.value[0].fyp_amount==0">
+                                {{0.00 | number:'1.2-2'}}
+                            </div>
+                            <div *ngIf="dssreport.value[0].fyp_amount!=0">
+                                {{(dssreport.value[0].fyp_amount)/10000000 | number:'1.2-2'}}
+                            </div>
+                         </ng-template>
+                        
+                    </td>
+                    <td class="tablechange" style="text-align: right;white-space: nowrap;" >
+                        <div *ngIf="dssreport.Padding_left=='130px';else fypmb" >
+                        <div *ngIf="dssreport.value[0].closing_balance-dssreport.value[0].fyp_amount==0" style="color:#66bb6a">
+                            {{0.00 | number:'1.2-2'}}
+                        </div>
+                        <div *ngIf="dssreport.value[0].closing_balance-dssreport.value[0].fyp_amount!=0"  [matTooltip]="dssreport.value[0].closing_balance-dssreport.value[0].fyp_amount" [ngStyle]="{'color': dssreport.value[0].closing_balance-dssreport.value[0].fyp_amount >= 0 ? '#66bb6a' : 'red' }">
+                             {{(dssreport.value[0].closing_balance-dssreport.value[0].fyp_amount)/10000000 | number:'1.2-2'}}
+                        </div>
+                     </div>
+                     <ng-template #fypmb style="color:#000">
+                        <div *ngIf="dssreport.value[0].closing_balance-dssreport.value[0].fyp_amount==0">
+                            {{0.00 | number:'1.2-2'}}
+                        </div>
+                        <div *ngIf="dssreport.value[0].closing_balance-dssreport.value[0].fyp_amount!=0">
+                            {{(dssreport.value[0].closing_balance-dssreport.value[0].fyp_amount)/10000000 | number:'1.2-2'}}
+                        </div>
+                     </ng-template></td>
+                    <!--  
+                    <td style="text-align: end;">
+                        <div *ngIf="dssreport?.value[1]?.opening_balance!=''">{{dssreport?.value[1]?.closing_balance/10000000 | number:'1.1-2'}}</div>
+                        <div *ngIf="dssreport?.value[1]?.opening_balance==''">0.00 | number:'1.2-2'</div>
+                    </td>
+                    <td style="text-align: end;">
+                        <div *ngIf="dssreport?.value[0]?.opening_balance!=''">{{dssreport?.value[0]?.closing_balance/10000000 | number:'1.1-2'}}</div>
+                        <div *ngIf="dssreport?.value[0]?.opening_balance==''">0.00 | number:'1.2-2'</div>
+                    </td>
+                    <td style="text-align: end;">
+                        <div *ngIf="dssreport?.value[0]?.opening_balance!=''">{{((dssreport?.value[0]?.closing_balance-dssreport?.value[0]?.opening_balance)/dssreport?.value[0]?.opening_balance)*100 | number:'1.1-2'}}</div>
+                        <div *ngIf="dssreport?.value[0]?.opening_balance==''">0.00 | number:'1.2-2'</div>
+                    </td> -->
+                          <!-- <ng-container *ngFor="let cols of dssreport?.value">
+                        <td>
+                            
+                           <div *ngIf="cols.opening_balance==''">0.00 | number:'1.2-2'</div>
+                           <div *ngIf="cols.opening_balance!=''">{{cols.opening_balance}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container *ngFor="let cols of dssreport?.value">
+                        <td>
+                            
+                           <div *ngIf="cols.opening_balance=='' && cols.date==dss_date">0.00 | number:'1.2-2'</div>
+                           <div *ngIf="cols.opening_balance!='' && cols.date==dss_date">{{cols.opening_balance-cols.closing_balance}}</div>
+                        </td>
+                    </ng-container>
+                    <td>0.00 | number:'1.2-2'</td>
+                    -->
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align: center;" *ngIf="dss_report_data?.length==0">No Data Found</div>
+        
+    </div>
+    </div>
+    <div class="modal fade bd-fileupload-modal-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+    tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels">
+    <div class="modal-dialog modal-lg" style="padding-top: 7%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">DSS Report File Upload</h2>
+                <button type="button" class="close" #closepop data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+
+                <div class="card">
+                    <div class="card-body" style="margin-top: 2%;margin-bottom: 2%;">
+
+                        <div class="input-group mb-3">
+
+                            <div class="custom-file">
+                                <input type="file" [formControl]='dssreport' id="uploadFile" class="choose"
+                                (change)="upload_file($event)" accept=".xlsx">
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="card-footer">
+                        <button class="btn btn-outline-secondary" type="button"
+                            (click)="fileupload_activeclient(clientinput,1)" style="float:right ;"><i
+                                class="fas fa-file-import"></i> Active-Client File Upload
+                        </button>
+                    </div> -->
+                </div>
+
+                <!-- <input (click)="fileupload($event)" type="file"> -->
+                <!-- <input name="file-upload-field" (click)="fileupload($event)" class="file-upload-field" id="formFileSm" type="file"> -->
+            </div>
+
+
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" type="button" style="float: right;" (click)="upload()" >
+                    Upload
+                </button>
+                <button class="btn btn-outline-secondary" type="button" data-dismiss="modal" style="float: right ;"
+                    (click)="clear_filedetails()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive" class="tablescroll" [hidden]="!dssuploaddetails"
+style="margin-top: 2%;width: 100%;max-height: 300px; margin-left: 10px; margin-bottom: 2%;overflow: auto;">
+<table #tabledata  class="table table scrolltable table-bordered" style="width: 99%; margin-top: 20px;top: 0; position: sticky;"  id ='commonstyle1'>
+    <thead class="table_header" style="    top: 0;position: sticky;">
+        <tr style="white-space: nowrap;">
+           <th>gl No</th>
+           <th>Credits</th>
+           <th>Debits</th>
+           <th>Beginning Balance</th>
+           <th>Ending Balance</th>
+           <th>Description</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let filedetails of filedata;index as i" >
+        <tr>
+          <td>{{filedetails.gl_no}}</td>
+          <td>{{filedetails.credit}}</td>
+          <td>{{filedetails.debit}}</td>
+          <td>{{filedetails.opening_balance/10000000 | number:'1.2-2'}}</td>
+          <td>{{filedetails.closing_balance/10000000 | number:'1.2-2'}}</td>
+          <td>{{filedetails.description}}</td>
+        </tr>
+    </tbody>
+</table>
+<!-- <div style="text-align: center;">No Data Found</div> -->
+
+</div>
+
+
+<div class="table-responsive"  [hidden]="!average_view" class="tablescroll"  style="margin-top: 2%;width: 100%;max-height: 300px; margin-left: 10px; margin-bottom: 2%;overflow: auto;">
+     
+    <table #tabledata  class="table table scrolltable table-bordered" style="width: 99%; margin-top: 20px;top: 0; position: sticky;"  id ='average_file'>
+        <thead class="table_header" style="    top: 0;position: sticky;">
+            <tr style="white-space: nowrap;">
+               
+               <th>Name</th>
+               <th>Average Amount</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor="let average of dss_average;index as i" >
+              
+              <td [ngStyle]="{'padding-left':average.Padding_left}">
+                <div style="color: blue;" *ngIf="average.Padding_left!='120px';">
+                    <a  (click)="tree_level_average(i,average,dss_average)">
+                        {{average.name}}
+                    </a>
+                </div>
+                <div style="color: black;" *ngIf="average.Padding_left=='120px';">
+                    <a (click)="tree_level_average(i,average,dss_average)">
+                        {{average.name}}
+                    </a>
+                </div>
+              </td>
+
+              <td>{{average.value[0].average_amount/10000000 | number:'1.2-2'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+</div>

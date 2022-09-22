@@ -1,0 +1,83 @@
+/* 
+.container {
+    margin: 10px;
+}
+.headertitle{
+    margin-left: 3%;
+} 
+
+.spacebtwfield{
+    margin-left: 50px;
+}
+
+.buttonsize{
+    border-radius:40px;
+    margin-left: 50px;
+}
+
+.radiobtnwdth{
+    margin-left: 10px;
+}
+
+.plusreset{
+    margin-top: -4%;
+    margin-left: 51%;
+}
+
+th, td{
+    text-align:center;
+    white-space: nowrap;
+    padding: 10px;
+}
+
+tbody td {
+	padding: 0.5em 0.1em 0.1em;
+    white-space: nowrap;
+}
+.cursor{
+    cursor: pointer;
+}
+th, td{
+    text-align:center;
+}
+.NodataAlign{
+    text-align: center;
+}
+
+.table td.rightalign {
+    text-align: right;
+}
+
+.table td.leftalign {
+    text-align: left;
+}
+
+*/
+tbody td {
+	padding: 0.5em 0.1em 0.1em;
+}
+.cursor{
+    cursor: pointer;
+}
+th, td{
+    text-align:center;
+} 
+
+input,mat-select,textarea{
+    font-size: 15px;
+  }
+
+  mat-form-field{
+      font-size: 8px;
+  }
+  /* mat-icon{
+    cursor: pointer;
+    font-size:30px
+  } */
+
+  mat-datepicker-toggle{
+    font-size: 15px;
+  }
+
+
+

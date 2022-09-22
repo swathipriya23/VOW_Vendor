@@ -1,0 +1,111 @@
+<div style="margin-left: 4%;margin-top: 2%; width: 100%;">
+    <h2>Branch : {{employeeBranchData}} </h2>
+
+    <div style=" margin-left: 8%;margin-top: 2%;">
+        <form [formGroup]="inwardForm">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-label>Inward Date<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="picker" [max]="maxData" formControlName="date"
+                                    placeholder="Choose a date">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-label style="margin-left: 50px;">Inward From<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field style="width: 230px;margin-left: 50px;">
+                                <input matInput placeholder="Inward From" formControlName="inwardfrom"
+                                    autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-label style="margin-left: 50px;">Channel<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field style="width: 230px;margin-left: 50px;">
+                                <mat-select formControlName="channel"  placeholder="Channel" [disabled]="editFormsActive == true"
+                                (selectionChange)="ddChannelChange($event)">
+                                    <mat-option *ngFor="let channel of channelList" [value]="channel.id"
+                                        (click)="resetCourier()">
+                                        {{channel.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td>
+                            <mat-label>No of Packets<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field style="width: 230px;">
+                                <input matInput placeholder="No of packets" (keypress)="numberOnly($event)"
+                                    [readonly]="editFormsActive == true" autocomplete="off"
+                                    formControlName="noofpockets" required>
+                            </mat-form-field>
+                        </td>
+                        <!-- <td *ngIf="CourierInputvalue">
+                            <mat-form-field style="margin-left: 50px;">
+                                <mat-label>Courier</mat-label>
+                                <input matInput placeholder="Courier" formControlName="couriers" autocomplete="off"
+                                    required>
+                            </mat-form-field>
+                        </td> -->
+                        <td *ngIf="CourierDD">
+                            <mat-label style="margin-left: 50px;">Courier<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field style="width: 200px; margin-left: 50px;" (click)="getCourierFK()">
+                                <input #CourierInput placeholder="Select Courier" type="text" matInput placeholder="Courier"
+                                    formControlName="courier" [matAutocomplete]="Courier">
+                                <mat-autocomplete #Courier="matAutocomplete" [displayWith]="displayFnCourier"
+                                    (opened)="autocompleteCourierScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let Courier of CourierList" [value]="Courier">
+                                            {{Courier.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td *ngIf="CourierDD">
+                            <mat-label style="margin-left: 50px;">AWB NO<label style="color:red">*</label></mat-label><br>
+                            <mat-form-field style="margin-left: 50px;">
+                                <input matInput placeholder="AWB NO" formControlName="awbno" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+
+            </table>
+            
+
+
+
+
+
+
+
+
+
+        </form>
+    </div>
+</div>
+
+<div style="margin-left: 150px;">
+        <button type="submit" style="border-radius: 10px;margin-left: 10px;
+        border-color: #f5c68b;
+        background-color: #f5c68b;" class="btn btn-light" [disabled]="editFormsActiveAfterDetailsFinished" (click)="courierInwardForm()">Submit</button>
+    
+    <button type="button" class="btn btn-light" style="border-radius: 7px;margin-left: 10px;
+    border-color: black;
+    background-color: white;" (click)="cancel()">Cancel</button>
+
+</div>
+
+<!-- 
+<pre>
+    {{ inwardForm.value | json}}
+</pre> -->

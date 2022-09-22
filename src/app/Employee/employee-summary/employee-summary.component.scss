@@ -1,0 +1,38 @@
+.container {
+    margin-top: 1%;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+    font-size: 18px;
+    border: none !important;
+}
+
+.tab-btn {
+    margin-left: 81%;
+    position: relative;
+}
+
+.table-responsive {
+    width: 70%;
+}
+
+
+.text-color{
+    color:  #007338 
+}
+
+nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: transparent !important;
+    color: #007338 !important;
+    border: none !important;
+}
+
+.nav-tabs .nav-link:hover {
+    border: none !important;
+}
+
+.nav-tabs .nav-link {
+    border: none; 
+}
+

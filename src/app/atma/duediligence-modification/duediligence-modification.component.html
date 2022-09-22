@@ -1,0 +1,77 @@
+<div>
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+        <h3>  Changes </h3>
+        </div>
+    </div>
+
+
+    <div>
+        <div class="timeline">
+            <ul>    
+                <li *ngIf="modificationdata.action==2">
+                    <h3 style="text-align: right;">New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+                <li>
+                <div>
+                       
+                    <div class="table-responsive" style="width: 98%;margin-top: 10px;overflow-x: hidden;">
+            
+                        <table class="table" id ='commonstyle'>
+                        <thead class="table_header" >
+                            <tr>
+                            <th>Sl.no</th>
+                            <th>Requirement</th>
+                            <th>Direction No</th>
+                            <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr *ngFor="let due of duenewlist; let i = index; ">
+                                <td>{{i+1}}</td>
+                                <td [innerHtml]= "due.question">{{due.question}}</td>
+                                <td [class.changes]='due.direction!=due.old_direction'>{{due.direction}}</td>
+                                <td [class.changes]='due.remarks!=due.old_remarks'>{{due.remarks}}</td>
+                            </tr>
+                      </tbody>
+                    </table>
+                    </div>
+                </div>
+                </li>
+                <li>
+                    <div *ngIf="modificationdata.action==2">
+                        <div class="table-responsive" style="width: 98%;margin-top: 10px;overflow-x: hidden;">
+            
+                            <table class="table" id ='commonstyle'>
+                            <thead class="table_header" >
+                                <tr>
+                                <th>Sl.no</th>
+                                <th>Requirement</th>
+                                <th>Direction No</th>
+                                <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr *ngFor="let dueold of dueoldlist; let i = index; ">
+                                    <td>{{i+1}}</td>
+                                    <td [innerHtml]= "dueold.question">{{dueold.question}}</td>
+                                    <td>{{dueold.direction}}</td>
+                                    <td>{{dueold.remarks}}</td>
+                                </tr>
+                          </tbody>
+                        </table>
+                        </div>
+                        <!-- <p><code>Type of Risk</code>:&nbsp;{{ modificationdata.old_data.risktype_id.name | titlecase}}</p>
+                        <p><code>Risk Description</code>:&nbsp;{{ modificationdata.old_data.risktype_description | titlecase}}</p>
+                        <p><code>Risk Mitigant</code>:&nbsp;{{ modificationdata.old_data.risk_mitigant |titlecase}}</p>
+                        <p><code>Review mechanism of risk mitigation</code>:&nbsp;{{ modificationdata.old_data.risk_mitigant_review | titlecase}}</p>  -->
+                    </div>
+                </li>
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+</div>

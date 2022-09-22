@@ -1,0 +1,208 @@
+
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+  <h3 style="color:deeppink;">
+        Tour
+  </h3>
+      <div>
+          <form #taForm="ngForm">
+                  <table>
+                      <tr>
+                          <td>
+                              <mat-form-field  style="width: 175px;">
+                                  <mat-label>Tour No</mat-label>
+                                  <input  matInput placeholder="Tour No" name="requestno" [(ngModel)]="tourmodel.requestno"  autocomplete="off"  required>
+                              </mat-form-field>
+                          </td>
+                          <td>
+                          <mat-form-field style="width:175px;margin-left: 50px;">
+                            <mat-label>Request Date</mat-label>
+                            <input matInput [matDatepicker]="picker3"  
+                            placeholder="Start Date" autocomplete="off" [(ngModel)]="tourmodel.requestdate" name="requestdate">
+                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                           </mat-form-field>
+                      </td>
+                      </tr>
+                      <h3 style="color:deeppink;">
+                        TourDetails
+                      </h3>
+                      <tr>
+                        <td>
+                          <mat-form-field style="width: 175px;">
+                              <mat-label>Tour Reason</mat-label>
+                              <mat-select name="reason" [(ngModel)]="tourmodel.reason">
+                                  <mat-option *ngFor="let reason of reasonlist" [value]="reason.id">
+                                      {{reason.name}}
+                                  </mat-option>
+                              </mat-select>
+                          </mat-form-field>
+                        </td>
+                        <td>
+                          <mat-form-field style="width:175px;margin-left: 50px;">
+                            <mat-label>Tour StartDate</mat-label>
+                            <input matInput [matDatepicker]="picker1" (dateChange)="fromDateSelection($event.value)" 
+                            placeholder="Start Date" autocomplete="off" [(ngModel)]="tourmodel.startdate" name="startdate">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        </td>
+                        <td>
+                        <mat-form-field style="width:175px;margin-left: 50px;">
+                          <mat-label>Tour EndDate</mat-label>
+                          <input matInput [matDatepicker]="picker2" (dateChange)="toDateSelection($event.value)" 
+                          placeholder="End Date" autocomplete="off"[min]="select" [(ngModel)]="tourmodel.enddate" name="enddate">
+                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                          <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field style="width: 175px;margin-left: 50px;">
+                          <mat-label>No of TourDays</mat-label>
+                          <input matInput placeholder="No of TourDays" [(ngModel)]="tourmodel.durationdays" name="durationdays" [(ngModel)]="totall" autocomplete="off" required>
+                        </mat-form-field>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <mat-form-field style="width: 175px;">
+                        <mat-label>Orderrr No or Remarks</mat-label>
+                        <input matInput placeholder="Order No or Remarks" name="ordernoremarks" [(ngModel)]="tourmodel.ordernoremarks" autocomplete="off" required>
+                      </mat-form-field>
+                    </td> 
+                    <td> 
+                      <mat-form-field style="width: 175px;margin-left: 50px;">
+                        <mat-label>Permited By</mat-label>
+                        <input matInput placeholder="Permited By" name="permittedby" [(ngModel)]="tourmodel.permittedby" autocomplete="off" required>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              <div class="table-responsive" style="width:100%;margin-top: 1%; overflow-x: hidden;">
+                  <table class="table">
+                    <thead class="table_header">
+                      <tr>
+                        <th>StartDate</th>
+                        <th>EndDate</th>
+                        <th>Starting Point </th>
+                        <th>Place of Visit</th>
+                        <th>Purpose of Visit</th>
+                        <th>Action</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let dtl of tourmodel.detail;let ind=index;" >
+                        <td> 
+                          <mat-form-field>
+                            <input matInput [matDatepicker]="picker3" [min]="select" [max]="selectto"
+                            placeholder="Start Date" autocomplete="off" name="dtlstartdate"[(ngModel)]="dtl.startdate">
+                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                          </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="picker4"[min]="select" [max]="selectto"  
+                          placeholder="End Date" autocomplete="off" name="dtlenddate" [(ngModel)]="dtl.enddate">
+                          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                          <mat-datepicker #picker4></mat-datepicker>
+                        </mat-form-field>
+                        </td>
+                      <td> 
+                          <mat-form-field style="width: 175px;">
+                          <input matInput placeholder="Starting Point"  name="startingpoint_{{dtl.id}}"  [(ngModel)]="dtl.startingpoint" autocomplete="off" required>
+                        </mat-form-field>
+                      </td>
+                      <td> 
+                          <mat-form-field style="width: 175px;">
+                          <input matInput placeholder="Place of Visit"  name="placeofvisit_{{dtl.id}}" [(ngModel)]="dtl.placeofvisit"  autocomplete="off" required>
+                          </mat-form-field>
+                      </td>
+                      <td> 
+                          <mat-form-field style="width: 175px;">
+                            <input matInput placeholder="Purpose of Visit"  name="purposeofvisit_{{dtl.id}}"  [(ngModel)]="dtl.purposeofvisit" autocomplete="off" required>
+                          </mat-form-field>
+                        </td>
+                        <td  (click)="addSection()">
+                              <span class="fa fa-plus"></span>
+                          </td>  
+                          <td (click)="removeSection(ind)">
+                            <span class="fa fa-trash"></span>
+                        </td>  
+                      </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col-md-6">
+                <h4 style="color:deeppink">Attachment</h4>            
+                <div class="form-group">
+                    <input type="file" name="image"style="width:250px;" (change)="fileProgress($event)" />
+                </div>
+                <div *ngIf="fileUploadProgress">
+                    Upload progress:{{ fileUploadProgress }}
+                </div>
+                <div class="image-preview mb-3" *ngIf="previewUrl">
+                    <img [src]="previewUrl" height="300" />                 
+                </div>
+                <div class="mb-3" *ngIf="uploadedFilePath">
+                    {{uploadedFilePath}}
+                </div>
+              </div>
+            <h3 style="color:deeppink;">
+              To Approver
+            </h3>
+            <div>
+                <mat-form-field style="width: 175px;">
+                <mat-label>Branch</mat-label>
+                <input matInput placeholder="Branch" [(ngModel)]="tourmodel.bank" name="bank" autocomplete="off" required>
+              </mat-form-field>
+              
+                <mat-form-field style="width: 175px;margin-left: 50px;">
+                <mat-label>Employee</mat-label>
+                <input matInput placeholder="Employee" [(ngModel)]="tourmodel.approval" name="approval" autocomplete="off" required>
+                </mat-form-field>
+            </div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+             Approval
+            </button>
+            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header" style="background-color: aqua;">
+                    <h1 class="modal-title" id="exampleModalLongTitle" >Approved</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <tr>
+                    <td> 
+                      <mat-form-field style="width: 175px;">
+                      <input matInput placeholder="Remarks"  name="remarks" [(ngModel)]="tourmodel.remarks"  autocomplete="off" required>
+                      </mat-form-field>
+                  </td>
+                </tr>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" style="border-radius: 40px;margin-left:150px;" class="btn btn-outline-primary">Return</button> 
+            <button type="button"style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-success" (click)="approve()">Approve</button>
+            <button type="button"style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-danger">Reject</button>
+            <button type="button" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary">Forward</button>
+            <button type="button" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary">Back</button> 
+        </form>
+      </div>
+</div>
+<!-- <pre>
+    {{tourmodel|json}}
+</pre> -->
+  
+  
+  
+  

@@ -1,0 +1,244 @@
+<br><br>
+<h2>Holiday Master</h2>
+
+
+<div class="row">
+  <div>
+      <form [formGroup]="holidaySearchForm">
+          <mat-form-field style="width:250px;margin-left: 22px;">
+              <mat-label style="font-size:medium ;">Year</mat-label>
+              <input matInput placeholder="Year" formControlName="searchyear">
+          </mat-form-field>
+
+          <button class="btn btn-outline-primary" (click)="yearSearch()" type="submit"
+              style="border-radius:40px;margin-left: 15px;" color="primary"><i class="fa fa-search"
+                  aria-hidden="true"></i></button>
+                  
+                <button class="btn btn-outline-primary" type="clear" style="border-radius:40px;margin-left: 15px;"
+                data-toggle="modal" data-target="#holidayaddmodal" color="primary">Add</button>
+
+      </form>
+  </div>
+</div>
+
+
+<div style="margin-left: 22px;margin-top: 20px; " class="col-md-12">
+  <div>
+   
+    <div class="table-responsive" style="width:98%;margin-top: 1%;">
+      <table class="table" style="margin-top: 10px;width: 100%;" id='commonstyle'>
+        <thead class="table_header">
+          <tr>
+            <th>S.No</th>
+            <th>Date</th>
+            <th>Holiday</th>
+            <th>Edit</th>
+            <th>Delete</th>
+
+          </tr>
+          <tr *ngFor="let holiday of holidaysummary;index as i">
+            <td>{{i+1}}</td>
+            <td>{{holiday.date | date: 'dd/MM/yyyy' }}</td>
+            <td>{{holiday.holidayname}}</td>
+            <td>
+              <button mat-icon-button (click)="editholiday(holiday)" data-toggle="modal" data-target="#holidaygetmodal">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+            <td>
+              <button mat-icon-button (click)="deleteholiday(holiday.id)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+
+          </tr>
+        </thead>
+
+      </table>
+      <div *ngIf="holidaysummary?.length==0; else paginationsummary" class="NodataAlign text-center">No Records
+        Found...
+      </div>
+      <ng-template #paginationsummary>
+        <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;float: right;">
+          <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+            <mat-icon>arrow_back
+            </mat-icon>
+          </button> {{currentpage}}
+          <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+            <mat-icon>arrow_forward
+            </mat-icon>
+          </button>
+        </div>
+      </ng-template>
+    </div>
+
+  </div>
+
+  <div class="modal" id="holidaygetmodal" data-backdrop="static" data-keyboard="false" #holidayeditclose> 
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title" style="font-weight: 700;font-size: large;"></h4>
+          <button type="button" class="close" (click)="resetform()" data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <form [formGroup]="holidayeditform">
+            <table style="width: 100%;">
+              <tr>
+                <td>
+                  <mat-label> Holiday Date</mat-label><br>
+                  <mat-form-field style="width: 300px;">
+                    <input matInput [matDatepicker]="picker3" placeholder="Holiday Date" formControlName="datess"
+                      required>
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                  </mat-form-field>
+                </td>
+                
+                <td>
+                  <mat-label>Holiday Name</mat-label><br>
+                  <mat-form-field style="width:300px;">
+                    <input #holidayinput matInput placeholder="Holiday Name" formControlName="holidayname">
+                  </mat-form-field>
+                </td>
+
+              </tr>
+            </table>
+            <table style="margin: 4% 0% 2% 0%">
+              <tr>
+                <td>
+                  <button type="submit" style="margin-left: 10px;" id='primarybtn' (click)="editsubmitform()"
+                    class="btn btn-light">Update</button>
+                  <button type="button" class="btn btn-light" id="secondarybtn" data-dismiss="modal"
+                    (click)="resetform()" style="margin-left: 10px;">cancel</button>
+                </td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="holidayaddmodal" data-backdrop="static" data-keyboard="false" #holidayaddclose>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title" style="font-weight: 700;font-size: large;"></h4>
+          <button type="button" class="close" (click)="resetform()" #holidayaddclose
+            data-dismiss="modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <form [formGroup]="holidayform">
+            <table style="width: 100%;">
+              <tr>
+                <td>
+                  <mat-label> Holiday Date</mat-label><br>
+                  <mat-form-field style="width: 300px;">
+                    <input matInput [matDatepicker]="picker2" placeholder="Holiday Date" formControlName="date"
+                      required>
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-label>Holiday Name</mat-label><br>
+                  <mat-form-field style="width:300px;">
+                    <input matInput placeholder="Holiday Name" formControlName="holidayname">
+                  </mat-form-field>
+                </td>
+
+              </tr>
+            </table>
+            <table>
+              <tr>
+                <td>
+                  <button type="submit" style="margin-left: 10px;" id='primarybtn' (click)="submitform()"
+                    class="btn btn-light">Submit</button>
+                  <button type="button" class="btn btn-light" id="secondarybtn" data-dismiss="modal"
+                    (click)="resetform()" style="margin-left: 10px;">cancel</button>
+                </td>
+              </tr>
+            </table>
+            <hr>
+            <table style="width: 100%;">
+              <tr>
+                <td>
+                  <input type="file" style="width: 300px; " class="textarea" formControlName="file"
+                    (change)="onFileSelected($event)" #fileUpload>
+                </td>
+                <!--<td>
+                <button style="width: 150px;" id="primarybtn" class="btn btn-light">
+                  <mat-icon>upload</mat-icon>
+                  Upload File
+                </button>
+              </td>-->
+              </tr>
+            </table>
+
+            <table style="padding-top:10px ;">
+              <tr>
+                <td>
+                  <h3>Example Excel Format:</h3>
+                </td>
+              </tr>
+              <tr>
+                <table id="holidaysample">
+                  <tr>
+                    <th></th>
+                    <th>Date</th>
+                    <th>Holiday</th>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>2022:01:01</td>
+                    <td>New Year</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>2022:01:26</td>
+                    <td>Republic Day</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>2022:04:15</td>
+                    <td>Good Friday</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>2022:05:01</td>
+                    <td>Labour Day</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>2022:08:15</td>
+                    <td>Independence Day</td>
+                  </tr>
+                </table>
+
+              </tr>
+
+            </table>
+            <table style="margin: 4% 0% 2% 0%">
+              <tr>
+                <td>
+                  <button type="submit" style="margin-left: 10px;" id='primarybtn' (click)="onUpload()"
+                    class="btn btn-light">
+                    <mat-icon>upload</mat-icon>
+                    Upload
+                  </button>
+                  <button type="button" class="btn btn-light" id="secondarybtn" data-dismiss="modal"
+                    (click)="resetform()" #closefilepopup style="margin-left: 10px;">cancel</button>
+                </td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div>
+    <nav>
+        <div class="nav nav-tabs" style="margin-top: 1%;">
+            <span class="nav-item nav-link" data-toggle="tab" (click)="APSubModule(sub)" role="tab"
+                *ngFor="let sub of AP_Sub_Menu_List">
+                {{sub.name | titlecase}}
+            </span>
+        </div>
+    </nav>
+   
+    <div *ngIf="inwardsummaryForm">
+        <app-inwardsummary (onSubmit)="inwardsummarySubmit()" (onCancel)="inwardsummaryCancel()">
+        </app-inwardsummary>
+    </div>
+
+    <div *ngIf="apheaderForm">
+        <app-ap-header (onSubmit)="apheaderSubmit()" (onCancel)="apheaderCancel()"></app-ap-header>
+    </div>
+
+    <div *ngIf="empqueryForm">
+        <app-ap-header (onSubmit)="empquerySubmit()" (onCancel)="empqueryCancel()"></app-ap-header>
+    </div>
+    <!-- <div *ngIf="bouncesummaryForm">
+        <app-bouncesummary></app-bouncesummary>
+    </div> -->
+  
+    <div *ngIf="preparepaymentform">
+        <app-preparepayment></app-preparepayment>
+    </div>
+    <div *ngIf="paymentfileform">
+        <app-paymentfile></app-paymentfile>
+    </div>
+    <!-- <div *ngIf="rejectform">
+        <app-rejectsummary></app-rejectsummary>
+    </div>
+    <div *ngIf="makerform">
+        <app-makersummary></app-makersummary>
+    </div> -->
+   <div *ngIf="commonAPSummaryForm">
+       <app-common-ap-summary></app-common-ap-summary>
+   </div>
+   <div *ngIf="failedtranform">
+        <app-failed-transaction></app-failed-transaction>
+    </div>
+    <div *ngIf="sftpForm">
+        <app-sftp-new></app-sftp-new>
+    </div>
+</div>
+
+
+

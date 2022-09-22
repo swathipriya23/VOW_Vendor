@@ -1,0 +1,169 @@
+<div class="container">
+
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+            <h3> Changes </h3>
+        </div>
+        <div class="col-md-7 text-right">
+            <button type="button" class="btn btn-light" style="border-radius: 7px;margin-left: 10px;
+            border-color: black;
+            background-color: white;"
+                (click)="Cancel()">Cancel</button>
+        </div>
+    </div>
+    <div class="timeline">
+        <ul>
+            <li *ngIf="modificationdata.action==2">
+                <h3>New data</h3>
+            </li>
+            <li *ngIf="modificationdata.action==2">
+                <h3>Old data</h3>
+            </li>
+
+          <li>
+            <div class="content">
+             
+                <p><code>Supplier Branch</code>:&nbsp; <span
+                    [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.supplier!=modificationdata.old_data.supplier'>{{ modificationdata.new_data.supplier}}</span></p>
+            <p><code>Pay Mode</code>:&nbsp; <span
+                    [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.name!=modificationdata.old_data.name'>{{ modificationdata.new_data.paymode_id.name}}</span>
+            </p>
+            <p><code>Account Type</code>:&nbsp; <span
+                    [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.account_type!=modificationdata.old_data.account_type'>{{modificationdata.new_data.account_type}}</span>
+            </p>
+            <p><code>Bank</code>:&nbsp; <span
+                    [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.bank_id.name!=modificationdata.old_data.bank_id.name'>{{ modificationdata.new_data.bank_id.name}}</span>
+            </p>
+            <p><code>IFSCCODE</code>:&nbsp; <span
+                [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.branch_id.ifsccode!=modificationdata.old_data.branch_id.ifsccode'>{{ modificationdata.new_data.branch_id.ifsccode}}</span>
+        </p>
+            <p><code>Branch</code>:&nbsp; <span
+                    [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.branch_id.name!=modificationdata.old_data.branch_id.name'>{{  modificationdata.new_data.branch_id.name}}</span>
+            </p>
+            <p><code>Beneficiary</code>:&nbsp; <span
+                    [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.beneficiary!=modificationdata.old_data.beneficiary'>{{ modificationdata.new_data.beneficiary}}</span>
+            </p>
+            <p><code>Account No</code>:&nbsp; <span
+                    [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.account_no!=modificationdata.old_data.account_no'>{{ modificationdata.new_data.account_no}}</span>
+            </p>
+            <p><code>Remarks</code> :&nbsp;
+            
+                <span [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.remarks!=modificationdata.old_data.remarks'>{{modificationdata.new_data.remarks}}</span>
+            </p>
+             
+             </div>
+           
+          </li>
+          
+          <li>
+            <div class="content" *ngIf="modificationdata.action==2">
+                <p><code>Supplier Branch</code>:&nbsp;{{ modificationdata.old_data.supplier}}</p>
+                <p><code>Pay Mode</code>:&nbsp;{{ modificationdata.old_data.paymode_id.name}}</p>
+                <p><code>Account Type</code>:&nbsp; {{modificationdata.old_data.account_type}}</p>
+                <p><code>Bank</code>:&nbsp;{{ modificationdata.old_data.bank_id.name}}</p>
+                <p><code>IFSCCODE</code>:&nbsp;{{  modificationdata.old_data.branch_id.ifsccode}}</p>
+     
+                <p><code>Branch</code>:&nbsp;{{  modificationdata.old_data.branch_id.name}}</p>
+                <p><code>Beneficiary</code>:&nbsp;{{ modificationdata.old_data.beneficiary}}</p>
+                <p><code>Account No</code>:&nbsp;{{ modificationdata.old_data.account_no}}</p>
+                <p><code>Remarks</code> :&nbsp;
+                    
+                    {{modificationdata.old_data.remarks}}
+                </p>
+            </div>
+           
+          </li>
+          
+       
+          <div style="clear:both;"></div>
+        </ul>
+    
+      </div>
+
+    <!-- <form [formGroup]="branchPayment">
+        <div class=" row col-md-12">
+            <div class="col-md-4">
+                <mat-form-field appearance="legacy">
+                    <mat-label>Supplier Branch</mat-label>
+                    <code *ngIf="modificationdata.new_data.modify_status==2 && 
+                    modificationdata.new_data.supplier!=modificationdata.old_data.supplier">
+                        {{modificationdata.old_data.supplier}}</code>
+
+                    <input matInput placeholder="Placeholder" formControlName="supplier"  >
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label>Pay Mode</mat-label>
+                    <code *ngIf="modificationdata.new_data.modify_status==2 && 
+                    modificationdata.new_data.paymode_id.name!=modificationdata.old_data.paymode_id.name">
+                        {{modificationdata.old_data.paymode_id.name}}</code>
+                    <input placeholder="Select Pay Mode" matInput formControlName="paymode_id">
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label for="parent">Account Type</mat-label>
+                    <code *ngIf="modificationdata.new_data.modify_status==2 && 
+                    modificationdata.new_data.account_type!=modificationdata.old_data.account_type">
+                        {{modificationdata.old_data.account_type}}</code>
+                    <input placeholder="Select Pay Mode" matInput formControlName="account_type">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label>Bank</mat-label>
+                    <code *ngIf="modificationdata.new_data.modify_status==2 && 
+                    modificationdata.new_data.bank_id.name!=modificationdata.old_data.bank_id.name">
+                        {{modificationdata.old_data.bank_id.name}}</code>
+                    <input placeholder="Select Pay Mode" matInput formControlName="bank_id">
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label>Branch</mat-label>
+                    <code *ngIf="modificationdata.new_data.modify_status==2 && 
+                    modificationdata.new_data.branch_id.name!=modificationdata.old_data.branch_id.name">
+                        {{modificationdata.old_data.branch_id.name}}</code>
+                    <input placeholder="Select Pay Mode" matInput formControlName="branch_id">
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="legacy">
+                    <mat-label>Account No</mat-label>
+                    <code *ngIf="modificationdata.new_data.modify_status==2 && 
+                    modificationdata.new_data.account_no!=modificationdata.old_data.account_no">
+                        {{modificationdata.old_data.account_no}}</code>
+                    <input matInput placeholder="Placeholder" formControlName="account_no" autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="legacy">
+                    <code *ngIf="modificationdata.new_data.modify_status==2 && 
+                    modificationdata.new_data.beneficiary!=modificationdata.old_data.beneficiary">
+                        {{modificationdata.old_data.beneficiary}}</code>
+                    <mat-label>Beneficiary</mat-label>
+                    <input matInput placeholder="Placeholder" formControlName="beneficiary" autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="legacy">
+                    <mat-label>Remarks</mat-label>
+                    <code *ngIf="modificationdata.new_data.modify_status==2 && 
+                    modificationdata.new_data.remarks!=modificationdata.old_data.remarks">
+                        {{modificationdata.old_data.remarks}}</code>
+                    <input matInput placeholder="Placeholder" formControlName="remarks" autocomplete="off">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="text-right">
+            <button type="button" class="btn btn-outline-primary" style="border-radius: 40px;margin-left: 10px;"
+                (click)="Cancel()">Cancel</button>
+        </div>
+
+    </form> -->
+</div>

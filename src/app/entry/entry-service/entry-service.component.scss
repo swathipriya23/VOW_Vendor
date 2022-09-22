@@ -1,0 +1,30 @@
+.example-form-field {
+  width: 200px;
+}
+
+.mat-raised-button.mat-success {
+color: #f0fff3;
+background-color: #56aa6a;
+}
+
+#table-wrapper {
+position:relative;
+}
+#table-scroll {
+height:300px;
+overflow:auto; 
+// margin-left: 20px; 
+// margin-top:-10px;
+}
+#table-wrapper table {
+width:100%;
+  
+}
+#table-wrapper table thead th .text {
+position:absolute;   
+// top:-20px;
+z-index:2;
+height:20px;
+width:35%;
+
+}

@@ -1,0 +1,622 @@
+<div style="margin-left: 2%;">
+    <div class="row col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-body">Asset Query - AQ
+            </div>
+        </div>
+        <!-- <mat-divider></mat-divider> -->
+        <form class="example-form" [formGroup]="fasearchform" (ngSubmit)="fasearch('search','e')">
+            <div class="row col-md-12">
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <mat-label> Asset Barcode ID</mat-label>
+                        <input matInput placeholder="Asset" formControlName="assetdetails_id">
+                    </mat-form-field>
+
+
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Asset Category</mat-label>
+                        <input placeholder="Select Apcategory" matInput (click)="getcat()" formControlName="cat"
+                            [matAutocomplete]="apcattype">
+                        <mat-autocomplete #apcattype="matAutocomplete" [displayWith]="displayapsscat">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let apcategory of apcategoryList" [value]="apcategory">
+                                    {{apcategory.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Branch Name</mat-label>
+                        <input type="text" placeholder="Branch" (click)="branchget()" aria-label="Number" matInput
+                            formControlName='branch' [matAutocomplete]="autob">
+                        <mat-autocomplete #autob="matAutocomplete" [displayWith]="displayFnbranch">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+
+                                <mat-option *ngFor="let p of branchdata " [value]="p">
+                                    {{p.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+
+                <ng-container>
+                    <div class="col-md-3">
+
+
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Filter</mat-label>
+                            <mat-select [formControl]="myControl" multiple>
+                                <mat-option *ngFor="let topping of filter_options"
+                                    (onSelectionChange)="selectionChange($event)"
+                                    (focusout)="filter_flags($event,topping)" [value]="topping">{{topping.title}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+
+
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Total Count</mat-label>
+                            <mat-select [formControl]="myControl" multiple>
+                                <mat-option *ngFor="let topping of Datas"
+                                    (onSelectionChange)="totalcount($event,'count_flag')" [value]="topping">
+                                    {{topping.title}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                    <h1>FV-3.52</h1>
+                    </div>
+                    <div class="col-md-2">
+                    <h1>{{version}}</h1>
+                    </div>
+                    <!--cap-->
+                    <div class="col-md-3" *ngIf="cp_date">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Cap From </mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="capstart_date">
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-md-3" *ngIf="cp_date">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Cap To </mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="capend_date">
+                            <mat-datepicker-toggle matSuffix [for]="picker2">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+                    <!--capend-->
+
+                    <!--Transfer branch-->
+                    <div class="col-md-3" *ngIf="transfer_branch">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Transfer From Branch</mat-label>
+                            <input type="text" placeholder="Branch" (click)="branchget()" aria-label="Number" matInput
+                                formControlName='branchfrom' [matAutocomplete]="auto11">
+                            <mat-autocomplete #auto11="matAutocomplete" [displayWith]="displayFnbranchfrom">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+
+                                    <mat-option *ngFor="let p of branchdata " [value]="p">
+                                        {{p.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3" *ngIf="transfer_branch">
+                        <mat-form-field class="example-full-width" *ngIf="transfer_branch">
+                            <mat-label> Transfer To Branch</mat-label>
+                            <input type="text" placeholder="Branch" (click)="branchget()" aria-label="Number" matInput
+                                formControlName='branchto' [matAutocomplete]="auto12">
+                            <mat-autocomplete #auto12="matAutocomplete" [displayWith]="displayFnbranchto">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+
+                                    <mat-option *ngFor="let p of branchdata " [value]="p">
+                                        {{p.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+
+                    <!--t end-->
+
+                    <!--Asset from to date-->
+                    <div class="col-md-3" *ngIf="asset_enddate">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Asset End From </mat-label>
+                            <input matInput [matDatepicker]="picker4" formControlName='enddatefrom'>
+                            <mat-datepicker-toggle matSuffix [for]="picker4">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker4></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-md-3" *ngIf="asset_enddate">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Asset End To </mat-label>
+                            <input matInput [matDatepicker]="picker3" formControlName='enddateto'>
+                            <mat-datepicker-toggle matSuffix [for]="picker3">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+                    <!--asswt date ends-->
+
+                    <!--invoice date-->
+
+                    <!-- <div class="col-md-3" *ngIf="ins_date">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>invoice Date </mat-label>
+                            <input matInput [matDatepicker]="picker11" formControlName='invoicedate'>
+                            <mat-datepicker-toggle matSuffix [for]="picker11">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker11></mat-datepicker>
+                        </mat-form-field>
+
+                    </div> -->
+
+
+                    <!--invoice end-->
+
+                    <!--Asset lease from to date-->
+                    <div class="col-md-3" *ngIf="asset_leasedate">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Asset Lease From </mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName='lease_startdate'>
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="col-md-3" *ngIf="asset_leasedate">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Asset Lease To </mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName='lease_enddate'>
+                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+                    <!--asswt date ends-->
+                    <!--asset value from to-->
+
+                    <div class="col-md-3" *ngIf="asset_value">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Asset From Value</mat-label>
+                            <input matInput placeholder="Asset" formControlName="assetfrom_value">
+                        </mat-form-field>
+
+
+                    </div>
+                    <div class="col-md-3" *ngIf="asset_value">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Asset To value</mat-label>
+                            <input matInput placeholder="Asset" formControlName="assetto_value">
+                        </mat-form-field>
+
+
+                    </div>
+                    <!--asset value-->
+                    <!--vendor-->
+                    <div class="col-md-3" *ngIf="vendor_name_enter">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Vendor name</mat-label>
+                            <input matInput placeholder="Number" formControlName="vendorname">
+                        </mat-form-field>
+
+
+                    </div>
+                    <!--v-->
+                    <!--po-->
+                    <div class="col-md-3" *ngIf="po_no_enter">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> PO Number</mat-label>
+                            <input matInput placeholder="Number" formControlName="ponum">
+                        </mat-form-field>
+
+
+                    </div>
+                    <!--v-->
+                    <!--mep-->
+                    <div class="col-md-3" *ngIf="mep_no_enter">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Mep Number</mat-label>
+                            <input matInput placeholder="Number" formControlName="mepno">
+                        </mat-form-field>
+
+
+                    </div>
+                    <!--v-->
+                    <!--crnum-->
+                    <div class="col-md-3" *ngIf="invoice_no_enter">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Invoice Number</mat-label>
+                            <input matInput placeholder="Number" formControlName="invoiceno">
+                        </mat-form-field>
+
+
+                    </div>
+                    
+                    <!--v-->
+                    <!-- invoice -->
+                    <div class="col-md-3" *ngIf="invoice_amt_enter">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Taxable Amount</mat-label>
+                            <input matInput placeholder="Number" formControlName="amount">
+                        </mat-form-field>
+
+
+                    </div>
+                    <!-- end -->
+                     <!-- dep_hold_enter -->
+                     <div class="col-md-3" *ngIf="dep_hold_enter">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Depreciation Hold</mat-label>
+                            <mat-select formControlName="deponhold" multiple>
+                                <mat-option *ngFor="let data of depreciation_options"
+                                    (onSelectionChange)="selectionChange($event)"
+                                    (click)="edit(data.value)" [value]="data.value">{{data.title}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3" *ngIf="asset_source">
+                        <mat-form-field class="example-full-width">
+                            <mat-label> Asset Source</mat-label>
+                            <mat-select formControlName="asstsrc" multiple>
+                                <mat-option *ngFor="let data of assetsource"
+                                    (onSelectionChange)="sourceget($event,data.value)" [value]="data.key">{{data.key}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- dep_hold_enter -->
+                    <!-- invoice Date -->
+                    <div class="col-md-3" *ngIf="ins_date">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Invoice Date </mat-label>
+                            <input matInput [matDatepicker]="picker41" formControlName="invoicedate">
+                            <mat-datepicker-toggle matSuffix [for]="picker41">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker41></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+                    <!-- end -->
+                    <!-- <button type="button" class="btn btn-primary" (click)="download_file()" style="border-radius: 40px;height: 40px;">Download</button> -->
+                    <!-- <button type="button" class="btn btn-primary" mat-raised-button (click)="download_file()" style="border-radius: 40px;height: 40px;">Download <mat-icon inline=true style="color:black">download</mat-icon></button> -->
+                    <button mat-raised-button type="button" class="btn btn-primary"  (click)="download_file()"  style="border-radius: 40px;height: 40px;">
+                        Download
+                            <mat-icon *ngIf="first"><mat-spinner color="accent" diameter="20">
+                            </mat-spinner></mat-icon>
+                            <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                      </button>
+                      <!-- <mat-spinner [color]="first?'accent':'basic'"  [mode]="first?'determinate':'indeterminate'">
+                    
+                        <button mat-fab type="button" class="btn btn-primary"  (click)="download_file()"  style="border-radius: 40px;height: 40px;">
+                            Download
+                                
+                                <mat-icon *ngIf="!first" inline=true style="color:black">download</mat-icon>
+                        </button>
+                    </mat-spinner> -->
+                    <!-- <div class="col-md-12 text-right"> -->
+                        <button *ngIf="count_search=='count_flag'" mat-mini-fab color="basic" type="button"
+                            (click)="FA_Countarray()" style="margin-left: 15px;" >
+                            <mat-icon>search</mat-icon>
+                                </button>
+
+                        <button *ngIf="count_search=='1'"  type="submit"  mat-mini-fab color="basic"
+                            style="margin-left: 15px;" >
+                        <mat-icon>search</mat-icon>
+                        </button>
+
+                    <!-- </div> -->
+                    <br>
+                </ng-container>
+
+            </div>
+        </form>
+
+        <!--GRID-->
+        <div class="table-responsive" style="width: 98%;">
+        <table *ngIf="count_search=='1'" class="table table-bordered" style="font-size: 15px;">
+            <thead class="table_header">
+                <tr>
+                    <th>S.No</th>
+                    <th>Asset Barcode ID</th>
+                    <th>Asset Transaction ID</th>
+                    <th>Status</th>
+                    <th>Asset Grp ID</th>
+                    <th>Asset Category</th>
+                    <th>Asset SubCategory</th>
+                    <th>Expense GL </th>
+                    <th>Product Name</th>
+                    <th>Capitalisation Date</th>
+                    <th>Asset Value</th>
+                    <th>PO Number</th>
+                    <th>Invoice No.</th>
+                    <th>Invoice Date</th>
+                    <th>Vendor Name</th>
+                    <th>Branch Name </th>
+                    <th>BS Name</th>
+                    <th>CC Name</th>
+                    <th>IT Category Name</th>
+                    <th>Asset EndDate </th>
+                    <th>CR No.</th>
+                    <th>Asset Total Value</th>
+                    <th>Asset Total Cost</th>
+                    <th>Emp Name</th>
+                    <th>Asset Source</th>
+                    <th>Requestfor</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let i of faquerygrid; index as j">
+                    
+                    <td scope="row">{{ (presentpageloc-1)*pagesize+j+1 }}</td>
+                    <td>{{ i.barcode}}</td>
+                    <td>{{ i.assetdetails_id}}</td>
+                    <td>{{i.assetdetails_status}}</td>
+                    <td>{{ i.assetgroup_id}}</td>
+                    <td>{{ i.cat.name}}</td>
+                    <td>{{ i.subcat.name}}</td>
+                    <td>{{ i.subcat.glno}}</td>
+                    <td>{{ i.product_id.name}}</td>
+                    <td>{{ i.capdate |date: 'dd-MMM-yyyy'}}</td>
+                    <td data-target="#Accountdetails" data-toggle="modal" (click)="Accountdetails(i)">
+                        {{ i.assetdetails_value}}</td>
+                    <td>{{ i.ponum}}</td>
+                    <td>{{ i.invoice_id.invoiceno }}</td>
+                    <td>{{ i.invoice_id.invoicedate |date: 'dd-MMM-yyyy' }}</td>
+                    <td>{{ i.vendorname}}</td>
+                    <td>{{ i.branch_id.name}}</td>
+                    <td>{{i.bs?.name}}</td>
+                    <td>{{i.cc?.name}}</td>
+                    <td>{{ i.itcatname }}</td>
+                    <td>{{ i.enddate|date: 'dd-MMM-yyyy'}}</td>
+                    <td>{{ i.crnum}}</td>
+                    <td>{{ i.valuetot}}</td>
+                    <td>{{ i.costtot}}</td>
+                    <td>{{i.emp}}</td>
+                    <td>{{ i.source}}</td>
+                    <td>{{ i.requestfor}}</td>
+
+
+
+                </tr>
+
+                <tr *ngIf="faquerygrid ?.length == 0">
+                    <td colspan="17">
+                        No records
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan='13'></td>
+                    <td colspan='3'>Page Count:
+                        <select name="selectedQuantity" id="aantal" class="form-control"
+                            (change)="fasearch('count',$event.target.value)">
+                            <option *ngFor="let option of options" [value]="option">
+                                {{option}}</option>
+                        </select>
+
+
+                    </td>
+                    <td colspan='2'>Total Count:{{count}}
+                        <br />
+                        <button mat-icon-button [disabled]="has_previousloc === false" color="primary"
+                            (click)=" locpreviousClick()">
+                            <mat-icon>arrow_back</mat-icon>
+                        </button>
+                        {{presentpageloc}}
+                        <button mat-icon-button [disabled]="has_nextloc === false" color="primary"
+                            (click)=" locnextClick()">
+                            <mat-icon>arrow_forward</mat-icon>
+                        </button>
+
+                    </td>
+
+
+                </tr>
+
+
+
+            </tbody>
+
+        </table>
+        </div>
+        <!---->
+
+        <table *ngIf="count_search=='count_flag'" class="table table-bordered">
+
+
+            <span *ngFor="let i of findcount; let k = index">
+                <thead class="table_header">
+
+                    <th *ngIf="i==1">Cap date</th>
+                    <th *ngIf="i==2">WriteOff</th>
+                    <th *ngIf="i==3">Impairment</th>
+                    <th *ngIf="i==4">Value Change</th>
+                    <th *ngIf="i==5">Merge/th>
+                    <th *ngIf="i==6">Split</th>
+                    <th *ngIf="i==7">Transfer</th>
+                    <th *ngIf="i==8">Category</th>
+                    <th *ngIf="i==9">Sale</th>
+                </thead>
+                <tr>
+
+                    <td *ngIf="i==1">{{countdata.cap_count}}</td>
+                    <td *ngIf="i==2">{{countdata.writeoff_count}}</td>
+                    <td *ngIf="i==3">{{countdata.impair_count}}</td>
+                    <td *ngIf="i==4">{{countdata.assetvalue_count}}</td>
+                    <td *ngIf="i==5">{{countdata.merge_count}}</td>
+                    <td *ngIf="i==6">{{countdata.split_count}}</td>
+                    <td *ngIf="i==7">{{countdata.transfer_count}}</td>
+                    <td *ngIf="i==8">{{countdata.cat_count}}</td>
+                    <td *ngIf="i==9">{{countdata.sale_count}}</td>
+                </tr>
+            </span>
+        </table>
+
+        <!--Acconting Details-->
+        <!-- <div class="modal" tabindex="-1" role="dialog" id="Accountdetails">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Accounting Details</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <table>
+                            <thead>
+                                <th> S.No</th>
+                                <th> Entry Financial Year</th>
+                                <th> WiseFin GL Entry GL</th>
+                                <th> Entry Screen</th>
+                                <th> C/D Amount</th>
+
+                            </thead>
+                            <tbody>
+                                <tr>1</tr>
+                                <tr>accountingarray.fiscalyear</tr>
+                            </tbody>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Expense</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
+        <div class="modal" tabindex="-1" role="dialog" id="Accountdetails" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:rgb(58, 184, 173) ;">
+                        <h2 class="modal-title text-center" style="margin-left: 32%;font-family:'Times New Roman', Times, serif;color:black">Accounting Details</h2>
+
+                        <button #refclose type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="height: 500px;overflow-y: auto;font-size: 15px;">
+                            <table class="table table-bordered" >
+                                <thead class="table_header">
+                                    <th>S.No</th>
+                                    <th>Entry Financial Year</th>
+                                    <th>Asset Barcode</th>
+                                    <th>WiseFin GL</th>
+                                    <th>Entry Gl</th>
+                                    <th>GL No Description</th>
+                                    <th> C/D Amount</th>
+                                    <th>Amount</th>
+
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let d of accountDetailslist;index as i">
+                                        <td class="text-center">{{i+1}}</td>
+                                        <td class="text-center">{{d.transactiondate | date:'yyyy'}}</td>
+                                        <td class="text-left">{{d.refno}}</td>
+                                        <td class="text-right">{{'00'}}</td>
+                                        <td class="text-right">{{d.gl}}</td>
+                                        <td>{{d.glnodescription}}</td>
+                                        <td class="text-center">{{d.type}}</td>
+                                        <td class="text-right">{{d.amount}}</td>
+                                    </tr>
+                                    <tr *ngIf="accountDetailslist.length==0">
+                                        <td colspan="8">No Records Found..</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="text-right">
+                                            <b>Sum Of Debits:</b>
+                                        </td>
+                                        <td colspan="2">
+                                            &#8377;{{sumofdebit}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="text-right">
+                                            <b>Sum Of Credits:</b>
+                                        </td>
+                                        <td colspan="2">
+                                            &#8377;{{sumofcredit}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <!-- <div class="text-right" style="font-family:'Times New Roman', Times, serif">
+                                <tr>
+                                    <td style="width: 200px;">
+                                        <b>Sum Of Debits:</b>
+                                    </td>
+                                    <td>&#8377;{{sumofdebit}}</td>
+                                </tr>
+                                <br>
+                                <tr>
+                                    <td style="width: 200px;">
+                                        <b>Sum Of Credits:</b>
+                                    </td>
+                                    <td>&#8377;{{sumofcredit}}</td>
+                                </tr>
+                            </div> -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Expense</button>
+                            <button type="button" class="btn btn-secondary" (click)="closenewdialog()" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--A end-->
+    </div>
+
+
+</div>

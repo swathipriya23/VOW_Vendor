@@ -1,0 +1,140 @@
+.container {
+    margin-top: 1%;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+    font-size: 18px;
+}
+
+.tab-btn {
+    margin-left: 81%;
+    position: relative;
+}
+
+.table-responsive {
+    width: 70%;
+}
+
+
+.text-color{
+    color:  #007338 
+}
+
+nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: transparent !important;
+    color: #007338 !important;
+}
+
+.nav-tabs .nav-link:hover {
+    border: none !important;
+}
+
+.nav-tabs .nav-link {
+    border: none; 
+    color: green;
+    font-size: larger;
+}
+.btn-success {
+    border-radius: 20px;
+    margin-left: 81%;
+    margin-top: -66px;
+}
+.btn-danger {
+    border-radius: 20px;
+    margin-top: -66px;
+    margin-left: 20px;
+}
+.card::after {
+    display: block;
+    position: absolute;
+    bottom: -10px;
+    left: 20px;
+    width: calc(100% - 40px);
+    background-color: #fff;
+    -webkit-box-shadow: 0 19px 28px 5px rgba(64,64,64,0.09);
+    box-shadow: 0 19px 28px 5px rgba(64,64,64,0.09);
+    content: '';
+    z-index: -1;
+  }
+  a.card {
+    text-decoration: none;
+  }
+  
+  .card {
+    position: relative;
+    border: 0;
+    border-radius: 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0 12px 20px 1px rgba(64,64,64,0.09);
+    box-shadow: 0 12px 20px 1px rgba(64,64,64,0.09);
+  }
+  .card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,0.125);
+    border-radius: .25rem;
+    margin-top: -52px;
+  }
+  
+  .card-text {
+    color: #808080;
+    margin: 0px 19px 4px;
+    margin-top: 5px;
+  }
+  
+  .card-title {
+    margin: 0;
+    font-family: "Montserrat",sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    margin-left: 18px;
+    color: #007bff;
+    padding-top: 18px;
+  } 
+  .enabled_icon{
+    color:black;
+  }
+  .disabled_icon{
+    color:gray;
+  }
+  table{
+    width: 100%;
+  }
+
+.styled-table tbody td {
+    padding: 0.5em 0.1em 0.1em;
+    border: 1px solid #dddddd;
+    border-right: hidden;
+}
+
+.styled-table {
+    margin: 25px 0;
+    font-family: "Montserrat";
+    width: 100%;
+}
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #F3FAFF;
+}
+
+#commonstyle{
+  border:15px none #f6f6f6
+  }
+
+  tr:nth-child(even) {background: #EDF8FA}
+  tr:nth-child(odd) {background: #FFF}
+table,th,td{
+  text-align: left;
+  // padding: 5px;
+}
+

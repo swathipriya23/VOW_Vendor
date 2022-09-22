@@ -1,0 +1,51 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h2 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">
+        Product Type Edit Form
+    </h2><hr>
+        <div>
+        <form [formGroup]="producttypeeditForm" (ngSubmit)="producttype_editForm()" autocomplete="off">
+            <table>
+                <div>
+                    <tr>
+                      <td>
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>Code</mat-label>
+                                <input matInput placeholder="Code" formControlName="code" autocomplete="off" readonly>
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>Product category</mat-label>
+                                <mat-select formControlName="productcategory_id">
+                                    <mat-option *ngFor="let product of productcategoryList" [value]="product.id">
+                                        {{product.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+
+                    </tr>
+                </div>
+            </table><br>
+            <button  type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                >Submit</button>
+            <button type="button" (click)="onCancelClick()"class="btn btn-outline-primary"
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+
+        </form>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,20 @@
+.palceholderformat::placeholder {
+    color: red;
+    font-size: 1.2em;
+    font-style: italic;
+  }
+  tr.backcolor:nth-child(even) {background: #EDF8FA}
+    tr.backcolor:nth-child(odd) {background: #FFF}
+
+    .tableFixHead {
+      overflow: auto;
+      max-height: 250px; 
+      /* display: block;  */
+    }
+    
+    .tableFixHead thead th {
+      position: sticky;
+      top: 0;
+      background-color: #9ce3ed;
+    }
+  

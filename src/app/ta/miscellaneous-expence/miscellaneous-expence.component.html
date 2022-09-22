@@ -1,0 +1,206 @@
+<div style="background-color: #F6F6F6" >
+<mat-card class="mat-elevation-z0">
+<div class="col-12-md" style="margin-left: 10px;margin-right: 80%;margin-top: 1%; width: 100%;">
+  <p style="font-size: 22px; font-weight: 500;">
+    Associated Expenses
+  </p>
+
+  <!-- <div *ngIf="isonbehalf">
+    <h3 style="margin-left: 44px;color:rgb(0, 0, 0);font-size: 18px; font-weight: 400;">
+      On Behalf Employee - {{onbehalf_empName}}
+    </h3>
+  </div> -->
+
+  <hr style="width: 99%;">
+
+  <div >
+    <form [formGroup]="miscellaneousform">
+      <table>
+        <tr>
+          <td>
+            <mat-label >Travel No</mat-label><br>
+            <mat-form-field style="width: 175px;" appearance="standard">
+              
+              <input matInput class="disabled11" placeholder="Tour No" formControlName="tourno" [readonly]="true">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-label style="width: 175px;margin-left: 50px;">Employee Code</mat-label> <br>
+            <mat-form-field style="width: 175px;margin-left: 50px;"appearance="standard">
+              
+              <input matInput class="disabled11" placeholder="employeename" [value]="employeecode"
+                [readonly]="true">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-label style="width: 175px;margin-left: 50px;">Employee Name</mat-label> <br>
+            <mat-form-field style="width: 300px;margin-left: 50px;"appearance="standard">
+              
+              <input matInput class="disabled11" placeholder="employeename" formControlName="employeename"
+                [readonly]="true">
+            </mat-form-field>
+          </td>
+          
+          <!-- <td>
+            <mat-form-field style="width: 175px;margin-left: 50px;">
+              <mat-label style="font-size: 20px;">Designation</mat-label>
+              <input matInput class="disabled11" placeholder="designation" formControlName="designation"
+                [readonly]="true">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field style="width: 175px;margin-left: 50px;">
+              <mat-label style="font-size: 20px;">Employee Grade</mat-label>
+              <input class="disabled11" matInput placeholder="employeegrade" formControlName="employeegrade"
+                [readonly]="true">
+            </mat-form-field>
+          </td> -->
+
+          <td>
+
+
+            <button type="button"  *ngIf="!approver"  class="btn btn-light" (click)="addSet()" id="secondarybtn"
+              style="margin-left: 50px;color: black;"><span class="fa fa-plus"></span>
+              ADD</button>
+
+          </td>
+
+          <td *ngIf="hidelandry" style="padding-left: 50px;">
+            "Not Eligible For Laundry Expenses "
+          </td>
+        </tr>
+      </table>
+      <div class="table-responsive" style="width:98%;margin-top: 1%;">
+      <table class="table table-bordered" fixed-header style="width: 98%;margin-top: 10px;">
+        <tr class="table_header" style="text-align: left;">
+          <th>S.No</th>
+          <th>Sub Category<label style="color:red">*</label></th>
+          <th>Date <label style="color:red">*</label></th>
+          <th>Bill Number <label style="color:red">*</label></th>
+          <th>Remarks</th>
+          <!-- <th>Center</th> -->
+          
+          <th>Claim Amount (INR)<label style="color:red">*</label></th>
+          <th *ngIf="!approver">Action</th>
+          <!-- <th *ngIf="approver && applevel >= 1">Approved Amount</th> -->
+        </tr>
+
+        <tbody formArrayName="tablerowdata"
+          *ngFor="let item of miscellaneousform.get('tablerowdata')['controls'] | paginate: { itemsPerPage: pageSize, currentPage: p } index as i">
+
+          <tr [formGroupName]="fieldGlobalIndex(i)">
+            <td>{{((p-1)*pageSize)+i+1}}</td>
+            <td>
+              <fieldset >
+              <mat-form-field floatLabel="never" >
+
+                <mat-select formControlName="expense" placeholder="Sub Category" [disabled]="approver"
+                  (selectionChange)="selectReason($event,i)">
+                  <mat-option *ngFor="let expreason of reasonlist" [value]="expreason.value">
+                    {{expreason.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </fieldset>
+            </td>
+            <td>
+              <fieldset [disabled]="approver">
+                <mat-form-field floatLabel="never" id="tadate">
+                  <input matInput readonly [matDatepicker]="picker1" required [min]="fromdatemin(i)"  [max]="enddate" (dateChange)="check(i)"
+                    placeholder="Date" autocomplete="off"
+                    formControlName="fromdate" aria-readonly="true">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </fieldset>
+            </td>
+           
+            
+            <!-- <td>
+              <fieldset >
+              <mat-form-field floatLabel="never" >
+                <mat-select formControlName="center" [disabled]="center_check(i) || approver " placeholder="Center">
+                  <mat-option *ngFor="let center of centerlist" [value]="center.value" >
+                    {{center.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </fieldset>
+            </td> -->
+            <td>
+              <fieldset [disabled]="approver">
+                <mat-form-field floatLabel="never">
+                  <input matInput placeholder="Bill No" (keydown)="space($event)"
+                    formControlName="billno">
+                </mat-form-field>
+              </fieldset>
+            </td>
+
+            <td>
+              <fieldset [disabled]="approver">
+              <mat-form-field floatLabel="never" >
+                <input matInput (keydown)="space($event)" (keypress)="omit_special_char($event)" placeholder="Remarks" formControlName="remarks">
+              </mat-form-field>
+            </fieldset>
+            </td>
+            
+            <td>
+              <fieldset [disabled]="approver">
+              <mat-form-field floatLabel="never" [ngClass]="(maker)? 'disabled11':'' " id="amountlen">
+                <mat-icon matPrefix id="rupee">currency_rupee</mat-icon>
+                <input #clamt matInput (keydown)="nospace($event);zero($event)" (blur)="decs(clamt,i,$event)" required
+                (keypress)="keyPressAmounts($event)"
+                  formControlName="claimedamount" placeholder="Amount">
+              </mat-form-field>
+              </fieldset>
+            </td>
+            <td *ngIf="!approver">
+              <button mat-icon-button [disabled]="miscellaneousform.get('tablerowdata')['controls'].length== 1"
+                (click)="formarraydatadelete(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+  
+            </td>
+            <!-- <td *ngIf="approver && applevel >= 1">
+              <fieldset>
+                <mat-form-field floatLable="never">
+                  <input matInput formControlName="approvedamount">
+                </mat-form-field>
+              </fieldset>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <pagination-controls responsive="true" (pageChange)="p = $event"></pagination-controls>
+      </div>
+      </div>
+      <div *ngIf="!maker" class="col-md-12 text-center">
+        <button *ngIf='!approver' [disabled]="miscellaneousform.get('tablerowdata')['controls'].length== 0" type="submit"
+          style="margin-left: 10px;" (click)="sub('submit')" id="primarybtn"
+          class="btn btn-light">Submit</button>
+    
+        <!-- <button *ngIf='applevel >= 1' id="primarybtn"
+        style="border-color: black; background-color: green; color: white;"  class="btn btn-light"
+          (click)="getupdateapprove()"> Approve </button> -->
+        <button type="button" class="btn btn-light" (click)="backchecker()" id="secondarybtn"
+          style="margin-left: 10px;">Back</button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- <input style="width: 100px;" type="text" (keydown)="minus($event)"> -->
+
+
+</div>
+
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 1.5)" size="default" type="la-ball-scale-multiple la-3x">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner> -->
+</mat-card>
+</div>
+<!-- <pre>
+  {{miscellaneousform.value|json}}
+</pre> -->

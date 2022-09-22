@@ -1,0 +1,385 @@
+<div style="margin-left: 10px;" class="container">
+    <h1 style="color:blue;font-family:'Times New Roman', Times, serif;font-size:23px">Employee Branch Details Create</h1>
+</div>
+<hr>
+<div style="margin-left: 30px;">
+    <form [formGroup]="createemployss">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 230px;">
+                    <mat-label>Branch Code</mat-label>
+                    <input type="text" matInput formControlName="code" required autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 230px;">
+                    <mat-label>Name</mat-label>
+                    <input type="text" matInput formControlName="name" required autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 230px;">
+                    <mat-label>Tan No</mat-label>
+                    <input type="text" matInput formControlName="tanno" required autocomplete="off">
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 230px;">
+                    <mat-label>GL No</mat-label>
+                    <input type="text" matInput formControlName="glno" required autocomplete="off">
+
+                </mat-form-field>
+            </div>
+            <!-- <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Date Of Birth</mat-label>
+                    <input matInput [max]="date" [matDatepicker]="pickers" formControlName="dob"  autocomplete="off">
+                    <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                    <mat-datepicker #pickers></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" style="width: 250px;">
+                <mat-form-field>
+                    <mat-label>Date Of Joining</mat-label>
+                    <input matInput [max]="date" [matDatepicker]="pickerjoin" formControlName="doj"  autocomplete="off" >
+                    <mat-datepicker-toggle matSuffix [for]="pickerjoin"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerjoin></mat-datepicker>
+                </mat-form-field>
+            </div> -->
+        </div>
+        <br>
+        <div class="row">
+            <!-- <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Gender</mat-label>
+                    <mat-select formControlName="gender">
+                        <mat-option value="Male">Male</mat-option>
+                        <mat-option value="Female">Female</mat-option>
+                        <mat-option value="TransGender">TransGender</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Employee Type</mat-label>
+                    <input type="text" matInput formControlName="employeetype" required autocomplete="off" [matAutocomplete]="deptlist" (click)="getdepartmentdata()" #deptInput>
+                    <mat-autocomplete #deptinfo #deptlist="matAutocomplete" [displayWith]="getdepartmentinterface" (opened)="autocompleteScrolldept()" >
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of employeetypelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div> -->
+            <!-- <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Designation</mat-label>
+                    <input type="text" matInput formControlName="designation" required [matAutocomplete]="designref" (click)="getdesignation()" autocomplete="off" #designInput>
+                    <mat-autocomplete #designauto #designref="matAutocomplete" [displayWith]="getdatadesignation" (opened)="autocompleteDeptScrolldesign()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let d of designationlist;" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div> -->
+            <!-- <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Mobile Number</mat-label>
+                    <input matInput formControlName="mobilenumber" pattern="[1-9]{1}[0-9]{10-11}"  [minlength]="minLength" [maxlength]="maxLength" (keypress)="keypress($event)" autocomplete="off"  required>
+                </mat-form-field>
+            </div> -->
+            <div class="col-md-3">
+                <mat-form-field style="width: 230px;">
+                    <mat-label>STD No</mat-label>
+                    <input type="text" matInput formControlName="stdno" required autocomplete="off">
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 230px;">
+                    <mat-label>Incharge Name</mat-label>
+                    <!-- <input type="text" matInput formControlName="incharge" required autocomplete="off"> -->
+                    <input #empInput  matInput formControlName="incharge"
+                    [matAutocomplete]="emp">
+                    <!-- <mat-error *ngIf="delmatmakerForm.controls.employee_id.errors?.incorrectValue">
+                        {{delmatmakerForm.controls.employee_id.errors?.incorrectValue}}
+                    </mat-error> -->
+                <mat-autocomplete #emp="matAutocomplete" [displayWith]="displayFnemp" (opened)="autocompleteempScroll()">
+                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let emp of employeeList" [value]="emp">{{emp.full_name}}
+                        </mat-option>
+                        
+                    </ng-container>
+                </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 230px;">
+                    <mat-label>Entity</mat-label>
+                    <input type="text" matInput formControlName="entity" required autocomplete="off" [matAutocomplete]="branchlisten">
+                    <mat-autocomplete #branchlisten="matAutocomplete" >
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of entityList" [value]="d.name">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 230px;">
+                    <mat-label>GST No</mat-label>
+                    <input type="text" matInput formControlName="gstin" required autocomplete="off">
+
+                </mat-form-field>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <!-- <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>EmailId</mat-label>
+                    <input type="email" matInput formControlName="emailid" required autocomplete="off">
+                </mat-form-field>
+
+            </div> -->
+            <!-- <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Supervisor</mat-label>
+                    <input type="text" matInput formControlName="supervisor" required autocomplete="off" [matAutocomplete]="superlist" (click)="getsupervisorlist()" #superInput>
+                    <mat-autocomplete #superinfo #superlist="matAutocomplete" [displayWith]="getsupervisorinterface" (opened)="autocompleteScrollhierarchy()" >
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of supervisorlist" [value]="d">{{d.full_name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Hiearchy</mat-label>
+                    <input type="text" matInput formControlName="hierarchy" required autocomplete="off" [matAutocomplete]="hielist" #hirarchyInput (click)="gethierarchydata()">
+                    <mat-autocomplete #hierarchyinfo #hielist="matAutocomplete" [displayWith]="gethierarchyinterface" (opened)="autocompleteScrollhierarchy()" >
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of hierarchylist" [value]="d">{{d.layer}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div> -->
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Control Branch Name</mat-label>
+                    <input type="text" matInput formControlName="branch" required autocomplete="off" (click)="getbranchsdata()" [matAutocomplete]="branchlist" #branchInput>
+                    <mat-autocomplete #branchinfo #branchlist="matAutocomplete" [displayWith]="getdatabranch" (opened)="autocompleteDeptScrollbranch()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of branchdatalist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+        </div>
+        <br>
+        <div class="row">
+            <!-- <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>BS Name</mat-label>
+                    <input type="text" matInput formControlName="bsname" required autocomplete="off" [matAutocomplete]="brachsslist" (click)="getbsdata()" #bsInput>
+                    <mat-autocomplete #bsinfo #brachsslist="matAutocomplete" [displayWith]="getbsdatainterface" (opened)="autocompleteScrollbs()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container  *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of bsdatalist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>CC Name</mat-label>
+                    <input type="text" matInput formControlName="ccname" required autocomplete="off" [matAutocomplete]="cclist" (click)="getccdata()">
+                    <mat-autocomplete #cclist="matAutocomplete" [displayWith]="gerccdatainterface">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container  *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of ccdatalist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div> -->
+        </div>
+        <h2 style="font-family: 'Times New Roman', Times, serif;font-weight: bold;color: blue;">Address</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Address Line1</mat-label>
+                    <input type="text" matInput formControlName="line1" required autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Adderss Line2</mat-label>
+                    <input type="text" matInput formControlName="line2" required autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Address Line3</mat-label>
+                    <input type="text" matInput formControlName="line3" required autocomplete="off">
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>PinCode</mat-label>
+                    <input type="text" matInput formControlName="pincode" required autocomplete="off" [matAutocomplete]="pinlist" (click)=" getpincodedata()" #pincodeInput>
+                    <mat-autocomplete #pincodeinfo #pinlist="matAutocomplete" [displayWith]="getpincodeinterface" (opend)="autocompleteScrollpincode()">
+                        <mat-option *ngIf="isLoading">loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of pincodelist" [value]="d" (focusout)="getpinlistfocus(d)">{{d.no}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>City</mat-label>
+                    <input type="text" matInput formControlName="city" required autocomplete="off" [matAutocomplete]="citys" (click)="getcitydata()" #cityInput>
+                    <mat-autocomplete #cityinfo #citys="matAutocomplete" [displayWith]="getcityinterface" (opened)="autocompleteScrollcity()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of citylist" [value]="d" (focusout)="getcityfocus(d)">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>District</mat-label>
+                    <input type="text" matInput formControlName="district" required autocomplete="off" [matAutocomplete]="districts" (click)="getdistrictdata()" #districtInput>
+                    <mat-autocomplete #districtinfo #districts="matAutocomplete" [displayWith]="getdistrictinterface" (opened)="autocompleteScrolldistrict()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of districtlist" [value]="d" >{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>State</mat-label>
+                    <input type="text" matInput formControlName="state" required autocomplete="off" [matAutocomplete]="statess" (click)="getstatedata()" #stateInput>
+                    <mat-autocomplete #stateinfo #statess="matAutocomplete" [displayWith]="getstateinterface" (opened)="autocompleteScrollstate()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of statelist" [value]="d" >{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+        <h2 style="color:blue;font-family:'Times New Roman', Times, serif;font-weight:bold">Contact</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Contact Type</mat-label>
+                    <mat-select formControlName="contacttype">
+                        <mat-option value="EMPLOYEE">EMPLOYEE</mat-option>
+                        <mat-option value="GROUP123">GROUP123</mat-option>
+                        <mat-option value="Individual">Individual</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Person Name</mat-label>
+                    <input type="text" matInput formControlName="personname" required autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Designation</mat-label>
+                    <input type="text" matInput formControlName="condesignation" required autocomplete="off" [matAutocomplete]="designref" (click)="getdesignation()" autocomplete="off" #designInput>
+                    <mat-autocomplete #designauto #designref="matAutocomplete" [displayWith]="getdatadesignation" (opened)="autocompleteDeptScrolldesign()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let d of designationlist;" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Landline1</mat-label>
+                    <input  matInput formControlName="landline1" required autocomplete="off" [minlength]="minLength" [maxlength]="maxLength" (keypress)="keypress($event)" autocomplete="off">
+                </mat-form-field>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Land Line2</mat-label>
+                    <input  matInput formControlName="landline2" autocomplete="off" [minlength]="minLength" [maxlength]="maxLength" (keypress)="keypress($event)" autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Mobile Number</mat-label>
+                    <input  matInput formControlName="contactnumber"  [minlength]="minLength" [maxlength]="maxLength" (keypress)="keypress($event)" autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Mobile Number2</mat-label>
+                    <input  matInput formControlName="contactnumber2" [minlength]="minLength" [maxlength]="maxLength" (keypress)="keypress($event)" autocomplete="off">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>EmailId</mat-label>
+                    <input type="email" matInput formControlName="conemailid" required autocomplete="off">
+                </mat-form-field>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-3">
+              
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Date Of Birth</mat-label>
+                        <input matInput [max]="date" [matDatepicker]="pickerjoins" formControlName="condob" autocomplete="off">
+                        <mat-datepicker-toggle matSuffix [for]="pickerjoins"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerjoins></mat-datepicker>
+                    </mat-form-field>
+               
+            </div>
+            <div class="col-md-3">
+              
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Wedding Day</mat-label>
+                    <input matInput  [max]="date" [matDatepicker]="pickerjoinn" formControlName="conwedday" autocomplete="off">
+                    <mat-datepicker-toggle matSuffix [for]="pickerjoinn"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerjoinn></mat-datepicker>
+                </mat-form-field>
+           
+        </div>
+        
+        </div>
+        <br>
+        <div class="text-center">
+            <button type="button" (click)="employeecreatedata()" class="btn btn-outline-success" style="border-radius: 40px;">Submit</button>&nbsp;&nbsp;&nbsp;
+            <button type="button" (click)="employessreset()" class="btn btn-outline-danger" style="border-radius: 40px;">Cancel</button>
+        </div>
+        <br><br>
+    </form>
+   
+
+</div>

@@ -1,0 +1,19 @@
+.btn-outline-success{
+    margin-left: 10px;
+}
+.btn-cancel {
+    margin-left: 30%;
+}
+textarea.mat-input-element {
+    margin-bottom: -23px;
+}
+.mat-fab.mat-success {
+    color: #f0fff3;
+    background-color: #56aa6a;
+  }
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+}
+::ng-deep .cdk-overlay-container {
+    z-index: 99999;
+}

@@ -1,0 +1,95 @@
+.mat-fab.mat-success {
+    color: #f0fff3;
+    background-color: #56aa6a;
+  }
+  .mat-mini-fab.mat-success {
+    color: #f0fff3;
+    background-color: #56aa6a;
+  }
+//   .highlighted {**
+//     animation: highlight 3s;
+// }
+
+@keyframes highlighted {
+    0% {
+        background: red
+    }
+    100% {
+        background: none;
+    }
+}
+
+// ::ng-deep .colorRed{ ***
+//     color:red
+// }
+
+.changeColor{
+    background-color: rgb(104, 194, 104);
+}
+
+.addbtn{
+    top: 10px;
+}
+
+// .textstylenull {
+//     border: none;
+//     background-color: transparent;
+//     resize: none;
+//     outline: none;
+// }
+
+.textstylenull {
+    background-color: transparent;
+    border: none;
+    height: 20px;
+    width: 160px;
+}
+
+.floatright{
+    float:right;
+}
+
+::ng-deep .form-field--read .mat-form-field-underline {
+    display: none;
+}
+.active{
+    color: green;
+}
+.inactive{
+    color: gray;
+}
+.cdk-overlay-connected-position-bounding-box,
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container{
+z-index: 99999 !important;
+}
+// .warning-dialog {
+//     z-index: 99999 !important;
+// }
+::ng-deep .cdk-overlay-container mat-datepicker-content{
+    z-index:10000;
+  }
+ 
+  ::ng-deep .cdk-overlay-container {
+    position: fixed !important;
+    z-index: 100000 !important; /* set value you need */
+}
+::ng-deep .cdk-overlay-container {
+    z-index: 99999;
+}
+// .dataClass{
+//     z-index: 99999;
+// }
+.modal__content,dialog-layout,mat-dialog-container,.mat-dialog-container,#cdk-overlay-0,.cdk-overlay-pane {
+    z-index: 9999 !important;
+}
+.cdk-overlay-container {
+    z-index: 99999 ;
+}
+::ng-deep .cdk-overlay-container {
+    z-index: 99999;
+}
+
+.tabbacgrdclr{
+    background-color: rgb(214, 210, 210);
+}

@@ -1,0 +1,203 @@
+<div class="container">
+    <div class="row col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-body">Asset Location
+            </div>
+        </div>
+
+    </div>
+    <div class=" row col-md-12">
+        <form [formGroup]="assetlocationform">
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Branch</mat-label>
+                    <input type="text" placeholder="Branch" (click)="branchget()" aria-label="Number" matInput
+                        formControlName='branch_id' required [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnbranch">
+                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                        <ng-container *ngIf="!isLoading">
+
+                            <mat-option *ngFor="let p of branchdata " [value]="p">
+                                {{p.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </form>
+        <div class="col-md-1">
+            <button type="button" class="btn btn-outline-primary loc" data-toggle="modal"
+                data-target="#exampleModal"
+                style="border-radius:40px;margin-left: 15px; width:40px;height: 40px;">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+            </button></div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width: 800px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"
+                            style="font-size:1.2vw;font-weight: bolder;">Asset Location Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <div>
+                                <form [formGroup]="assetlocationform" (ngSubmit)="assetlocationCreateForm()">
+                                    <table>
+                                        <div>
+                                            <tr>
+                                                <td>
+                                                    <div class="col-md-3">
+                                                        <mat-form-field class="example-full-width">
+                                                            <mat-label>Branch</mat-label>
+                                                            <input type="text" placeholder="Branch"
+                                                                (click)="branchget()" aria-label="Number"
+                                                                matInput formControlName='branch_id' required
+                                                                [matAutocomplete]="auto">
+                                                            <mat-autocomplete #auto="matAutocomplete"
+                                                                [displayWith]="displayFnbranch">
+                                                                <mat-option *ngIf="isLoading"
+                                                                    class="is-loading">Loading...</mat-option>
+                                                                <ng-container *ngIf="!isLoading">
+
+                                                                    <mat-option *ngFor="let p of branchdata "
+                                                                        [value]="p">
+                                                                        {{p.name}}
+                                                                    </mat-option>
+                                                                </ng-container>
+                                                            </mat-autocomplete>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <mat-form-field style="width: 120px;margin-left: 15px;">
+                                                        <mat-label>Location Name</mat-label>
+                                                        <input matInput placeholder="Location Name"
+                                                            formControlName="name" autocomplete="off" required>
+                                                    </mat-form-field>
+
+                                                </td>
+                                                <td>
+                                                    <mat-form-field style="width: 120px;margin-left: 15px;">
+                                                        <mat-label>Floor</mat-label>
+                                                        <input matInput placeholder="floor"
+                                                            formControlName="floor" autocomplete="off" required>
+                                                    </mat-form-field>
+
+                                                </td>
+                                                <!-- <td>
+                                                    <mat-form-field style="width: 120px;margin-left: 15px;">
+                                                        <mat-label>Refgid</mat-label>
+                                                        <input matInput placeholder="Refgid"
+                                                            formControlName="refgid" autocomplete="off"
+                                                            required>
+                                                    </mat-form-field>
+
+                                                </td> -->
+                                                <td>
+                                                    <mat-form-field style="width: 120px;margin-left: 15px;">
+                                                        <mat-label>Remarks</mat-label>
+                                                        <input matInput placeholder="Remarks"
+                                                            formControlName="remarks" autocomplete="off"
+                                                            required>
+                                                    </mat-form-field>
+
+                                                </td>
+                                            </tr>
+                                        </div>
+                                    </table>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div>
+            <table class="table table-responsive table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Expand</th>
+                        <th>Branch Code</th>
+                        <th>Branch Name</th>
+                        <th>Branch Incharge</th>
+                        <th>Tan No</th>
+                        <th>Contact Person</th>
+                        <th>Contact No</th>
+                        <th>Branch Status</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <ng-container *ngFor="let assetcat of assetloclist; index as i">
+                        <tr>
+                            <th scope="row">{{ (presentpageloc-1)*pageSize+i+1 }}</th>
+                            <td (click)="assetcat.expanded = !assetcat.expanded">
+                                <span  *ngIf="assetcat.expanded" class="coloricon"><mat-icon>arrow_drop_down</mat-icon>
+
+                                </span>
+
+                                <span  *ngIf="!assetcat.expanded" class="coloricon"><mat-icon>arrow_drop_up</mat-icon>
+                                    
+                                </span>
+                            </td>
+
+                            <td>{{ assetcat.branch.code}}</td>
+                            <td>{{ assetcat.branch.name}}</td>
+                            <td>{{ assetcat.branch.incharge}}</td>
+                            <td>{{ assetcat.branch.tanno}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>Active</td>
+                            <!-- <td></td> -->
+                        </tr>
+                        <ng-container *ngIf="assetcat.expanded">
+                            <tr>
+                                <th colspan="2"></th>
+                                <th>Location</th>
+                                <th>Floor</th>
+                                <th>Remaks</th>
+                                <th colspan="4"></th>
+                            </tr>
+                            <tr>
+                                <td colspan="2"></td>
+                                <td>{{assetcat.name}}</td>
+                                <td>{{assetcat.floor}}</td>
+                                <td>{{assetcat.remarks}}</td>
+                                <td colspan="4"></td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+                    <button mat-icon-button [disabled]="has_previousloc === false" color="primary"
+                        (click)=" locpreviousClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{presentpageloc}}
+                    <button mat-icon-button [disabled]="has_nextloc === false" color="primary"
+                        (click)=" locnextClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

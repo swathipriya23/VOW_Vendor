@@ -1,0 +1,208 @@
+<!-- <div class="container" style="margin-left:0%;" >
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+
+        <div class="card-body" *ngIf="!mobile_flag">
+          <div class="imgcontainer">
+            <img src="./assets/images/Northern Arc - Logo 1.jpg" alt="NAC" class="login1">
+          </div>
+          <span *ngIf="Url==='https://e-memo-be.NACank.in/'">
+            <h5 class="card-title text-center">Sign In</h5>
+          </span>
+          <span *ngIf="Url==='https://emc-memo-be-uat.NACank.in/'">
+            <h5 class="card-title text-center">Sign In - MEMO UAT</h5>
+          </span>
+          <span *ngIf="Url==='http://143.110.244.51:8000/'">
+            <h6 class="card-title text-center">Sign In- UAT</h6> 
+          </span> 
+         
+          <form [formGroup]="loginForm" class="login-container" (ngSubmit)="login()">
+            <div class="form-label-group">
+              <input type="text" id="username" class="form-control" autocomplete="off" name="username"
+                placeholder="username" formControlName="username">
+            </div>
+            <div class="form-label-group">
+              <input type="password" id="password" class="form-control" autocomplete="off" name="login"
+                formControlName="password" placeholder="password">
+            </div>
+            
+            <input type="submit" class="btn btn-lg btn-primary btn-block text-uppercase" value="login">
+          </form>
+
+
+        </div>
+
+        <div class="card-body" *ngIf="mobile_flag">
+          <h6 class="card-title text-center" *ngIf="otp_flag">Please verify your mobile number
+          </h6>
+          <form [formGroup]="mobile_form" class="login-container" (ngSubmit)="mobilelogin()">
+            <div *ngIf="otp_flag"class="form-label-group">Mobile Number
+              <input  type="hidden" id="mobile" class="form-control" autocomplete="off" name="Mobile "
+                placeholder="Number" formControlName="mobile_number" [readonly] ="true">
+                <input  id="mobile" class="form-control" autocomplete="off" name="Mobile "
+                placeholder="Number" formControlName="mobile_num" [readonly] ="true">
+            
+               
+            </div>
+            <p *ngIf="otp_flag">Please enter the 8-digit verification <br/>
+              code we sent via SMS:(we want to make sure it's you before Login)</p>
+            <div *ngIf="otp_flag" class="form-label-group">  OTP
+              <input type="password" id="password" class="form-control" autocomplete="off" name="login"
+                formControlName="otp" placeholder="">
+            </div>
+            <p >Did not Recieve in {{count}}s? </p>
+            <p *ngIf="count==0" style="text-align: right; color: blue;" (click)="gen_otp()" > <a >Resend OTP</a></p>
+            
+            <input *ngIf="otp_flag" type="submit" class="btn btn-lg btn-primary btn-block text-uppercase" value="verify">
+
+          </form>
+
+
+        </div>
+
+
+
+
+      </div>
+    </div>
+
+  </div>
+
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">Loading...</p>
+  </ngx-spinner>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="vh-100" *ngIf="redirect_tO_NAC == false">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-sm-8 px-0 d-none d-sm-block">
+          <img src="./assets/images/NorthernArc.png" alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
+      </div>
+
+      <div class="col-sm-4 text-black">
+
+        <div style="margin-left: 40px;" *ngIf="!mobile_flag">
+          <div style="margin-top: 121px;">
+            <img src="./assets/images/Northern Arc - Logo 1.jpg" alt="NAC" class="logo">
+          </div>
+          <!-- <span *ngIf="Url==='https://e-memo-be.NACank.in/'">
+            <h5 class="card-title text-center">Sign In</h5>
+          </span>
+          <span *ngIf="Url==='https://emc-memo-be-uat.NACank.in/'">
+            <h5 class="card-title text-center">Sign In - MEMO UAT</h5>
+          </span> -->
+          <!-- <span *ngIf="Url==='http://143.110.244.51:8185/'">
+            <h6 class="card-title text-center">Sign In- UAT</h6> 
+          </span>  -->
+
+          <!-- <form [formGroup]="loginForm" class="login-container" style="margin-top: 30%;" (ngSubmit)="login()">
+            <div class="form-label-group">
+              <input type="text" id="username" class="form-control" autocomplete="off" name="username"
+                placeholder="username" formControlName="username">
+            </div>
+            <div class="form-label-group">
+              <input type="password" id="password" class="form-control" autocomplete="off" name="login"
+                formControlName="password" placeholder="password">
+            </div>
+            <br>
+            
+  
+            <button  class="button-name"> Sign in</button>
+            <div class = "fixed-bottom v1">
+              <span>Version - {{version}}</span>
+            </div>
+            
+          </form> -->
+          <form [formGroup]="loginForm" class="login-container" style="margin-top: 20%;" (ngSubmit)="login()">
+            <mat-form-field appearance="outline" style="width: 300px;">
+              <mat-label>Entity</mat-label>
+              <mat-select formControlName="entity_id">
+                  <mat-option *ngFor="let entity of EntityList" (click)="select_entityId(entity)" [value]="entity.id">
+                      {{entity.text}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 300px;">
+              <mat-label>UserCode/Email</mat-label>
+              <input matInput placeholder="Username/Email" formControlName="user"
+                  autocomplete="off">
+           </mat-form-field>
+            <div class="error-messages">
+              <ng-container *ngFor="let error of error_messages.user">
+                <div class="error-message"
+                  *ngIf="loginForm.get('user').hasError(error.type) && (loginForm.get('user').dirty || loginForm.get('user').touched)">
+                  {{ error.message }}
+                </div>
+              </ng-container>
+            </div>
+           
+            <mat-form-field appearance="outline" style="width: 300px;">
+              <mat-label>Password</mat-label>
+              
+                  <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+           </mat-form-field>
+            <div class="error-messages">
+              <ng-container *ngFor="let error of error_messages.password">
+                <div class="error-message"
+                  *ngIf="loginForm.get('password').hasError(error.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+                  {{ error.message }}
+                </div>
+              </ng-container>
+            </div>
+
+            <button  class="button-name"> Login</button>
+            <!-- <div class = "fixed-bottom v1">
+              <span>Version - {{version}}</span>
+            </div> -->
+            <!-- <div class="form-group">
+              <label class="cursorpointer"><small> Forgot Password? </small></label>
+            </div>
+            <div class="row space">
+              <div class="col">
+                <button mat-flat-button color="primary" class="loginsubmit" [disabled]="vowService.process" (click)="VowloginSubmit()">
+                  <mat-spinner color="warn" [diameter]="25" *ngIf="vowService.process"></mat-spinner>
+                  <span *ngIf="!vowService.process">Login</span>
+                </button>
+                <p class="signupname">Don't have an account? <a
+                  class="primary tagname" (click)="registerclick()">Register</a></p>
+              </div>
+            </div> -->
+          </form>
+         
+          
+
+
+        </div>
+        
+        
+
+        
+       
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner> -->

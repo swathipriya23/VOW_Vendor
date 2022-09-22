@@ -1,0 +1,45 @@
+
+.title {
+    margin-left: 47%;
+    margin-top: 4%;
+  }
+  
+  .content {
+  margin-left: 3%;
+  }
+  
+  .text {
+    margin-left: 220px;
+    margin-top: 10%;
+  }
+  
+  .form1 {
+    width: 1500px;
+  }
+  
+  .form2 {
+    width: 2000px;
+  }
+  
+  .uploadImages {
+    margin-right: 160px;
+  }
+  
+  .mat-card>:last-child:not(.mat-card-footer),                              
+  .mat-card-content>:last-child:not(.mat-card-footer) {
+    margin-bottom: 0;
+    margin: 6px;
+  }
+  .btn-outline-success{
+    margin-left: 10px;
+}
+
+  .btn-cancel {
+    margin-left: 30%;
+  }
+  
+  
+  .memo-form{
+    width:300px !important;
+    margin-left: 10px;
+  }

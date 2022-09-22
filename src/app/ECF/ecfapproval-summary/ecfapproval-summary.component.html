@@ -1,0 +1,206 @@
+<div style="margin-left: 50px;margin-top: 3%;">
+
+    <h2 style="margin-left: 1px;font-family:'Times New Roman';font-weight:bold;">ECF Approval Search</h2>
+
+
+    <div>
+        <form [formGroup]="ecfapprovalSearchForm" style="margin-left:2%;">
+            <table style="margin-bottom: 2%;">
+                <div>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 200px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput placeholder="CR No" formControlName="crno" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <td>
+
+                            <mat-form-field
+                                style="width: 200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+                                <mat-label>Invoice Type</mat-label>
+                                <mat-select formControlName="ecftype">
+                                    <mat-option *ngFor="let type of TypeList" [value]="type.id">
+
+                                        {{type.text}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+
+                        </td>
+                        <td>
+
+                            <mat-form-field
+                                style="width: 200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput placeholder="Invoice Number" formControlName="invno" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field
+                                style="width: 200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+
+                                <mat-label>Supplier</mat-label>
+                                <input #suppInput placeholder="Select Supplier" matInput formControlName="supplier_id"
+                                    [matAutocomplete]="suppliertype">
+                                <mat-autocomplete #suppliertype="matAutocomplete" [displayWith]="displayFnsupplier"
+                                    (opened)="supplierScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let supp of Supplierlist" [value]="supp">
+                                            {{supp.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+
+                            <mat-form-field style="width: 200px;font-family: 'Times New Roman', Times, serif;">
+
+                                <mat-label>Employee</mat-label>
+                                <input #empInput placeholder="Select employee" matInput formControlName="employee_id"
+                                    [matAutocomplete]="emptype">
+                                <mat-autocomplete #emptype="matAutocomplete" [displayWith]="displayFnemployee"
+                                    (opened)="employeeScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let emp of Employeelist" [value]="emp">
+                                            {{emp.full_name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field
+                                style="width: 200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+
+                                <mat-label>Branch</mat-label>
+                                <input #branchInput placeholder="Select branch" matInput formControlName="branch_id"
+                                    [matAutocomplete]="branchtype">
+                                <mat-autocomplete #branchtype="matAutocomplete" [displayWith]="displayFnbranch"
+                                    (opened)="branchScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let branch of Branchlist" [value]="branch">
+                                            {{branch.codename}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field
+                                style="width: 200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+                                <mat-label>From Date</mat-label>
+                                <input matInput [matDatepicker]="picker1" placeholder="From Date"
+                                    formControlName="fromdate">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field
+                                style="width: 200px;margin-left: 50px;font-family: 'Times New Roman', Times, serif;">
+                                <mat-label>To Date</mat-label>
+                                <input matInput [matDatepicker]="picker2" placeholder="To Date"
+                                    formControlName="todate">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+
+                            </mat-form-field>
+                        </td>
+                    </tr>
+
+
+
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 200px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput placeholder="Min Amount" formControlName="minamt" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field
+                                style="width: 200px;margin-left:50px;font-family: 'Times New Roman', Times, serif;">
+                                <input matInput placeholder="Max Amount" formControlName="maxamt" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+
+                        <button class="btn btn-outline-primary" type="submit"
+                            style="border-radius:40px;margin-left: 50px;" color="primary" (click)="approversearch()"><i
+                                matTooltip="Search" class="fa fa-search" aria-hidden="true"></i></button>
+                        <button class="btn btn-outline-primary" type="button"
+                            style="border-radius:40px;margin-left: 15px;font-family: 'Times New Roman', Times, serif;"
+                            color="primary" (click)="reset()">Reset</button>
+
+                    </tr>
+                </div>
+            </table>
+        </form>
+    </div>
+
+
+    <h2 style="font-family:'Times New Roman';font-weight: bold;margin-left: 1px;">ECF Approval Summary</h2>
+    <div class="table-responsive" style="width: 94%; overflow-x: hidden;">
+        <table class="table table-bordered" fixed-header>
+            <thead class="table_header" style='font-family:"Times New Roman";'>
+                <tr>
+
+                    <th>S.No</th>
+                    <th>CR No</th>
+                    <th>Purpose</th>
+                    <th>Invoice Type</th>
+                    <!-- <th>Invoice No</th> -->
+                    <th>Invoice Date</th>
+                    <th>Invoice Amount</th>
+                    <!-- <th>Branch Code-Name</th> -->
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+            <tbody style='font-family:"Times New Roman"'>
+                <tr *ngFor="let list of approvalList; index as i">
+                    <!-- <td> {{(approvalpresentpage - 1)*approvalpagesize +i+1 }} </td>  -->
+                    <td>{{i+1}}</td>
+                    <td>{{list.crno}}</td>
+                    <td>{{list.remark}}</td>
+                    <td>{{list.ecftype}}</td>
+                    <!-- <td>-</td> -->
+                    <td>{{list.ecfdate|date:'dd-MMM-yyyy'}}</td>
+                    <td>{{list.ecfamount}}</td>
+                    <!-- <td>-</td> -->
+                    <!-- <td>-</td> -->
+                    <td>{{list.ecfstatus}} </td>
+
+                    <td>
+                        <span matTooltip="view" class=" fa fa-eye create " style="color: green;cursor: pointer;"
+                            (click)="showapproveview(list)"></span>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="approvalList ?.length == 0" style="margin-left: 42%;">
+            <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!.. </h3>
+        </div>
+        <!-- <div class="row" *ngIf="isapprovalpage">
+            <div class="col-sm-12" style="font-size: small;text-align: right; margin-bottom: 50px;">
+                <button mat-icon-button [disabled]="has_pageprevious === false" color="primary"
+                    (click)="previousClickPayment()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                {{approvalpresentpage}}
+                <button mat-icon-button [disabled]="has_pagenext === false" color="primary" (click)="nextClickPayment()">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </div>  -->
+    </div>
+
+</div>

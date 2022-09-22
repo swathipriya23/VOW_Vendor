@@ -1,0 +1,199 @@
+
+
+<div style="margin-left: 50px;margin-right: 90%;margin-top: 3%; width: 100%;">
+    <!-- <h3>
+       Document Edit Form
+    </h3> -->
+    <div>
+        <form [formGroup]="kycEditForm" (ngSubmit)="kycEditCreateForm()" autocomplete="off">
+            <table>
+                
+                <tr>
+                    <td>
+                        <mat-label>Entity<label style="color:red">*</label></mat-label><br>
+                        <mat-form-field style="width: 175px;" class="matformfieldstyle" appearance="outline">
+
+                            <input matInput formControlName="kyc_entity" class="matformfieldinputstyle"
+                                type="text"  autocomplete="off">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 60px;"> {{ keyname }} <label style="color:red">*</label></mat-label><br>
+                        <mat-form-field style="width: 175px;margin-left: 60px;" class="matformfieldstyle" appearance="outline">
+
+                            <input matInput formControlName="organization_name" class="matformfieldinputstyle"
+                                type="text"  autocomplete="off">
+                        </mat-form-field>
+                    </td>
+                
+                    
+                    <td *ngIf="(this.orgname != 'Individual' && this.orgname != 'Sole Proprietorship')">
+                        <mat-label style="margin-left: 60px;">Authorised Signatories<label style="color:red">*</label></mat-label><br>
+                        <mat-form-field style="width: 175px;margin-left: 60px;" class="matformfieldstyle" appearance="outline">
+
+                            <input matInput formControlName="authorised_signatories" class="matformfieldinputstyle"
+                                type="text"  autocomplete="off">
+                        </mat-form-field>
+                    </td>
+                    <td *ngIf="(this.orgname != 'Individual' && this.orgname != 'Sole Proprietorship' && this.orgname != 'Public Limited (listed)')">
+                        <mat-label style="margin-left: 60px;">Beneficial Owners<label style="color:red">*</label></mat-label><br>
+                        <mat-form-field style="width: 175px;margin-left: 60px;" class="matformfieldstyle" appearance="outline">
+
+                            <input matInput formControlName="beneficial_owners" class="matformfieldinputstyle"
+                                type="text"  autocomplete="off">
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-label>Sanctions Screening<label style="color:red">*</label> </mat-label><br>
+                        <mat-form-field class="matformfieldstyle" style="width: 175px;" appearance="outline">
+                            <mat-select  class="matformfieldinputstyle" formControlName="sanctions_conducted">
+                                <mat-option *ngFor="let san of sanction" [value]="san.id">{{san.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 60px;">Match Found<label style="color:red">*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" style="width: 175px;margin-left: 60px;" appearance="outline">
+                            <mat-select  class="matformfieldinputstyle" formControlName="match_found">
+                                <mat-option *ngFor="let match of matchfound" [value]="match.id">{{match.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                 </table>
+                 <br>
+                
+                <table>
+                 <tr>
+                
+                 <td>
+                    <label style="margin-right: 2em;border: none;">
+                        <input class="borderremove" type="file" #takeInput accept=".txt,.doc,.pdf,.ppt,.pot,.pps,.pptx,.odt,.odg,.odp,.ods,.docx,.docm,
+                        .dotx,.dotm,.docb,
+                        .xlsx,.xls,.xlt,.xlm,.xlsm,.xltx,.xltm,.jpg,.jpeg,.tiff,.tif,.png"
+                            multiple="true"  name="images"
+                            (change)="fileChange($event)">
+                    </label>
+                </td>
+                <td>
+                    <div
+                         *ngFor="let upload of images;index as i" class="btn-link">
+                            <!-- {{ upload}} -->
+                            <span  class="btn-link" style="cursor: pointer;"
+                                data-target="#my-modalpreview" data-toggle="modal" (click)="fileview(upload)">
+                                {{i+1}}. {{upload.name}}
+    
+                            </span>
+                            <button mat-icon-button type="button">
+                                <mat-icon style="color: gray;" aria-label="Edit" (click)="deleteUpload(upload, i)">
+                                    delete</mat-icon>
+                            </button>
+                           
+
+                       
+                    </div>
+                </td>
+              
+                
+            </tr>
+            <tr>
+                <td>
+                    <tr *ngFor="let multifile of fileList;index as i">
+                        <!-- <td>{{i+1}}</td> -->
+                        <!-- <a (click)="data(multifile)" >{{ multifile.file_name}}<i class="material-icons">
+                            get_app
+                        </i></a> -->
+                        <span  class="btn-link" style="cursor: pointer;"
+                                data-target="#my-modal" data-toggle="modal" (click)="docUpdateFile(multifile.id,multifile.file_name)">
+                                {{i+1}}. {{multifile.file_name}}
+    
+                        </span>
+                       
+                        <td>
+                            <mat-icon style="color: gray;cursor: pointer;" (click)="fileDeletes(multifile,i)">delete</mat-icon>
+                        </td> 
+                       </tr>
+                </td>
+            </tr>
+             
+                </table><br><br>
+                
+            </form>
+            
+        </div>
+    </div>
+    
+<div style="margin-top: 3%;margin-left: 20px;">
+    <button type="button"  class="btn btn-light"
+    style="border-radius: 7px;margin-left: 10px;
+      border-color: black;
+      background-color: white;" 
+    (click)="onCancelClick()">Cancel</button>
+    <button type="submit" style="border-radius: 10px;margin-left: 10px;
+    border-color: #f5c68b;
+    background-color: #f5c68b;"
+    class="btn btn-light" (click)="kycEditCreateForm()" >Submit</button>
+     </div>
+
+
+<div *ngIf="showimageHeaderAPI" id="my-modal" class="modal fade" aria-labelledby="my-modalLabel" aria-hidden="true"
+    tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" data-dismiss="modal" style="width: 60%;height: 80%;">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src="{{jpgUrls}}" class="img-responsive" style="width: 100%;">
+
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div *ngIf="showimagepdf" id="my-modal" class="modal fade" aria-labelledby="my-modalLabel" aria-hidden="true"
+    tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;">
+                <h2 class="modal-title">PDF View</h2>
+            </div>
+            <pdf-viewer [src]="pdfurl" [render-text]="true" [original-size]="false"
+                style="display: block;width: 800px; height: 800px;"></pdf-viewer>
+        </div>
+    </div>
+
+</div> 
+
+
+
+<div *ngIf="showimageHeaderPreviewPDF" id="my-modalpreview" class="modal fade" aria-labelledby="my-modalLabel"
+    aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;">
+                <h2 class="modal-title">PDF View</h2>
+            </div>
+            <pdf-viewer [src]="previewpdfurl" [render-text]="true" [original-size]="false"
+                style="display: block;width: 800px; height: 800px;"></pdf-viewer>
+        </div>
+    </div>
+</div>
+<div *ngIf="showimageHeaderPreview" id="my-modalpreview" class="modal fade" aria-labelledby="my-modalLabel"
+    aria-hidden="true" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" data-dismiss="modal" style="width: 60%;height: 80%;">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src="{{previewjpgUrls}}" class="img-responsive" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+        <p style="color: white">Please Wait. </p>
+    </ngx-spinner>
+
+  

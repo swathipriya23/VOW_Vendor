@@ -1,0 +1,20 @@
+::ng-deep .mat-form-field-outline {
+    color:grey !important;
+    
+  }
+  
+  ::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+    color: red !important;
+    opacity: 0.8 !important;
+  }
+  
+  
+  .matformfieldstyle{
+    font-size:5px;
+  
+    // margin-top: 5px
+  }
+  
+  .matformfieldinputstyle{
+    font-size:16px ;
+  }

@@ -1,0 +1,113 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h2>
+       DocumentGroup Form
+    </h2>
+    <div>
+        <form [formGroup]="docGrpForm" (ngSubmit)="docGrpCreateForm()" autocomplete="off">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 10px;">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name" autocomplete="off" 
+                                required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 20px;">
+                            <mat-label for="parent">ISParent</mat-label>
+                            <mat-select formControlName="isparent">
+                            <mat-option value="">--</mat-option>
+                            <mat-option value="Y">Yes</mat-option>
+                            <mat-option value="N">No</mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </td>
+                            <!-- <td>
+                            <mat-form-field style="width: 175px;margin-left: 20px;">
+                                <mat-label >Parent</mat-label>
+                                <mat-select formControlName="parent_id" >
+                                <mat-option> </mat-option>
+                                    <mat-option *ngFor="let par of parentlist" [value]="par.id" >
+                                        {{par.name}} 
+                                    </mat-option>
+                                    <mat-option (click)="nextClickpro()">Loadmore</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td> -->
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 20px;">
+                           
+                                <mat-label>Parent</mat-label>
+                                <input #docInput placeholder="Select parent" matInput 
+                                formControlName="parent_id"
+                                    [matAutocomplete]="parenttype">
+                                <mat-autocomplete #parenttype="matAutocomplete" 
+                                [displayWith]="displayFnparent" (opened)="parentScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let par of parentlist" 
+                                         [value]="par">
+                                            {{par.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+    
+                        </td>
+    
+
+                        
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 10px;">
+                            <mat-label for="partnertype">PartnerType</mat-label>
+                            <mat-select formControlName="partnertype">
+                            <mat-option value="">--</mat-option>
+                            <mat-option value="Y">Yes</mat-option>
+                            <mat-option value="N">No</mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 20px;">
+                                <mat-label>DocumentName</mat-label>
+                                <input matInput placeholder="Documentname" formControlName="docname" autocomplete="off" 
+                                required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 20px;">
+                                <mat-label>Period</mat-label>
+                                <input matInput placeholder="period" formControlName="period" autocomplete="off" 
+                                required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 10px;">
+                            <mat-label for="mand">Mandatory</mat-label>
+                            <mat-select formControlName="mand">
+                            <mat-option value="">--</mat-option>
+                            <mat-option value="Y">Yes</mat-option>
+                            <mat-option value="N">No</mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+            <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+            
+            <!-- <button type="submit" disabled="true" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                >Submit</button> -->
+            
+        </form>
+    </div>
+</div>

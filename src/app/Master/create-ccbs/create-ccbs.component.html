@@ -1,0 +1,174 @@
+<!-- <div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+    <h3>
+        CCBS Form
+    </h3>
+    <div>
+        <form [formGroup]="AddForm" (ngSubmit)="submitForm()">
+            <table>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;">
+                            <mat-label>Code</mat-label>
+                            <input matInput placeholder="Code" formControlName="code" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-left: 50px;">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;">
+                            <mat-label>No</mat-label>
+                            <input matInput placeholder="No" formControlName="no" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;margin-left: 50px;">
+                            <mat-label>Glno</mat-label>
+                            <input matInput placeholder="Glno" formControlName="glno" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;">
+                            <mat-label>Cost Centre</mat-label>
+                            <mat-select (selectionChange)="filter($event)" formControlName="costcentre_id">
+                                <mat-option *ngFor="let cc of costCentreList" [value]="cc.id">{{cc.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                
+                
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;margin-left: 50px;">
+                            <mat-label>Business Segment</mat-label>
+                            <mat-select (selectionChange)="filter1($event)" formControlName="businesssegment_id">
+                                <mat-option *ngFor="let bs of businessSegmentList" [value]="bs.id">{{bs.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;">
+                            <mat-label>Description</mat-label>
+                            <input matInput placeholder="Description" formControlName="description" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-left: 50px;margin-top: 20px;">
+                            <mat-label>Remarks</mat-label>
+                            <textarea matInput placeholder="Remarks" formControlName="remarks" autocomplete="off"></textarea>
+                        </mat-form-field>
+                    </td>  
+                </tr>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                [disabled]="AddForm.invalid">Submit</button>
+            <button [routerLink]='"/employeeSummary"' skipLocationChange class="btn btn-outline-primary"
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button>    
+        </form>
+    </div>
+</div>
+ -->
+
+
+ <div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h1 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">
+        CCBS Form
+    </h1><hr>
+        <div>
+        <form [formGroup]="CCBSForm" (ngSubmit)="CCBSCreateForm()">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label> Select BS Name</mat-label>
+                                <input #bsInput placeholder="Select BS" matInput formControlName="businesssegment" (keypress)="kyenbdata($event)"
+                                    [matAutocomplete]="bs" (focusout)="patch()" required>
+                                    <mat-error *ngIf="CCBSForm.controls.businesssegment.errors?.incorrectValue">
+                                        {{CCBSForm.controls.businesssegment.errors?.incorrectValue}}
+                                    </mat-error>
+                                <mat-autocomplete #bs="matAutocomplete" [displayWith]="displayFnbs" (opened)="autocompletebsScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let bs of bsList" [value]="bs">{{bs.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 50px;">
+                                <mat-label>Select CC Name</mat-label>
+                                <input #ccInput placeholder="Select CC" matInput formControlName="costcentre" (keypress)="kyenbdata($event)"
+                                    [matAutocomplete]="cc" (focusout)="patch()" required>
+                                    <mat-error *ngIf="CCBSForm.controls.costcentre.errors?.incorrectValue">
+                                        {{CCBSForm.controls.costcentre.errors?.incorrectValue}}
+                                    </mat-error>
+                                <mat-autocomplete #cc="matAutocomplete" [displayWith]="displayFncc" (opened)="autocompleteccScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let cc of ccList" [value]="cc">{{cc.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 300px;margin-left: 50px;">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name" (keypress)="kyenbdata($event)" autocomplete="off" readonly required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>No</mat-label>
+                                <input matInput placeholder="No" formControlName="no" (keypress)="kyenbdata($event)" autocomplete="off" readonly required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 50px;">
+                                <mat-label>GL No</mat-label>
+                                <input matInput placeholder="GLNo" formControlName="glno" autocomplete="off" required (keypress)="kyenbdata($event)">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px; margin-left: 50px;" appearance="outline">
+                                <mat-label> Remarks</mat-label>
+                                <textarea rows="7" cols="25" matInput placeholder=" Remarks" (keypress)="kyenbdata($event)" autocomplete="off" required formControlName="remarks"></textarea>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px; margin-left: 50px;" appearance="outline">
+                                <mat-label> Description</mat-label>
+                                <textarea rows="7" cols="25" matInput placeholder="Description" (keypress)="kyenbdata($event)" autocomplete="off" required formControlName="description"></textarea>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary" 
+            >Submit</button>
+            <button type="button" (click)="onCancelClick()"class="btn btn-outline-primary" 
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+            
+        </form>
+    </div>
+</div>
+
+<!-- <pre>
+    {{CCBSForm.value | json}}
+</pre>  -->

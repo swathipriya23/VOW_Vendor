@@ -1,0 +1,2278 @@
+<div class="container">
+	<br>
+	<h2>Budget Builder</h2>
+	<form [formGroup]="pprSearchForm">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<mat-form-field (click)="finyear_dropdown()">
+						<mat-label>Fin Year</mat-label>
+						<input placeholder="fin_year" matInput formControlName="finyear" #finyearInput
+							[matAutocomplete]="fin_year" required>
+						<mat-autocomplete #fin_year="matAutocomplete" [displayWith]="displayfnfinyear"
+							(opened)="autocompletefinyearScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let finyearname of finyearList" [value]="finyearname">
+									{{finyearname.finyear}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<mat-label>Select Year Terms</mat-label>
+					<br>
+					<mat-radio-group aria-label="Select Quarterly or Monthly*" formControlName="year_term"
+						#group="matRadioGroup">
+						<!-- <mat-radio-button value="Quarterly" [disabled]=disableMessage>Quarterly</mat-radio-button> -->
+						<mat-radio-button value="Monthly" required> Monthly</mat-radio-button>
+					</mat-radio-group>
+				</div>
+
+				<div class="col-md-3">
+					<mat-label>Select Amount</mat-label>
+					<br>
+					<mat-radio-group aria-label="Select Quarterly or Monthly*" formControlName="divAmount"
+						#group="matRadioGroup">
+						<mat-radio-button value="L">In Lakhs</mat-radio-button>&nbsp;&nbsp;&nbsp;
+						<mat-radio-button value="T"> In Thousands</mat-radio-button>
+					</mat-radio-group>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="branchname()">
+						<mat-label>Branch</mat-label>
+						<input #branchInput placeholder="branch" matInput formControlName="branchid" #branchContactInput
+							[matAutocomplete]="branch" required>
+						<mat-autocomplete #branch="matAutocomplete" [displayWith]="displayfnbranch"
+							(opened)="autocompletebranchnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let branch of branchList" [value]="branch">
+									{{branch.code}}-{{branch.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="Sector_dropdown()">
+						<mat-label>Sector</mat-label>
+						<input placeholder="Sector" matInput formControlName="sectorname" #sectornameInput
+							[matAutocomplete]="sector_name" required>
+						<mat-autocomplete #sector_name="matAutocomplete" [displayWith]="displayfnsectorname"
+							(opened)="autocompletesectorScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let sector of sectorList" [value]="sector"
+									(click)="secotralldata_clear()" (focusout)="selectsectorSection(sector)">
+									{{sector.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="Business_dropdown()">
+						<mat-label>Business</mat-label>
+						<input placeholder="Business" matInput formControlName="businesscontrol" #businessInput
+							[matAutocomplete]="business_name" required>
+						<mat-autocomplete #business_name="matAutocomplete" [displayWith]="displayfnbusiness"
+							(opened)="autocompletebusinessnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let business of businessList" (click)="business_bs_clear()"
+									[value]="business" (focusout)="selectbusinessSection(business)"> {{business.name}}
+								</mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="bsname_dropdown()">
+						<mat-label>BS</mat-label>
+						<input placeholder="bs" matInput formControlName="bs_id" #bsInput [matAutocomplete]="bs"
+							required>
+						<mat-autocomplete #bs="matAutocomplete" [displayWith]="displayfnbs"
+							(opened)="autocompletebsnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let bs of bsList" [value]="bs" (click)="bs_cc_clear()"
+									(focusout)="selectbsSection(bs)"> {{bs.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="ccname_dropdown()">
+						<mat-label>CC</mat-label>
+						<input #bsclear_nameInput placeholder="cc_name" matInput formControlName="cc_id" #ccInput
+							[matAutocomplete]="cc_name" required>
+						<mat-autocomplete #cc_name="matAutocomplete" [displayWith]="displayfncc"
+							(opened)="autocompletccnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let cc of ccList" [value]="cc"> {{cc.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="row">
+
+				<div class="col-md-3">
+					<mat-form-field style="width: 100%;" (click)="Expensegrp_dropdown()">
+						<mat-label>Expense Group</mat-label>
+						<mat-chip-list #chipListprod>
+							<mat-chip *ngFor="let pro of chipSelectedprod" [selectable]=true [removable]=true
+								(removed)="removedprod(pro)"> {{pro.name}}
+								<mat-icon matChipRemove>cancel</mat-icon>
+							</mat-chip>
+							<input #expInput [formControl]="expensegrp" [matAutocomplete]="exp"
+								[matChipInputFor]="chipListprod" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+								[matChipInputAddOnBlur]=true>
+						</mat-chip-list>
+						<mat-autocomplete #exp="matAutocomplete" (optionSelected)="prodSelected($event)"
+							(opened)="autocompletexpenseScroll()">
+							<mat-option *ngFor="let prod of expenseList" [value]="prod"> {{prod.name}} </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+
+				<div class="col-md-3">
+					<mat-form-field (click)="status_droup()">
+						<mat-label>Status </mat-label>
+						<mat-select formControlName="status_id">
+							<mat-option>None</mat-option>
+							<mat-option *ngFor="let status of statusVal" [value]="status.id">{{status.status}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<label>Capex</label>&nbsp;&nbsp;<mat-slide-toggle formControlName="checkval">Revenue
+					</mat-slide-toggle>
+				</div>
+				<div class="col-md-1">
+					<div style="text-align: center;cursor: pointer;">
+						<button class="btn btn-outline-primary" style="border-radius: 40px;"
+							(click)="budgetbuildersearechclick(this.pprSearchForm.value)">
+							Search
+						</button>
+					</div>
+				</div>
+					<!-- </div> -->
+					<!-- <div class="example-button-container"> 
+				<button style="border-radius: 40px;"
+					class="btn btn-outline-primary"  type="submit" (click)="budgetbuildersearech_click(this.pprSearchForm.value)">Search
+				<mat-icon>search</mat-icon>
+				</button>
+				</div> -->
+					<!-- </div> -->
+					<div class="col-md-2">
+					<button type="submit" style="border-radius: 40px;" class="btn btn-outline-primary"
+						(click)="clear_budgetdata()">Reset</button>
+					</div>
+					
+				</div>
+
+			</div>
+			<!-- </div> -->
+			<!-- <mat-form-field style="width: 160px;margin-left: 20px;">
+			<mat-label>Supplier Lists</mat-label>
+		
+			<mat-select (click)="getsupplier($event)" matNativeControl #select multiple>
+				<mat-form-field >
+					<input class="myInput"  (keypress) = "searchInput($event) " #myInput matInput focused="'true'" type="text" autocomplete="off" placeholder="search" id="input_2">
+				  </mat-form-field>
+			  <div class="select-all">
+		
+				  <mat-checkbox  [(ngModel)]="allSelected"
+								  [ngModelOptions]="{standalone: true}"
+								  (change)="toggleAllSelection()">Select All</mat-checkbox>
+			  </div>
+		
+			  <mat-option (click)="optionClick()" *ngFor="let suppliers of supplierLists;let ind=index" [value]="suppliers">
+				{{suppliers.supplier_name}}--{{allSelected}}
+			  </mat-option>
+			</mat-select>
+		
+		  </mat-form-field> -->
+			<!-- <div class="col-md-2"> -->
+
+			<!-- <label [ngStyle]="{'color': (isChecked==false) ? 'green' : 'black'}">Capex {{isChecked}}</label><mat-slide-toggle [(ngModel)]="isChecked" [ngStyle]="{'color': (isChecked==true) ? 'green' : 'black'}">Revenue {{isChecked}}</mat-slide-toggle> -->
+		
+	</form>
+	<div class="tableFixHead" [hidden]=headerchecksearch>
+
+		<table class="table table-bordered" fixed-header style="margin-top: 6%;" id ='commonstyle'>
+			<thead>
+				<tr>
+					<th style="    text-align: center;">Name</th>
+					<th> Apr {{startyear}} </th>
+					<th> May {{startyear}}</th>
+					<th> Jun {{startyear}} </th>
+					<th> Jul {{startyear}} </th>
+					<th> Aug {{startyear}} </th>
+					<th> Sep {{startyear}} </th>
+					<th> Oct {{startyear}} </th>
+					<th> Nov {{startyear}}</th>
+					<th> Dec {{startyear}} </th>
+					<th> Jan {{lastyear}}</th>
+					<th> Feb {{lastyear}} </th>
+					<th> Mar {{lastyear}} </th>
+					<th>YTD </th>
+				</tr>
+			</thead>
+
+
+
+			<tbody *ngFor="let level of levelslist;let i=index">
+				<ng-container>
+					<tr>
+						<td colspan="1" *ngIf="i==2" style="background-color: #ffff0045; text-align: center;">
+							Direct Cost
+						</td>
+						<td colspan="1" *ngIf="i==0" style="background-color: #ffff0045; text-align: center;">
+							Income
+						</td>
+						<td colspan="1" *ngIf="i==1" style="background-color: #ffff0045; text-align: center;">
+							HR Cost
+						</td>
+						<td (click)="expant_level(i,level)" colspan="14" *ngIf="i!=2"
+							style="background-color: #ffff0045; text-align: center;"
+							(click)="level.expanded = !level.expanded">
+							<a style="color: blue;">{{level.name}}</a>
+
+
+						</td>
+
+						<td colspan="14" *ngIf="i==2" style="background-color: #ffff0045; text-align: center;">
+							<a data-toggle="modal" #popupbb style="display: none;"
+								data-target=".bd-budgetbuilderpopup-modal-lg"></a>
+							<a style="color: blue;"
+								(click)="budgetbuildersearech_click(this.pprSearchForm.value)">{{level.name}}</a>
+
+
+						</td>
+					</tr>
+
+					<ng-container #exp *ngIf="i==0">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levelsdatas;index as k">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div *ngIf="leveldata.Padding_left!='200px'" style="color: blue; ">
+										<a (click)="treelevelsDatas(i,k,leveldata,levelsdatas)"
+											title="{{leveldata.title}}">{{leveldata.name}}
+										</a>
+									</div>
+									<div *ngIf="leveldata.Padding_left==='200px'" style="color: black;">
+										<a (click)="treelevelsDatas(i,k,leveldata,levelsdatas)"
+											title="Sub Category">{{leveldata.name}}</a>
+									</div>
+
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+							<!--</div>  -->
+
+
+						</ng-container>
+
+					</ng-container>
+
+					<ng-container *ngIf="i==1">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levelsonedatas;index as j">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"
+										title="{{leveldata.title}}">
+
+										<a
+											(click)="treelevelsDatas(i,j,leveldata,levelsonedatas)">{{leveldata.name}}</a>
+									</div>
+									<div *ngIf="leveldata.Padding_left==='200px'" style="color: black;">
+										<a (click)="treelevelsDatas(i,j,leveldata,levelsonedatas)"
+											title="Sub Category">{{leveldata.name}}</a>
+									</div>
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+
+					<ng-container *ngIf="i==2">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levelstwodatas;index as levelind">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"
+										title="{{leveldata.title}}"
+										(click)="treelevelsDatas(i,levelind,leveldata,levelstwodatas)">
+										{{leveldata.name}}
+									</div>
+
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									{{leveldata.YTD}}
+
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+
+					<!-- </ng-container> -->
+					<ng-container *ngIf="i==4">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levels4adatas ;let e=index">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<!-- <div *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"><a title="{{leveldata.title}}"
+											(click)="treelevelsDatas(i,e,leveldata,levels4adatas)">{{leveldata.name}}</a>
+									</div> -->
+									<div title="Sub Category" style="color: black;">{{leveldata.name}}</div>
+									<!-- <div  style="color: blue;">{{leveldata.name}}</div> -->
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+
+					<ng-container *ngIf="i==5">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levels4a2datas;index as levelind5a">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div *ngIf="leveldata.Padding_left!='120px'" style="color: blue;"
+										(click)="treelevelsDatas(i,levelind5a,leveldata,levels5adatas)">
+										{{leveldata.name}}
+									</div>
+									<div *ngIf="leveldata.Padding_left==='120px'" title="Sub Category"
+										(click)="treelevelsDatas(i,levelind5a,leveldata,levels5adatas)">
+										{{leveldata.name}}</div>
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+					<ng-container *ngIf="i==6">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levels4a3datas;index as level4a3ind">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div style="color: black;">
+										{{leveldata.name}}
+									</div>
+
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+					<ng-container *ngIf="i==7">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levels5adatas;index as levelind5a">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div *ngIf="leveldata.Padding_left!='120px'" style="color: blue;"
+										(click)="treelevelsDatas(i,levelind5a,leveldata,levels5adatas)">
+										{{leveldata.name}}
+									</div>
+									<div *ngIf="leveldata.Padding_left==='120px'" title="Sub Category"
+										(click)="treelevelsDatas(i,levelind5a,leveldata,levels5adatas)">
+										{{leveldata.name}}</div>
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+
+				</ng-container>
+				<!-- </tr>	 -->
+			</tbody>
+
+		</table>
+
+	</div>
+	<div class="modal fade bd-budgetbuilderpopup-modal-lg" data-toggle="modal" data-backdrop="static"
+		data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels">
+		<div class="modal-dialog modal-lg"
+			style="max-width: 100%;max-height: 100%;width: 100%; height: 100%;border-radius: 0;  width: 100%;height: 100%;padding-left: 20px;padding-bottom: -264px; padding-right: 19px;display: block;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Budget Builder</h2>
+
+					<button type="button" class="close" (click)="closesearchPopup()" #closepopup data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div style="text-align: end;">
+
+					<span style="color: #26722e;"><label style="color: black;"> Budget :</label>
+						{{fyer}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;"><label style="color: black;">Amount
+							:</label>{{amount_type}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;"><label style="color: black;">Branch :</label> ({{branchcodelable}})
+						{{branchnamelable}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;"><label style="color: black;">Sector
+							:</label>{{searchDatas?.sectorname}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;"><label style="color: black;">Business
+							:</label>{{searchDatas?.masterbusinesssegment_name}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;"><label style="color: black;">BS
+							:</label>{{searchDatas?.bs_name}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;"><label style="color: black;">CC
+							:</label>{{searchDatas?.cc_name}}</span>&nbsp;&nbsp;&nbsp;
+
+
+				</div>
+				<div style="height: 400px;overflow: auto;margin-left: 4px" [hidden]=headercheckone>
+
+
+					<!-- <table> -->
+					<form [formGroup]="buildermonthForm">
+						<!-- <div [formArrayName]="'formArrayName'"> -->
+						<table class="table table-bordered" id="commonstyle" fixed-header>
+
+							<thead style="top:0;position: sticky;">
+								<tr style="top:0;position: sticky;padding: 5px;">
+									<th rowspan="2" style="background-color: #9fa8da;
+					color: black;text-align: center;">Direct Cost</th>
+									<!-- background-color: #9fa8da; -->
+									<!-- <th  style='border:none;'></th> -->
+									<!-- background-color: #b8d1f3; -->
+									<th colspan="3" style="text-align: center; background-color: #b8d1f3;">YTD</th>
+									<th colspan="3" style="text-align: center; background-color: #dae5f4;">Apr </th>
+									<th colspan="3" style="text-align: center; background-color: #b8d1f3;">May </th>
+									<th colspan="3" style="text-align: center; background-color: #dae5f4;">Jun </th>
+									<th colspan="3" style="text-align: center;background-color: #b8d1f3;">Jul </th>
+									<th colspan="3" style="text-align: center; background-color: #dae5f4;">Aug </th>
+									<th colspan="3" style="text-align: center;background-color: #b8d1f3;">Sep</th>
+									<th colspan="3" style="text-align: center;    background-color: #dae5f4;">Oct </th>
+									<th colspan="3" style="text-align: center;background-color: #b8d1f3;">Nov </th>
+									<th colspan="3" style="text-align: center;    background-color: #dae5f4;">Dec </th>
+									<th colspan="3" style="text-align: center;background-color: #b8d1f3;">Jan </th>
+									<th colspan="3" style="text-align: center;     background-color: #dae5f4;">Feb </th>
+									<th colspan="3" style="text-align: center;background-color: #b8d1f3;">Mar </th>
+									<th rowspan="2" style="background-color: #dae5f4;text-align: center;
+					color: black;">Status</th>
+
+								</tr>
+								<tr>
+									<!-- 1 -->
+									<!-- <th  style='border:none;'></th> -->
+									<th style="text-align: center; background-color: #b8d1f3;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center; background-color: #b8d1f3;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;width: 40px; background-color: #b8d1f3;">Bgt
+										{{firstyear}}</th>
+									<!-- 2 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear-1}}
+									</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear-1}}
+									</th>
+									<th style="text-align: center;width: 40px;    background-color: #dae5f4;">Bgt
+										{{firstyear}}</th>
+									<!-- 3 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;width: 40px;background-color: #b8d1f3;">Bgt
+										{{firstyear}}</th>
+									<!-- 4 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear-1}}
+									</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear-1}}
+									</th>
+									<th style="text-align: center;width: 40px;    background-color: #dae5f4;">Bgt
+										{{firstyear}}</th>
+									<!-- 5 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<!-- 6 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear-1}}
+									</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear-1}}
+									</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear}}</th>
+									<!-- 7 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<!-- 8 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear-1}}
+									</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear-1}}
+									</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear}}</th>
+									<!-- 9 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<!-- 10 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear-1}}
+									</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear-1}}
+									</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear}}</th>
+									<!-- 11 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear+1}}</th>
+									<!-- 12 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear+1}}
+									</th>
+									<!-- 13 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear+1}}</th>
+									<!-- <th style="text-align: center;    background-color: #dae5f4;"></th>
+									<th style="text-align: center;    background-color: #dae5f4;"></th>
+									<th style="text-align: center;    background-color: #dae5f4;"></th> -->
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr *ngFor="let ppr of summarydata; index as i">
+									<td [ngStyle]="{'padding':ppr.Padding,'padding-left':ppr.Padding_left}" style="background-color: #9fa8da;
+					">
+										<div *ngIf="supplier_chkval=='Y'">
+											<div *ngIf="ppr.Padding_left!='120px'"> <a style="color: blue;"
+													class="ng-binding"
+													(click)="treelevel_click(i,ppr,summarydata,'mon')">
+													{{ppr.name}}</a>
+											</div>
+											<!-- <div *ngIf="ppr.Padding_left=='120px'">{{ppr.name}}</div> -->
+										</div>
+										<div *ngIf="supplier_chkval=='N'">
+											<div *ngIf="ppr.Padding_left!='120px' && ppr.name!=''">
+												<div *ngIf="ppr.Padding_left!='100px'">
+													<a style="color: blue;" class="ng-binding"
+														(click)="treelevel_click(i,ppr,summarydata,'mon')">
+														{{ppr.name}}</a>
+												</div>
+												<div *ngIf="ppr.Padding_left=='100px'">
+													<a style="color: blue;display: none;" data-toggle="modal"
+														data-target=".bd-subcatpop-modal-lg" #popupsuplier></a>
+													<a style="color: blue;"
+														(click)="popupsummary(i,ppr,summarydata)">{{ppr.name}}</a>&nbsp;&nbsp;
+
+
+
+
+													<span *ngIf="ppr.Padding_left=='100px'"
+														(click)="supplier_other_task(i,ppr,summarydata)"
+														style="display: flex; justify-content: flex-end;color: green;margin-top: -25px;cursor:pointer;">+1</span>
+													<!-- <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon" (click)="addrow_monthly(i,ppr,summarydata)" *ngIf="ppr.Padding_left=='50px'" style="margin-right: auto;">
+								<mat-icon>plus_one</mat-icon>
+							  </button></div> -->
+												</div>
+											</div>
+											<div *ngIf="ppr.Padding_left=='120px' && (ppr.new_data=='Y')"
+												style="margin-top:-20px">
+												<mat-form-field style="width: 90px;">
+													<!-- <mat-label>New</mat-label>
+													<mat-select >
+													  <mat-option (onSelectionChange)="other_and_task(oat,ppr)" *ngFor="let oat of otherandtask" [value]="oat.value">
+														{{oat.value}}
+													  </mat-option>
+													</mat-select> -->
+													<input matInput autocomplete="off"
+														(change)="amount_change_name(i,ppr,$event.target.value,summarydata,'mon')"
+														[value]="ppr.name" readonly>
+
+												</mat-form-field>
+												<i class="material-icons md-18" matTooltip="Delete"
+													(click)="delete_month(i,summarydata)"
+													style="margin-top: -28px; margin-right: -15px;cursor:pointer">delete</i>
+											</div>
+											<div *ngIf="ppr.Padding_left=='120px' && ppr.new_data=='N'">{{ppr.name}}
+
+											</div>
+										</div>
+
+										<!-- <div *ngIf="ppr.hasOwnProperty('page')"><a style="color:green;" class="ng-binding" >more</a></div> -->
+									</td>
+									<!-- <td  style='border:none;'></td> -->
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align:right;">{{ppr.YTD[0]}}</div>
+
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.YTD[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<!-- <div><mat-form-field>
+                            <input matInput formControlName="name" autocomplete="off">
+                        </mat-form-field></div>					 -->
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.YTD[2]}}</div>
+										<!-- <div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">{{ppr.YTD[2]}}</div> -->
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusytd">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'YTD')"
+														[value]="ppr.YTD[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusytd>
+
+												<div *ngIf="ppr.status==0 ;else elseytdstatus">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'YTD')"
+															[value]="ppr.YTD[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elseytdstatus>
+
+												<div *ngIf="ppr.status==6 ;else statusytdelseval">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'YTD')"
+															[value]="ppr.YTD[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statusytdelseval>
+
+												<div *ngIf="ppr.status==1 ;else statuselseytd">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'YTD')"
+															[value]="ppr.YTD[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselseytd>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.YTD[2]}}
+												</div>
+											</ng-template>
+											<!-- <div *ngIf="ppr.status!=0 || ppr.status!=3" style="overflow: auto;text-align: right;margin-top:22px;">
+												{{ppr.YTD[2]}}
+											</div> -->
+										</div>
+
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto; text-align: right;">{{ppr.Apr[0]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Apr[1]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Apr[2]}}</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatus">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Apr')"
+														[value]="ppr.Apr[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatus>
+												<div *ngIf="ppr.status==0 ;else elseaprstatus">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Apr')"
+															[value]="ppr.Apr[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elseaprstatus>
+
+												<div *ngIf="ppr.status==6 ;else statusaprelseval">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Apr')"
+															[value]="ppr.Apr[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statusaprelseval>
+
+												<div *ngIf="ppr.status==1 ;else statuselseapr">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Apr')"
+															[value]="ppr.Apr[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselseapr>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Apr[2]}}
+												</div>
+											</ng-template>
+											<!-- <div *ngIf="ppr.status!=0 || ppr.status!=3" style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.YTD[2]}}
+												</div> -->
+										</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.May[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.May[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.May[2]}}</div>
+										<!-- <div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px">
+											<mat-form-field style="width: 60px;"
+												*ngIf="ppr.status===0 || ppr.status===3">
+												<input matInput autocomplete="off" type=number [value]="ppr.May[2]"
+													(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'May')">
+											</mat-form-field>
+											<div *ngIf="ppr.status!=0 && ppr.status!=3"
+												style="overflow: auto;text-align: right;margin-top:22px;">
+												{{ppr.May[2]}}
+											</div>
+										</div> -->
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusmay">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'May')"
+														[value]="ppr.May[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusmay>
+
+												<div *ngIf="ppr.status==0 ;else elsestatusmay">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'May')"
+															[value]="ppr.May[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatusmay>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevalmay">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'May')"
+															[value]="ppr.May[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevalmay>
+
+												<div *ngIf="ppr.status==1 ;else statuselsemay">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'May')"
+															[value]="ppr.May[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsemay>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.May[2]}}
+												</div>
+											</ng-template>
+											<!-- <div *ngIf="ppr.status!=0 || ppr.status!=3" style="overflow: auto;text-align: right;margin-top:22px;">
+												{{ppr.YTD[2]}}
+											</div> -->
+										</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jun[0]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jun[1]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Jun[2]}}</div>
+										<!-- <div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<mat-form-field style="width: 60px;"
+												*ngIf="ppr.status===0 || ppr.status===3">
+												<input matInput autocomplete="off" type=number [value]="ppr.Jun[2]"
+													(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jun')">
+											</mat-form-field>
+											<div *ngIf="ppr.status!=0 && ppr.status!=3"
+												style="overflow: auto;text-align: right;margin-top:22px;">
+												{{ppr.Jun[2]}}
+											</div>
+										</div> -->
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusjun">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jun')"
+														[value]="ppr.Jun[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusjun>
+												<div *ngIf="ppr.status==0 ;else elsestatusjun">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jun')"
+															[value]="ppr.Jun[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatusjun>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevaljun">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jun')"
+															[value]="ppr.Jun[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevaljun>
+
+												<div *ngIf="ppr.status==1 ;else statuselsejun">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jun')"
+															[value]="ppr.Jun[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsejun>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Jun[2]}}
+												</div>
+											</ng-template>
+											<!-- <div *ngIf="ppr.status!=0 || ppr.status!=3" style="overflow: auto;text-align: right;margin-top:22px;">
+												{{ppr.YTD[2]}}
+											</div> -->
+										</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jul[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jul[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Jul[2]}}</div>
+										<!-- <div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<mat-form-field style="width: 60px;"
+												*ngIf="ppr.status===0 || ppr.status===3">
+												<input matInput autocomplete="off" type=number [value]="ppr.Jul[2]"
+													(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jul')">
+											</mat-form-field>
+											<div *ngIf="ppr.status!=0 && ppr.status!=3"
+												style="overflow: auto;text-align: right;margin-top:22px;">
+												{{ppr.Jul[2]}}
+											</div>
+										</div> -->
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusjul">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jul')"
+														[value]="ppr.Jul[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusjul>
+
+												<div *ngIf="ppr.status==0 ;else elsestatusjul">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jul')"
+															[value]="ppr.Jul[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatusjul>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevaljul">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jul')"
+															[value]="ppr.Jul[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevaljul>
+
+												<div *ngIf="ppr.status==1 ;else statuselsejul">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jul')"
+															[value]="ppr.Jul[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsejul>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Jul[2]}}
+												</div>
+											</ng-template>
+											<!-- <div *ngIf="ppr.status!=0 || ppr.status!=3" style="overflow: auto;text-align: right;margin-top:22px;">
+												{{ppr.YTD[2]}}
+											</div> -->
+										</div>
+									</td>
+
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Aug[0]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Aug[1]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Aug[2]}}</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusaug">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Aug')"
+														[value]="ppr.Aug[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusaug>
+
+
+												<div *ngIf="ppr.status==0 ;else elsestatusaug">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Aug')"
+															[value]="ppr.Aug[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatusaug>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevalaug">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Aug')"
+															[value]="ppr.Aug[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevalaug>
+
+												<div *ngIf="ppr.status==1 ;else statuselseaug">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Aug')"
+															[value]="ppr.Aug[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselseaug>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Aug[2]}}
+												</div>
+											</ng-template>
+										</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Sep[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Sep[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Sep[2]}}</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==0 ;else nagativeStatussep">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Sep')"
+														[value]="ppr.Sep[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatussep>
+
+												<div *ngIf="ppr.status==-1 ;else elsestatussep">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Sep')"
+															[value]="ppr.Sep[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatussep>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevalsep">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Sep')"
+															[value]="ppr.Sep[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevalsep>
+
+												<div *ngIf="ppr.status==1 ;else statuselsesep">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Sep')"
+															[value]="ppr.Sep[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsesep>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Sep[2]}}
+												</div>
+											</ng-template>
+										</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Oct[0]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Oct[1]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Oct[2]}}</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusoct">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Oct')"
+														[value]="ppr.Oct[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusoct>
+
+												<div *ngIf="ppr.status==0 ;else elsestatusoct">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Oct')"
+															[value]="ppr.Oct[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatusoct>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevaloct">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Oct')"
+															[value]="ppr.Oct[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevaloct>
+
+												<div *ngIf="ppr.status==1 ;else statuselseoct">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Oct')"
+															[value]="ppr.Oct[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselseoct>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Oct[2]}}
+												</div>
+											</ng-template>
+										</div>
+									</td>
+									<td style="    background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Nov[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Nov[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Nov[2]}}</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusnov">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Nov')"
+														[value]="ppr.Nov[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusnov>
+
+												<div *ngIf="ppr.status==0 ;else elsestatusnov">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Nov')"
+															[value]="ppr.Nov[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatusnov>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevalnov">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Nov')"
+															[value]="ppr.Nov[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevalnov>
+
+												<div *ngIf="ppr.status==1 ;else statuselsenov">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Nov')"
+															[value]="ppr.Nov[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsenov>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Nov[2]}}
+												</div>
+											</ng-template>
+										</div>
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Dec[0]}}</div>
+
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Dec[1]}}</div>
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Dec[2]}}</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusdec">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Dec')"
+														[value]="ppr.Dec[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusdec>
+
+												<div *ngIf="ppr.status==0 ;else elsestatusdec">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Dec')"
+															[value]="ppr.Dec[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatusdec>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevaldec">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Dec')"
+															[value]="ppr.Dec[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevaldec>
+
+												<div *ngIf="ppr.status==1 ;else statuselsedec">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Dec')"
+															[value]="ppr.Dec[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsedec>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Dec[2]}}
+												</div>
+											</ng-template>
+										</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jan[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jan[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">{{ppr.Jan[2]}}
+										</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusjan">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jan')"
+														[value]="ppr.Jan[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusjan>
+
+												<div *ngIf="ppr.status==0 ;else elsestatusjan">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jan')"
+															[value]="ppr.Jan[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatusjan>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevaljan">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jan')"
+															[value]="ppr.Jan[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevaljan>
+
+												<div *ngIf="ppr.status==1 ;else statuselsejan">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Jan')"
+															[value]="ppr.Jan[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsejan>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Jan[2]}}
+												</div>
+											</ng-template>
+										</div>
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Feb[0]}}</div>
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Feb[1]}}</div>
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">{{ppr.Feb[2]}}
+										</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusfeb">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Feb')"
+														[value]="ppr.Feb[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusfeb>
+
+												<div *ngIf="ppr.status==0 ;else elsestatusfeb">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Feb')"
+															[value]="ppr.Feb[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatusfeb>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevalfeb">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Feb')"
+															[value]="ppr.Feb[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevalfeb>
+
+												<div *ngIf="ppr.status==1 ;else statuselsefeb">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Feb')"
+															[value]="ppr.Feb[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsefeb>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Feb[2]}}
+												</div>
+											</ng-template>
+										</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Mar[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Mar[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">{{ppr.Mar[2]}}
+										</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<div *ngIf="ppr.status==-1 ;else nagativeStatusmar">
+												<mat-form-field style="width: 60px;">
+													<!-- *ngIf="ppr.status!=1" -->
+													<input matInput autocomplete="off" type=number
+														(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Mar')"
+														[value]="ppr.Mar[2]">
+												</mat-form-field>
+											</div>
+											<ng-template #nagativeStatusmar>
+
+												<div *ngIf="ppr.status==0 ;else elsestatusmar">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Mar')"
+															[value]="ppr.Mar[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #elsestatusmar>
+
+												<div *ngIf="ppr.status==6 ;else statuselsevalmar">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Mar')"
+															[value]="ppr.Mar[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsevalmar>
+
+												<div *ngIf="ppr.status==1 ;else statuselsemar">
+													<mat-form-field style="width: 60px;">
+														<!-- *ngIf="ppr.status!=1" -->
+														<input matInput autocomplete="off" type=number
+															(change)="amount_change_month(i,ppr,$event.target.value,summarydata,'Mar')"
+															[value]="ppr.Mar[2]">
+													</mat-form-field>
+												</div>
+											</ng-template>
+											<ng-template #statuselsemar>
+												<div style="overflow: auto;text-align: right;margin-top:22px;">
+													{{ppr.Mar[2]}}
+												</div>
+											</ng-template>
+										</div>
+									</td>
+									<td style="background-color: #dae5f4;">
+										<span *ngIf="ppr.status==0">--</span>
+										<span *ngIf="ppr.status==1">Draft</span>
+										<span *ngIf="ppr.status==2">Bgt-Inititated</span>
+										<span *ngIf="ppr.status==3">Bgt-Checked</span>
+										<span *ngIf="ppr.status==4">Bgt-Approved</span>
+										<span *ngIf="ppr.status==6">Bgt-Returned</span>
+										<span *ngIf="ppr.status==7">Bgt-Rejected</span>
+										<!-- <span class="material-icons" *ngIf="ppr.status && ppr.Padding_left=='120px'"
+											data-toggle="modal" style="cursor: pointer;" data-target=".bd-exampleremarks-modal-lg"
+											(click)="remarks(ppr)" matTooltip="Comments">
+											visibility
+										</span>
+										<span *ngIf="!ppr.status && ppr.Padding_left!='120px'">--</span>
+										<span *ngIf="ppr.status && ppr.Padding_left!='120px'">--</span>
+										<span
+											*ngIf="((ppr.status==0) || (ppr.status==-1)) && ppr.Padding_left=='120px'">--</span> -->
+									</td>
+
+								</tr>
+
+
+							</tbody>
+
+						</table>
+						<!-- </div> -->
+					</form>
+				</div>
+
+				<div *ngIf="summarydata ?.length == 0" style="margin-left: 42%;">
+					<h3>Sorry data not found!.. </h3>
+				</div>
+
+				<!-- Quarterly table	start -->
+				<div [hidden]=headercheck style="height: 400px;overflow: auto;">
+					<form [formGroup]="buildermonthForm1">
+						<table class="table table-bordered" id="commonstyle" fixed-header>
+
+							<thead style="top:0;position: sticky;">
+								<tr>
+									<th rowspan="2">Direct Cost</th>
+									<th colspan="3" style="text-align: center;">YTD </th>
+									<th colspan="3" style="text-align: center;">Quarterly-1 </th>
+									<th colspan="3" style="text-align: center;">Quarterly-2</th>
+									<th colspan="3" style="text-align: center;">Quarterly-3</th>
+									<th colspan="3" style="text-align: center;">Quarterly-4 </th>
+
+								</tr>
+								<tr>
+									<!-- 1 -->
+									<th>Bgt-{{firstyear}}</th>
+									<th>Act-{{firstyear}}</th>
+									<th>Bgt {{firstyear}}-{{lastyear}}</th>
+									<!-- 2 -->
+									<th>Bgt-{{firstyear}}</th>
+									<th>Act-{{firstyear}}</th>
+									<th>Bgt {{firstyear}}-{{lastyear}}</th>
+									<!-- 3 -->
+									<th>Bgt-{{firstyear}}</th>
+									<th>Act-{{firstyear}}</th>
+									<th>Bgt {{firstyear}}-{{lastyear}}</th>
+									<!-- 4 -->
+									<th>Bgt-{{firstyear}}</th>
+									<th>Act-{{firstyear}}</th>
+									<th>Bgt {{firstyear}}-{{lastyear}}</th>
+									<!-- 5 -->
+									<th>Bgt-{{firstyear}}</th>
+									<th>Act-{{firstyear}}</th>
+									<th>Bgt {{firstyear}}-{{lastyear}}</th>
+								</tr>
+							</thead>
+							<tbody>
+
+
+								<tr *ngFor="let ppr of qsummarydata; index as i" [hidden]=headercheck>
+									<!-- <td align="center"> {{(this.currentpage - 1)*pageSize +i+1 }} </td> -->
+									<!-- <td align="center" (click)="view_los_data(los)" style="cursor: pointer;color:blue;"> -->
+									<!-- {{los.ApplNo}}</td> -->
+									<td [ngStyle]="{'padding':ppr.Padding,'padding-left':ppr.Padding_left}">
+										<div *ngIf="supplier_chkval=='Y'">
+											<div *ngIf="ppr.Padding_left!='120px'"> <a style="color: blue;"
+													class="ng-binding"
+													(click)="treelevel_click(i,ppr,qsummarydata,'qtr')">
+													{{ppr.name}}</a></div>
+											<div *ngIf="ppr.Padding_left=='120px'">{{ppr.name}}</div>
+										</div>
+										<div *ngIf="supplier_chkval=='N'">
+											<div *ngIf="ppr.Padding_left!='120px' && ppr.name!=''"><a
+													style="color: blue;" class="ng-binding"
+													(click)="treelevel_click(i,ppr,qsummarydata,'qtr')">
+													{{ppr.name}}</a>
+												<!-- <md-icon *ngIf="ppr.Padding_left=='100px' && ppr.tree_flag=='N'" style="display: flex; justify-content: flex-end;color: green;"
+                                                                                            class="ng-scope material-icons"
+                                                                                            role="img" aria-label="add">
+                                                                                            <i
+                                                                                                class="material-icons"></i>
+                                                                                        </md-icon> -->
+												<!-- <span (click)="addrow_qtr(i,ppr,qsummarydata)" *ngIf="ppr.Padding_left=='100px' && ppr.tree_flag=='N'" style="display: flex; justify-content: flex-end;color: green;" >+1</span> -->
+
+											</div>
+											<div *ngIf="ppr.Padding_left=='120px' && ppr.name==''">
+												<mat-form-field style="width: 90px;">
+													<input matInput autocomplete="off"
+														(change)="amount_change_name(i,ppr,$event.target.value,summarydata,'qty')">
+												</mat-form-field><i class="material-icons md-18"
+													(click)="delete_qty(i,qsummarydata)">delete</i>
+											</div>
+											<div *ngIf="ppr.Padding_left=='120px'">{{ppr.name}}</div>
+										</div>
+									</td>
+									<td>
+										<div style="overflow: auto;text-align:right ;">{{ppr.YTD[0]}}</div>
+
+									</td>
+									<td>
+										<div style="overflow: auto;text-align: right;">{{ppr.YTD[1]}}</div>
+									</td>
+									<td>
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">{{ppr.YTD[2]}}
+										</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<mat-form-field style="width: 60px;">
+												<input matInput autocomplete="off" [value]="ppr.YTD[2]"
+													(change)="amount_change_qtr(i,ppr,$event.target.value,qsummarydata,'YTD')">
+											</mat-form-field>
+										</div>
+									</td>
+									<td>
+										<div style="overflow: auto;text-align:right ;">{{ppr.Quarterly_1[0]}}</div>
+
+									</td>
+									<td>
+										<div style="overflow: auto;text-align: right;">{{ppr.Quarterly_1[1]}}</div>
+									</td>
+									<td>
+
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Quarterly_1[2]}}</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<mat-form-field style="width: 60px;">
+												<input matInput formControlName="name" autocomplete="off"
+													[value]="ppr.Quarterly_1[2]"
+													(change)="amount_change_qtr(i,ppr,$event.target.value,qsummarydata,'Quarterly_1')">
+											</mat-form-field>
+										</div>
+									</td>
+									<td>
+										<div style="overflow: auto;text-align:right ;">{{ppr.Quarterly_2[0]}}</div>
+
+									</td>
+									<td>
+										<div style="overflow: auto;text-align: right;">{{ppr.Quarterly_2[1]}}</div>
+									</td>
+									<td>
+
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Quarterly_2[2]}}</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<mat-form-field style="width: 60px;">
+												<input matInput formControlName="name" autocomplete="off"
+													[value]="ppr.Quarterly_2[2]"
+													(change)="amount_change_qtr(i,ppr,$event.target.value,qsummarydata,'Quarterly_2')">
+											</mat-form-field>
+										</div>
+									</td>
+									<td>
+										<div style="overflow: auto;text-align:right ;">{{ppr.Quarterly_3[0]}}</div>
+
+									</td>
+									<td>
+										<div style="overflow: auto;text-align: right;">{{ppr.Quarterly_3[1]}}</div>
+									</td>
+									<td>
+
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Quarterly_3[2]}}</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px;">
+											<mat-form-field style="width: 60px;">
+												<input matInput formControlName="name" autocomplete="off"
+													[value]="ppr.Quarterly_3[2]"
+													(change)="amount_change_qtr(i,ppr,$event.target.value,qsummarydata,'Quarterly_3')">
+											</mat-form-field>
+										</div>
+									</td>
+									<td>
+										<div style="overflow: auto;text-align:right ;">{{ppr.Quarterly_4[0]}}</div>
+
+									</td>
+									<td>
+										<div style="overflow: auto;text-align: right;">{{ppr.Quarterly_4[1]}}</div>
+									</td>
+									<td>
+
+										<div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">
+											{{ppr.Quarterly_4[2]}}</div>
+										<div *ngIf="ppr.Padding_left=='120px'" style="margin-top:-20px">
+											<mat-form-field style="width: 60px;">
+												<input matInput formControlName="name" autocomplete="off"
+													[value]="ppr.Quarterly_4[2]"
+													(change)="amount_change_qtr(i,ppr,$event.target.value,qsummarydata,'Quarterly_4')">
+											</mat-form-field>
+										</div>
+									</td>
+
+
+								</tr>
+							</tbody>
+						</table>
+					</form>
+
+					<div *ngIf="summarydata ?.length == 0" style="margin-left: 42%;">
+						<h3>Sorry data not found!.. </h3>
+					</div>
+
+
+				</div>
+				<form [formGroup]="approverForm" style="padding-left: 145px;">
+					<div style="display: flex;
+					justify-content: center;
+					align-items: end;
+					flex-direction: column;padding-top: 39px;
+    margin-right: 51px;" [hidden]=submit_div>
+
+
+						<!-- <div class="col-md-3"> -->
+						<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+						<!-- <mat-form-field (click)="Approver_dropdown()">
+										<mat-label>Approver</mat-label>
+										<input placeholder="Approver" matInput formControlName="approvercontrol"
+											#businessInput [matAutocomplete]="approver_name">
+										<mat-autocomplete #approver_name="matAutocomplete"
+											[displayWith]="displayfnapprover">
+											<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+											<ng-container *ngIf="!isLoading">
+												<mat-option *ngFor="let approver of approverList" [value]="approver">
+													{{approver.full_name}} </mat-option>
+											</ng-container>
+										</mat-autocomplete>
+									</mat-form-field> -->
+						<!-- </div> -->
+
+						<mat-form-field>
+							<mat-label>Remarks</mat-label>
+							<input matInput formControlName="remarks" autocomplete="off" placeholder="Remarks">
+						</mat-form-field>
+						<!-- </div> -->
+
+
+						<!-- <div class="col-md-3">
+									<br>
+									<button type="submit" style="border-radius: 40px;" class="btn btn-outline-primary"
+										(click)="save_draft(summarydata,qsummarydata,1)">Submit</button>
+								</div>
+								<div class="col-md-3">
+									<br>
+									<button type="submit" style="border-radius: 40px;" class="btn btn-outline-primary"
+										(click)="save_draft(summarydata,qsummarydata,0)">Save as Draft</button>
+								</div> -->
+						<!-- </div>
+						</div> -->
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-outline-success"
+							(click)="save_draft(summarydata,qsummarydata,2,'created')">Submit</button>
+						<button type="submit" class="btn btn-outline-primary"
+							(click)="save_draft(summarydata,qsummarydata,1,'draft')">Save as Draft</button>
+						<button type="button" (click)="closesearchPopup()" class="btn btn-outline-dark"
+							data-dismiss="modal">
+							Close
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- <pre>
+		{{buildermonthForm.value | json}}
+	</pre> -->
+	<div class="modal fade bd-subcatpop-modal-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false"
+		tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels">
+		<div class="modal-dialog modal-lg" style="padding-top: 7%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Budget Builder - {{bbname}}</h2>
+					<button type="button" class="close" #closepop (click)="closePopup()" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<!-- body -->
+
+				<div class="container">
+					<div class="col-md-12">
+						<div class="row">
+
+							<div class="col-md-9">
+								<form class="example-form" *ngIf="selectAll==false">
+
+									<mat-form-field style="width: 530px;" class="example-full-width"
+										(click)="getsupplier()">
+										<mat-chip-list #chipList>
+											<mat-chip *ngFor="let item of selectedItems" [selectable]=true
+												[removable]=true (removed)="removedselect(item)">
+
+												{{ item.supplier_name}}
+												<mat-icon matChipRemove>cancel</mat-icon>
+
+											</mat-chip>
+											<input type="text" placeholder="Select Supplier" matInput
+												[formControl]="supplier_val" [matAutocomplete]="autoComplete"
+												[matChipInputFor]="chipList" #supplierAuto>
+											<!-- [hidden]="selectAll==false ? expensegroup.enable() : expensegroup.disable()" -->
+										</mat-chip-list>
+										<mat-autocomplete #select #autoComplete="matAutocomplete">
+											<mat-option *ngFor="let item of supplierLists" [value]="item">
+												<div (click)="optionClicked($event, item);">
+
+													<mat-checkbox [checked]="item.selected"
+														(change)="toggleSelection(item)"
+														(click)="$event.stopPropagation()">
+														{{ item.supplier_name }}
+													</mat-checkbox>
+												</div>
+											</mat-option>
+										</mat-autocomplete>
+									</mat-form-field>
+
+
+								</form>
+								<!-- <div class="col-md-3">
+
+									<section class="example-section">
+										<mat-checkbox [checked]="selectsupplier" (change)="selectallsupplier($event)">
+											Select All
+										</mat-checkbox>
+	
+									</section>
+	
+								</div> -->
+								<form class="example-form" *ngIf="selectAll==true">
+
+									<mat-form-field style="width: 530px;" class="example-full-width"
+										(click)="filtersipplier()">
+										<mat-chip-list #supplierList>
+											<mat-chip *ngFor="let item of selectAllItems" [selectable]=true
+												[removable]=true (removed)="removedSupplierselect(item)">
+
+												{{ item.name}}
+												<mat-icon matChipRemove>cancel</mat-icon>
+
+											</mat-chip>
+											<input type="text" placeholder="Select All Supplier" matInput
+												[formControl]="supplierall" [matAutocomplete]="supplierautoComplete"
+												[matChipInputFor]="supplierList" #supplierAll>
+											<!-- [hidden]="selectAll==false ? expensegroup.enable() : expensegroup.disable()" -->
+										</mat-chip-list>
+										<mat-autocomplete #select #supplierautoComplete="matAutocomplete"
+											(opened)="autocompletsupplierScroll()">
+											<mat-option *ngFor="let item of supplierAllLists" [value]="item">
+												<div (click)="optionSupplierClicked($event, item);">
+
+													<!-- <mat-checkbox [checked]="item.selected"
+						(change)="AllSupplierSelection(item)"
+						(click)="$event.stopPropagation()"> -->
+													{{ item.name }}
+													<!-- </mat-checkbox> -->
+												</div>
+											</mat-option>
+										</mat-autocomplete>
+									</mat-form-field>
+
+								</form>
+							</div>
+							<div class="col-md-3">
+
+								<section class="example-section">
+									<mat-checkbox [checked]="selectAll" (change)="toggleSelectionselect($event)">
+										Supplier
+									</mat-checkbox>
+
+								</section>
+
+							</div>
+
+
+						</div>
+					</div>
+					<!-- footer -->
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-outline-primary"
+							(click)="submit_subcat(pprSearchForm,summarydata,supplierLists)">Submit</button>
+						<button type="button" (click)="closePopup()" class="btn btn-outline-dark" data-dismiss="modal">
+							Close
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="modal fade bd-exampleremarks-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels"
+		aria-hidden="true">
+		<div class="modal-dialog" style="max-width: 78%;    margin-top: 10%;display: block;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Transaction History-{{pprname}}</h2>
+
+					<button type="button" class="close" #closepopup data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div>
+					<table class="table table-bordered" style="margin-left: 196px;margin-top: 20px;width: 76%;"
+						fixed-header id="commonstyle">
+
+						<thead style="top:0;position: sticky;">
+							<tr style="top:0;position: sticky;padding: 5px; text-align: center;">
+								<th>S.No</th>
+								<th>Employee Name</th>
+								<th>Date</th>
+								<th>Remarks</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let remarks of remarks_val; index as i">
+								<td>{{i+1}}</td>
+
+								<td>{{remarks.username}}</td>
+								<td>{{remarks.created_date}}</td>
+								<td>{{remarks.remark}}</td>
+								<td>{{remarks.status}}</td>
+							</tr>
+							<tr *ngIf="remarks_val ?.length == 0" style="margin-left: 42%;">
+								<h3>Sorry data not found!.. </h3>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">
+						Close
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,13 @@
+.modal-body{
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.modal-dialog-center {
+    margin-left: 12%;
+}
+::ng-deep .mat-tab-label .mat-tab-label-content {
+    font-size: x-large;
+    color:black;
+    font-family: 'Times New Roman', Times, serif;
+}

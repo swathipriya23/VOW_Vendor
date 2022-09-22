@@ -1,0 +1,11 @@
+#commonstyle{
+    border:15px none #f6f6f6
+    }
+
+    tr:nth-child(even) {background: #EDF8FA}
+    tr:nth-child(odd) {background: #FFF}
+
+    table,th,td{
+        text-align: left;
+        vertical-align: center;
+    }

@@ -1,0 +1,157 @@
+<div class="Container" style="margin-left: 30px;margin-top: 1%;">
+    <div style="margin-left:20px">
+        <h2 style="font-weight: 500;">
+            eClaim Approver
+        </h2>
+        <hr>
+    </div>
+    <div class="table-responsive" style="margin-top: 1%;width: 90%; -ms-overflow-style: none;">
+        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#assetdetails"
+            style="border-radius:40px;margin-left: 90%;margin-top: 1%;"><span class="fa fa-plus"></span>
+            ADD</button>
+        <div class="container">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered" fixed-header
+                        style="width: 95%;margin-top: 10px;margin-left:20px;overflow-x: hidden;margin-bottom: 30px;">
+                        <thead class="table_header" style="text-align: left;">
+
+                            <tr>
+                                <th>S.No</th>
+                                <th>Employee Name</th>
+                                <th>Tour Approver</th>
+                                <th>Advance Approver</th>
+                                <th>Expense Approver</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let  assign of assignList; index as i">
+                                <td>{{((presentpage -1)*10)+i+1}} </td>
+                                <td>({{assign.employee_code}}) {{assign.employee_name}}</td>
+                                <td>
+                                    <p *ngIf="assign.tourapprove == 1">True</p>
+                                    <p *ngIf="assign.tourapprove == 0">False</p>
+                                </td>
+                                <td>
+                                    <p *ngIf="assign.advanceapprove == 1">True</p>
+                                    <p *ngIf="assign.advanceapprove == 0">False</p>
+                                </td>
+
+                                <td>
+                                    <p *ngIf="assign.expenseapprove == 1">True</p>
+                                    <p *ngIf="assign.tourapprove == 0">False</p>
+                                </td>
+
+                                <!--<tr><td colspan="10">No Records Found..</td></tr>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+            <div *ngIf="assignList?.length ==0; else paginationpage" class="center col-md-12 "
+            style="text-align: center;">No Records
+            Found...</div>
+            <ng-template #paginationpage>
+                <div style="font-size: small;text-align:right; margin-bottom:50px;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="firstClick()">
+                        <mat-icon>first_page
+                        </mat-icon>
+                    </button>
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClick()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="assetinfodetails" aria-hidden="true"
+        id="assetdetails">
+        <div class="modal-dialog modal-xl" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background:rgba(23, 204, 23, 0.288);">
+                    <h2 class="modal-title" style="color:black ;">Add Approver</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+                    <div>
+                        <form [formGroup]="approverform">
+                            <table style="width: 70%;">
+                                <tr>
+                                    <td>
+                                        <mat-form-field floatLabel="always" style="width:250px; ">
+                                            <mat-label>Branch</mat-label>
+                                            <input type="text" #inputassetid placeholder="Select Branch" matInput
+                                                [matAutocomplete]="conoffice" formControlName="branch">
+                                            <mat-autocomplete #assetid #conoffice="matAutocomplete"
+                                                (opened)="autocompleteid()">
+                                                <mat-option *ngFor="let branch of branchlist"
+                                                    (focusout)="branchname(branch)" [value]="branch.name">
+                                                    {{branch.code}}-{{branch.name}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field floatLabel="always" style="width:250px; ">
+                                            <mat-label>Employee</mat-label>
+                                            <input matInput #emp placeholder="Employee" [matAutocomplete]="autocomplete1"
+                                                formControlName="employee" />
+
+                                            <mat-autocomplete #autocomplete1="matAutocomplete"
+                                                (opened)="autocompleteemps()" #autocompleteemp>
+                                                <mat-option *ngFor="let val of branchemployee"
+                                                    (focusout)="employeenameselect(val)" [value]='val.full_name'>
+                                                    {{val.full_name}}
+
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table>
+
+                                <tr>
+                                    <td style="padding-right: 30px;">
+                                        <mat-checkbox class="example-margin" formControlName="tourapprove">Tour Approver
+                                        </mat-checkbox>
+                                    </td>
+                                    <td style="padding-right: 30px;">
+                                        <mat-checkbox class="example-margin" formControlName="advanceapprove">Advance Approver
+                                        </mat-checkbox>
+                                    </td>
+                                    <td>
+                                        <mat-checkbox class="example-margin" formControlName="expenseapprove">Expense Approver
+                                        </mat-checkbox>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                            <div style="text-align: center; margin-bottom: 2%;">
+                                <button mat-flat-button style="background:#DDEFDD;"
+                                   (click)="submit()">Submit</button>
+                                <button   data-dismiss="modal" mat-flat-button type="button" (click)="resetall()">Cancel</button>
+                            </div>
+                        </form>
+                        <!-- <tr> -->
+                        <!-- </tr> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

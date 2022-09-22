@@ -1,0 +1,13 @@
+.detail_table_label{
+    color: #146ac5;
+}
+
+input.inputStyle{
+    outline: 0;
+    border-width: 0 0 2px;
+    width:150px;
+    border-color: rgb(157, 154, 154)
+}
+input.inputStyle:focus{
+    border-color: blue
+}

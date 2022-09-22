@@ -1,0 +1,21 @@
+.material-icons.md-18 { font-size: 18px;color: #0000FF;display: flex; justify-content: flex-end}
+::ng-deep .cdk-overlay-container {
+  z-index: 1300 !important;
+}
+a:hover {
+  cursor:pointer;
+ }
+
+
+ #commonstyle{
+  border:15px none #f6f6f6
+  }
+
+  tr:nth-child(even) {background: #EDF8FA}
+  tr:nth-child(odd) {background: #FFF}
+table,th,td{
+  text-align: left;
+  font-size: 13px;
+
+  // padding: 5px;
+}

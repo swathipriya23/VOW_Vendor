@@ -1,0 +1,70 @@
+.mat-form-field-underline{
+    background-color:lightgrey !important;
+  }
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+.mat-form-field,div,.mat-option,.mat-fab,.mat-button,button,.mat-menu-item,p {
+  font-family: "Montserrat";
+}
+#primarybtn{
+  border-radius: 10px;
+  margin-left: 10px;
+    border-color: #F5C68B;
+    background-color: #F5C68B;
+}
+#rupee{
+  font-size: 15px;
+  }
+
+#amountlen{
+  width: 175px;
+}
+
+#tadate{
+  width: 195px;
+}
+#tatime{
+  width: 100px;
+}
+
+#secondarybtn{
+  border-radius: 7px;margin-left: 10px;
+    border-color: black;
+    background-color: white;
+}
+
+
+
+#secondarybtn:hover {
+  background:#EDF8FA !important;
+}
+
+#cardstyle {
+  margin:20px 12px 20px 20px;
+}
+
+#commonstyle{
+  border:15px #f6f6f6
+  }
+
+  ::ng-deep .mat-form-field-outline {
+    color:grey !important;
+  }
+  ::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+    color: red!important;
+    opacity: 0.8!important;
+}
+
+.mat-icon{
+  cursor: pointer;
+}
+
+// input{
+//   text-transform: capitalize;
+// }
+
+

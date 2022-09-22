@@ -1,0 +1,174 @@
+<!-- <p>chat works!</p> -->
+<div *ngIf="!chatbool" class="divcenter">
+    <div class="loader"></div>
+</div>
+<table *ngIf="chatbool" class="table" style="width: 100%;">
+    <tr *ngFor="let chat of chatsummary; index as i">
+        <td style="padding: 0px;border-width: 1px;border-color: black;">
+            <table style="width:100%;margin-bottom: 1%;margin-top: 1%;">
+                <tr>
+                    <td style="padding: 0px;border-style: hidden;">
+                        Travel N0: {{chat.Chats.travel_id}}
+                    </td>
+                    <td style="padding: 0px;float: right;border-style: hidden;">
+                        Date:{{ chat.Chats.created_date }}
+                    </td>
+                </tr>
+            </table>
+            <table style="margin-bottom: 1.5%;width:100%">
+                <tr>
+                    <td style="padding: 0px;border-style: hidden;">
+
+                        <label *ngIf="chat.Chats.ismaker == 1">You : </label>
+                        <label *ngIf="chat.Chats.ismaker != 1">{{chat.Chats.employee_name}} : </label>
+
+
+                        <!-- </td> -->
+                        <!-- <td style="padding: 0px;border-style: hidden;" > -->
+
+                        <div class="lastmessage" [innerHTML]="chat.Chats.comment">
+
+                        </div>
+                    </td>
+                    <td style="float: right;border-style: hidden;">
+                        <span>
+                            <a data-toggle="modal" data-target="#chatbox1" (click)='tourEdit(chat.Chats.travel_id,i)'
+                                class="notification">
+                                <span>Reply</span>
+                                <span *ngIf="chat.Chats.unread_message != 0 "
+                                    class="badge">{{chat.Chats.unread_message}}</span>
+                            </a>
+                        </span>
+                    </td>
+
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<div *ngIf="chatsummary?.length==0; else paginationpage1" class="center col-md-12  ">No Records
+    Found...</div>
+<ng-template #paginationpage1>
+    <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+        <!-- <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="firstClick()">
+            <mat-icon>first_page
+            </mat-icon>
+        </button> -->
+        <button mat-icon-button [disabled]="has_previous == false" color="primary" (click)="previousClick()">
+            <mat-icon>arrow_back
+            </mat-icon>
+        </button>
+        {{has_present}}
+        <button mat-icon-button [disabled]="has_next ==false" color="primary" (click)="nextClick()">
+            <mat-icon>arrow_forward
+            </mat-icon>
+        </button>
+    </div>
+</ng-template>
+<!-- <div  class="pulsing-2"></div> -->
+
+    <div class="modal fade" id="chatbox1" tabindex="-4" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="Chat Box" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" #modaldialog id="modal-dialog1">
+          <div class="modal-content1" #modalcon>
+            <div class="modal-header" style="background-color: #dee2e6;height: 45px;" #modalhead>
+              <p class="modal-title" style="color: #999;" id="exampleModalLongTitle"><i _ngcontent-mxe-c1=""
+                  aria-hidden="true" style="color: #999;" class="fa fa-user-circle-o"></i>COMMENT BOX </p>
+              <div>
+                <span class="fa fa-minus"  title="Minimize" (click)="minimize();" style="padding:5px ;padding-right: 10px;" ></span>
+                  <span class="fa fa-window-maximize" *ngIf="!this.isMaximize" title="Maximize" (click)="maximize();" id="modal-fullscreen" style="box-sizing:border-box;"></span>
+                  <span class="fa fa-window-restore"  *ngIf="this.isMaximize" title="Restore" (click)="restore();" style="padding:5px"  ></span>
+
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            </div>
+            <div class="modal-body" id="scrollstyle" #chatList #scroll id="modal-body1"
+              style="background-color:white;height: 400px; overflow:auto;width:inherit" #modalbody>
+              <div class="dot" *ngIf="chatloader" style="margin: 171px 0px 0px 305px;" ></div>
+
+              <table *ngIf="!chatloader" style="width:100%">
+                <tr>
+                  <td style="text-align: center;">
+                    <button style="text-align: center;" mat-raised-button *ngIf="chatboxpagination==true"
+                      (click)="nextgetchatlist(chatboxcurrentpage)">Load previous messages<mat-icon>rotate_left
+                      </mat-icon> </button>
+                  </td>
+                </tr>
+                <tbody *ngFor="let comment of commentDataList;let  i=index">
+                  <tr>
+                    <td>
+
+                      <div _ngcontent-kyu-c1="" class="user-msg" ng-reflect-ng-class="user-msg" [ngStyle]="{'max-width':comment.comment.includes('table>')?'auto':'550px'}"
+                        *ngIf='comment.ismaker == "1"'>
+                        <mat-icon *ngIf="comment.status==1" [matTooltip]="'Delete Message'" style="vertical-align: middle;font-size:21px;float: right;"
+                          (click)="gettourdelete(comment.chatid,comment.travel_id,i)">delete</mat-icon>
+                         
+                          <!-- <mat-icon *ngIf="comment.status==0" [matTooltip]="'Undo Message'" style="vertical-align: middle;font-size:21px;float: right;"
+                          (click)="getundomessage(comment.chatid,comment.travel_id,i)">Redo</mat-icon>  -->
+
+                            <i class="fa fa-undo" [matTooltip]="'Undo Message'" (click)="getundomessage(comment.chatid,comment.travel_id,i)" style="cursor:pointer;float: right;" *ngIf="comment.status==0"  ></i>
+                          <small
+                          style="float: left;font-size:15px;color:green">{{comment.employee_name}}</small>
+                      
+                        <br>
+                      
+
+                        <section style="margin-top:1%" 
+
+                          [innerHTML]="comment.comment">
+                          <!-- {{comment.comment}} -->
+                        </section>
+                      </div>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <!-- </td> -->
+                    <td style="float: left;">
+                      <div _ngcontent-kyu-c1="" class="user-msg1"  ng-reflect-ng-class="user-msg1" [ngStyle]="{'max-width':comment.comment.includes('table>')?'auto':'550px'}"
+                        *ngIf='comment.ismaker == "0"'>
+                        <small style="float: left;font-size:15px;color:blue">{{comment.employee_name}}</small><br>
+                      
+                        <section style="margin-top:1%"  
+                          [innerHTML]="comment.comment">
+                          <!-- {{comment.comment}} -->
+                        </section>
+                      </div>
+
+                    </td>
+                  </tr>
+                </tbody>
+
+
+              </table>
+
+
+            </div>
+            <div class="modal-footer" style="display:block;width:inherit;">
+            <form [formGroup]="chatform">
+          
+              <tr>
+                <td style="padding-right: 0px;padding-bottom: 0px;">
+                  <div id="textfield1" formControlName="chat" placeholder="Type message..." class="message-input"
+                    style="background-color: #dee2e6;outline: none;" [ngxSummernote]="config"></div>
+                </td>
+                <td style="vertical-align:middle"> 
+            
+                  <button type="submit" id="primarybtn"
+                    style="border-color: black;color: black;margin-left:10px" matTooltip="Send Message"
+                    class="btn btn-light" (click)="createCommentform();">SEND</button>
+                    <button id="secondarybtn" style="border-color:black; color: black;margin-left:10px;" matTooltip="Close Comment Box"
+                      class="btn btn-light" data-dismiss="modal" >CLOSE</button>
+                    
+                </td>
+
+              </tr>
+             
+            </form>
+          </div>
+          </div>
+
+        </div>
+
+      </div>

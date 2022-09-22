@@ -1,0 +1,28 @@
+<div class="container">
+<nav>
+    <div class="nav nav-tabs">
+        <span class="nav-item nav-link" data-toggle="tab" (click)="subdata(sub)" role="tab"
+            *ngFor="let sub of tabdata">
+            {{sub}}
+        </span>
+        <div *ngIf="testsub=='Branch Payment'">
+            <button type="button" class="btn btn-outline-success"
+                style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"  (click)="branchayment()"><span
+                    class="fa fa-plus"></span> {{testsub}}
+                    </button>
+        </div>
+        <div *ngIf="testsub=='Branch Tax'">
+            <button type="button" class="btn btn-outline-success" 
+                style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;" (click)="branchtax()"><span
+                    class="fa fa-plus"></span> {{testsub}}
+                    </button>
+        </div>
+    </div>
+</nav>
+
+<div>
+    <span *ngIf="testsub=='Branch Payment'">
+        <app-branchpayment-summary></app-branchpayment-summary>
+    </span>
+</div>
+</div>

@@ -1,0 +1,245 @@
+<div>
+  <form [formGroup]="MergeSearchForm">
+    <h2 style="margin-left: 3%;font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;">Asset Merge Maker</h2><hr>
+    <table>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width" style="margin-left: 50px;">
+            <input class="toolbar-search" type="text" formControlName="assetdetails_id" matInput autocomplete="off">
+            <mat-placeholder>Asset Id</mat-placeholder>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width" style="margin-left: 50px;">
+            <input class="toolbar-search" type="text" formControlName="asset_value" matInput autocomplete="off">
+            <mat-placeholder>Asset Value</mat-placeholder>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field style="margin-left: 50px;">
+            <mat-label>Cap Date</mat-label>
+            <input matInput readonly [matDatepicker]="picker1" placeholder="Cap Date" formControlName="capdate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field style="width: 200px; margin-left: 50px;" (click)="getCategoryFK()">
+            <mat-label>Select Category</mat-label>
+            <input #categoryInput placeholder="Select Category Code" matInput formControlName="assetcat_id"
+              [matAutocomplete]="category">
+            <mat-autocomplete #category="matAutocomplete" [displayWith]="displayFncategory.bind(this)"
+              (opened)="autocompletecategoryScroll()">
+              <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+              <ng-container *ngIf="!isLoading">
+                <mat-option *ngFor="let category of categoryList" [value]="category.id">
+                  {{category.subcatname}}
+                </mat-option>
+              </ng-container>
+            </mat-autocomplete>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field style="width: 200px; margin-left: 50px;" (click)="getbranchFK()">
+            <mat-label>Select Branch Code</mat-label>
+            <input #branchInput placeholder="Select Branch Code" matInput formControlName="branch_id"
+              [matAutocomplete]="branch">
+            <mat-autocomplete #branch="matAutocomplete" [displayWith]="displayFnbranch.bind(this)"
+              (opened)="autocompletebranchScroll()">
+              <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+              <ng-container *ngIf="!isLoading">
+                <mat-option *ngFor="let branch of branchList" [value]="branch.id">
+                  {{branch.code}}-{{branch.name}}
+                </mat-option>
+              </ng-container>
+            </mat-autocomplete>
+          </mat-form-field>
+        </td>
+        <td>
+          <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 50px;"
+            color="primary" (click)="getMergesummarySearch('search')"><i class="fa fa-search"
+              aria-hidden="true"></i></button>
+        </td>
+        <td><button class="btn btn-outline-primary" (click)="resetMerge()" style="border-radius:40px;margin-left: 50px;"
+            color="primary">Reset</button></td>
+      </tr>
+    </table>
+  </form>
+
+
+
+</div>
+
+
+
+
+<div class="col-12 row">
+
+  <table style="margin-left: 100px;border-style: dotted; padding: 10px;" cdkDropList #todoList="cdkDropList"
+    [cdkDropListData]="Mergelist" [cdkDropListConnectedTo]="[doneList]" class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <p>From</p>
+    <div *ngFor="let item of Mergelist" cdkDrag style="border: 1px solid green; padding: 10px;">
+      Asset Barcode Id:{{ item.assetdetails_id}},<br>
+      Asset SubCategory: {{ item.assetcatchange_id.subcatname}},<br>
+      Cap Date: {{ item.capdate | date: 'd/M/y'}},<br>
+      Asset Value: {{ item.assetdetails_value}},<br>
+      Branch Name: {{ item.branch_id.name}},<br>
+    </div>
+    <div *ngIf="Mergelist?.length==0 ">No Records Found!!! </div>
+    <br>
+    <div>Total Count :{{Mergelist?.length}}</div>
+    <div class="col-12 row">
+      <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+        <button mat-icon-button [disabled]="has_previousMerge == false" color="primary"
+          (click)=" getMergesummarySearch('previous')">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        {{presentpageMerge}}
+        <button mat-icon-button [disabled]="has_nextMerge == false" color="primary"
+          (click)="getMergesummarySearch('next')">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+  </table>
+  <br>
+  <div style="margin-left: 100px;" title="Drag from Left to Right">
+    <span class="material-icons">
+      swap_horiz
+    </span>
+  </div>
+  <br>
+
+  <table style="margin-left: 100px;border-style: dotted;padding: 10px;overflow:auto; " cdkDropList
+    #doneList="cdkDropList" [cdkDropListData]="done" [cdkDropListConnectedTo]="[todoList]" class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    <p>To</p>
+    <div *ngFor="let item of done" cdkDrag style="border: 1px solid green;padding: 10px;">
+      Asset Barcode  Id: {{ item.assetdetails_id}},<br>
+      Asset SubCategory: {{ item.assetcatchange_id.subcatname}},<br>
+      Cap Date: {{ item.capdate | date: 'd/M/y'}},<br>
+      Asset Value: {{ item.assetdetails_value}},<br>
+      Branch Name : {{ item.branch_id.name}},<br>
+    </div>
+    <div *ngIf="done?.length==0 ">No Records Found!!! </div>
+    <br>
+    <div>Total Count :{{done?.length}}</div>
+  </table>
+</div>
+<!-- </div> -->
+
+
+<div>
+  <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-lg"
+    (click)="PopUpdataToShow()" style="margin-left:50px; border-radius: 40px;">
+    Merge Asset
+  </button>
+  <!-- <button type="button" class="btn btn-outline-primary" style="margin-left:50px;  border-radius: 40px;">
+    Clear
+  </button> -->
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#DDEFDD;">
+        <h1 class="modal-title" id="exampleModalLabel">Asset Merge</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="MergeCreateForm">
+            <div class="table-responsive" style="margin-top: 2%;width: 90%;margin-left: 50px;">
+              <table class="table scrolltable table-bordered" fixed-header>
+                  <thead>
+                      <tr class="table_header" fixed-header>
+                    <th>Merge Asset ID</th>
+                    <th>Asset Value </th>
+                    <!-- <th>New Asset Id</th> -->
+                    <th>Put to use date</th>
+                    <th>Branch</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div *ngFor="let item of AssetIdArray; let i = index">
+                       <a style="color: rgb(52, 168, 240); cursor: pointer;" (click)="getIndexMainAsset(i, item)" > {{item}} </a>
+                      </div>
+                    </td>
+                    <td>
+                      <mat-form-field style="width: 155px;margin-left: 15px;">
+                        <mat-label>Asset Value</mat-label>
+                        <input matInput  formControlName="value" autocomplete="off" type="number" required>
+                      </mat-form-field>
+                    </td>
+                    <!-- <td>
+                      <mat-form-field style="width: 155px;margin-left: 15px;">
+                        <mat-label>New Asset Value</mat-label>
+                        <input matInput type="number"   formControlName="new_asset_id" autocomplete="off" required>
+                      </mat-form-field>
+                    </td> -->
+                    <td>
+                      <mat-form-field style="margin-left: 50px;">
+                        <mat-label>Date</mat-label>
+                        <input matInput readonly [matDatepicker]="picker2" placeholder="Date"
+                          formControlName="date">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <div *ngFor="let item of BranchArray">
+                        {{item}}
+                      </div>
+                    </td>
+
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+          <table>
+            <tr>
+
+              <td>
+                <mat-form-field style="width: 250px;margin-left: 15px;">
+                  <mat-label>Merge Reason</mat-label>
+                  <input matInput placeholder="Merge Reason"  formControlName="reason" autocomplete="off" required>
+                </mat-form-field>
+
+              </td>
+              <td   ><strong style="margin-left: 100px;" >Main Asset:</strong> <span style="color: rgb(52, 168, 240);">{{SelectedMainAsset}}</span></td>
+
+            </tr>
+          </table>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
+        <button type="button" class="btn btn-primary"  data-dismiss="modal" (click)="MergeSubmit()">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

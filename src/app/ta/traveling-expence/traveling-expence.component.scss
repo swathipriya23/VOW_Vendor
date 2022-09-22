@@ -1,0 +1,42 @@
+
+mat-form-field {
+    font-size: 8px;
+    
+  }
+  th,td {
+    vertical-align: middle;
+  }
+  
+  mat-menu{
+    font-family:"Montserrat";
+  }
+  
+  input,mat-select,textarea{
+    font-size: 15px;
+  }
+  
+  .mat-label{
+    font-size: 14px;
+    
+  }
+  mat-icon{
+    cursor: pointer;
+    font-size:30px
+  }
+  
+  .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after{
+    color:black;
+  }
+  ::ng-deep .mat-select-disabled .mat-select-value{
+    color:black
+  }
+  
+  mat-datepicker-toggle{
+    font-size: 15px;
+  }
+
+  table,td{
+    text-align: middle;
+    vertical-align: middle;
+  }
+  

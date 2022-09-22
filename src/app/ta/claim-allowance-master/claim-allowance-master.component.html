@@ -1,0 +1,363 @@
+<div style="margin-left: 22px;margin-top: 20px; " class="col-md-12">
+    <h2>Claim Allowance Master</h2>
+    <div class="col-12">
+        <form [formGroup]="claimform">
+            <table style="width: 90%;">
+                <tr>
+                    <td>
+                        <!-- <mat-form-field style="width: 15rem;">
+                        <mat-label>Expense Name</mat-label>
+                        <input matInput formControlName="expensename" >
+
+                    </mat-form-field> -->
+
+                        <mat-form-field style="width:15rem; ">
+                            <mat-label>Expense Name</mat-label>
+                            <input placeholder="" (click)="getname()" matInput formControlName="expensename"
+                                [matAutocomplete]="autocategory">
+                            <mat-autocomplete #autocategory="matAutocomplete">
+
+                                <mat-option *ngFor="let cat of employeename" (focusout)="getnameoption(cat)"
+                                    [value]="cat.name">{{cat.name}}
+                                </mat-option>
+
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 15rem;">
+                            <mat-label>Employee Grade</mat-label>
+                            <input matInput formControlName="employeegrade">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 15rem;">
+                            <mat-label>City</mat-label>
+                            <input matInput formControlName="city">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <button mat-mini-fab (click)="search()" style="background-color:#DDEFDD ;">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                    </td>
+                    <td>
+                        <button mat-mini-fab (click)="clear()" style="background-color:#DDEFDD ;">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </td>
+                    <td>
+                        <button mat-mini-fab style="background-color:#DDEFDD ; margin-right: 20px; " class="linkbtn"
+                            data-toggle="modal" data-target="#myModal">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="file" style="width: 15rem; " (focusout)="getuploadfile($event)" class="textarea"
+                            formControlName="file">
+                    </td>
+                    <td>
+                        <button mat-mini-fab (click)="showupdatefiled()" style="background-color: #DDEFDD ;">
+                            <mat-icon>upload</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <div *ngIf="show">
+                <table style="width: 100%;" class="table table-bordered">
+                    <tr class="table_header">
+                        <th>S.No</th>
+                        <th>Expense Name</th>
+                        <th>Salary Grade</th>
+                        <th>City</th>
+                        <th>Amount</th>
+                        <th>Applicable To</th>
+                        <th>Effective From</th>
+                        <th>Effective To</th>
+                        <th>Action</th>
+
+                    </tr>
+                    <tr *ngFor="let tab of tabledata;let i=index">
+                        <td>{{((presentpage-1)*10)+i+1}}</td>
+                        <td>{{tab.expense_name}}</td>
+                        <td>{{tab.salarygrade}}</td>
+                        <td>{{tab.city}}</td>
+                        <td>{{tab.elgibleamount}}</td>
+                        <td>{{tab.applicableto}}</td>
+                        <td>{{tab.effectivefrom}}</td>
+                        <td>{{tab.effectiveto}}</td>
+                        <td>
+                            <button mat-icon-button (click)="getpassvalue(tab,i)" [disabled]="tab.effectiveto"
+                                data-toggle="modal" type="button" data-target="#myModal1">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+
+                </table>
+                <div *ngIf="tabledata?.length==0; else paginationpage1" class="center col-md-12  ">No Records Found...
+                </div>
+                <ng-template #paginationpage1>
+                    <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+                        <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                            (click)="firstClick()">
+                            <mat-icon>first_page
+                            </mat-icon>
+                        </button>
+
+                        <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                            (click)="previousClick()">
+                            <mat-icon>arrow_back
+                            </mat-icon>
+                        </button>
+                        {{presentpage}}
+                        <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+                            <mat-icon>arrow_forward
+                            </mat-icon>
+                        </button>
+                    </div>
+                </ng-template>
+            </div>
+            <div *ngIf="!show">
+                <table style="width: 100%;" class="table table-bordered">
+                    <tr class="table_header">
+                        <th>S.No</th>
+                        <th>Expense Name</th>
+                        <th>Salary Grade</th>
+                        <th>City</th>
+                        <th>Amount</th>
+                        <th>Applicable To</th>
+                        <th>Effective Form</th>
+                        <th>Effective To</th>
+                        <th>Action</th>
+
+                    </tr>
+                    <tr *ngFor="let tab of searchtabledata;let i=index">
+                        <td>{{((searchpresentpage-1)*10)+i+1}}</td>
+                        <td>{{tab.expense_name}}</td>
+                        <td>{{tab.salarygrade}}</td>
+                        <td>{{tab.city}}</td>
+                        <td>{{tab.elgibleamount}}</td>
+                        <td>{{tab.applicableto}}</td>
+                        <td>{{tab.effectivefrom}}</td>
+                        <td>{{tab.effectiveto}}</td>
+                        <td>
+                            <button (click)="getpassvalue(tab,i)" data-toggle="modal"
+                                [disabled]="tab.effectiveto"  style="background: none;border: none;"
+                                type="button" data-target="#myModal1">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <!-- <button mat-mini-fab style="background-color:#DDEFDD ; margin-right: 20px; " class="linkbtn" data-toggle="modal"
+                            data-target="#myModal">
+                        <mat-icon>add</mat-icon>
+                        </button> -->
+                        </td>
+                    </tr>
+
+                </table>
+                <div *ngIf="searchtabledata?.length==0; else paginationpage2" class="center col-md-12  ">No Records
+                    Found...
+                </div>
+                <ng-template #paginationpage2>
+                    <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+                        <button mat-icon-button [disabled]="has_previous_search === false" color="primary"
+                            (click)="searchfirstClick()">
+                            <mat-icon>first_page
+                            </mat-icon>
+                        </button>
+
+                        <button mat-icon-button [disabled]="has_previous_search === false" color="primary"
+                            (click)="searchpreviousClick()">
+                            <mat-icon>arrow_back
+                            </mat-icon>
+                        </button>
+                        {{searchpresentpage}}
+                        <button mat-icon-button [disabled]="has_next_search === false" color="primary"
+                            (click)="searchnextClick()">
+                            <mat-icon>arrow_forward
+                            </mat-icon>
+                        </button>
+                    </div>
+                </ng-template>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<div>
+    <div id="myModal" class="modal fade col-md-12 " data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-xl">
+            <div class='modal-content'>
+                <div class="modal-header text-center  ">
+                    <h3 class="modal-title   w-100" style="font-family: 'Times New Roman', Times, serif;"></h3>
+                    <button type="button" #modalclose class="close" (click)="getrestall()" #closed
+                        data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <form [formGroup]="addclaimform">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td>
+                                    <!-- <mat-form-field style="width: 18rem;">
+                                        <mat-label>Expense Name</mat-label>
+                                        <input matInput formControlName="addexpensename">
+                                    </mat-form-field> -->
+                                    <mat-form-field style="width: 18rem;">
+                                        <mat-label>Expense Name</mat-label>
+                                        <input placeholder="" #call matInput formControlName="addexpensename"
+                                            [matAutocomplete]="autocategory2">
+                                        <mat-autocomplete #autocategory2="matAutocomplete">
+
+                                            <mat-option *ngFor="let c of employeename" (focusout)="getexpensename(c)"
+                                                [value]="c.name">{{c.name}}
+                                            </mat-option>
+
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field style="width: 18rem;">
+                                        <mat-label>Salary Grade</mat-label>
+                                        <input matInput formControlName="addemployeegrade">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field style="width: 18rem;">
+                                        <mat-label>City</mat-label>
+                                        <input matInput formControlName="addcity">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <mat-form-field style="width: 18rem;">
+                                        <mat-label>amount</mat-label>
+                                        <input matInput formControlName="amount">
+
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field style="width: 18rem;">
+                                        <mat-label>ApplicableTo</mat-label>
+                                        <input matInput formControlName="applicableto">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field style="width: 18rem;">
+                                        <mat-label>Effective From</mat-label>
+                                        <input matInput [matDatepicker]="picker" formControlName="effectivefrom"
+                                            readonly placeholder="Choose a date">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </td>
+
+
+                            </tr>
+                            <br>
+                            <tr>
+                                <td colspan="3" style="text-align: center;">
+                                    <button mat-raised-button (click)="print()">Submit</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div id="myModal1" class="modal fade col-md-12 " data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-xl">
+        <div class='modal-content'>
+            <div class="modal-header text-center  ">
+                <h3 class="modal-title   w-100" style="font-family: 'Times New Roman', Times, serif;"></h3>
+                <button type="button" #modalclose1 class="close" #closed data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <form [formGroup]="viweclaimform">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td>
+                                <mat-form-field style="width: 18rem;">
+                                    <mat-label>Expense Name</mat-label>
+                                    <input placeholder="" #call matInput formControlName="addexpensename"
+                                        [matAutocomplete]="autocategory2">
+                                    <mat-autocomplete #autocategory2="matAutocomplete">
+
+                                        <mat-option *ngFor="let d of employeename" #focus (click)="getexpenseidss(d)"
+                                            [value]="d.name">{{d.name}}
+                                        </mat-option>
+
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field style="width: 18rem;">
+                                    <mat-label>Salary Grade</mat-label>
+                                    <input matInput formControlName="addemployeegrade">
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field style="width: 18rem;">
+                                    <mat-label>City</mat-label>
+                                    <input matInput formControlName="addcity">
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-form-field style="width: 18rem;">
+                                    <mat-label>ApplicableTo</mat-label>
+                                    <input matInput placeholder="Choose a date" formControlName="applicableto">
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field style="width: 18rem;">
+                                    <mat-label>Amount</mat-label>
+                                    <input matInput placeholder="Choose a date" formControlName="amount">
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field  style="width: 18rem;">
+                                    <mat-label>Effective From</mat-label>
+                                    <input matInput readonly [matDatepicker]="picker4" [min]="minimum" autocomplete="off" name="effectivefrom"
+                                        formControlName="effectivefrom">
+                                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker4></mat-datepicker>
+                                </mat-form-field>
+                            </td>
+
+                        </tr>
+                        <br>
+                        <tr>
+                            <td colspan="3" style="text-align: center;">
+                                <button mat-raised-button (click)="updatesummary()">Submit</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 1.5)" size="default" type="la-ball-scale-multiple la-3x">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

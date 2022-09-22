@@ -1,0 +1,41 @@
+#commonstyle {
+    border: 15px none #f6f6f6
+}
+
+#amtper {
+    font-weight: 500px;
+    // color: #9A193B
+    color: green
+}
+
+tr:nth-child(even) {
+    background: #EDF8FA
+}
+
+tr:nth-child(odd) {
+    background: #FFF
+}
+
+table,
+th,
+td {
+    text-align: left;
+    vertical-align: center;
+}
+
+th:nth-child(2),
+th:nth-child(13) {
+    position: sticky;
+    left: 0px;
+    right: 0px;
+    z-index: 1;
+    background: #FFF;
+}
+
+td:nth-child(2),
+td:nth-child(13) {
+    position: sticky;
+    right: 0px;
+    left: 0px;
+    z-index: 1;
+}

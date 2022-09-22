@@ -1,0 +1,81 @@
+
+<div style="margin-top: 40px;margin-left: 40px;">
+    <h3>
+        eClaim Expense Approval
+    </h3>
+   
+    <div class="row">
+        <div class="col-12">
+            <form #reporttourexpenseForm="ngForm">
+               
+                <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 675px;"
+                color="primary" (click)="download()"><i matTooltip="Download" class="fa fa-download" aria-hidden="true"></i></button>
+               
+               
+            </form>
+        </div>
+    </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+          <div class="table-responsive" >
+              <table class="table table-bordered" fixed-header
+              style="width: 95%;margin-top: 10px;margin-left:30px;overflow-x: hidden;">
+          <thead class="table_header" style="text-align: left;">
+          <tr>
+          <th style="text-align: center;">S.No</th>
+          <th style="text-align: center;">Employee</th>
+          <th style="text-align: center;">Designation</th>
+          <th style="text-align: center;">Branch</th>
+          <th style="text-align: center;">Tour NO</th>
+          <th style="text-align: center;">Description</th>
+          <th style="text-align: center;">Eligible Amount</th>
+          <th style="text-align: center;">Claim Amount</th>
+          <th style="text-align: center;">Approved Amount</th>
+          <th style="text-align: center;">Requestfor Comment</th>
+         
+
+          
+          </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let expense of gettourexpensereportList; index as i">
+              <td style="text-align: center;">{{i+1}}</td> 
+              <td style="text-align: center;">{{expense.employee_name}}</td> 
+              <td style="text-align: center;">{{expense.designation}}</td>
+              <td style="text-align: center;">{{expense.branch_name}}</td>
+              <td style="text-align: center;">{{expense.tourid}}</td>
+              <td style="text-align: center;">{{expense.expensename}}</td> 
+              <td style="text-align: center;">{{expense.eligibleamount}}</td>
+              <td style="text-align: center;">{{expense.claimedamount}}</td>
+              <td style="text-align: center;">{{expense.approvedamount}}</td>
+              <td style="text-align: center;">{{expense.requestercomment}}</td>
+              </tr>
+          </tbody>
+          </table>
+          
+      </div>
+      <!-- <div *ngIf="gettourreportList?.length==0; else paginationreport" class="NodataAlign">No Records Found...</div>
+     <ng-template #paginationreport>
+    <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+        <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+            <mat-icon>arrow_back
+            </mat-icon>
+        </button> {{presentpage}}
+        <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+            <mat-icon>arrow_forward
+            </mat-icon>
+        </button>
+    </div>
+</ng-template>
+
+  </div> -->
+  <div class="col-md-12 text-center" >
+    <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+      style="border-radius: 40px;margin-left: 10px;">Back</button>
+  </div>
+  </div>
+</div>
+ 
+  

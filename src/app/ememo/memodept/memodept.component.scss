@@ -1,0 +1,151 @@
+
+.course {
+    text-align: center;
+    max-width: 390px auto;
+    margin: 0 auto;
+}
+
+.course-thumbnail {
+    width: 150px;
+    margin: 20px auto 0 auto;
+    display: block;
+}
+
+.description-cell {
+    text-align: left;
+    margin: auto;
+}
+
+.duration-cell {
+    text-align: center;
+}
+
+.duration-cell mat-icon {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+.spinner-container {
+    height: 360px;
+    width: 390px;
+    position: fixed;
+}
+
+.lessons-table {
+    min-height: 160px;
+    margin-top: 10px;
+}
+
+.spinner-container mat-spinner {
+    margin:0 auto 0;
+    align-self: center;
+}
+
+.mat-header-row {
+    min-height: 16px !important;
+}
+
+.mat-row, mat-footer-row {
+    min-height: 30px !important;
+}
+.mat-row:nth-child(even){
+    background-color:rgb(255, 250, 250);
+    }
+
+.mat-row:nth-child(odd){
+    
+    background-color:rgb(230, 232, 236);
+    }  
+
+.col-sm-3,.col-sm-12{
+        position: relative;
+        width: 100%;
+        padding-right: 26px;
+        padding-left: 15px;
+    }
+
+mat-chip {
+    display: inline-block;
+    }
+    
+.subject-text:hover{
+        cursor: pointer;
+        
+    }
+
+.table-th{
+        width: 20%;
+        text-align: center;
+    }
+
+.table-tb{
+        text-align: center;
+    }
+a:hover {
+        background-color: yellow;
+      }
+.wrap {
+        position: relative;
+      }
+      
+.overflow {
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+        pointer-events:none;
+      }
+      
+.overflow:after {
+        content:"";
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width:250px;
+        height: 25px;
+        z-index: 1;
+        border: 1px solid white; /* for visualization only */
+        pointer-events:initial;
+      
+      }
+      
+.overflow:hover:after{
+        cursor: pointer;
+      }
+      
+.tooltip {
+        /* visibility: hidden; */
+        display: none;
+        margin-left: 10;
+        position: absolute;
+        top: 10;
+        left: 0;
+        background-color: #fff;
+        padding: 10px;
+        box-shadow: 0 0 50px 0 rgba(0,0,0,0.9);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+      .tooltip ol{
+          margin: 10px;
+          
+        
+      }
+      .tooltip li{
+        margin: 0px;
+        padding:0px;
+        white-space: nowrap;
+    }      
+    .tooltip span.nowrap{
+        
+        white-space: nowrap;
+    }      
+.overflow:hover + .tooltip {
+        /*visibility: visible; */
+        display:-webkit-inline-box;
+        transition: opacity 0.5s ease;
+        opacity: 1;
+      }
+.redcolo {
+        color: red}

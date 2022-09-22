@@ -1,0 +1,50 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h3 >
+        Edit Category
+    </h3>
+    <div >
+        <form [formGroup]="categoryEditForm" (ngSubmit)="submitForm()">
+            <table>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 300px;">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Name" formControlName="name" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 300px;margin-top: 20px;">
+                            <mat-label>Department</mat-label>
+                            <input placeholder="Select Department" matInput formControlName="department_id"
+                            #employeeDeptInput
+                                [matAutocomplete]="autodept">
+                            <mat-autocomplete #autodept="matAutocomplete" (opened)="autocompleteDeptScroll()" [displayWith]="displayFn">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let dep of departmentList" [value]="dep">{{dep.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 300px;margin-top: 20px;" >
+                            <mat-label>Remarks</mat-label>
+                            <textarea matInput placeholder="remarks" formControlName="remarks"></textarea>
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" class="btn btn-outline-primary" 
+            [disabled]="categoryEditForm.invalid" style="border-radius: 40px;margin-left: 10px;">Submit</button>
+            <button type="button" (click)="onCancelClick()" style="border-radius: 40px;margin-left: 10px;" 
+            class="btn btn-outline-primary">Cancel</button>
+
+        </form>
+    </div>
+</div>

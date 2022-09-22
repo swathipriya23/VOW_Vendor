@@ -1,0 +1,289 @@
+<div class="container" style="max-width: 1345px;">
+    <h2>Employee BS Mapping</h2>
+    <div class="col-md-12">
+
+        <form [formGroup]="employeeBusinessSummarysearch" style="margin-top: 37px;">
+            <div class="row">
+                 <!-- Fin Year -->
+                 <div class="col-md-3">
+                           
+                    <mat-form-field (click)="finyear_dropdown()">
+                        <mat-label>Fin Year</mat-label>
+                        <input placeholder="fin_year" matInput formControlName="finyear" #finyearInput
+                            [matAutocomplete]="fin_year">
+                        <mat-autocomplete #fin_year="matAutocomplete" [displayWith]="displayfnfinyear"
+                            (opened)="autocompletefinyearScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let finyearname of finyearList" [value]="finyearname">
+                                    {{finyearname.finyear}} </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <!-- End Fin year -->
+                <!-- Employee Search -->
+                <div class="col-md-3" >
+                    <mat-form-field (click)="employee_summary_dropdown()" style="width: 100%">
+                        <mat-label>Employee</mat-label>
+                        <input placeholder="Employee" matInput formControlName="employee" #employeeInput
+                            [matAutocomplete]="emp">
+                        <mat-autocomplete #emp="matAutocomplete" [displayWith]="displayfnemployee" (opened)="autocompleteScrollEmployee()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let emp of employeeSummaryList" [value]="emp">
+                                    {{emp.full_name}} </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <!-- End Employee Search -->
+
+                <!-- Business Search -->
+                <!-- style="max-width: 28%;" -->
+                <div class="col-md-3" >
+                    <mat-form-field style="width: 100%;" (click)="business_Summary_dropdown()">
+                        <mat-label>Business Segment</mat-label>
+                        <input placeholder="Business" matInput formControlName="business" #businessInput
+                            [matAutocomplete]="businessAuto">
+                        <mat-autocomplete #businessAuto="matAutocomplete" [displayWith]="displayfnbusiness"  (opened)="autocompleteScrollBusiness()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let business of businessSummaryList" [value]="business">
+                                    {{business.name}} </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+                    <mat-form-field (click)="branchnamesearch()">
+                        <mat-label>Branch</mat-label>
+                        <input #branchsearchInput placeholder="branch" matInput formControlName="branchid"
+                             [matAutocomplete]="branchsearch" >
+                        <mat-autocomplete #branchsearch="matAutocomplete" [displayWith]="displayfnbranchsearch"
+                            (opened)="autocompletebranchsearchScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let branch of branchsearchList" [value]="branch">
+                                    {{branch.code}}-{{branch.name}} </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <!-- End Business Search -->
+                  <!-- Employee Search -->
+                  <div class="col-md-3">
+                  <!-- <div class="col-md-3" (click)="status_dropdown()" >
+                    <mat-form-field >
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="statusbs">
+                          <mat-option>--</mat-option>
+                          <mat-option *ngFor="let status of status" [value]="status">
+                            {{status.status}} </mat-option>
+                        </mat-select>
+                        
+                      </mat-form-field> -->
+                    <mat-form-field (click)="status_dropdown()" >
+                        <mat-label>Status</mat-label>
+                        <input placeholder="Status" matInput formControlName="statusbs" 
+                            [matAutocomplete]="statusAuto">
+                        <mat-autocomplete #statusAuto="matAutocomplete" [displayWith]="displayfnstatus" >
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let status of status" [value]="status">
+                                    {{status.status}} </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <!-- End Employee Search -->
+                <!-- Search  -->
+                <div class="col-md-3">
+                    <div style="text-align: center;cursor: pointer;"><button style="border-radius: 40px;"
+                            class="btn btn-outline-primary" 
+                            (click)="empbusinessSearch()">
+                            Search
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div style="text-align: center;cursor: pointer;"><button style="border-radius: 40px;"
+                            class="btn btn-outline-primary" 
+                            (click)="cleardetails()">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-outline-primary"
+                        style="border-radius:40px;margin-left: 10px;height: 44px" data-toggle="modal"
+                        data-target=".bd-employeebusinesspopup-modal-lg"><span class="fa fa-plus"></span>Add</button>
+                </div>
+            </div>
+            
+    </form>
+</div>
+
+
+<div class="tableFixHead" style="margin-top: 2%;width: 95%;margin-left: 10px;overflow: auto;">
+    <!-- <table> -->
+    <table class="table table-bordered" fixed-header id="commonstyle" style="width: 99%; margin-top: 20px;">
+        <thead class="table_header " fixed-header>
+            <tr>
+                <th>S.No</th>
+                <th>Fin Year</th>
+                <th>Employee Name</th>
+                <th>Branch</th>
+                <th>Business Segment Name</th>
+                <th>Status</th>
+                <!-- <th>Status Update</th> -->
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let empbusiness of empbusinessvalue;index as i;">
+            <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+            <td>{{empbusiness.finyear}}</td>
+                <td>{{empbusiness.user_code}}-({{empbusiness.user_name}})</td>
+
+                <td>{{empbusiness.branch_name}}</td>
+                <td>{{empbusiness.bs_code}}-({{empbusiness.bs_name}})</td>
+
+               <td>               
+                    <a (click)="status_update(empbusiness)" *ngIf="empbusiness.status=='Activate'" style="color: blue;">Active</a>
+                    <a (click)="status_update(empbusiness)" *ngIf="empbusiness.status=='Deactivate'" style="color: blue;">Deactive</a>
+               </td>
+                
+             <!--    <td>
+                    <mat-slide-toggle
+                    [checked]="empbusiness.status === 'Activate'"
+                    class="example-margin"
+                    [color]="color"
+                    (change)="status_update($event,empbusiness)">
+                 
+                </mat-slide-toggle> 
+                </td>-->
+
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="empbusinessvalue ?.length == 0" style="margin-left: 42%;">
+        <h3>Sorry data not found!.. </h3>
+    </div>
+    <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+        <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+            <mat-icon>arrow_back</mat-icon>
+        </button> {{presentpage}}
+        <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+            <mat-icon>arrow_forward</mat-icon>
+        </button>
+    
+    </div>
+</div>
+
+<div class="modal fade bd-employeebusinesspopup-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabels">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header"  style="background-color: #ddefdd;">
+                <h2 style="font-size: 18px;">Employee BS Mapping</h2>
+                <button type="button" #closebutton (click)="clearpopup()" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="employeeBusinesssearch">
+                <div class="col-md-12">
+                    <div class="row">
+                       
+                        <!-- Employee Search -->
+
+                        <div class="col-md-3">
+                            <mat-form-field (click)="employee_dropdown()" style="width: 100%">
+                                <mat-label>Employee</mat-label>
+                                <input placeholder="Employee" matInput formControlName="employee" #employeeAddInput
+                                    [matAutocomplete]="empAdd">
+                                <mat-autocomplete #empAdd="matAutocomplete" [displayWith]="displayfnemp" (opened)="autocompleteScrollempadd()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let emp of employeeList" [value]="emp">
+                                            {{emp.full_name}} </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <!-- End Employee Search -->
+
+                        <!-- Business Search -->
+                        <div class="col-md-3">
+                        <mat-form-field style="width: 100%;" (click)="business_dropdown()" >
+                            <mat-label>Business Segment</mat-label>
+                            <input placeholder="Business" matInput formControlName="business"  #businessInputval
+                                [matAutocomplete]="businessAutocomplete">
+                            <mat-autocomplete #businessAutocomplete="matAutocomplete" [displayWith]="displaybusiness" (opened)="autocompleteScrollmap()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let businesslist of businessList" [value]="businesslist">
+                                        {{businesslist.name}} </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                   
+                            <!-- <mat-form-field style="width: 100%;" (click)="business_dropdown()">
+                                <mat-label>Business Segment</mat-label>
+                                <mat-chip-list #chipList>
+                                    <mat-chip *ngFor="let business of chipSelectedbusiness" [selectable]=true
+                                        [removable]=true (removed)="removeditem(business)"> {{business.name}}
+                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                    </mat-chip>
+                                    <input #expInput formControlName="business" [matAutocomplete]="exp"
+                                        [matChipInputFor]="chipList"
+                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                        [matChipInputAddOnBlur]=true>
+                                </mat-chip-list>
+                                <mat-autocomplete #exp="matAutocomplete" (opened)="autocompleteScrollBusinessAdd()" (optionSelected)="businessSelected($event)">
+                                    <mat-option *ngFor="let businesslist of businessList" [value]="businesslist">
+                                        {{businesslist.name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div> -->
+                        <!-- End Business Search -->
+                        <!-- branch -->
+                        <div class="col-md-3">
+                            <!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+                            <mat-form-field (click)="branchname()">
+                                <mat-label>Branch</mat-label>
+                                <input  placeholder="branch" matInput formControlName="branchid"
+                                    #branchContactInput [matAutocomplete]="branch" >
+                                <mat-autocomplete #branch="matAutocomplete" [displayWith]="displayfnbranch"
+                                    (opened)="autocompletebranchnameScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let branch of branchList" [value]="branch">
+                                            {{branch.code}}-{{branch.name}} </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <!-- Search  -->
+                     
+                    </div>
+                </div>
+
+            </form>
+            <div class="modal-footer">
+                <button  class="btn btn-outline-primary"
+                                      (click)="empbusinessSub(this.employeeBusinesssearch.value)">
+                                    Submit
+                                </button>
+                <button type="button" (click)="clearpopup()" class="btn btn-outline-dark" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>

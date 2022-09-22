@@ -1,0 +1,299 @@
+<!-- <h3 style="margin-left: 50px;">
+  eClaim Incidental Expense
+</h3>
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+    <h3 style="color:deeppink;">
+         Employee
+    </h3>
+        <div>
+          <form #taForm="ngForm">
+                <table>
+                    <tr>
+                        
+                      <td>
+                        <mat-form-field  style="width: 175px;">
+                            <mat-label>Tour No</mat-label>
+                            <input  matInput placeholder="Tour No" [disabled]="true" [value]="expenseid" autocomplete="off"  required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field  style="width: 175px;margin-left: 50px;">
+                          <mat-label>Employee Name</mat-label>
+                          <input  matInput placeholder="Employee Name" [disabled]="true" [value]="employeename" autocomplete="off"  required>
+                      </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field  style="width: 175px;margin-left: 50px;">
+                        <mat-label>Designation</mat-label>
+                        <input  matInput placeholder="Designation" [disabled]="true" [value]="employeedesignation" autocomplete="off"  required>
+                    </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field  style="width: 175px;margin-left: 50px;">
+                      <mat-label>Employee Grade</mat-label>
+                      <input  matInput placeholder="Emp grade" [disabled]="true" [value]="employeegrade" autocomplete="off"  required>
+                  </mat-form-field>
+              </td>     
+                       
+                     
+                   
+                 </tr>
+                </table>
+        
+        <div class="table-responsive" style="width:80%;margin-top: 1%;">
+          <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+            <thead class="table_header" style="text-align: left;">
+        <tr>
+        <th>S.No</th>
+        <th>Mode of Travel</th>
+        <th>Onward and Return journey on same Day</th>
+        <th>Travel Time in Hours</th>
+        <th>Single Fare in RS</th>
+        <th>Incidental Expense</th>
+        <th>Action</th>
+        
+        </tr>
+        </thead>
+        <tbody >
+        
+          <tr *ngFor="let dtl of incidental.data;let ind=index;" >
+				<td scope="row"  style="vertical-align: middle;"> {{(this.currentpage - 1)*pagesize +ind+1 }}</td>
+             
+             <td>
+              <mat-form-field style="width: 175px;">
+                  <mat-label>Mode of Travel</mat-label>
+                  <mat-select  name="travel_mode_{{dtl.id}}"   [(ngModel)]="dtl.travel_mode"  (selectionChange)="ontravelChange($event.value,dtl)">
+                      <mat-option *ngFor="let modeof of ModeOFList" [value]="modeof.value">
+                          {{modeof.name}}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </td> 
+            
+            <td >
+           
+              <mat-form-field style="width: 175px;">
+                <input matInput name="same_day_return_{{dtl.id}}"  [(ngModel)]="dtl.same_day_return" #same_day_return="ngModel" placeholder="OnwardReturn" [matAutocomplete]="auto" required>
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="valueMapper">
+                      <mat-option *ngFor="let return of onwardList" [value]="return.value" (click)='getAcc(return.name)' (click)="onreturnChange(return.value,dtl)" >
+                          {{return.name}}
+                      </mat-option>
+                  </mat-autocomplete>
+              </mat-form-field>
+           
+            </td>
+           
+             <td> 
+                <mat-form-field style="width: 175px;">
+                 <input matInput  placeholder="Travel Timein Hours"  (change)="onKeypressEvent(dtl.travel_hours)" name="travel_hours_{{dtl.id}}" [(ngModel)]="dtl.travel_hours" (ngModelChange)="gettraveltime(dtl.travel_hours,dtl)" autocomplete="off" required>
+               </mat-form-field>
+             </td>
+             <td> 
+                <mat-form-field style="width: 175px;">
+                 <input matInput  placeholder="Single Fare in RS"  name="single_fare_{{dtl.id}}" [(ngModel)]="dtl.single_fare" (ngModelChange)="geteligibleamount(dtl.single_fare,dtl)" autocomplete="off" required>
+               </mat-form-field>
+             </td>
+             <td *ngIf="dtl.eligibleamount != undefined"> 
+                <mat-form-field style="width: 175px;">
+                 <input matInput placeholder="incidental Expence"  [value]=dtl.eligibleamount [disabled]="true" autocomplete="off" required>
+               </mat-form-field>
+              
+              </td>
+              <td *ngIf="dtl.eligibleamount === undefined"> 
+                <mat-form-field style="width: 175px;">
+                 <input matInput placeholder="incidental Expence"  [value]=" " [disabled]="true" autocomplete="off" required>
+               </mat-form-field>
+              
+              </td>
+              
+                <td>
+                  <button type="button" class="btn btn-outline-success" (click)="addSection(ind)"
+                  style="border-radius:40px;margin-left: 50px"><span class="fa fa-plus"></span>
+                 </button>
+                  
+              </td>
+             <td><button mat-icon-button matTooltip="Delete" class="iconbutton" (click)="removeSection(ind,dtl)"  color="primary">
+              <mat-icon style="color:green;" aria-label="Delete">delete</mat-icon>
+              </button>
+             </td> 
+        </tr>
+        </tbody>
+        </table>
+       
+        </div>
+        <div class="col-md-12 text-center" >
+          <button type="submit" style="border-radius: 40px;margin-left: 10px;"(click)="submitForm()"
+              class="btn btn-outline-primary"  >Submit</button>
+          <button type="button"  class="btn btn-outline-primary"(click)="back()"
+            style="border-radius: 40px;margin-left: 10px;">Back</button>
+       </div>
+       </form>
+        </div>
+    </div>  -->
+  
+
+
+  
+    <h3 style="margin-left: 50px;margin-left: 44px;margin-top: 30px; font-size: 22px;font-weight: 500;">
+      Incidental Expense
+    </h3>
+
+    <div *ngIf="isonbehalf">
+      <h3 style="margin-left: 44px;color:rgb(0, 0, 0);font-size: 18px; font-weight: 400;">
+        On Behalf Employee - {{onbehalf_empName}}
+      </h3>
+    </div>
+
+
+    <div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+      <h3 style="color:rgb(0, 0, 0);font-size: 18px; font-weight: 500;">
+        Tour Details
+    </h3>
+          <div>
+            <form [formGroup]="incidentalform">
+                  <table>
+                      <tr>
+                          
+                        <td>
+                          <mat-form-field  style="width: 175px;">
+                              <mat-label>Tour No</mat-label>
+                              <input  matInput placeholder="Tour No" [disabled]="true" [value]="expenseid" autocomplete="off"  required>
+                          </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                            <mat-label>Employee Name</mat-label>
+                            <input  matInput placeholder="Employee Name" [disabled]="true" [value]="employeename" autocomplete="off"  required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field  style="width: 175px;margin-left: 50px;">
+                          <mat-label>Designation</mat-label>
+                          <input  matInput placeholder="Designation" [disabled]="true" [value]="employeedesignation" autocomplete="off"  required>
+                      </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field  style="width: 175px;margin-left: 50px;">
+                        <mat-label>Employee Grade</mat-label>
+                        <input  matInput placeholder="Emp grade" [disabled]="true" [value]="employeegrade" autocomplete="off"  required>
+                    </mat-form-field>
+                </td>     
+                         
+                       
+                      <td *ngIf="(statuid == -1 || statuid == 1 || statuid == 5)">
+                        <button type="button" class="btn btn-outline-success" (click)="addSet()"
+                        [disabled]="addIncidentalButton" style="border-radius:40px;margin-left: 50px"><span class="fa fa-plus"></span>
+                       ADD</button>
+                        </td>
+                   </tr>
+                  </table>
+                
+          <div formArrayName="data" class="table-responsive" style="width:100;margin-top: 1%;">
+            <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+              <thead class="table_header" style="text-align: left;">
+                <tr>
+                  <th>S.No</th>
+                  <th>Mode of Travel</th>
+                  <th style="width:180px">Onward and Return journey on same Day</th>
+                  <th>Travel Time in Hours</th>
+                  <th>Single Fare in RS</th>
+                  <th>Incidental Expense</th>
+                  <th *ngIf="isApprovedAmt && applevel == 2">Approved Amount</th>
+                  <th *ngIf="isMakerAction">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr  *ngFor="let item of incidentalform.controls.data['controls']|paginate: { itemsPerPage: pageSize, currentPage: presentpage }; let i = index;"
+                [formGroupName]="fieldGlobalIndex(i)">
+                  <!-- <td>{{i+1}}</td>  -->
+                  <td scope="row"  style="vertical-align: middle;"> {{((presentpage-1)*pageSize)+i+1}} </td>
+                  <td>
+                  
+                   <mat-form-field floatLabel="never" >
+                    <mat-label>Mode of Travel</mat-label>
+                    <mat-select [disabled] ="is_modetrvl" formControlName="travel_mode" (selectionChange)="modeoftravelchange(((presentpage-1)*pageSize)+i)">
+                        <mat-option *ngFor="let modeof of ModeOFList" [value]="modeof.value">
+                            {{modeof.name}}
+                        </mat-option>
+                    </mat-select>
+                   </mat-form-field>
+                 </td> 
+                 
+                 <td >
+                
+                  
+                   <mat-form-field floatLabel="never" >
+                    <mat-label>Onward Return</mat-label>
+                    <mat-select [disabled] ="is_onwdretn" formControlName="same_day_return" (selectionChange)="onwardreturnchange(((presentpage-1)*pageSize)+i)">
+                        <mat-option *ngFor="let return of onwardList" [value]="return.value">
+                            {{return.name}}
+                        </mat-option>
+                    </mat-select>
+                   </mat-form-field>
+                
+                 </td>
+                                
+                  <td> 
+                     <mat-form-field floatLabel="never" >
+                      <input matInput  placeholder="Travel Timein Hours" (keypress)="keyPressAmounts($event)" (keyup)="limit($event,((presentpage-1)*pageSize)+i)" (change)="traveltimechange(((presentpage-1)*pageSize)+i)"
+                      maxlength="4" formControlName="travel_hours" [readonly]="is_travelhr == true" autocomplete="off" required>
+                    </mat-form-field>
+                  </td>
+                  <td> 
+                    <mat-form-field floatLabel="never">
+                     <input matInput  placeholder="Single Fare in RS" (keypress)="keyPressAmounts($event)" (change)="singlefarechange(((presentpage-1)*pageSize)+i)"
+                     maxlength="4" formControlName="single_fare" [readonly]="is_singlefare == true"  autocomplete="off" required>
+                   </mat-form-field>
+                  </td>
+                  <td> 
+                    <mat-form-field floatLabel="never">
+                     <input matInput placeholder="incidental Expence"
+                     formControlName="eligibleamount" [value]="eligibleamount" autocomplete="off" required>
+                   </mat-form-field>
+                  
+                  </td>
+
+                  <td *ngIf="isApprovedAmt && applevel ==2">                  
+                    <mat-form-field floatLabel="never">
+                      <input matInput placeholder="Approved Amount" formControlName="amount" autocomplete="off" required>
+                    </mat-form-field>
+                   </td>
+                  
+                  <td *ngIf="isMakerAction">
+                    <button mat-icon-button matTooltip="Delete" class="iconbutton" (click)="deleteArray(((presentpage-1)*pageSize)+i)"  color="primary">
+                   <mat-icon style="color:green;" aria-label="Delete">delete</mat-icon>
+                   </button>
+                  </td> 
+             </tr>
+             <tr>
+              <th colspan="7"> <div class="pagination" style="text-align: center;">
+                <pagination-controls responsive="true" (pageChange)="presentpage = $event"></pagination-controls>
+              </div></th>
+            </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-12 text-center" style="margin-top: 15px;margin-bottom: 50px;">
+            <button *ngIf='isApproveButton && applevel == 2' type="submit" style="border-radius: 40px;margin-left: 10px;"
+            class="btn btn-outline-primary"(click)="incidentalApproveButton()" >Approve</button>
+            <button type="submit" *ngIf='isSumbitButton && (statuid == -1 || statuid == 1 || statuid == 5)' style="border-radius: 40px;margin-left: 10px;"(click)="submitForm()"
+                class="btn btn-outline-primary"  >Submit</button>
+            <button type="button"  class="btn btn-outline-primary"(click)="back()"
+              style="border-radius: 40px;margin-left: 10px;">Back</button>
+         </div>
+         </form> 
+          </div>
+      </div>  
+    
+
+  
+      <!-- <pre>
+
+        {{incidentalform.value | json}}
+      </pre>    -->
+    
+    
+    
+<!-- <pre>
+    {{ incidental.data | json }}
+</pre>  -->

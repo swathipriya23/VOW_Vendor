@@ -1,0 +1,42 @@
+/*  
+  .btn-submit {
+    margin-left: 10px;
+  }
+.btn-cancel{
+  margin-left: 27%;
+}
+  
+  .memo-form{
+    width:300px !important;
+    margin-left: 10px;
+  }
+  tbody td {
+    padding: 0.5em 0.1em 0.1em;
+  }
+  .cursor{
+      cursor: pointer;
+  }
+  th, td{
+      text-align:center;
+  } */
+
+
+  input,mat-select,textarea{
+    font-size: 15px;
+  }
+
+  mat-form-field{
+      font-size: 8px;
+  }
+  /* mat-icon{
+    cursor: pointer;
+    font-size:30px
+  } */
+
+  mat-datepicker-toggle{
+    font-size: 15px;
+  }
+
+  label{
+    margin-bottom: 0px;
+  }

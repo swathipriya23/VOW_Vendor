@@ -1,0 +1,611 @@
+<div class="container">
+	<br>
+	<h2>Budget  Viewer</h2>
+	<form [formGroup]="pprSearchForm">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<mat-form-field (click)="finyear_dropdown()">
+						<mat-label>Fin Year</mat-label>
+						<input placeholder="fin_year" matInput formControlName="finyear" #finyearInput
+							[matAutocomplete]="fin_year" required>
+						<mat-autocomplete #fin_year="matAutocomplete" [displayWith]="displayfnfinyear" (opened)="autocompletefinyearScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let finyearname of finyearList" [value]="finyearname">
+									{{finyearname.finyear}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<mat-label>Select Year Terms</mat-label>
+					<br>
+					<mat-radio-group aria-label="Select Quarterly or Monthly" formControlName="year_term"
+						#group="matRadioGroup">
+						<!-- <mat-radio-button value="Quarterly" [disabled]=disableMessage>Quarterly</mat-radio-button> -->
+						<mat-radio-button value="Monthly"> Monthly</mat-radio-button>
+					</mat-radio-group>
+				</div>
+
+				<div class="col-md-3">
+					<mat-label>Select Amount</mat-label>
+					<br>
+					<mat-radio-group aria-label="Select Quarterly or Monthly" formControlName="divAmount"
+						#group="matRadioGroup">
+						<mat-radio-button value="L">In Lakhs</mat-radio-button>&nbsp;&nbsp;&nbsp;
+						<mat-radio-button value="T"> In Thousands</mat-radio-button>
+					</mat-radio-group>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="branchname()">
+						<mat-label>Branch</mat-label>
+						<input #branchInput placeholder="branch" matInput formControlName="branchid"
+							#branchContactInput [matAutocomplete]="branch">
+						<mat-autocomplete #branch="matAutocomplete" [displayWith]="displayfnbranch"
+							(opened)="autocompletebranchnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let branch of branchList" [value]="branch">
+									{{branch.code}}-{{branch.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="Sector_dropdown()">
+						<mat-label>Sector</mat-label>
+						<input placeholder="Sector" matInput formControlName="sectorname" #sectornameInput
+							[matAutocomplete]="sector_name" required>
+						<mat-autocomplete #sector_name="matAutocomplete" [displayWith]="displayfnsectorname" (opened)="autocompletesectorScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let sector of sectorList" [value]="sector"
+									(click)="secotralldata_clear()" (focusout)="selectsectorSection(sector)">
+									{{sector.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="Business_dropdown()">
+						<mat-label>Business</mat-label>
+						<input placeholder="Business" matInput formControlName="businesscontrol" #businessInput
+							[matAutocomplete]="business_name">
+						<mat-autocomplete #business_name="matAutocomplete" [displayWith]="displayfnbusiness" (opened)="autocompletebusinessnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let business of businessList" 
+									[value]="business" (focusout)="selectbusinessSection(business)"> {{business.name}}
+								</mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="bsname_dropdown()">
+						<mat-label>BS</mat-label>
+						<input placeholder="bs" matInput formControlName="bs_id" #bsInput [matAutocomplete]="bs">
+						<mat-autocomplete #bs="matAutocomplete" [displayWith]="displayfnbs"
+							(opened)="autocompletebsnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let bs of bsList" [value]="bs" 
+									(focusout)="selectbsSection(bs)"> {{bs.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="ccname_dropdown()">
+						<mat-label>CC</mat-label>
+						<input #bsclear_nameInput placeholder="cc_name" matInput formControlName="cc_id" #ccInput
+							[matAutocomplete]="cc_name">
+						<mat-autocomplete #cc_name="matAutocomplete" [displayWith]="displayfncc"
+							(opened)="autocompletccnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let cc of ccList" [value]="cc"> {{cc.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<mat-form-field style="width: 100%;" (click)="Expensegrp_dropdown()">
+						<mat-label>Expense Group</mat-label>
+						<mat-chip-list #chipListprod>
+							<mat-chip *ngFor="let pro of chipSelectedprod" [selectable]=true [removable]=true
+								(removed)="removedprod(pro)"> {{pro.name}}
+								<mat-icon matChipRemove>cancel</mat-icon>
+							</mat-chip>
+							<input #expInput [formControl]="expensegrp" [matAutocomplete]="exp"
+								[matChipInputFor]="chipListprod" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+								[matChipInputAddOnBlur]=true>
+						</mat-chip-list>
+						<mat-autocomplete #exp="matAutocomplete" (optionSelected)="prodSelected($event)" (opened)="autocompletexpenseScroll()">
+							<mat-option *ngFor="let prod of expenseList" [value]="prod"> {{prod.name}} </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<div style="text-align: center;cursor: pointer;"><button  data-toggle="modal" style="display: none;" #popup_eve data-target=".bd-examplepop-modal-lg"></button>
+							<button style="border-radius: 40px;" class="btn btn-outline-primary" (click)="budgetbuildersearech_click(this.pprSearchForm.value)">
+							Search
+						</button>
+					</div>
+
+					<!-- <div class="example-button-container"> -->
+					<!-- <button style="border-radius: 40px;"
+					class="btn btn-outline-primary"  type="submit" (click)="budgetbuildersearech_click(this.pprSearchForm.value)">Search -->
+					<!-- <mat-icon>search</mat-icon> -->
+					<!-- </button> -->
+					<!-- </div> -->
+				</div>
+				<div class="col-md-3">
+					<button type="submit" style="border-radius: 40px;" class="btn btn-outline-primary"
+						(click)="clear_budgetdata()">Reset</button>
+				</div>
+			</div>
+		</div>
+		<!-- <mat-form-field style="width: 160px;margin-left: 20px;">
+			<mat-label>Supplier Lists</mat-label>
+		
+			<mat-select (click)="getsupplier($event)" matNativeControl #select multiple>
+				<mat-form-field >
+					<input class="myInput"  (keypress) = "searchInput($event) " #myInput matInput focused="'true'" type="text" autocomplete="off" placeholder="search" id="input_2">
+				  </mat-form-field>
+			  <div class="select-all">
+		
+				  <mat-checkbox  [(ngModel)]="allSelected"
+								  [ngModelOptions]="{standalone: true}"
+								  (change)="toggleAllSelection()">Select All</mat-checkbox>
+			  </div>
+		
+			  <mat-option (click)="optionClick()" *ngFor="let suppliers of supplierLists;let ind=index" [value]="suppliers">
+				{{suppliers.supplier_name}}--{{allSelected}}
+			  </mat-option>
+			</mat-select>
+		
+		  </mat-form-field> -->
+
+	</form>
+
+
+
+	<div *ngIf="display==true" class="modal fade bd-examplepop-modal-lg" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabels" aria-hidden="true">
+		<div class="modal-dialog modal-lg"
+			style="max-width: 100%;max-height: 100%;width: 100%; height: 100%;border-radius: 0;  width: 100%;height: 100%;padding-left: 20px;padding-bottom: -264px; padding-right: 19px;display: block;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title" >Budget  Viewer</h2>
+
+					<button type="button" class="close"  data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div style="text-align: end;">
+					<span style="color: #26722e;" *ngIf="branchcode!=undefined" ><label style="color: black;">Branch : </label>({{branchcode}}) {{branchName}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;"><label style="color: black;">Budget :</label> {{fyer}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;"><label style="color: black;">Amount :</label>{{amount_type}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;" ><label style="color: black;">Sector :</label>{{pprSearchForm.value.sectorname}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;" *ngIf="pprSearchForm.value.masterbusinesssegment_name !=''"><label style="color: black;">Business :</label>{{pprSearchForm.value.masterbusinesssegment_name}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;" *ngIf="pprSearchForm.value.bs_name !=''"><label style="color: black;">BS :</label>{{pprSearchForm.value.bs_name}}</span>&nbsp;&nbsp;&nbsp;
+					<span style="color: #26722e;" *ngIf="pprSearchForm.value.cc_name!=''"><label style="color: black;">CC :</label>{{this.pprSearchForm.value.cc_name}}</span>&nbsp;&nbsp;&nbsp;
+				</div>
+
+				<div style="height: 400px;overflow: auto;margin-left: 4px;" [hidden]=headercheckone>
+
+					<!-- <table> -->
+					<form [formGroup]="buildermonthForm">
+						<!-- <div [formArrayName]="'formArrayName'"> -->
+						<table class="table table-bordered" id="commonstyle" fixed-header>
+
+							<thead style="top:0;position: sticky;">
+								<tr style="top:0;position: sticky;padding: 5px;">
+									<th rowspan="2" style="background-color: #9fa8da;
+					color: black;text-align: center;">Direct Cost</th>
+									<!-- background-color: #9fa8da; -->
+									<!-- <th  style='border:none;'></th> -->
+									<!-- background-color: #b8d1f3; -->
+									<th colspan="3" style="text-align: center; background-color: #b8d1f3;">YTD</th>
+									<th colspan="3" style="text-align: center; background-color: #dae5f4;">Apr </th>
+									<th colspan="3" style="text-align: center; background-color: #b8d1f3;">May </th>
+									<th colspan="3" style="text-align: center; background-color: #dae5f4;">Jun </th>
+									<th colspan="3" style="text-align: center;background-color: #b8d1f3;">Jul </th>
+									<th colspan="3" style="text-align: center; background-color: #dae5f4;">Aug </th>
+									<th colspan="3" style="text-align: center;background-color: #b8d1f3;">Sep</th>
+									<th colspan="3" style="text-align: center;    background-color: #dae5f4;">Oct </th>
+									<th colspan="3" style="text-align: center;background-color: #b8d1f3;">Nov </th>
+									<th colspan="3" style="text-align: center;    background-color: #dae5f4;">Dec </th>
+									<th colspan="3" style="text-align: center;background-color: #b8d1f3;">Jan </th>
+									<th colspan="3" style="text-align: center;     background-color: #dae5f4;">Feb </th>
+									<th colspan="3" style="text-align: center;background-color: #b8d1f3;">Mar </th>
+									
+
+
+								</tr>
+								<tr>
+									<!-- 1 -->
+									<!-- <th  style='border:none;'></th> -->
+									<th style="text-align: center; background-color: #b8d1f3;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center; background-color: #b8d1f3;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;width: 40px; background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<!-- 2 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;width: 40px;    background-color: #dae5f4;">Bgt {{firstyear}}</th>
+									<!-- 3 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;width: 40px;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<!-- 4 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;width: 40px;    background-color: #dae5f4;">Bgt {{firstyear}}</th>
+									<!-- 5 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<!-- 6 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear}}</th>
+									<!-- 7 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<!-- 8 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear}}</th>
+									<!-- 9 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<!-- 10 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear-1}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear-1}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear}}</th>
+									<!-- 11 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear+1}}</th>
+									<!-- 12 -->
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Act {{firstyear}}</th>
+									<th style="text-align: center;    background-color: #dae5f4;">Bgt {{firstyear+1}}</th>
+									<!-- 13 -->
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Act {{firstyear}}</th>
+									<th style="text-align: center;background-color: #b8d1f3;">Bgt {{firstyear+1}}</th>
+									
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr *ngFor="let ppr of summarydata; index as i">
+									<td [ngStyle]="{'padding':ppr.Padding,'padding-left':ppr.Padding_left}" style="background-color: #9fa8da;
+					">
+										<div *ngIf="supplier_chkval=='Y'">
+											<div *ngIf="ppr.Padding_left!='120px'"> <a style="color: blue;"
+													class="ng-binding"
+													(click)="treelevel_click(i,ppr,summarydata,'mon')">
+													{{ppr.name}}</a></div>
+											<div *ngIf="ppr.Padding_left=='120px'">{{ppr.name}}</div>
+										</div>
+										<div *ngIf="supplier_chkval=='N'">
+											<div *ngIf="ppr.Padding_left!='120px' && ppr.name!=''">
+
+												<a style="color: blue;" class="ng-binding"
+													(click)="treelevel_click(i,ppr,summarydata,'mon')">
+													{{ppr.name}}</a>
+
+
+												
+
+
+
+												<!-- <span (click)="addrow_monthly(i,ppr,summarydata)"
+													*ngIf="ppr.Padding_left=='100px' && ppr.tree_flag=='N'"
+													style="display: flex; justify-content: flex-end;color: green;margin-top: -25px;">+1</span> -->
+												<!-- <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon" (click)="addrow_monthly(i,ppr,summarydata)" *ngIf="ppr.Padding_left=='50px'" style="margin-right: auto;">
+								<mat-icon>plus_one</mat-icon>
+							  </button></div> -->
+											</div>
+											<!-- <div *ngIf="ppr.Padding_left=='120px' && (ppr.new_data=='Y')"
+												style="margin-top:-20px">
+												<mat-form-field style="width: 90px;">
+													<input matInput autocomplete="off"
+														(change)="amount_change_name(i,ppr,$event.target.value,summarydata,'mon')">
+												</mat-form-field><i class="material-icons md-18"
+													(click)="delete_month(i,summarydata)"
+													style="margin-top: -28px; margin-right: -15px;">delete</i>
+											</div>-->
+											<div *ngIf="ppr.Padding_left=='120px' && ppr.new_data=='N'">{{ppr.name}}
+
+											</div> 
+										</div>
+
+										<!-- <div *ngIf="ppr.hasOwnProperty('page')"><a style="color:green;" class="ng-binding" >more</a></div> -->
+									</td>
+									<!-- <td  style='border:none;'></td> -->
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align:right;">{{ppr.YTD[0]}}</div>
+
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.YTD[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<!-- <div><mat-form-field>
+                            <input matInput formControlName="name" autocomplete="off">
+                        </mat-form-field></div>					 -->
+										<div style="overflow: auto;" >
+											{{ppr.YTD[2]}}</div>
+										<!-- <div style="overflow: auto;" *ngIf="ppr.Padding_left!='120px'">{{ppr.YTD[2]}}</div> -->
+										
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto; text-align: right;">{{ppr.Apr[0]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Apr[1]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;" >
+											{{ppr.Apr[2]}}</div>
+										
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.May[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.May[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;" >
+											{{ppr.May[2]}}</div>
+										
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jun[0]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jun[1]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;">
+											{{ppr.Jun[2]}}</div>
+										
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jul[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jul[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;" >
+											{{ppr.Jul[2]}}</div>
+										
+									</td>
+
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Aug[0]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Aug[1]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;" >
+											{{ppr.Aug[2]}}</div>
+									
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Sep[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Sep[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;">
+											{{ppr.Sep[2]}}</div>
+										
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Oct[0]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Oct[1]}}</div>
+									</td>
+									<td style="    background-color: #dae5f4;">
+										<div style="overflow: auto;" >
+											{{ppr.Oct[2]}}</div>
+										
+									</td>
+									<td style="    background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Nov[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Nov[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;" >
+											{{ppr.Nov[2]}}</div>
+										
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Dec[0]}}</div>
+
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Dec[1]}}</div>
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;">
+											{{ppr.Dec[2]}}</div>
+										
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jan[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Jan[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;" >{{ppr.Jan[2]}}</div>
+										
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Feb[0]}}</div>
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Feb[1]}}</div>
+									</td>
+									<td style=" background-color: #dae5f4;">
+										<div style="overflow: auto;" >{{ppr.Feb[2]}}</div>
+										
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Mar[0]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;text-align: right;">{{ppr.Mar[1]}}</div>
+									</td>
+									<td style="background-color: #b8d1f3;">
+										<div style="overflow: auto;">{{ppr.Mar[2]}}</div>
+										
+									</td>
+									
+								</tr>
+
+
+							</tbody>
+
+						</table>
+						<!-- </div> -->
+					</form>
+				</div>
+
+				<div *ngIf="summarydata ?.length == 0" style="margin-left: 42%;">
+					<h3>Sorry data not found!.. </h3>
+				</div>
+
+				<!-- Quarterly table	start -->
+				<div [hidden]=headercheck style="height: 400px;overflow: auto;">
+					<form [formGroup]="buildermonthForm1">
+						<table class="table table-bordered" id="commonstyle" fixed-header>
+
+							<thead style="top:0;position: sticky;">
+								<tr>
+									<th rowspan="2">Direct Cost</th>
+									<th colspan="3" style="text-align: center;">YTD </th>
+									<th colspan="3" style="text-align: center;">Quarterly-1 </th>
+									<th colspan="3" style="text-align: center;">Quarterly-2</th>
+									<th colspan="3" style="text-align: center;">Quarterly-3</th>
+									<th colspan="3" style="text-align: center;">Quarterly-4 </th>
+
+								</tr>
+								<tr>
+									<!-- 1 -->
+									<th>Bgt-{{firstyear}}</th>
+									<th>Act-{{firstyear}}</th>
+									<th>Bgt {{firstyear}}-{{lastyear}}</th>
+									<!-- 2 -->
+									<th>Bgt-{{firstyear}}</th>
+									<th>Act-{{firstyear}}</th>
+									<th>Bgt {{firstyear}}-{{lastyear}}</th>
+									<!-- 3 -->
+									<th>Bgt-{{firstyear}}</th>
+									<th>Act-{{firstyear}}</th>
+									<th>Bgt {{firstyear}}-{{lastyear}}</th>
+									<!-- 4 -->
+									<th>Bgt-{{firstyear}}</th>
+									<th>Act-{{firstyear}}</th>
+									<th>Bgt {{firstyear}}-{{lastyear}}</th>
+									<!-- 5 -->
+									<th>Bgt-{{firstyear}}</th>
+									<th>Act-{{firstyear}}</th>
+									<th>Bgt {{firstyear}}-{{lastyear}}</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</form>
+
+					<div *ngIf="summarydata ?.length == 0" style="margin-left: 42%;">
+						<h3>Sorry data not found!.. </h3>
+					</div>
+
+
+				</div>
+				<!-- <form [formGroup]="approverForm" style="padding-left: 145px;">
+					<div style="margin-bottom: 5%;" [hidden]=submit_div>
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-3">
+									<mat-form-field (click)="Approver_dropdown()">
+										<mat-label>Approver</mat-label>
+										<input placeholder="Approver" matInput formControlName="approvercontrol"
+											#businessInput [matAutocomplete]="approver_name">
+										<mat-autocomplete #approver_name="matAutocomplete"
+											[displayWith]="displayfnapprover">
+											<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+											<ng-container *ngIf="!isLoading">
+												<mat-option *ngFor="let approver of approverList" [value]="approver">
+													{{approver.full_name}} </mat-option>
+											</ng-container>
+										</mat-autocomplete>
+									</mat-form-field>
+								</div>
+								<div class="col-md-3">
+									<mat-form-field>
+										<mat-label>Remarks</mat-label>
+										<input matInput formControlName="name" autocomplete="off" placeholder="Remarks">
+									</mat-form-field>
+								</div> -->
+
+
+								<!-- <div class="col-md-3">
+									<br>
+									<button type="submit" style="border-radius: 40px;" class="btn btn-outline-primary"
+										(click)="save_draft(summarydata,qsummarydata,1)">Approve</button>
+								</div> -->
+								<!-- <div class="col-md-3">
+									<br>
+									<button type="submit" style="border-radius: 40px;" class="btn btn-outline-primary"
+										(click)="save_draft(summarydata,qsummarydata,0)">Save as Draft</button>
+								</div> -->
+							<!-- </div>
+						</div>
+					</div> -->
+					<div class="modal-footer">
+					
+						<button type="button" class="btn btn-outline-dark" #closepopup data-dismiss="modal">
+						Close
+					</button></div>
+				<!-- </form> -->
+				
+			</div>
+		</div>
+	</div>
+
+	<!-- <pre>
+		{{buildermonthForm.value | json}}
+	</pre> -->

@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+        <h3>  Changes </h3>
+        </div>
+ <div class="col-md-7 text-right">
+  <button type="button" class="btn btn-light"  style="border-radius: 7px;margin-left: 10px;
+  border-color: black;
+  background-color: white;"
+      (click)="Cancel()">Cancel</button>
+      </div></div>
+    <div>
+        <div class="timeline">
+            <ul>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+                <li><div class="content">
+                    <p><code>Entity</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.kyc_entity!=modificationdata.old_data.kyc_entity'> {{modificationdata.new_data.kyc_entity | titlecase}}</span></p>
+                    <p><code>Individual</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.organization_name!=modificationdata.old_data.organization_name'> {{modificationdata.new_data.organization_name | titlecase}}</span></p>
+                    <!-- <p><code>Sole Proprietor</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.organization_name!=modificationdata.old_data.organization_name'> {{modificationdata.new_data.organization_name | titlecase}}</span></p> -->
+                    <!-- <p><code>Directors</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.organization_name!=modificationdata.old_data.organization_name'> {{modificationdata.new_data.organization_name | titlecase}}</span></p> -->
+                    <p><code>Beneficial Owners</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.beneficial_owners!=modificationdata.old_data.beneficial_owners'>{{ modificationdata.new_data.beneficial_owners | titlecase}}</span></p>
+                    <p><code>Authorised Signatories</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.authorised_signatories!=modificationdata.old_data.authorised_signatories'>{{ modificationdata.new_data.authorised_signatories | titlecase}}</span></p>
+                    <p><code>Sanctions Screening Conducted</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.sanctions_conducted.name!=modificationdata.old_data.sanctions_conducted.name'> {{ modificationdata.new_data.sanctions_conducted.name}}</span></p>
+                    <p><code>Match Found</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.match_found.name!=modificationdata.old_data.match_found.name'> {{ modificationdata.new_data.match_found.name}}</span></p>    
+                    <p><code>Files</code>:<br>
+                        <span *ngFor="let files of multifile;index as i">
+                            <tr>
+                                <td>{{i+1}}</td>&nbsp;&nbsp;
+                            <a (click)="dataa(files)">{{files.file_name | titlecase}}</a>
+                        </tr><br> 
+                    </span>
+                    </p>
+                </div>
+                </li>
+                <li>
+                    <div class="content" *ngIf="modificationdata.action==2">
+                        <p><code>Entity</code>:&nbsp;{{ modificationdata.old_data.kyc_entity | titlecase}}</p>
+                        <p><code>Individual</code>:&nbsp;{{ modificationdata.old_data.organization_name | titlecase}}</p>
+                        <p><code>Beneficial Owners</code>:&nbsp;{{ modificationdata.old_data.beneficial_owners | titlecase}}</p>
+                        <p><code>Authorised Signatories</code>:&nbsp;{{ modificationdata.old_data.authorised_signatories | titlecase}}</p>
+                        <p><code>Sanctions Screening Conducted</code>:&nbsp;{{ modificationdata.old_data.sanctions_conducted.name}}</p>
+                        <p><code>Match Found</code>:&nbsp;{{ modificationdata.old_data.match_found.name}}</p> 
+                        <p><code>Files</code>:<br>
+                            <span *ngFor="let file of multifiles;index as i">
+                                <tr>
+                                    <td>{{i+1}}</td>&nbsp;&nbsp;
+                                <a (click)="(file)">{{file.file_name | titlecase}}</a>
+                            </tr><br>
+                            </span>
+                        </p>
+                    </div>
+                </li>
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+</div>

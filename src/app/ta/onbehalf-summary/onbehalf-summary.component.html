@@ -1,0 +1,136 @@
+<div class="Container" style="margin-left: 40px;">
+     <h3  style="margin-left: 40px;">eClaim onBehalf Employee
+
+     </h3> 
+         <div class="table-responsive" style="margin-top: 1%;width: 90%; -ms-overflow-style: none;">
+            <button type="button" class="btn btn-outline-success"data-toggle="modal" data-target="#assetdetails"
+            style="border-radius:40px;margin-left: 670px"><span class="fa fa-plus"></span>
+               add</button>
+        <div class="container">
+            <div class="row">
+                <div class="table-responsive" >
+                    <table class="table table-bordered" fixed-header
+                        style="width: 95%;margin-top: 10px;margin-left:30px;overflow-x: hidden;">
+                        <thead class="table_header" style="text-align: left;">
+         
+                     <tr>
+                        <th>S.No</th>
+                        <th>Employee Name</th>
+                        <th>Branch Name</th>
+                        <th>onBehalf Employee</th>
+                        <th>Status</th>
+                       
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <tr *ngFor="let  onBehalf of onBehalfList; index as i">
+                        <td scope="row" >{{(this.onbehalfsummry - 1)*pagesize +i+1 }}</td>
+                        <td>{{onBehalf.name}}</td>
+                        <td> {{onBehalf.bname}}</td>
+                        <td>{{onBehalf.onBehalf}}</td>
+                        <td>{{onBehalf.status}}</td>
+                         
+                        
+                     <!--<tr><td colspan="10">No Records Found..</td></tr>-->
+                     </tr>
+                 </tbody>
+             </table>
+             <!-- <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+                 <button mat-icon-button>
+                     <mat-icon>arrow_back</mat-icon>
+                 </button>1
+                 <button mat-icon-button>
+                     <mat-icon>arrow_forward</mat-icon>
+                 </button>
+             </div> -->
+         </div>
+     </div>
+ </div>
+ </div>
+ <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="assetinfodetails" aria-hidden="true"
+ id="assetdetails">
+ <div class="modal-dialog modal-xl" style="width: 60%;">
+     <div class="modal-content">
+         <div class="modal-header" style="background:rgba(23, 204, 23, 0.288);">
+             <h3 class="modal-title" style="color:black ;">Add onBehalf Employee</h3>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </button>
+         </div>
+       
+        <div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+           
+                <div>
+                  <form #taForm="ngForm">
+                        <table>
+                            <tr>
+                                
+                              <td>
+                                <mat-form-field  style="width: 175px;">
+                                    <mat-label>Branch</mat-label>
+                                    <input  matInput placeholder="branch"  name="branch" [(ngModel)]="onBehalf.branch" autocomplete="off"  required>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                    <mat-label>Employee</mat-label>
+                                    <input  matInput placeholder="employee"  name="employee" [(ngModel)]="onBehalf.employee" autocomplete="off"  required>
+                                </mat-form-field>
+                            </td>
+                                
+                        </tr>
+                    </table>
+                </form>
+                <div class="container">
+                    <div class="row">
+                        <div class="table-responsive" >
+                            <table class="table table-bordered" fixed-header
+                            style="margin-left: 5px;margin-right: 20%;margin-top: 3%; width: 70%;">
+                                <thead class="table_header" style="text-align: left;">
+                 
+                             <tr>
+                                <th>S.No</th>
+                                <th>Employee Name</th>
+                                <th>Status</th>
+                                
+                               
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr *ngFor="let  employee of onbehalfemployeeList; index as i">
+                                <td>{{i+1 }}  </td>
+                                <td>{{employee.name}}</td>
+                                <td> {{employee.temployee}}</td>
+                                <td>{{employee.status}}</td>
+                               
+                                 
+                                
+                             <!--<tr><td colspan="10">No Records Found..</td></tr>-->
+                             </tr>
+                         </tbody>
+                     </table>
+                     <!-- <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+                         <button mat-icon-button>
+                             <mat-icon>arrow_back</mat-icon>
+                         </button>1
+                         <button mat-icon-button>
+                             <mat-icon>arrow_forward</mat-icon>
+                         </button>
+                     </div> -->
+                 </div>
+             </div>
+         </div>    
+                        
+                        
+                             <div  > 
+                                <button type="submit" style="border-radius: 20px;margin-left: 250px;"
+                                    class="btn btn-outline-primary">Submit</button>
+                                <button type="button"  class="btn btn-outline-primary"data-toggle="modal"
+                                  style="border-radius: 20px;margin-left: 5px;">Back</button>
+                             </div>
+                            <!-- </tr> -->
+                        </div>
+                        </div>
+</div>
+ </div>
+</div>

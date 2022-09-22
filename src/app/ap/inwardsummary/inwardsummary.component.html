@@ -1,0 +1,132 @@
+<div style="width: 100%;">
+    <div class="col-md-12">
+        <h2 style="margin-left: 15px;font-family:Times New Roman;font-size:20px;font-weight:bold;">AP Invoice Inward Summary </h2>
+        <form [formGroup]="inwardSummarySearch" (ngSubmit)="getInward()">
+        <div class=" row col-md-12">
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Inward Header No</mat-label>
+                        <input type="text" formControlName="inwardHdrNo" (keypress)="decimalFilter($event)" matInput
+                        placeholder="Inward Header No">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3" >
+                <mat-form-field   style="width: 230px;">
+                    <mat-label >Air Waybill No</mat-label>
+                    <input #AssetInput placeholder="Air Waybill No" matInput formControlName="airwayNo">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="inwardDtPick" formControlName="inwardDate">
+                    <mat-datepicker-toggle matSuffix [for]="inwardDtPick"></mat-datepicker-toggle>
+                    <mat-datepicker #inwardDtPick disabled="false"></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field  (click)="inward_status()" style="width: 230px;">
+                    <mat-label>Status</mat-label>
+                    <input #statusInput  placeholder="Select Inward Status" matInput formControlName="inwardStatus"
+                    [matAutocomplete]="statusAutoComplete">
+                    <mat-autocomplete #statusAutoComplete="matAutocomplete" [displayWith]="displayFnStatus" (opened)="autocompleteScrollStatus()" >
+                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option   *ngFor="let stat of status" [value]="stat">{{stat.text}}
+                        </mat-option>
+                    </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+        <div class="col-md-3" style="margin-left: 70%">
+            <button mat-fab style="background-color: white;" aria-label="Search" type="submit">
+                <mat-icon>search</mat-icon>
+            </button>
+            <button mat-fab (click)="clearSearch()"
+                style="border-radius:40px;margin-left: 15px;background-color: white;color: black;">Clear
+            </button>
+        <!-- <button type="submit" class="btn btn-outline-primary"
+            style="border-radius:40px;height: 44px; margin-top: 12px;"><i class="fa fa-search" aria-hidden="true">Search</i>
+        </button></div> 
+
+        <div class="col-md-2">
+            <button type="button" class="btn btn-outline-primary" (click)="clearSearch()"
+                style="border-radius:40px;height: 44px; margin-top: 12px;">Clear
+            </button>-->
+        </div>
+
+        <!-- <div class="col-md-2">
+            <button type="button" class="btn btn-outline-primary" [routerLink]='"/fa/Assetsaleadd"'
+            skipLocationChange style="border-radius:40px;height: 44px; margin-top: 12px;"><span class="fa fa-plus"></span>
+            Add
+            </button>
+        </div> -->   
+                 
+    </div>   
+</form>
+
+
+
+<!-- table -->
+<div style="margin-left: 15px;">
+    <table class="table" style="margin-top: 10px;max-width: 100%;" id ='commonstyle'>
+        <thead class="table_header" >  
+            <tr>
+                <th>S.No</th> 
+                <th>Inward Header Number</th>                             
+                <th>Date</th>
+                <th>Invoice Count</th>                
+                <th>Doc Type</th>             
+                <th>Status</th>
+                <th>Action</th>                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let value of inwardSummary; index as i;">
+                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                <td>{{value['inwardheader'].no}}</td>
+                <td>{{value['inwardheader'].date| date:'dd-MMM-yyyy'}}</td>
+                <td>{{value.doccount}}</td>                
+                <td>{{value.doctype_id.name}}</td>
+                <td>
+                    <div *ngIf="value['inwardheader'].status">
+                    {{value['inwardheader'].status.text}}
+                </div>
+            </td>
+                <!-- <div *ngIf="value['inwardheader'].status?.id == 1 ||
+                    value['inwardheader'].status?.id == 2; then thenBlock else elseBlock"></div>
+                <ng-template #thenBlock> -->
+                    <td style="cursor: pointer; color: #3684BF; " (click)="ecfHeader(value.id,value.doccount,value.inwardheader.no)">View</td>  
+                <!-- </ng-template>
+                <ng-template #elseBlock> 
+                    <td></td>
+                </ng-template>    -->   
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="inwardSummary?.length == 0" style="margin-left: 42%;">
+        <h3>Sorry data not found!.. </h3>
+    </div>
+</div>
+    
+    <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+        <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+            <mat-icon>arrow_back</mat-icon>
+        </button> {{presentpage}}
+        <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+            <mat-icon>arrow_forward</mat-icon>
+        </button>    
+    </div>
+    </div>
+    </div>
+    <ngx-spinner
+      bdColor="rgba(51,51,51,0.8)"
+      size="medium"
+      color="#fff"
+      type="ball-scale-multiple">
+      <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner>

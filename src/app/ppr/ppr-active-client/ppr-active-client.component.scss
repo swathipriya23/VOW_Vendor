@@ -1,0 +1,82 @@
+#commonstyle{
+    border:15px none #f6f6f6;
+    // height: 400px;
+    }
+    #activeclient-table{
+      border:15px none #f6f6f6;
+      // height: 400px;
+      }
+      #typelist_table{
+        border:15px none #f6f6f6;
+        // height: 400px;
+        }
+    tr:nth-child(even) {background: #EDF8FA}
+    tr:nth-child(odd) {background: #FFF}
+  table,th,td{
+    text-align: left;
+    font-size: 13px;
+    // padding: 5px;
+  }
+
+::ng-deep .cdk-overlay-container {
+    z-index: 1300 !important;
+}
+
+th, td { background: #fff; }
+
+td.tablechange:empty::before{content: '0.00'}
+
+
+tr{
+  white-space: nowrap;
+}
+.mat-datepicker-calendar-header{
+  display: none;
+}
+.code {
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  padding: .2em .4em;
+}
+section > div {
+  margin-bottom: 15px;
+}
+.choose::-webkit-file-upload-button {
+  color: white;
+  display: inline-block;
+  background: #1CB6E0;
+  border: none;
+  padding: 7px 15px;
+  font-weight: 700;
+  border-radius: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 10pt;
+}
+.pagination {float: right;}
+.tableFixHead {
+  overflow: auto;
+  max-height: 400px;
+}
+.levelhead{
+  overflow: auto;
+    max-height: 400px;
+    padding-left: 2%;
+    /* text-align: center; */
+    width: 50%;
+}
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+}
+div p {
+  display: inline-block;
+}
+tr.backcolor th {
+  background: #00d7ff;
+  
+}
+tr.backcolor:nth-child(even) {background: #EDF8FA}
+    tr.backcolor:nth-child(odd) {background: #FFF}

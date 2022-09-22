@@ -1,0 +1,109 @@
+
+<div style="margin-top: 15px;margin-left: 15px;">
+    <h3 style="color:black;font-size: 20px;font-weight: 500">
+         eClaim Advance Approval Summary
+   </h3>
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="tourApprovalSearchForm">
+                <mat-form-field style="width:175px;">
+                    <mat-label>Tour No</mat-label>
+                    <input matInput placeholder="Tour No" formControlName="tourno">
+                </mat-form-field>
+               
+                    <mat-form-field style="width:175px;margin-left: 50px;">
+                        <mat-label>Tour Request Date</mat-label>
+                        <input matInput readonly [matDatepicker]="picker1" 
+                                placeholder="Request Date" autocomplete="off" formControlName="requestdate">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+                  <!-- <mat-form-field style="width: 175px;">
+                    <input matInput name="status"  [(ngModel)]="toursearch.status" #accbybank="ngModel" placeholder="status" [matAutocomplete]="auto" required>
+                      <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option *ngFor="let status of statusList" [value]="status.value" (click)="getstatus(status.name)">
+                              {{status.name}}
+                          </mat-option>
+                      </mat-autocomplete>
+                  </mat-form-field> -->
+                
+                <button class="btn btn-outline-primary" type="submit"  (click)="tourApproverSearch()" style="border-radius:40px;margin-left: 15px;"
+                            color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+
+                <button class="btn btn-outline-primary" type="submit"(click)="reset()" style="border-radius:40px;margin-left: 15px;"
+                color="primary">Clear</button>
+
+                <mat-form-field style="width: 200px;margin-left: 5%;">
+                    <mat-label>Status Filter</mat-label>
+                    <mat-select  [(value)]="statusselected" readonly="readonly" (selectionChange)="onStatusChange($event.value)">
+                        <mat-option *ngFor="let status of statusList" [value]="status.name">
+                            {{status.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+        </div>
+    </div>
+    <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+        <thead class="table_header" style="text-align: left;">
+    <tr>
+    <th>S.No</th>
+    <th>Tour No</th>
+    <th>Tour Date</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Employee Name </th>
+    <th>Branch</th>
+    <th>Raised By</th>
+    <th>Employee Grade</th>
+    <th>App Type</th>
+    <th>Advance Amount</th>
+    <th>Status</th>
+    <th>Action</th>
+    
+    </tr>
+    </thead>
+    <tbody> 
+        <tr *ngFor="let advanceapprove of gettourapproveList; index as i">
+        <td>{{(currentpage - 1)*pagesize +i+1 }} </td>
+        <td>{{advanceapprove.tourid}}</td>
+        <td>{{advanceapprove.requestdate| date:'dd-MMM-yyyy'}}</td>
+        <td>{{advanceapprove.startdate| date:'dd-MMM-yyyy'}}</td>
+        <td>{{advanceapprove.enddate| date:'dd-MMM-yyyy'}}</td>
+        <td>({{advanceapprove.employee_code}}) {{advanceapprove.employee_name}}</td>
+        <td>({{advanceapprove.branch_code}}) {{advanceapprove.branch_name}}</td>
+        <td> ({{advanceapprove.onbehalfof.code}}) {{advanceapprove.onbehalfof.full_name}}</td>
+        <td>{{advanceapprove.empgrade}}</td>
+        <td>{{advanceapprove.apptype}}</td>
+        <td>{{advanceapprove.requested_amount}}</td>
+        <td>{{advanceapprove.status_name}}</td>
+        <!-- <td>
+            <div *ngIf="advanceapprove.status == 1">Tour Advance Submitted To Approver </div>
+            <div *ngIf="advanceapprove.status == 2">Tour Advance Approved</div>
+            <div *ngIf="advanceapprove.status == 3">Tour Advance Rejected</div>
+            <div *ngIf="advanceapprove.status == 4">Tour Advance Returned From Approver</div>
+        </td> -->
+        <td><span class="material-icons" matTooltip="view"  style="color:green;" (click)="approveview(advanceapprove)">
+            <mat-icon style="color: green;"class="material-icons">
+                visibility</mat-icon></span></td>
+            
+        </tr>
+    </tbody>
+    </table>
+    <div *ngIf="gettourapproveList ?.length == 0" style="margin-left: 42%;">
+        <h3>Sorry data not found!.. </h3>
+    </div>
+    <div class="row" *ngIf="isTourChecker">
+        <div class="col-sm-12" style="font-size: small;text-align:right;margin-bottom: 5%;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary"
+            (click)="TourapprovepreviousClick()">
+            <mat-icon >arrow_back</mat-icon>
+            </button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary"
+            (click)="TourapprovenextClick()">
+            <mat-icon >arrow_forward</mat-icon>
+            </button>
+            </div>
+    </div>
+    </div>

@@ -1,0 +1,66 @@
+<div class="container" style="margin-top: 2%;">
+    <h1 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">HSN Create Form</h1><hr>
+</div>
+<div class="container">
+    <form [formGroup]="hsnform">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 200px;">
+                    <mat-label>HSN Code</mat-label>
+                    <input  maxlength="8" matInput formControlName="code" required (keypress)="keypressnodigit($event)" >
+                    
+                </mat-form-field>
+
+            </div>
+            <div class="com-md-3">
+                <mat-form-field style="width: 200px;margin-left: 50px;">
+                    <mat-label>HSN CGST</mat-label>
+                    <input type="text" matInput formControlName="cgst" required (keypress)="keypressnodigit($event)" [matAutocomplete]="rateref" #rateinput>
+                    <mat-autocomplete #rateref="matAutocomplete" [displayWith]="getdisplaysgstinterface" (opened)="autocompletecatScroll()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of ratelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 200px;margin-left: 50px;">
+                    <mat-label>HSN SGST</mat-label>
+                    <input type="text" matInput formControlName="sgst" required (keypress)="keypressnodigit($event)" [matAutocomplete]="rateref">
+                    <mat-autocomplete #rateref="matAutocomplete" [displayWith]="getdisplaysgstinterface" (opened)="autocompletecatScroll()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of ratelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 200px;margin-left: 50px;">
+                    <mat-label>HSN IGST</mat-label>
+                    <input type="text" matInput formControlName="igst" required (keypress)="keypressnodigit($event)" [matAutocomplete]="rateref">
+                    <mat-autocomplete #rateref="matAutocomplete" [displayWith]="getdisplaysgstinterface" (opened)="autocompletecatScroll()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of ratelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 200px;">
+                    <mat-label>HSN Description</mat-label>
+                    <input type="text" matInput formControlName="desc" required (keypress)="keypressnodigit($event)">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-outline-success" (click)="submitform()" style="border-radius: 40px;">Submit</button>
+            <button type="button" (click)="onclickcancel()" class="btn btn-outline-danger" style="border-radius: 40px;margin-left: 50px;">Cancel</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,61 @@
+<div style="background-color: #f6f6f6" >
+    <mat-card style="margin-top: 13px;margin-left: 20px;margin-right: 20px;margin-bottom: 20px;" >
+<div class="col-md-12">
+    <h2 class="header">Vendor Report</h2>
+    <hr>
+    <form [formGroup]="vendorSearchForm" (ngSubmit)="vendorreport()">
+        <div class="row col-md-12">
+            <div class="col-md-3">
+                <mat-label>Status</mat-label><br>
+                <mat-form-field>
+                    
+                    <mat-select formControlName="type">
+                        <mat-option *ngFor="let mode of VendorstatusesList" [value]="mode.id">{{mode.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-label>Requestfor</mat-label><br>
+                <mat-form-field>
+                   
+                    <mat-select formControlName="request_for">
+                        <mat-option *ngFor="let mode of Vendorrequests" [value]="mode.id">{{mode.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-label>From Date</mat-label><br>
+                <mat-form-field >
+                   
+                    <input matInput [matDatepicker]="excemfrom" formControlName="from_date">
+                    <mat-datepicker-toggle matSuffix [for]="excemfrom"></mat-datepicker-toggle>
+                    <mat-datepicker #excemfrom disabled="false"></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-label>To Date</mat-label><br>
+                <mat-form-field >
+                    
+                    <input matInput [matDatepicker]="excemto" formControlName="to_date">
+                    <mat-datepicker-toggle matSuffix [for]="excemto"></mat-datepicker-toggle>
+                    <mat-datepicker #excemto disabled="false"></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-11"></div>
+            <div class="col-md-1">
+                <button class="btn btn-primary" type="submit"
+                    style="cursor:default;margin-left: 15px;margin-top: 17px;" color="primary">Download</button>
+            </div>
+
+        </div>
+    </form>
+
+
+</div>
+</mat-card>
+</div>

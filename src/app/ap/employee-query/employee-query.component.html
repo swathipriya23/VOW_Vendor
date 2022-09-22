@@ -1,0 +1,187 @@
+<div class="container" style="max-width: 1301px;">
+    <div class="col-md-12">
+        <h2 style="margin-left: 2%;font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;">Employee Query </h2>
+        <form [formGroup]="frmEmp" (ngSubmit)="getQuery()">
+        <div class=" row col-md-12">
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>CR No</mat-label>
+                        <input type="text" formControlName="crNo" matInput placeholder="CR No.">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3" >
+                <mat-form-field (click)="inward_type()" style="width: 230px;">
+                    <mat-label>Invoice Type</mat-label>
+                    <!-- <input type="text" formControlName="invType" matInput placeholder="Invoice Type"> -->
+                    <input #typeInput  placeholder="Select Invoice Type" matInput formControlName="invType"
+                    [matAutocomplete]="typeAutoComplete">
+                    <mat-autocomplete #typeAutoComplete="matAutocomplete" [displayWith]="displayFnType" (opened)="autocompleteScrollType()">
+                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option   *ngFor="let t of type" [value]="t">{{t.text}}
+                        </mat-option>
+                    </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>                
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Supplier Name</mat-label>
+                        <input type="text" formControlName="supName" matInput placeholder="Supplier Name">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field (click)="inward_branch()" style="width: 230px;">
+                    <mat-label>Branch</mat-label>
+                    <input #branchInput  placeholder="Select Branch" matInput formControlName="branch"
+                    [matAutocomplete]="branchAutoComplete">
+                    <mat-autocomplete #branchAutoComplete="matAutocomplete" [displayWith]="displayFnBranch" (opened)="autocompleteScrollBranch()">
+                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option   *ngFor="let br of branchList" [value]="br">{{br.name}}
+                        </mat-option>
+                    </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class=" row col-md-12">
+            <div class="col-md-3">
+                <mat-form-field   style="width: 230px;">
+                    <mat-label>Invoice No</mat-label>
+                    <input placeholder="Invoice No." matInput formControlName="invNo">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field style="width: 230px;">
+                    <mat-label >Invoice Amount</mat-label>
+                    <input #AssetInput placeholder="Invoice Amount" matInput formControlName="invAmt">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>From Date</mat-label>
+                    <input matInput [matDatepicker]="fromDtPick" formControlName="fromDate">
+                    <mat-datepicker-toggle matSuffix [for]="fromDtPick"></mat-datepicker-toggle>
+                    <mat-datepicker #fromDtPick ></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>To Date</mat-label>
+                    <input matInput [matDatepicker]="toDtPick" formControlName="toDate">
+                    <mat-datepicker-toggle matSuffix [for]="toDtPick"></mat-datepicker-toggle>
+                    <mat-datepicker #toDtPick ></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>  
+
+        <div class=" row col-md-12">
+           <div class="col-md-3">
+                <mat-form-field  style="width: 230px;">
+                    <mat-label >Airway No</mat-label>
+                    <input #AssetInput placeholder="Airway No." matInput formControlName="airwayNo">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-primary"
+                    style="border-radius:40px;height: 44px; margin-top: 12px;"><i class="fa fa-search" aria-hidden="true">Search</i>
+                </button>
+            </div>
+
+            <div class="col-md-2">
+                <button type="button" class="btn btn-outline-primary"
+                    style="border-radius:40px;height: 44px; margin-top: 12px;"><i class="fa fa-download" aria-hidden="true">Download</i>
+                </button>
+            </div>
+
+            <div class="col-md-2">
+                <button type="button" class="btn btn-outline-primary" (click)="clearSearch()"
+                    style="border-radius:40px;height: 44px; margin-top: 12px;">Clear
+                </button>
+            </div>
+
+            <!-- <div class="col-md-2">
+                <button type="button" class="btn btn-outline-primary" [routerLink]='"/fa/do"'
+                    skipLocationChange style="border-radius:40px;height: 44px; margin-top: 12px;"><span class="fa fa-plus"></span>
+                    Add
+                </button>
+                </div> -->   
+        </div>   
+    </form>
+<!-- table -->
+<div class="table-responsive" class="tablescroll" style="margin-top: 2%;width: 95%;margin-left: 10px;overflow: auto;">
+    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 20px;">
+        <thead class="table_header " fixed-header>
+            <tr>
+                <th>S.No</th> 
+                <th>CR No</th>                             
+                <th>Purpose</th>
+                <th>Invoice Type</th>          
+                <th>Airway Bill</th>
+                <th>Supplier Name</th>                
+                <th>Employee Name</th>                
+                <th>Invoice No</th>          
+                <th>Invoice Date</th>          
+                <th>Invoice Amount</th>          
+                <th>Status</th>
+                <th>Payment Status</th>
+                <th>File</th>             
+                <th>Entries</th>
+                <th>Wisefine Entries</th>
+                <th>Transaction Details</th> 
+                <th>Force Unlock</th>                               
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let value of empQuery; index as i;">                
+                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                <td style="cursor: pointer; color: #3684BF;" (click)="invView(value.crno)">{{value.crno}}</td>  
+                <td>purpse</td>                
+                <td>{{value.aptype.text}}</td>
+                <td>airway</td>                
+                <td>supname</td>
+                <td>empname</td>                
+                <td>{{value['Apinvoiceheader'].invoiceno}}</td>
+                <td>{{value['Apinvoiceheader'].invoicedate | date:'dd-MMM-yyyy'}}</td>
+                <td>{{value['Apinvoiceheader'].invoiceamount}}</td>
+                <td>{{value.apstatus.text}}</td> 
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="empQuery?.length == 0" style="margin-left: 42%;">
+        <h3>Sorry data not found!.. </h3>
+    </div>
+</div>
+    
+    <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+        <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+            <mat-icon>arrow_back</mat-icon>
+        </button> {{presentpage}}
+        <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+            <mat-icon>arrow_forward</mat-icon>
+        </button>    
+    </div>
+    </div>
+    </div>
+    <ngx-spinner
+      bdColor="rgba(51,51,51,0.8)"
+      size="medium"
+      color="#fff"
+      type="ball-scale-multiple">
+      <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner>

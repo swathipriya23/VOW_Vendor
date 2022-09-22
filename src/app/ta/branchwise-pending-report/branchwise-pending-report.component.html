@@ -1,0 +1,70 @@
+
+<div style="margin-top: 40px;margin-left: 40px;">
+    <h2>
+        eClaim TA Bills Branch Wise Pending
+    </h2>
+    <div class="row">
+        <div class="col-12">
+            <form #tabranchwiseForm="ngForm">
+                <mat-radio-group aria-label="Select an option" name="status"  [(ngModel)]="branchwisemodal.status">
+                    &nbsp;&nbsp;
+                   
+                    <mat-radio-button *ngFor="let n of radiocheck" [value]="n.value" (click)=getdata(n) style="margin-left: 10px;">
+                        {{n.display}}
+                    </mat-radio-button>
+                </mat-radio-group>     
+                </form>
+        </div>
+    </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+          <div class="table-responsive" >
+              <table class="table table-bordered" fixed-header
+              style="width: 95%;margin-top: 10px;margin-left:30px;overflow-x: hidden;">
+          <thead class="table_header" style="text-align: left;">
+          <tr>
+          <th style="text-align: center;">S.No</th>
+          <th style="text-align: center;">Branch</th>
+          <th style="text-align: center;">1 to 2 Days</th>
+          <th style="text-align: center;">3 to 10 Days</th>
+          <th style="text-align: center;">11 to 30 Days</th>
+          <th style="text-align: center;">31 to 60 Days</th>
+          <th style="text-align: center;">More</th>
+          
+          </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let report of getbranchwiseList; index as i">
+                <td>{{i+1}}</td>
+                <td>{{report.branch_name}}</td>
+                <td>{{report.one_two}}</td>
+                <td>{{report.three_ten}}</td>
+                <td>{{report.eleven_thirty}}</td>
+                <td>{{report.thirtyone_sixty}}</td>
+                <td>{{report.above_sixty}}</td>
+          </tr>
+          </tbody>
+          </table>
+          
+      </div>
+      <!-- <div *ngIf="gettourreportList?.length==0; else paginationreport" class="NodataAlign">No Records Found...</div>
+     <ng-template #paginationreport>
+    <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+        <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+            <mat-icon>arrow_back
+            </mat-icon>
+        </button> {{presentpage}}
+        <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+            <mat-icon>arrow_forward
+            </mat-icon>
+        </button>
+    </div>
+</ng-template>
+
+  </div> -->
+  </div>
+</div>
+ 
+  

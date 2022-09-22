@@ -1,0 +1,33 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h3 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">
+        Paymode Form
+    </h3><hr>
+    <div>
+        <form [formGroup]="paymodeAddForm" (ngSubmit)="submitForm()" autocomplete="off">
+            <table>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 250px;">
+                            <mat-label>Enter Paymode Code</mat-label>
+                            <input type="text" matInput formControlName="code" (keypress)="numberOnly($event)">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 50px;">
+                            <mat-label>Enter Paymode Name</mat-label>
+                            <input matInput placeholder="Name" formControlName="name" autocomplete="off" required (keypress)="numberOnly($event)">
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" 
+            class="btn btn-outline-primary">Submit</button>
+            <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+            <!-- <button type="submit" style="border-radius: 40px;margin-left: 10px;" 
+            class="btn btn-outline-primary" [disabled]= "disableSubmit">Submit</button> -->
+        </form>
+    </div>
+</div>
+

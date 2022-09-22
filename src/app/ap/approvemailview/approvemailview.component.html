@@ -1,0 +1,603 @@
+<div *ngIf="detflag" style="background-color: #F6F6F6">
+    <mat-card style="margin:20px 12px 20px 20px;" class="mat-elevation-z0" >
+<div class=" row col-md-12">
+    <h2 style="margin-left: 2%;font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;">Approve Summary
+    </h2>   
+    <button type="button" *ngIf="entrybuttonflage" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;margin-left:330px"
+        data-toggle="modal" data-target="#entry" (click)="getentrydet()"  ><i class="fa fa-arrow-up" aria-hidden="true">View Entry</i>
+    </button> 
+    <button type="button" *ngIf="!entrybuttonflage" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;margin-left:330px"
+        data-toggle="modal" data-target="#beforeentry"  ><i class="fa fa-arrow-up" aria-hidden="true">Before Approval Entry</i>
+    </button> 
+</div>
+
+<div style="margin-top: 2%;">
+        <div>
+            <div class=" row col-md-12"  >
+                <div class="col-md-4" >
+                        <mat-label>ECF Number:</mat-label>
+                        {{apHdrSummarydt.crno}}
+                </div>
+                <div class="col-md-4" >
+                        <mat-label>ECF Type:
+                        </mat-label> {{apHdrSummarydt?.aptype?.text}}
+                </div>
+
+                <div class="col-md-4">
+                        <mat-label>GST Applicable:{{apHdrSummarydt.apinvoiceheader[0].invoicegst}}
+                        </mat-label>
+                </div>
+            </div>
+                <div class=" row col-md-12">
+                    <div class="col-md-4">
+                    
+                            <mat-label>Supplier Name:{{apHdrSummarydt.apinvoiceheader[0].supplier.name}}
+                            </mat-label>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-label>Remarks:
+
+                        </mat-label> {{apHdrSummarydt.remark}}
+                    </div>
+                    <div class="col-md-4">
+                        <mat-label>Invoice Number:{{apHdrSummarydt.apinvoiceheader[0].invoiceno}}
+                        </mat-label>
+                    </div>
+                </div>
+                <div class=" row col-md-12">
+                        <div class="col-md-4">
+                            <mat-label>Amount:{{apHdrSummarydt.apinvoiceheader[0].invoiceamount | currency:'INR'}}
+                            </mat-label>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-label>Tax Amount:{{apHdrSummarydt.apinvoiceheader[0].taxamount | currency:'INR' }}
+                            </mat-label>
+                        </div>
+                   
+                        <div class="col-md-4">
+                            <mat-label>Employee:
+                            </mat-label> {{apHdrSummarydt.raisername}}
+                        </div>
+                </div>
+                <div class=" row col-md-12">
+                    <div class="col-md-4">
+                        <mat-label>Branch:{{branch}}
+                        </mat-label>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-label>Branch GST No:{{branchgst}}
+                        </mat-label>
+                    </div >
+
+                    <div class="col-md-4">
+                        <mat-label>Bar Code: {{apHdrSummarydt.apinvoiceheader[0].barcode}}
+    
+                        </mat-label>
+                    </div>
+                </div>
+                <div class=" row col-md-12">
+                    <div class="col-md-4">
+                        <mat-label>RMU Code:
+
+                        </mat-label> {{apHdrSummarydt.rmubarcode}} 
+                    </div>
+
+                    <div *ngIf="advancenotflage"   class="col-md-4">
+                        <mat-label>Invoice Date:{{apHdrSummarydt.apinvoiceheader[0].invoicedate  | date:'dd-MMM-yyyy'}}
+                        </mat-label>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-label>Total:
+
+                        </mat-label> {{apHdrSummarydt.apamount | currency:'INR' }}
+                    </div>
+
+                </div>
+            
+        </div>
+</div>
+<h2 style="margin-left: 2%;font-family:'Times New Roman';font-weight:bold;">Invoice Header</h2>
+<div class="table-responsive" id="styleScroll"
+    style="margin-top: 1%;width: 95%;margin-left: 2%;margin-bottom: 5%;">
+    <table class="table scrolltable table-bordered" fixed-header>
+        <thead class="table_header" style='font-family:"Times New Roman"'>
+            <tr>
+                <th>S.No</th>
+                <th *ngIf="eraflage" >Supplier Name</th>
+                <th *ngIf="eraflage">Supplier GST</th>
+                <th>Invoice No</th>
+                <th *ngIf="advancenotflage">Date</th>
+                <th>Taxable Amount</th>
+                <th>Tax Amount</th>
+                <!-- <th>Round Off</th> -->
+                <th>Other Adjustment</th>
+                <th>Total Amount</th>
+                <th>File</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <ng-container *ngFor="let apinvoiceheader of apHdrSummarydt.apinvoiceheader;index as i;">
+            <tr (click)="apinvoiceheader.expanded = !apinvoiceheader.expanded" >
+                <td>{{i+1}}</td>
+                <td *ngIf="eraflage"><p style="color: blue">{{apinvoiceheader.supplier.name}}</p></td>
+                <td *ngIf="eraflage">{{apinvoiceheader.supplier.gstno}}</td>
+                <td><p *ngIf="eraflage">{{apinvoiceheader.invoiceno}}</p> <p *ngIf="!eraflage" style="color: blue">{{apinvoiceheader.invoiceno}}</p></td>
+                <td *ngIf="advancenotflage">{{apinvoiceheader.invoicedate | date:'dd-MMM-yyyy'}}</td>
+                <td>{{apinvoiceheader.invoiceamount | currency:'INR'}}</td>
+                <td>{{apinvoiceheader.taxamount | currency:'INR' }}</td>
+                <!-- <td>{{apinvoiceheader.roundoffamt}}</td> -->
+                <td>{{apinvoiceheader.otheramount | currency:'INR' }}</td>
+                <td>{{apinvoiceheader.totalamount | currency:'INR' }}</td>
+                    <!-- <td>
+                        <tr *ngFor="let file of apinvoiceheader.apfile; index as j">
+                            <a (click)="getfiles(file)">{{file.filename}}<i class="material-icons" matTooltip="Downaled" style="cursor: pointer;">
+                                get_app
+                            </i></a>
+                         </tr>
+                    </td>  -->
+                    <td>
+                        <tr *ngFor="let file of apinvoiceheader.apfile; index as j">
+                            <td>
+                                {{j+1}}
+                            </td>
+                            <td>
+                                <a (click)="data(file)" class="btn btn-link" style="cursor: pointer;color:blue;"
+                                    matTooltip="View File"  data-target="#my-modal" data-toggle="modal">{{ file.filename}}</a>
+                            </td>
+                            <td>
+                                <i class="material-icons" (click)="getfiles(file)">
+                                    get_app
+                                </i>
+                            </td>
+                        </tr>     
+                    </td> 
+                <td>{{apinvoiceheader.status.text}}</td>
+            </tr>
+            <ng-container *ngIf="this.apHdrSummarydt.aptype.text != 'ADVANCE'">
+                <tr>
+                    <td colspan="11">
+                        <tr style="font-family:'Times New Roman';font-weight:bold;font-size:12px ;">Invoice Details</tr>
+                    
+                        <div>
+                            <table class="table scrolltable table-bordered" fixed-header>
+                                <thead class="table_header" style='font-family:"Times New Roman"'>
+                                    <!-- <tr><th style="margin-left: 35px;" colspan="14" >  Round Off:{{apHdrSummarydt.apinvoiceheader[0].roundoffamt}}</th></tr> -->
+                                    <tr>
+                                        <th>Particulars</th>
+                                        <th>Product Name</th>
+                                        <th>Capitalized Flage</th>
+                                        <th>UOM</th>
+                                        <th *ngIf="eraflage">HSN Code</th>
+                                        <th *ngIf="eraflage">HSN %</th>
+                                        <th>Unit Price</th>
+                                        <th>Quantity</th>
+                                        <th>Amount</th>
+                                        <th *ngIf="eraflage">CGST</th>
+                                        <th *ngIf="eraflage">SGST</th>
+                                        <th *ngIf="eraflage">IGST</th>
+                                        <th>Tax Amount</th>
+                                        <th>Discount</th>
+                                        <th>Total Amount</th>
+                                    </tr>
+                                </thead>
+                            <ng-container *ngFor="let invdetails of apinvoiceheader.apinvoicedetails">
+                                <tr (click)="invdetails.expanded = !invdetails.expanded " >
+                                    <td style="padding-left: 12px"><p style="color: blue">{{invdetails.description}}</p>  </td>
+                                    <td> {{invdetails.productname}} </td>
+                                    <td>
+                                        <div *ngIf="invdetails.is_capitalized==1">
+                                            True
+                                        </div>
+                                        <div *ngIf="invdetails.is_capitalized==0">
+                                             False
+                                        </div>
+                                    </td>
+                                    <td> {{invdetails.uom.uom}} </td>
+                                    <td *ngIf="eraflage"> {{invdetails.hsn.code}} </td>
+                                    <td *ngIf="eraflage"> {{invdetails.hsn_percentage}} </td>
+                                    <td> {{invdetails.unitprice | currency:'INR' }} </td>
+                                    <td> {{invdetails.quantity}} </td>
+                                    <td> {{invdetails.amount | currency:'INR' }} </td>
+                                    <td *ngIf="eraflage"> {{invdetails.cgst | currency:'INR' }} </td>
+                                    <td *ngIf="eraflage"> {{invdetails.sgst | currency:'INR' }} </td>
+                                    <td *ngIf="eraflage"> {{invdetails.igst | currency:'INR' }} </td>
+                                    <td> {{invdetails.taxamount | currency:'INR' }} </td>
+                                    <td> {{invdetails.discount}} </td>
+                                    <td> {{invdetails.totalamount | currency:'INR' }} </td>
+                                </tr>
+                                <tr *ngIf="eraflage"><td colspan="14"></td>
+                                <td colspan="1"> Round Off : {{apHdrSummarydt.apinvoiceheader[0].roundoffamt}}</td></tr>
+                                <tr *ngIf="!eraflage"><td colspan="9"></td>
+                                    <td colspan="1"> Round Off : {{apHdrSummarydt.apinvoiceheader[0].roundoffamt}}</td></tr>
+                                <tr >
+                                    <td colspan="15">
+                                        <tr style="font-family:'Times New Roman';font-weight:bold;font-size:12px ;">Debit Details</tr>
+                                        <div>
+                                            <table class="table scrolltable table-bordered" fixed-header>
+                                                <thead class="table_header" style='font-family:"Times New Roman"'>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>SubCategory</th>
+                                                        <th>GL Number</th>
+                                                        <th>Amount</th>
+                                                        <th>Adjust Amount</th>
+                                                        <th>Debit Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <ng-container *ngFor="let apdebit of invdetails.apdebit['data']">
+                                                    <ng-container *ngIf="apdebit.amount!=0"> 
+                                                        <tr (click)="apdebit.expanded = !apdebit.expanded" style="cursor: pointer;">
+                                                            <!-- <tr *ngFor="let apdebit of invdetails.apdebit"  (click)="invdetails.expanded = !invdetails.expanded"> -->
+                                                        
+                                                            <td><p style="cursor: pointer;color: blue"> {{apdebit.category_code.name}} </p></td>
+                                                            <td> {{apdebit.subcategory_code.name}} </td>
+                                                            <td> {{apdebit.debitglno}} </td>
+                                                            <td> {{apdebit.amount | currency:'INR'}} </td>
+                                                            <td> {{apdebit.deductionamount | currency:'INR'}} </td>
+                                                            <td> {{apdebit.amount | currency:'INR' }} </td>
+                                                        
+                                                        </tr>
+                                                    </ng-container>
+                                                    <tr *ngIf="apdebit.expanded">
+                                                        <td colspan="14">
+                                                            <tr style="font-family:'Times New Roman';font-weight:bold;font-size: 12px;">CCBS Details</tr>
+                                                            <div>
+                                                                <table class="table scrolltable table-bordered" fixed-header>
+                                                                    <thead class="table_header" style='font-family:"Times New Roman"'>
+                                                                        <tr>
+                                                                            <th>CC Code</th>
+                                                                            <th>BS Code</th>
+                                                                            <th>Percentage</th>
+                                                                            <th>Amount</th>
+                                                                            
+                                                                        </tr>
+                                                                    </thead>
+                                                                    
+                                                                        <tr *ngFor="let ccbs of apdebit.ccbs">
+                                                                
+                                                                        <td>{{ccbs.cc_code.name}}</td>
+                                                                        <td>{{ccbs.bs_code.name}}</td>
+                                                                        
+                                                                        <td>{{ccbs.ccbspercentage}}</td>
+                                                                        <td>{{ccbs.amount | currency:'INR'}}</td>
+                                                                        
+                                                                        </tr>
+                                                                    
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                            </ng-container>
+                            </table>
+                        </div>
+                        <div>
+                            <tr>
+                                <td colspan="11">
+                                <tr style="font-family:'Times New Roman';font-weight:bold;font-size:12px ;">Credit Details</tr>
+                                    <table class="table scrolltable table-bordered" fixed-header>
+                                        <thead class="table_header" style='font-family:"Times New Roman"'>
+                                            <tr><th colspan="14"> Debit Bank :{{debitbank}}-{{debitaccno}}</th></tr>
+                                            <tr>
+                                                <th>Pay Mode</th>
+                                                <th>Bank Account Number</th>
+                                                <th>Bank Name</th>
+                                                <th>IFSC Code</th>
+                                                <th>Beneficiary Name</th>
+                                                <th>Tax Type</th>
+                                                <th>Refno</th>
+                                                <th>Taxable Amount</th>
+                                                <th>Suplier Tax Rate</th>
+                                                <th>Tax Exempted</th>
+                                                <th>GL Number</th>
+                                                <th>DD PayBranch</th>
+                                                <th>DD TranBranch</th>
+                                                <th>Credit Amount</th>
+                                            </tr>
+                                        </thead>
+                                            <tr *ngFor="let apcrt of apinvoiceheader.apcredit">
+                                                <ng-container *ngIf="apcrt.is_display == 'YES'">
+                                                    <ng-container *ngIf="apcrt.amount != 0">
+                                                        <td>{{apcrt.paymode.name}}</td>
+                                                        <td><div *ngIf="apcrt.paymode.name == 'NEFT' || apcrt.paymode.name == 'ERA'"> {{apcrt.creditrefno}}  </div></td>
+                                                        <td><div *ngIf="apcrt.paymode.name == 'NEFT' || apcrt.paymode.name == 'ERA'"> {{bankname}} </div></td>
+                                                        <td><div *ngIf="apcrt.paymode.name == 'NEFT' || apcrt.paymode.name == 'ERA'"> {{ifsccode}} </div></td>
+                                                        <td><div *ngIf="apcrt.paymode.name == 'NEFT' || apcrt.paymode.name == 'ERA'"> {{beneficiaryname}} </div></td>
+                                                        <td>{{apcrt.suppliertaxtype}}</td>
+                                                        <td>{{apcrt.creditrefno}}</td>
+                                                        <td>{{apcrt.taxableamount}}</td>
+                                                        <td>{{apcrt.suppliertaxrate}}</td>
+                                                        <td>{{apcrt.taxexcempted}}</td>
+                                                        <td>{{apcrt.creditglno}}</td>
+                                                        <td>{{apcrt.ddpaybranch}}</td>
+                                                        <td>{{apcrt.ddtranbranch}}</td>
+                                                        <td>{{apcrt.amount | currency:'INR' }}</td>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+            <ng-container *ngIf="this.apHdrSummarydt.aptype.text == 'ADVANCE'">
+                <tr>
+                    <td colspan="14">
+                        <tr style="font-family:'Times New Roman';font-weight:bold;font-size:12px ;">Debit Details</tr>
+                        <div>
+                            <table class="table scrolltable table-bordered" fixed-header>
+                                <thead class="table_header" style='font-family:"Times New Roman"'>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>SubCategory</th>
+                                        <th>GL Number</th>
+                                        <th>Amount</th>
+                                        <th>Adjust Amount</th>
+                                        <th>Debit Amount</th>
+                                    </tr>
+                                </thead>
+                                <ng-container *ngFor="let apdebit of apinvoiceheader.apinvoicedetails[0].apdebit['data']">
+                                    <ng-container *ngIf="apdebit.amount!=0"> 
+                                        <tr (click)="apdebit.expanded = !apdebit.expanded" style="cursor: pointer;">
+                                            <!-- <tr *ngFor="let apdebit of invdetails.apdebit"  (click)="invdetails.expanded = !invdetails.expanded"> -->
+                                        
+                                            <td><p style="cursor: pointer;color: blue"> {{apdebit.category_code.name}} </p></td>
+                                            <td> {{apdebit.subcategory_code.name}} </td>
+                                            <td> {{apdebit.debitglno}} </td>
+                                            <td> {{apdebit.amount}} </td>
+                                            <td> {{apdebit.deductionamount}} </td>
+                                            <td> {{apdebit.amount | currency:'INR' }} </td>
+                                        
+                                        </tr>
+                                    </ng-container>
+                                    <tr *ngIf="apdebit.expanded">
+                                        <td colspan="14">
+                                            <tr style="font-family:'Times New Roman';font-weight:bold;font-size: 12px;">CCBS Details</tr>
+                                            <div>
+                                                <table class="table scrolltable table-bordered" fixed-header>
+                                                    <thead class="table_header" style='font-family:"Times New Roman"'>
+                                                        <tr>
+                                                            <th>CC Code</th>
+                                                            <th>BS Code</th>
+                                                            <th>Percentage</th>
+                                                            <th>Amount</th>
+                                                            
+                                                        </tr>
+                                                    </thead>
+                                                    
+                                                        <tr *ngFor="let ccbs of apdebit.ccbs">
+                                                
+                                                        <td>{{ccbs.cc_code.name}}</td>
+                                                        <td>{{ccbs.bs_code.name}}</td>
+                                                        
+                                                        <td>{{ccbs.ccbspercentage}}</td>
+                                                        <td>{{ccbs.amount | currency:'INR' }}</td>
+                                                        
+                                                        </tr>
+                                                    
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="14">
+                        <tr style="font-family:'Times New Roman';font-weight:bold;font-size:12px ;">Credit Details</tr>
+                            <table class="table scrolltable table-bordered" fixed-header>
+                                <thead class="table_header" style='font-family:"Times New Roman"'>
+                                    <tr><th colspan="14"> Debit Bank :{{debitbank}}-{{debitaccno}}</th></tr>
+                                    <tr>
+                                        <th>Pay Mode</th>
+                                        <th>Bank Account Number</th>
+                                        <th>Bank Name</th>
+                                        <th>IFSC Code</th>
+                                        <th>Beneficiary Name</th>
+                                        <th>Tax Type</th>
+                                        <th>Refno</th>
+                                        <th>Taxable Amount</th>
+                                        <th>Suplier Tax Rate</th>
+                                        <th>Tax Exempted</th>
+                                        <th>GL Number</th>
+                                        <th>DD PayBranch</th>
+                                        <th>DD TranBranch</th>
+                                        <th>Credit Amount</th>
+                                    </tr>
+                                </thead>
+                                    <tr *ngFor="let apcrt of apinvoiceheader.apcredit">
+                                        <ng-container *ngIf="apcrt.is_display == 'YES'">
+                                            <ng-container *ngIf="apcrt.amount != 0">
+                                                <td>{{apcrt.paymode.name}}</td>
+                                                <td><div *ngIf="apcrt.paymode.name == 'NEFT' || apcrt.paymode.name == 'ERA'"> {{apcrt.creditrefno}}  </div></td>
+                                                <td><div *ngIf="apcrt.paymode.name == 'NEFT' || apcrt.paymode.name == 'ERA'">  {{bankname}} </div></td>
+                                                <td><div *ngIf="apcrt.paymode.name == 'NEFT' || apcrt.paymode.name == 'ERA'"> {{ifsccode}} </div></td>
+                                                <td><div *ngIf="apcrt.paymode.name == 'NEFT' || apcrt.paymode.name == 'ERA'"> {{beneficiaryname}} </div></td>
+                                                <td>{{apcrt.suppliertaxtype}}</td>
+                                                <td>{{apcrt.creditrefno}}</td>
+                                                <td>{{apcrt.taxableamount}}</td>
+                                                <td>{{apcrt.suppliertaxrate}}</td>
+                                                <td>{{apcrt.taxexcempted}}</td>
+                                                <td>{{apcrt.creditglno}}</td>
+                                                <td>{{apcrt.ddpaybranch}}</td>
+                                                <td>{{apcrt.ddtranbranch}}</td>
+                                                <td>{{apcrt.amount | currency:'INR' }}</td>
+                                            </ng-container>
+                                        </ng-container>
+                                    </tr>
+                            </table>
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-container>
+    </table>
+    <!-- entry -->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+    id="entry">
+    <div class="modal-dialog modal-xl" style="width:80%;height:200%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;color:rgb(31, 29, 29);text-align:center">
+                <h2 class="modal-title" style="text-align:center;margin-left:42%">Entry</h2>
+            <button class="close" type="button" data-dismiss="modal">x</button>      
+            </div>
+            <div>
+                <table class="table table-bordered" style="width: 100%;text-align: center;">
+                    <thead class="table_header">
+                        <tr>
+                            <td colspan="2"><label style=" font-weight: 900;">CR NO-</label>{{apHdrSummarydt.crno}}</td>
+                            <td><label style=" font-weight: 900;">OF Date-</label>{{cbsdate | date:'dd-MMM-yyyy'}}</td>
+                            <td colspan="1"><label style=" font-weight: 900;">Group ID-</label>{{groupid}}</td>
+                                <td colspan="3"><label style=" font-weight: 900;">Transaction Date-</label>{{trandate |
+                                    date:'dd-MMM-yyyy'}}</td>
+                        </tr>
+                    </thead>
+                    <thead class="table_header">
+                    <tr>
+                        <th>SNo</th>
+                        <th>Type</th>
+                        <th>GL NO</th>
+                        <th>GL Description </th>
+                        <th>Module</th>
+                        <th>Entry Status</th>
+                        <th>Amount</th>
+                    </tr>
+                    </thead>
+                    <tr *ngFor="let en of entrylist;let i=index">
+                        <ng-container *ngIf="en.amount!=0">  
+                        <td>{{i+1}}</td>
+                        <td>{{en.type}}</td>
+                        <td>{{en.gl}}</td>
+                        <td>{{en.glnodescription}}</td>
+                        <td>{{en.module}}</td>
+                        <td >{{en.entry_new_status}}</td>
+                        <td style="text-align: right;">{{en.amount | currency:'INR'}}</td>
+                        </ng-container>
+                    </tr>     
+                </table>
+                <div style="margin-left: 50%;margin-bottom: 2%;"><button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;" data-dismiss="modal" >Back</button></div>
+            </div>
+           
+             
+        </div>   
+        
+    </div>
+</div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+id="beforeentry">
+<div class="modal-dialog modal-xl" style="width:80%;height:200%;">
+    <div class="modal-content">
+        <div class="modal-header" style="background:#21cbe5;color:rgb(31, 29, 29);text-align:center">
+            <h2 class="modal-title" style="text-align:center;margin-left:42%">Sample Entry</h2>
+        <button class="close" type="button" data-dismiss="modal">x</button>      
+        </div>
+        <div>
+            <table class="table table-bordered" style="width: 100%;text-align: center;">
+                <thead class="table_header">
+                    <tr>
+                        <td colspan="5"><label style=" font-weight: 900;">CR NO-</label>{{apHdrSummarydt.crno}}</td>
+                    </tr>
+                </thead>
+                <thead class="table_header">
+                <tr>
+                    <th>SNo</th>
+                    <th>Type</th>
+                    <th>GL NO</th>
+                    <th>GL Description </th>
+                    <th>Amount</th>
+                </tr>
+                </thead>
+                <tr *ngFor="let sa of beforeentry;let i=index">
+                    <ng-container *ngIf="sa.amount!=0">  
+                    <td>{{i+1}}</td>
+                    <td><div *ngIf="sa.type==1">
+                        DEBIT
+                   </div>
+                   <div *ngIf="sa.type!=1">
+                    CREDIT
+               </div></td>
+                    <td>{{sa.gl}}</td>
+                    <td>{{sa.gldec}}</td>
+                    <td style="text-align: right;">{{sa.amount | currency:'INR' }}</td>
+                    </ng-container>
+                </tr>     
+            </table>
+            <div class=" row col-md-12">
+                <div class="col-md-6"></div>
+                <div class="col-md-3">DEBIT TOTAL:{{this.dbttot | currency:'INR' }}</div>
+                <div class="col-md-3">CREDIT TOTAL:{{this.crttot | currency:'INR' }}</div>
+             </div>
+            <div style="margin-left: 50%;margin-bottom: 2%;"><button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;" data-dismiss="modal" >Back</button></div>
+        </div>
+       
+         
+    </div>   
+    
+</div>
+</div>
+    <div  class=" row col-md-12" style="margin-bottom: 20px;margin-left: 2%">
+        <div class="col-md-3">
+            <mat-form-field style="width: 18rem;">
+                <mat-label>Remarks</mat-label> 
+                <input matInput [formControl]="rem" autocomplete="off" required>
+            </mat-form-field>
+        </div>
+        <div class="col-md-9" >
+            <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 100px;"  [disabled]="rem.invalid==true"
+            (click)="approve()">APPROVE</button>
+            <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 12px;"  [disabled]="rem.invalid==true"
+             (click)="reaudit()">Re-Audit</button>
+          <button type="button" class="btn btn-outline-primary" style="border-radius:30px;height:40px; margin-left: 12px;"><span
+            class="fa fa-arrow-left" (click)="goback()" >Back</span></button>
+            <!-- <button type="button"  class="btn btn-outline-primary" style="border-radius:30px;height:40px; margin-left: 12px;"><span
+             (click)="getdet()">pay</span></button> -->
+        </div>   
+    </div> 
+</mat-card> 
+</div>
+<div *ngIf="showimageHeaderAPI" id="my-modal" class="modal fade" aria-labelledby="my-modalLabel" aria-hidden="true"
+    tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" data-dismiss="modal" style="width: 60%;height: 80%;">
+        <div class="modal-content">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="modal-body">
+                <img src="{{jpgUrlsAPI}}" class="img-responsive" style="width: 100%;">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="showimagepdf" id="my-modal" class="modal fade" aria-labelledby="my-modalLabel" aria-hidden="true"
+    tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;">
+                <h2 class="modal-title">ECF Attachments</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <pdf-viewer [src]="pdfurl" [original-size]="false" [render-text]='false' [show-borders]="true"
+                [fit-to-page]="true" [show-all]="true" style="display: block; height: 600px;" [fit-to-page]="true">
+            </pdf-viewer>
+        </div>
+    </div>
+
+</div>
+
+
+
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+<p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

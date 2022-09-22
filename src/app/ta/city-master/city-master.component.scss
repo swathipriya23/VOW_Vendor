@@ -1,0 +1,82 @@
+#commonstyle {
+    border: 15px none #f6f6f6;
+    vertical-align: middle;
+	tr:nth-child(even) {
+		background: #EDF8FA
+	}
+	
+	tr:nth-child(odd) {
+		background: #FFF
+	}
+}
+
+
+
+mat-form-field {
+    font-size: 8px;
+
+}
+
+mat-menu {
+    font-family: "Montserrat";
+}
+
+input,
+mat-select,
+textarea {
+    font-size: 15px;
+}
+
+.mat-label {
+    font-size: 14px;
+
+}
+
+mat-datepicker-toggle {
+    font-size: 15px;
+}
+
+.ExcelTable2007 {
+	border: 1px solid #B0CBEF;
+	border-width: 1px 0px 0px 1px;
+	font-size: 11pt;
+	font-family: Calibri;
+	font-weight: 100;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+.ExcelTable2007 TH {
+	background-color: #0099ff;
+	background-repeat: repeat-x; 
+	font-weight: normal;
+	font-size: 14px;
+	border: 1px solid #9EB6CE;
+	border-width: 0px 1px 1px 0px;
+	height: 17px;
+}
+
+.ExcelTable2007 TD {
+	border: 0px;
+	background-color: white;
+	padding: 0px 4px 0px 2px;
+	border: 1px solid #D0D7E5;
+	border-width: 0px 1px 1px 0px;
+}
+
+.ExcelTable2007 TD B {
+	border: 0px;
+	background-color: white;
+	font-weight: bold;
+}
+
+.ExcelTable2007 TD.heading {
+	background-color: #E4ECF7;
+	text-align: center;
+	border: 1px solid #9EB6CE;
+	border-width: 0px 1px 1px 0px;
+}
+
+.ExcelTable2007 TH.heading {
+	background-color: #0099ff;
+}

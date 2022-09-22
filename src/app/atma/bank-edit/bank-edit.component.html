@@ -1,0 +1,58 @@
+<div style="margin-left: 10px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h3 style="margin-left:3%;font-size:20px;font-weight:bold;font-family:Times New Roman;color:blue">
+         Bank Edit Form
+    </h3><hr>
+    <div>
+        <form [formGroup]="bankEditForm" (ngSubmit)="submitForm()" autocomplete="off">
+            <table>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 250px;">
+                            <mat-label> Bank Code</mat-label>
+                            <input type="text" matInput formControlName="code" autocomplete="off" readonly>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 300px; margin-left: 50px;">
+                            <mat-label>Bank Name</mat-label>
+                            <input matInput placeholder="Name" #refdata [matTooltip]="refdata.value" formControlName="name" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+            <table class="table table-bordered">
+                <tr class="table_header">
+                    <th>S.No</th>
+                    <th>Branch Code</th>
+                    <th>Branch Name</th>
+                    <th>Branch IFSC Code
+                    </th>
+                </tr>
+                <tr *ngFor="let d of branchdetails;let i=index">
+                    <td>{{(presentpage-1)*pagesize+i+1}}</td>
+                    <td>{{d.code}}</td>
+                    <td>{{d.name}}</td>
+                    <td>{{d.ifsc}}</td>
+                </tr>
+                <tr *ngIf="branchdetails.length==0">
+                    <td rowspan="4">No Records Found</td>
+                </tr>
+            </table>
+           <div style="float: right;">
+               <button mat-icon-button type="button" (click)="has_previousdata()" [disabled]="!has_previous" ><mat-icon>arrow_back</mat-icon></button>{{presentpage}}
+               <button mat-icon-button type="button" (click)="has_nextdata()" [disabled]="!has_next"><mat-icon>arrow_forward</mat-icon></button>
+           </div>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+            >Submit</button>
+            <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+           
+
+        </form>
+    </div>
+    <br>
+    <br>
+    <br>
+    <p></p>
+</div>

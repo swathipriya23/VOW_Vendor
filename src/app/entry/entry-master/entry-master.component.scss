@@ -1,0 +1,17 @@
+
+
+.mat-raised-button.mat-success {
+    color: #f0fff3;
+    background-color: #21cbe5;
+    }
+
+.mat-raised-button.mat-warn {
+    color: #f0fff3;
+    background-color: #c4cfd1;
+    }
+
+.cdk-overlay-connected-position-bounding-box,
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container{
+    z-index: 99999 !important;
+    }                                               /////Important for mat-dialog 

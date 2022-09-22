@@ -1,0 +1,26 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+
+    <h3>
+        Customer Category Edit
+    </h3>
+    <div>
+        <form [formGroup]="CustomerCategoryEditForm" (ngSubmit)="CustomerCategoryEditFormSubmit()" autocomplete="off">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-form-field>
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+            <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary" 
+                style="border-radius: 40px;margin-left: 10px;">Cancel</button>    
+            <!-- <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+            [disabled] = "disableSubmit">Submit</button> -->
+        </form>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+.Container{
+    position: relative;
+    margin: 10px;
+
+}
+
+.detail_table_label{
+    color: #7282bb;
+    font-size: 14px;
+}
+.view-text{
+    margin-left: 28px;
+    font-size: 14px;
+
+}
+.nav-tabs .nav-link:hover {
+    border: none !important;
+}
+
+.nav-tabs .nav-link {
+    border: none; 
+}
+.nav-tabs {
+    border-bottom: none !important;
+}
+.mat-chip{
+    background-color: white !important;
+    border: 1px solid #B7B8BB;
+    border-radius: 16px;
+  }
+  .box input {
+    cursor: pointer;
+    position: absolute;
+    opacity: 0; 
+  }
+  .checkmark {
+    position: absolute;
+    top: 15;
+    left: 5;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+  }
+  .container:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  .container input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  .container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  label {
+    margin-left: 38px;
+}

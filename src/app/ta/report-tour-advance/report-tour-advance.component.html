@@ -1,0 +1,126 @@
+
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+  <h3>
+    eClaim Advance
+  </h3>  
+  <h3 style="color:deeppink;">
+          Tour Expense
+    </h3>
+        <div>
+            <form #taForm="ngForm">
+                    <table>
+                        <tr>
+                            <td>
+                                <mat-form-field  style="width: 175px;">
+                                    <mat-label>Tour No</mat-label>
+                                    <input  matInput placeholder="Tour No" name="requestno" [(ngModel)]="touradvancemodel.requestno"  autocomplete="off"  required>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                            <mat-form-field style="width:175px;margin-left: 50px;">
+                              <mat-label>Request Date</mat-label>
+                              <input matInput [matDatepicker]="picker3"  
+                              placeholder="Request Date" autocomplete="off" [(ngModel)]="touradvancemodel.requestdate" name="requestdate">
+                              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                              <mat-datepicker #picker3></mat-datepicker>
+                             </mat-form-field>
+                        </td>
+                        </tr>
+                        <h3 style="color:deeppink;">
+                          Tour Details
+                        </h3>
+                        <tr>
+                          <td>
+                          <mat-form-field  style="width: 175px;">
+                              <mat-label>Tour Reason</mat-label>
+                              <input  matInput placeholder="Reason" name="reason" [(ngModel)]="touradvancemodel.reason"  autocomplete="off"  required>
+                          </mat-form-field>
+                          </td>
+                          <td>
+                            <mat-form-field style="width:175px;margin-left: 50px;">
+                              <mat-label>Tour StartDate</mat-label>
+                              <input matInput [matDatepicker]="picker1"  
+                              placeholder="Start Date" autocomplete="off" [(ngModel)]="touradvancemodel.startdate" name="startdate">
+                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                              <mat-datepicker #picker1></mat-datepicker>
+                          </mat-form-field>
+                          </td>
+                          <td>
+                          <mat-form-field style="width:175px;margin-left: 50px;">
+                            <mat-label>Tour EndDate</mat-label>
+                            <input matInput [matDatepicker]="picker2" 
+                            placeholder="End Date" autocomplete="off" [(ngModel)]="touradvancemodel.enddate" name="enddate">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                          </mat-form-field>
+                        </td>
+                     
+                    </tr>
+                   
+                  </table>
+                <div class="table-responsive" style="width:100%;margin-top: 1%; overflow-x: hidden;" >
+                  <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+                    <thead class="table_header" style="text-align: left;">
+                        <tr>
+                            <th>S.No</th>
+                          <th>Reason</th>
+                          <th>Advance Amount</th>
+                          <th>Approve Amount</th>
+                          <th>CRN No</th>
+                          <th>Status</th>
+                          <th>PDF</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody >
+                        <tr  *ngFor="let advancedtl of touradvance;index as i;">
+                            <td>{{i+1}}</td>
+                           <td >{{advancedtl.reason}}</td>
+                            <td >{{advancedtl.appamount}}</td>
+                            <td >{{advancedtl.appamount}}</td>
+                            <td></td>
+                            <td >{{advancedtl.status}}</td>
+                            <td></td>
+                            <td><button mat-icon-button matTooltip="Delete" class="iconbutton"  color="primary">
+                              <mat-icon style="color:green;" aria-label="Delete">clear</mat-icon>
+                              </button>
+                             </td>
+                        </tr>
+                    </tbody>
+                   
+                  </table>
+                </div>
+              <h3 style="color:deeppink;">
+                To Approve
+              </h3>
+              <div>
+                  <mat-form-field style="width: 175px;">
+                  <mat-label>Branch</mat-label>
+                  <input matInput placeholder="Branch" [(ngModel)]="touradvancemodel.branch_name" name="branch_name" autocomplete="off" required>
+                </mat-form-field>
+                <mat-form-field style="width: 175px;margin-left: 50px;">
+                  <mat-label>Employee</mat-label>
+                  <input matInput placeholder="Employee" [(ngModel)]="touradvancemodel.approvedby" name="approvedby" autocomplete="off" required>
+                </mat-form-field>
+                
+                <!-- <mat-form-field style="width: 175px;;margin-left: 50px;">
+                  <mat-label>Employee</mat-label>
+                  <mat-select name="approval"   [(ngModel)]="touradvancemodel.approval">
+                      <mat-option *ngFor="let approval of employeelist" [value]="approval.id">
+                          {{approval.full_name}}
+                      </mat-option>
+                  </mat-select>
+              </mat-form-field> -->
+                 
+              </div>
+              <div class="col-md-12 text-center" >
+                <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                  style="border-radius: 40px;margin-left: 10px;">Back</button>
+              </div>
+          </form>
+        </div>
+  </div>
+  
+    
+  
+    

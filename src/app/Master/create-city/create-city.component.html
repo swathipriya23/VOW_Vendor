@@ -1,0 +1,238 @@
+<div class="container">
+    <h1 style="font-size: 22px;font-family: 'Times New Roman', Times, serif;color: blue;">Add New State,District,City And Pincode</h1>
+    <hr>
+</div>
+<div class="container">
+    <h3 style="font-size: 20px;font-family: 'Times New Roman', Times, serif;color: blue;">State Name</h3>
+    <form [formGroup]="stateform">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Country Name</mat-label>
+                    <input type="text" matInput formControlName="country" required [matAutocomplete]="countryref" (click)="getcountrylist()" (keypress)="keypressnodigit($event)">
+                    <mat-autocomplete #countryref="matAutocomplete" [displayWith]="getdisplaycountryinterface">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of countryList" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>State Name</mat-label>
+                    <input type="text" matInput formControlName="name" required [matAutocomplete]="snameref" (click)="getstatelistdata()" #stateinput (keypress)="keypressnodigitstate($event)">
+                    <mat-autocomplete #snameref="matAutocomplete" [displayWith]="getdisplaystateinterface" (opened)="autocompleteDeptScrollstate()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of statenamelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-outline-primary" (click)="addstate()" style="border-radius: 40px;height: 40px;"><span *ngIf="cityenb" class="fa fa-plus"></span><span *ngIf="cityenbcan"><mat-icon>cancel</mat-icon></span></button>
+            </div>
+
+            <div class="col-md-3" *ngIf="cityenbbtn">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>New State Name</mat-label>
+                    <input type="text" matInput formControlName="newstate" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" *ngIf="cityenbbtn">
+                <mat-form-field style="width: 250px;">
+                    <mat-label> State GST No</mat-label>
+                    <input  maxlength="2" matInput formControlName="newstategst" required (keypress)="kyenbdatastategst($event)">
+                </mat-form-field>
+            </div>
+            <button *ngIf="cityenbbtn" (click)="createstate()" type="submit" class="btn btn-outline-success" style="margin-left: 50px;border-radius: 40px;height: 40px;">Submit</button>
+        </div>
+    </form>
+    <br>
+</div>
+ <div class="container">
+    <h1 style="font-size: 20px;font-family: 'Times New Roman', Times, serif;color: blue;">Add District</h1>
+    <form [formGroup]="districtform">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>State Name</mat-label>
+                    <input type="text" #Dstateinput matInput formControlName="statename"  [matAutocomplete]="snamerefd" (click)="getuserdata()" (keypress)="keypressnodigitdistrictstate($event)">
+                    <mat-autocomplete #snamerefd="matAutocomplete" [displayWith]="getdisplaystateinterface" (opened)="autocompleteDeptScrollstated()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of statelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>District Name</mat-label>
+                    <input type="text" matInput formControlName="districtname"  [matAutocomplete]="districtnameref" (click)="getdistrictnamelist()" #districtinput>
+                    <mat-autocomplete #districtnameref="matAutocomplete" [displayWith]="getdisplaydistrictinterface" (opened)="autocompletescrolldistrict()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of districtnamelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-1">
+                <button type="button" (click)="adddistrict()" class="btn btn-outline-primary" style="border-radius: 40px;height: 40px;"><span *ngIf="citysenb" class="fa fa-plus"></span><span *ngIf="citysenbcan"><mat-icon>cancel</mat-icon></span></button>
+            </div>
+            <div class="col-md-3" *ngIf="citysenbbtn">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>New District Name</mat-label>
+                    <input type="text" matInput formControlName="newdistrict" required>
+                </mat-form-field>
+            </div>
+            <button *ngIf="citysenbbtn" (click)="createdistrict()" type="submit" class="btn btn-outline-success" style="margin-left: 50px;border-radius: 40px;height: 40px;">Submit</button>
+
+        </div>
+    </form>
+    <br>
+    <h1 style="font-size: 20px;font-family: 'Times New Roman', Times, serif;color: blue;">Add City</h1>
+</div> 
+    <!-- <form [formGroup]="cityform">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>State Name</mat-label>
+                    <input type="text" #stateinput matInput formControlName="cstate"  [matAutocomplete]="snameref" (click)="getstatelistdataNew()">
+                    <mat-autocomplete #snameref="matAutocomplete" [displayWith]="getdisplaystateinterface" (opened)="autocompleteDeptScrollstateNew()">
+                        <mat-option >Loading..</mat-option>
+                        <ng-container >
+                            <mat-option *ngFor="let d of statenamelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>District Name</mat-label>
+                    <input type="text" matInput formControlName="cdistrict"  [matAutocomplete]="districtnameref" (click)="getdistrictnamelistNew()" #districtinput>
+                    <mat-autocomplete #districtnameref="matAutocomplete" [displayWith]="getdisplaydistrictinterface" (opened)="autocompletescrolldistrict()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of districtnamelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>City Name</mat-label>
+                    <input type="text" matInput formControlName="ccityname" required [matAutocomplete]="cnameref" (click)="getcitynamelistNew()" #cityname>
+                    <mat-autocomplete #cnameref="matAutocomplete" [displayWith]="getdisplaycityinterface" (opened)="autocompleteDeptScrollcityNew()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of citynamelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <button type="button" (click)="addcity()" class="btn btn-outline-primary" style="border-radius: 40px;height: 40px;"><span *ngIf="cityssenb" class="fa fa-plus"></span><span *ngIf="cityssenbcan"><mat-icon>cancel</mat-icon></span></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3" *ngIf="cityssenbbtn">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>New City Name</mat-label>
+                    <input type="text" matInput formControlName="newcityname" required >
+                
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Pincode</mat-label>
+                    <input type="text" matInput formControlName="cpincode" [matAutocomplete]="cityrefs" (click)="getpincodelist()">
+                    <mat-autocomplete #cityrefs="matAutocomplete" [displayWith]="getdislaypincodeinterface">
+                        <mat-option *ngIf="isLoading">Loading</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of pincodelist" [value]="d">{{d.no}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <button *ngIf="cityssenbbtn" type="submit" (click)="getcitydata()" class="btn btn-outline-success" style="margin-left: 50px;border-radius: 40px;height: 40px;">Submit</button>
+
+        </div>
+
+    </form> -->
+    
+
+ <div class="container">
+    <form [formGroup]="cityform">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>State Name</mat-label>
+                    <input type="text" #cdstateinput matInput formControlName="cstate"  [matAutocomplete]="snamerefcd" (click)="getstatelistdataNew()" (keypress)="keypressnodigit($event)">
+                    <mat-autocomplete #snamerefcd="matAutocomplete" [displayWith]="getdisplaystateinterface" (opened)="autocompleteDeptScrollstatecd()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of cstatelist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>District Name</mat-label>
+                    <input type="text" matInput formControlName="cdistrict"  [matAutocomplete]="cdistrictnameref" (click)="getdistrictnamelistNew()" #cdistrictinputdata (keypress)="keypressnodigit($event)">
+                    <mat-autocomplete #cdistrictnameref="matAutocomplete" [displayWith]="getdisplaydistrictinterface" (opened)="autocompletescrolldistrictc()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of cdistrictlist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>City Name</mat-label>
+                    <input type="text" matInput formControlName="ccityname" required [matAutocomplete]="cdnameref" (click)="getcitynamelistNew()" #citynamec (keypress)="keypressnodigit($event)">
+                    <mat-autocomplete #cdnameref="matAutocomplete" [displayWith]="getdisplaycityinterface" (opened)="autocompleteDeptScrollcityNew()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of ccitylist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <button type="button" (click)="addcity()" class="btn btn-outline-primary" style="border-radius: 40px;height: 40px;"><span *ngIf="cityssenb" class="fa fa-plus"></span><span *ngIf="cityssenbcan"><mat-icon>cancel</mat-icon></span></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3" *ngIf="cityssenbbtn">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>New City Name</mat-label>
+                    <input type="text" matInput formControlName="newcityname" required (keypress)="keypressnodigit($event)">
+                
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Pincode</mat-label>
+                    <input  [maxlength]="6" matInput formControlName="cpincode"  (keypress)="keypressnodigitpincode($event)">
+                    <!-- <mat-autocomplete #cityrefs="matAutocomplete" [displayWith]="getdislaypincodeinterface">[matAutocomplete]="cityrefs" (click)="getpincodelist()" 
+                        <mat-option *ngIf="isLoading">Loading</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of pincodelist" [value]="d">{{d.no}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete> -->
+                </mat-form-field>
+            </div>
+            <button *ngIf="cityssenbbtn" type="submit" (click)="getcitydata()" class="btn btn-outline-success" style="margin-left: 50px;border-radius: 40px;height: 40px;">Submit</button>
+
+        </div>
+
+    </form>
+</div> 

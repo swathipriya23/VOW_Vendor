@@ -1,0 +1,72 @@
+<div class="container">
+    
+    <div class="row">
+        <div class="row-header col-lg-12 col-sm-12">
+            <h3>Branch Payment Summary</h3>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12">
+              <table class="table   table-condensed table-hover ">
+                <thead > 
+                  <tr  class="header_cls">
+                    <th>S.no</th>
+                    <th>Paymode</th>
+                    <th>Bank</th>
+                    <th>Branch</th>
+                    <th>IFSC Code</th>
+                    <th>Account Type</th>
+                    <th>Account Number</th>
+                    <th>Beneficiary Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let branch of getBranchList; index as i">
+                    <td scope="row">{{ (presentpage-1)*pageSize+i+1 }}</td>
+                    <td 
+                    [routerLink]='"/atma/BranchtaxtabComponent"'
+                     skipLocationChange
+                    >{{ branch.paymode_id.name }}</td>
+                    <td>{{ branch.bank_id.name }}</td>
+                    <td>{{ branch.branch_id.name}}</td>
+                    <td>{{ branch.branch_id.ifsccode}}</td>
+                     <td>{{ branch.account_type}}</td>
+                    <td>{{ branch.account_no }}</td>
+                    <td>{{ branch.beneficiary }}</td>
+                    <td><button mat-icon-button matTooltip="edit" class="iconbutton" (click)="editbranch(branch)"
+                                color="primary">
+                            <mat-icon style="color: gray;" aria-label="edit">edit</mat-icon>
+                            </button>
+                            <button mat-icon-button matTooltip="Delete" class="iconbutton" (click)="deletebranchpay(branch)"
+                            color="primary">
+                        <mat-icon style="color: gray;" aria-label="Delete">delete</mat-icon>
+                        </button>
+                        </td>
+                    
+
+                  
+           
+
+                   <td colspan="9" *ngIf="getBranchList.length==0">No Records Found.</td>
+
+                    
+                </tr>
+            </tbody>
+                           
+
+        </table>
+        <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                (click)="previousClickbranch()">
+                <mat-icon  >arrow_back</mat-icon>
+            </button>
+            {{presentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" 
+            (click)="nextClickbranch()">
+                <mat-icon  >arrow_forward</mat-icon>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+</div>

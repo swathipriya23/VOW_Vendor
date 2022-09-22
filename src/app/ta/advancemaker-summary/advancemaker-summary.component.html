@@ -1,0 +1,113 @@
+
+<div>
+<div style="margin-top: 15px;margin-left: 15px;">
+    <h2 style="color:rgb(0, 0, 0);">
+       eClaim Advance Request Summary
+  </h2>
+
+  <div *ngIf='value === 0'>
+    <h3 style="color: black;margin-left: 25px;font-size: 18px;font-weight: 500px;">
+        On BeHalf Employee - {{onbehalfname}}
+    </h3>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="memoSearchForm" (ngSubmit)="searchClick()">
+    
+                <mat-form-field style="width:10rem; margin-left: 20px; margin-left: 7px;">
+                    <mat-label>Tour No</mat-label>
+                    <input matInput placeholder="Subject" (change)="tourno($event)" formControlName="tourno">
+                </mat-form-field>
+                <mat-form-field style="width:10rem; margin-left: 20px; margin-left: 7px;">
+                    <mat-label>Tour Request Date</mat-label>
+                    <input matInput readonly [matDatepicker]="picker1" (dateChange)="fromDateSelection($event.value)" 
+                            placeholder="Request Date" autocomplete="off" formControlName="requestdate">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+                <button mat-fab style="margin-left: 20px;" [disabled]="creatable" (click)="tourMakerSearch()" color="primary" aria-label="Search">
+                    <mat-icon>search</mat-icon>
+                  </button>
+                <button mat-fab style="margin-left: 20px;" [disabled]="creatable" (click)="createtour()" color="primary" aria-label="Tour Maker">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <button class="btn btn-outline-primary" [disabled]="creatable" type="clear" style="border-radius:40px;margin-left: 15px;"
+                color="primary" (click)=reset()>Clear</button>
+            </form>
+        </div>
+    </div>
+    <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+        <thead class="table_header" style="text-align: left;">
+    <tr>
+    <th>S.No</th>
+    <th>Tour No</th>
+    <th>Tour Request Date</th>
+    <th>Tour Reason</th>
+    <th>Employee</th>
+    <th>Branch </th>
+    <th>Approver</th>
+    <th>Status</th>
+    <th>Advance Details</th>
+    
+    </tr>
+    </thead>
+    <tbody> 
+        <!-- <tr *ngFor="let touradvance of gettourAdvanceList| paginate : {id:'page',itemsPerPage:10,currentPage:page,totalItems:200}; index as i"> -->
+       <tr *ngFor="let touradvance of getTourmakerList; index as i">    
+       <!-- <td scope="row"  style="vertical-align: middle;">{{(this.currentpage - 1)*pagesize +i+1 }}</td> -->
+       <td> {{(currentpage - 1)*pagesize +i+1 }} </td>
+        <td>{{touradvance.tourgid}}</td>
+        <td>{{touradvance.requestdate| date:'dd-MMM-yyyy'}}</td>
+        <td>{{touradvance.reason}}</td>
+        <td>({{touradvance.employee_code}}) {{touradvance.employee_name}}</td>
+        <td>({{touradvance.branch_code}}) {{touradvance.branch_name}}</td>
+        <td>({{touradvance.approver_code}}) {{touradvance.approvedby}}</td>
+        <td><p *ngIf="touradvance.advance_status_id == 4">
+            Tour Advance Rejected</p>
+            <p *ngIf="touradvance.advance_status_id == 3">
+            Tour Advance Approved</p>
+            <p *ngIf="touradvance.advance_status_id == 2">
+            Tour Advance Submitted To Approver</p>
+            <p *ngIf="touradvance.advance_status_id == 15">
+            Tour Advance Cancel Submitted To Approver</p>
+            <p *ngIf="touradvance.advance_status_id == 5">
+            Tour Advance Returned From Approver</p>
+            <p *ngIf="touradvance.advance_status_id == 1">    Tour Advance Submitted</p>
+            <p *ngIf="touradvance.advance_status_id == 15">
+            Tour Advance Cancel Submitted</p></td>
+            <!-- <div *ngIf="touradvance.advance_status == 1">Tour Advance Submitted To Approver </div>
+            <div *ngIf="touradvance.advance_status == 2">Tour Advance Approved</div>
+            <div *ngIf="touradvance.advance_status == 3">Tour Advance Rejected</div>
+            <div *ngIf="touradvance.advance_status == 4">Tour Advance Returned From Approver</div> -->
+        
+        <!-- <td>{{touradvance.status}}</td> -->
+        <td><button mat-icon-button matTooltip=" Edit" class="iconbutton" color="primary"
+            (click)="advanceEdit(touradvance)">
+            
+            <mat-icon style="color: green;" aria-label="Edit">edit</mat-icon>
+        </button>
+        </td>
+            
+        </tr>
+    </tbody>
+    </table>
+    <div *ngIf="getTourmakerList ?.length == 0" style="margin-left: 42%;">
+        <h3>Sorry data not found!.. </h3>
+    </div>
+    <div class="row" *ngIf="isTourMakerpage">
+        <div class="col-sm-12" style="font-size: small;text-align:right;margin-bottom: 5%;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary"
+            (click)="TourmakerpreviousClick()">
+            <mat-icon >arrow_back</mat-icon>
+            </button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary"
+            (click)="TourmakernextClick()">
+            <mat-icon >arrow_forward</mat-icon>
+            </button>
+            </div>
+    </div>
+    <!-- <pagination-controls id="page" (pageChange)="pagination($event)"></pagination-controls> -->
+
+    </div>
+</div>

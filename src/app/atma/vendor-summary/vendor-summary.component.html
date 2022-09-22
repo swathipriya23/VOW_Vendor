@@ -1,0 +1,335 @@
+<div style="background-color: #F6F6F6">
+    <mat-card style="margin:20px 12px 20px 20px;" class="mat-elevation-z0" >
+
+    
+    <div class="col-md-12">
+
+        <form [formGroup]="vendorSearchForm" (ngSubmit)="vendorSearch()">
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-label>Code/Name</mat-label><br>
+                    <mat-form-field  class="matformfieldstyle" appearance="outline">
+                        <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Code" formControlName="code">
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-md-3">
+                    <mat-label>Name</mat-label><br>
+                    <mat-form-field  class="matformfieldstyle" appearance="outline">
+                        <input class="matformfieldinputstyle" type="text" matInput autocomplete="off" placeholder="Name" formControlName="name">
+                    </mat-form-field>
+                </div> -->
+                <div class="col-md-3">
+                    <mat-label>PAN No</mat-label><br>
+                    <mat-form-field class="matformfieldstyle" appearance="outline">
+                        <input class="matformfieldinputstyle" matInput type="text" maxlength="10"
+                            (keypress)="namevalidation($event)" placeholder="PAN No" formControlName="panno">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+
+                    <mat-label>Criticality</mat-label><br>
+                    <mat-form-field (click)="classifyname()" class="matformfieldstyle" appearance="outline">
+                        <input #classifyInput placeholder="Select classification" matInput
+                            formControlName="classification" class="matformfieldinputstyle"  [matAutocomplete]="classify">
+                        <mat-autocomplete #classify="matAutocomplete" [displayWith]="displayFnclassify">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let classification of classificationList" [value]="classification">
+                                    {{classification.text}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-md-3">
+                    <mat-label>RM Name</mat-label><br>
+                    <mat-form-field (click)="rmname()" class="matformfieldstyle" appearance="outline">
+                        <input #rmInput placeholder="Select RM" matInput formControlName="rm_id"
+                            [matAutocomplete]="rmemp" class="matformfieldinputstyle">
+                        <mat-autocomplete #rmemp="matAutocomplete" [displayWith]="displayFnRm">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let employee of employeeList" [value]="employee">
+                                    {{employee.full_name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+
+                </div>
+                <div class="col-md-3">
+                    <mat-label>Renewal Date</mat-label><br>
+                    <mat-form-field class="matformfieldstyle" appearance="outline">
+                        <input matInput [matDatepicker]="excemfrom" class="matformfieldinputstyle" placeholder="Renewal Date" formControlName="renewal_date">
+                        <mat-datepicker-toggle matSuffix [for]="excemfrom" style="font-size: 13px;"></mat-datepicker-toggle>
+                        <mat-datepicker #excemfrom disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                </div> -->
+                <div class="col-md-3">
+                    <mat-label>Status</mat-label><br>
+                    <mat-form-field class="matformfieldstyle" appearance="outline">
+                        <mat-select  class="matformfieldinputstyle" placeholder="Status" formControlName="vendor_status">
+                            <mat-option *ngFor="let mode of VendorstatusesList" [value]="mode.id">{{mode.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-2">
+                    <mat-label>Filter</mat-label><br>
+                    <mat-form-field class="matformfieldstyle" appearance="outline">
+                        <mat-select class="matformfieldinputstyle" placeholder="Filter" formControlName="vendorstatus">
+                            <mat-option (onSelectionChange)="Vendorchange($event)" *ngFor="let type1 of Vendorstatuslist"
+                                [value]="type1">{{type1}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <!-- <div class="col-md-2">
+                            <button mat-button style="border-radius:40px;margin-top: 17px;margin-left: 64px;">
+                            <mat-icon >search</mat-icon></button>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-outline-primary" type="button" [routerLink]='"/atma/vendorreport"' skipLocationChange
+                        style="border-radius:40px;margin-top: 17px;margin-left: -28px;" color="primary">Report</button>
+            
+                </div>
+                <div class="col-md-1 text-align:right" style="margin-top: 16px;">
+                    <button type="button" class="btn btn-outline-success  text-right" [routerLink]='"/atma/vendorcreate"'
+                        skipLocationChange style="border-radius:40px;margin-right: -45px;"><span class="fa fa-plus"></span>
+                        Vendor</button>
+        
+                </div> -->
+
+                <div class="col-md-4">
+                    <div style="margin-top: 20px;">
+                        <button mat-fab style="margin-left: 20px;background-color: white;" aria-label="Search">
+                            <mat-icon>search</mat-icon>
+                        </button>
+                        <button mat-fab style="margin-left: 20px;background-color: #f5c68b;" [routerLink]='"/atma/vendorcreate"'
+                        skipLocationChange aria-label="Vendor Maker">
+                            <mat-icon matTooltip="Add Vendor">add</mat-icon>
+                        </button>
+                        <button class="btn btn-primary" type="button" [routerLink]='"/atma/vendorreport"' skipLocationChange
+                        style="border-radius:40px;margin-left: 15px;" color="primary">Report</button>
+
+                        <!-- <button class="btn btn-primary" type="button" data-toggle="modal"
+                        data-target="#addDetailspopup"
+                        style="border-radius:40px;margin-left: 15px;" color="primary">Details</button> -->
+
+                        <!-- <button mat-fab type="submit"
+                            style="border-radius:40px;margin-left: 15px;background-color: white;color: black;">Clear</button> -->
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        
+    </div>
+
+   
+    <!-- <div class="row col-md-12"> -->
+        <!-- <div class="col-md-9">
+            <mat-label>Filter</mat-label><br>
+            <mat-form-field class="matformfieldstyle" appearance="outline">
+                <mat-select class="matformfieldinputstyle" placeholder="Filter" formControlName="vendorstatus">
+                    <mat-option (onSelectionChange)="Vendorchange($event)" *ngFor="let type1 of Vendorstatuslist"
+                        [value]="type1">{{type1}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div> -->
+        <!-- <div class="col-md-3 text-align:right" style="margin-top: 14px;">
+            <button type="button" class="btn btn-outline-success  text-right" [routerLink]='"/atma/vendorcreate"'
+                skipLocationChange style="border-radius:40px;"><span class="fa fa-plus"></span>
+                Vendor</button>
+
+        </div> -->
+    <!-- </div> -->
+
+    
+    <!-- <div class="table-responsive"> -->
+        <!-- <table class="styled-table" style="width: 99%;">
+            <thead class="tableheader " fixed-header> -->
+    <!-- <h2 style="color: black;font-size: 20px;font-weight: 500px;margin-left: 15px;margin-top: 20px;">
+        Vendor Maker Summary
+    </h2> -->
+
+    <div class="modal fade" id="addDetailspopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle">Vendor Details</p>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="detailsForm">
+                        <div style="margin-left: 30px;">
+                          <!-- <fieldset> -->
+                            <tr>
+                                <td>
+                                    <mat-label>Supplier<label style="color: red;" >*</label></mat-label><br>
+                                    <mat-form-field style="width: 250px;" class="matformfieldstyle"  appearance="outline" (click)="designationname()">
+                                        
+                                        <input #designationInput class="matformfieldinputstyle"  matInput
+                                            formControlName="supplier_id" autocomplete="off" [matAutocomplete]="desg" required>
+                                            <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                                        <mat-autocomplete #desg="matAutocomplete" [displayWith]="displayFnDesg"
+                                            >
+                                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                            <ng-container *ngIf="!isLoading">
+                                                <mat-option *ngFor="let designation of designationList" [value]="designation">
+                                                    {{designation.name}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-label style="margin-left: 60px;">RM Name<label style="color: red;" >*</label></mat-label><br>
+                    <mat-form-field (click)="rmname()"  style="width: 250px;margin-left: 60px;"class="matformfieldstyle" appearance="outline">
+                        <input #rmInput matInput formControlName="rm_id"
+                            [matAutocomplete]="rmemp" class="matformfieldinputstyle">
+                            <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                        <mat-autocomplete #rmemp="matAutocomplete" [displayWith]="displayFnRm">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let employee of employeeList" [value]="employee">
+                                    {{employee.full_name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                                    
+                                </td>
+                                
+                            </tr>
+                           <!-- </fieldset> -->
+                           <div>
+                            <span style="margin-bottom: 5%;margin-top: 2%;">
+                              <button type="button" data-dismiss="modal" class="btn btn-light" id="secondarybtn"
+                                style="margin-left: 10px;">Cancel</button>
+                                <button type="submit" style="margin-left: 10px;" class="btn btn-light" id="primarybtn"
+                                >Submit</button>
+                            </span>
+                        </div>
+                        </div>
+                        
+                      </form>
+                      
+                </div>
+              </div>
+            </div>
+    </div>
+    <p style="color:black;font-size: 22px;font-weight: 500;margin-left: 15px;margin-top: 20px;">
+        Vendor Maker Summary
+    </p>
+    <div style="margin-left: 15px;">
+        <table class="table"style="margin-top: 10px;max-width: 100%;" id ='commonstyle'>
+            <thead class="table_header" >
+                <tr>
+                    <th>S.no</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>PAN No</th>
+                    <th>Criticality</th>
+                    <th>GST Category</th>
+                    <th>RM Name</th>
+                    <!-- <th>Renewal Date</th> -->
+                    <th>Vendor Status</th>
+                    <th>Request Type</th>
+                    <th>Request Status</th>
+
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let  vendor of vendorSummaryList; index as i" style="text-align: left;">
+                    <td> {{(this.currentpage - 1)*pageSize +i+1 }} </td>
+                    <td>{{  vendor.code }}</td>
+                    <td (click)="vendorView(vendor)" style="cursor: pointer;color:blue;">{{  vendor.name }}</td>
+
+                    <td>{{  vendor.panno }}</td>
+                    <td>{{  vendor.type.text | titlecase }}</td>
+                    <td>{{  vendor.composite | titlecase }}</td>
+                    <td>{{  vendor.rm_id.full_name | titlecase }}</td>
+                    <!-- <td>{{  vendor.renewal_date | date:'dd-MMM-yyyy '  }}</td> -->
+                    <!-- <td><span *ngIf="minimum?.effectiveto != null">{{minimum?.effectiveto | date:"dd-MMM-yyyy"}}</span><span *ngIf="minimum?.effectiveto == null"> -- </span></td> -->
+                    <!-- <td>
+                        <div *ngIf="vendor.renewal_date != 'None'">
+                            {{  vendor.renewal_date | date:'dd-MMM-yyyy '  }}
+                        </div>
+                    </td> -->
+                    <td data-toggle="modal" data-target="#rejectModal" [ngClass]="(vendor.mainstatus_name == 'Approved' )? 'approved':'notapproved' "
+                        (click)="rejectPopup( vendor.vendor_status_name,vendor.id)">
+                        {{  vendor.mainstatus_name | titlecase }}</td>
+                    <td [ngClass]="(vendor.requeststatus_name == 'Approved' )? 'approved':'notapproved' " >{{  vendor.requeststatus_name | titlecase }}</td>
+                    <td [ngClass]="(vendor.vendor_status_name == 'Approved' )? 'approved':'notapproved' " >{{  vendor.vendor_status_name | titlecase }}</td>
+
+
+                    <td *ngIf="vendorSummaryList ?.length == 0" colspan="10"> No Records found</td>
+
+                </tr>
+            </tbody>
+        </table>
+
+
+    <div>
+        <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+                <mat-icon>arrow_back</mat-icon>
+            </button> {{presentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    </div>
+    </mat-card>
+</div>
+
+
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel"
+    *ngIf="isRejectRemarks" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title  w-100 font-weight-bold" id="rejectModalLabel">Reject</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <p style="color: #808080; margin: 0px 0 4px;"> Remarks: <span
+                                        style="color: black;margin-left: 8%;">{{rejectedList}}
+                                    </span></p>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#rejectModal"
+                    style="border-radius:40px; margin-left: 10px;">
+                    Cancel </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

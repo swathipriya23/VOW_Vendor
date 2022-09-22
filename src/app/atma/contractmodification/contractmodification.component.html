@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+            <h3> Changes </h3>
+        </div>
+        <div class="col-md-7 text-right">
+            <button type="button" class="btn btn-light"  style="border-radius: 7px;margin-left: 10px;
+            border-color: black;
+            background-color: white;"
+                (click)="Cancel()">Cancel</button>
+        </div>
+    </div>
+    <!-- <h3>  Changes </h3> -->
+    <!-- <div> -->
+        <!-- <form [formGroup]="contractform">
+            <div class=" row col-md-12">
+                <div class="col-md-3">
+                    <mat-form-field>
+                        <mat-label>Name:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.name!=modificationdata.old_data.name">{{modificationdata.old_data.name}}</code>
+                        </mat-label>
+                        <input matInput placeholder="Name" formControlName="name" autocomplete="off" [readonly]="true">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+
+                    <mat-form-field>
+                        <mat-label>Service:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.service!=modificationdata.old_data.service">{{modificationdata.old_data.service}}</code>
+                        </mat-label>
+
+                        <input matInput placeholder="Name" formControlName="service" autocomplete="off" [readonly]="true">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+
+                    <mat-form-field>
+                        <mat-label>Remarks :<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.remarks!=modificationdata.old_data.remarks">{{modificationdata.old_data.remarks}}</code>
+                        </mat-label>
+
+                        <input matInput placeholder="Name" formControlName="remarks" autocomplete="off" [readonly]="true">
+                    </mat-form-field>
+                </div>
+               
+            </div>
+        </form> -->
+       
+    <!-- </div> -->
+
+
+    <body>
+        <!-- <h6> Changes</h6> -->
+         <div class="timeline">
+          <ul>
+            <li *ngIf="modificationdata.action==2">
+                <h3>New data</h3>
+            </li>
+            <li *ngIf="modificationdata.action==2">
+                <h3>Old data</h3>
+            </li>
+            <li>
+              <div class="content">
+                <p><code>Name</code>:&nbsp;<span   [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.name!=modificationdata.old_data.name'>{{ modificationdata.new_data.name}}</span></p>
+                    <p><code>Service</code>:&nbsp;<span  [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.service!=modificationdata.old_data.service'>{{ modificationdata.new_data.service}}</span></p>
+                    <p><code>Remarks</code>:&nbsp;<span  [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.remarks!=modificationdata.old_data.remarks'>{{ modificationdata.new_data.remarks}}</span></p>
+                
+               </div>
+             
+            </li>
+            
+            <li>
+              <div class="content" *ngIf="modificationdata.action==2">
+                <p><code>Name</code>:{{ modificationdata.old_data.name | titlecase}}</p>
+                <p><code>Service</code>:{{ modificationdata.old_data.service | titlecase}}</p>
+                <p><code>Remarks</code>:{{ modificationdata.old_data.remarks | titlecase}}</p>
+               
+              </div>
+             
+            </li>
+            
+         
+            <div style="clear:both;"></div>
+          </ul>
+        </div>
+        
+      </body> 
+</div>

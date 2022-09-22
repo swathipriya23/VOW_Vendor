@@ -1,0 +1,470 @@
+<div style=" margin-left:19px;margin-top: 1%;">
+    <h3>
+        Product Edit Form
+    </h3>
+    <div>
+        <form [formGroup]="productEditForm" (ngSubmit)="productCreateForm()" autocomplete="off">
+            <table>
+                <div>
+                    <tr>
+
+                        <td>
+                            <mat-form-field >
+                                <mat-label for="parent">Type</mat-label>
+                                <mat-select formControlName="type">
+                                <mat-option value="product">Product</mat-option>
+                                 <mat-option value="service">Service</mat-option>
+                                 </mat-select>
+                                </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px ;margin-left: 50px;">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name"  autocomplete="off"  type="text" (keypress)="namevalidation($event)" required>
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-form-field style="width: 175px ;margin-left: 50px;">
+                                <mat-label>Age</mat-label>
+                                <input matInput placeholder="Age" formControlName="age" (keypress)="numberOnly($event)" maxlength="3" autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                    </tr>
+
+                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>Client Contact 1</span>
+                                <div [formGroup]="productEditForm.controls.client_contact1">
+
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Name</mat-label>
+                                                <input matInput placeholder="Name"  autocomplete="off" formControlName="name" type="text" (keypress)="namevalidation($event)" required>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                <mat-label>Email</mat-label>
+                                                <input matInput placeholder="Email" autocomplete="off" formControlName="email" >
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <mat-form-field (click)="designame()">
+                                                <mat-label>Designation</mat-label>
+                                                <input #designationInput placeholder="Select Designation" matInput formControlName="designation_id" autocomplete="off"
+                                                [matAutocomplete]="desg" required>
+                                            <mat-autocomplete #desg="matAutocomplete" [displayWith]="displayFnDesg" (opened)="designationScroll()">
+                                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let designation of designationList" [value]="designation">{{designation.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                        <!-- <td>
+                                            <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                <mat-label>Type</mat-label>
+                                                <input #contactInput placeholder="Select Type" matInput formControlName="type_id" autocomplete="off"
+                                                [matAutocomplete]="contactType">
+                                            <mat-autocomplete #contactType="matAutocomplete" [displayWith]="displayFnContactType" (opened)="contactScroll()">
+                                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let contact of contactTypeList" [value]="contact">{{contact.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td> -->
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                
+                                                <mat-label>LandLine 1</mat-label>
+                                                <input matInput placeholder="Landline" formControlName="landline"  (keypress)="numberOnly($event)" maxlength="10" autocomplete="off" >
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td>
+                                            <mat-form-field style="width: 175px;">
+                                                <mat-label>LandLine 2</mat-label>
+                                                <input matInput placeholder="Landline2" formControlName="landline2"  (keypress)="numberOnly($event)" maxlength="10" autocomplete="off" >
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                <mat-label>Mobile 1</mat-label>
+                                                <input matInput placeholder="Mobile" formControlName="mobile" autocomplete="off" pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td>
+                                            <mat-form-field style="width: 175px;">
+                                                <mat-label>Mobile 2</mat-label>
+                                                <input matInput placeholder="Mobile2" formControlName="mobile2" autocomplete="off" pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                <input matInput readonly [matDatepicker]="picker1" formControlName="dob" [max]="futureDaysClient1" [formControl]="defaultDate" (dateChange)="DOBSelection1($event.value)"  placeholder="DOB">
+                                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker> 
+                                              </mat-form-field>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td>
+                                            <mat-form-field style="width: 175px;">
+                                                <input matInput readonly [matDatepicker]="picker2" formControlName="wedding_date" [formControl]="defaultDate" [min]="select1" placeholder="Wedding Date">
+                                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker2></mat-datepicker>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div style="margin-left: 25%;">
+                                    <span>Client Contact 2</span>
+                                    <button type="button" style="border-radius: 40px;margin-left: 20px;" class="btn btn-outline-primary"
+                                    (click)="client1Copy(productEditForm.controls.client_contact1)">Client1 Copy</button>
+                                    <div [formGroup]="productEditForm.controls.client_contact2">
+
+                                        <tr>
+                                            <td>
+                                                <mat-form-field>
+                                                    <mat-label>Name</mat-label>
+                                                    <input matInput placeholder="Name"  autocomplete="off" formControlName="name" required>
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                    <mat-label>Email</mat-label>
+                                                    <input matInput placeholder="Email" autocomplete="off" formControlName="email" >
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <mat-form-field (click)="designame1()">
+                                                    <mat-label>Designation</mat-label>
+                                                    <input #designationInput1 placeholder="Select Designation" matInput formControlName="designation_id" autocomplete="off"
+                                                    [matAutocomplete]="desg1" required>
+                                                <mat-autocomplete #desg1="matAutocomplete" [displayWith]="displayFnDesg1" (opened)="designationScroll1()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                    <ng-container *ngIf="!isLoading">
+                                                        <mat-option *ngFor="let designation1 of designationList1" [value]="designation1">{{designation1.name}}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-autocomplete>
+                                                </mat-form-field>
+                                            </td>
+                                            <!-- <td>
+                                                <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                    <mat-label>Type</mat-label>
+                                                    <input #contactInput1 placeholder="Select Type" matInput formControlName="type_id" autocomplete="off"
+                                                    [matAutocomplete]="contactType1">
+                                                <mat-autocomplete #contactType1="matAutocomplete" [displayWith]="displayFnContactType1" (opened)="contactScroll1()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                    <ng-container *ngIf="!isLoading">
+                                                        <mat-option *ngFor="let contact1 of contactTypeList1" [value]="contact1">{{contact1.name}}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-autocomplete>
+                                                </mat-form-field>
+                                            </td> -->
+                                            <td>
+                                                <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                    <mat-label>LandLine 1</mat-label>
+                                                    <input matInput placeholder="Landline"  formControlName="landline" autocomplete="off" (keypress)="numberOnly($event)" maxlength="10" >
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <td>
+                                                <mat-form-field style="width: 175px;">
+                                                    <mat-label>LandLine 2</mat-label>
+                                                    <input matInput placeholder="Landline2"  formControlName="landline2" autocomplete="off"  (keypress)="numberOnly($event)" maxlength="10" >
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                    <mat-label>Mobile 1</mat-label>
+                                                    <input matInput placeholder="Mobile" formControlName="mobile" autocomplete="off" pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" >
+                                                </mat-form-field>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                           
+                                            <td>
+                                                <mat-form-field style="width: 175px;">
+                                                    <mat-label>Mobile 2</mat-label>
+                                                    <input matInput placeholder="Mobile2" formControlName="mobile2" autocomplete="off" pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" >
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                    <input matInput readonly [matDatepicker]="picker3" [max]="futureDaysClient2" formControlName="dob" [formControl]="defaultDate" (dateChange)="DOBSelection2($event.value)" placeholder="DOB">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker3></mat-datepicker>
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <td>
+                                                <mat-form-field style="width: 175px;">
+                                                    <input matInput readonly [matDatepicker]="picker4" formControlName="wedding_date" [formControl]="defaultDate" [min]="select2" placeholder="Wedding Date">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker4></mat-datepicker>
+                                                </mat-form-field>
+                                            </td>
+
+                                        </tr>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>Customer Contact </span>
+                                <div [formGroup]="productEditForm.controls.customer_contact1">
+
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Name</mat-label>
+                                                <input matInput placeholder="Name"  autocomplete="off" formControlName="name"  type="text" (keypress)="namevalidation($event)" required>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                <mat-label>Email</mat-label>
+                                                <input matInput placeholder="Email" autocomplete="off" formControlName="email" >
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <mat-form-field  (click)="designame2()">
+                                                <mat-label>Designation</mat-label>
+                                                <input #designationInput2 placeholder="Select Designation" matInput formControlName="designation_id" autocomplete="off"
+                                                [matAutocomplete]="desg2" required>
+                                            <mat-autocomplete #desg2="matAutocomplete" [displayWith]="displayFnDesg2" (opened)="designationScroll2()">
+                                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let designation2 of designationList2" [value]="designation2">{{designation2.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                        <!-- <td>
+                                            <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                <mat-label>Type</mat-label>
+                                                <input #contactInput2 placeholder="Select Type" matInput formControlName="type_id" autocomplete="off"
+                                                [matAutocomplete]="contactType2">
+                                            <mat-autocomplete #contactType2="matAutocomplete" [displayWith]="displayFnContactType2" (opened)="contactScroll2()">
+                                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                <ng-container *ngIf="!isLoading">
+                                                    <mat-option *ngFor="let contact2 of contactTypeList2" [value]="contact2">{{contact2.name}}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td> -->
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                <mat-label>LandLine 1</mat-label>
+                                                <input matInput placeholder="Landline"  formControlName="landline" autocomplete="off"  (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                       
+                                        <td>
+                                            <mat-form-field style="width: 175px;">
+                                                <mat-label>LandLine 2</mat-label>
+                                                <input matInput placeholder="Landline2"  formControlName="landline2" autocomplete="off"   (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                <mat-label>Mobile 1</mat-label>
+                                                <input matInput placeholder="Mobile" formControlName="mobile" autocomplete="off" pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td>
+                                            <mat-form-field style="width: 175px;">
+                                                <mat-label>Mobile 2</mat-label>
+                                                <input matInput placeholder="Mobile2" formControlName="mobile2" autocomplete="off" pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" >
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                <input matInput readonly [matDatepicker]="picker5" [max]="futureDaysCustomer1" formControlName="dob" [formControl]="defaultDate" (dateChange)="DOBSelection3($event.value)" placeholder="DOB">
+                                                <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker5></mat-datepicker>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td>
+                                            <mat-form-field style="width: 175px;">
+                                                <input matInput readonly [matDatepicker]="picker6" formControlName="wedding_date" [formControl]="defaultDate" [min]="select3"  placeholder="Wedding Date">
+                                                <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker6></mat-datepicker>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div style="margin-left: 25%;">
+                                    <span> Customer Contact 2</span>
+                                    <button type="button" style="border-radius: 40px;margin-left: 3px;" class="btn btn-outline-primary"
+                                    (click)="customer1Copy(productEditForm.controls.customer_contact1)">Customer1 Copy</button>
+                        
+                                    <div [formGroup]="productEditForm.controls.customer_contact2">
+
+                                        <tr>
+                                            <td>
+                                                <mat-form-field>
+                                                    <mat-label>Name</mat-label>
+                                                    <input matInput placeholder="Name"  autocomplete="off" formControlName="name" required>
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                    <mat-label>Email</mat-label>
+                                                    <input matInput placeholder="Email" autocomplete="off" formControlName="email" >
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <mat-form-field (click)="designame3()">
+                                                    <mat-label>Designation</mat-label>
+                                                    <input #designationInput3 placeholder="Select Designation" matInput formControlName="designation_id" autocomplete="off"
+                                                    [matAutocomplete]="desg3" required>
+                                                <mat-autocomplete #desg3="matAutocomplete" [displayWith]="displayFnDesg3" (opened)="designationScroll3()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                    <ng-container *ngIf="!isLoading">
+                                                        <mat-option *ngFor="let designation3 of designationList3" [value]="designation3">{{designation3.name}}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-autocomplete>
+                                                </mat-form-field>
+                                            </td>
+                                            <!-- <td>
+                                                <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                    <mat-label>Type</mat-label>
+                                                    <input #contactInput3 placeholder="Select Type" matInput formControlName="type_id" autocomplete="off"
+                                                    [matAutocomplete]="contactType3">
+                                                <mat-autocomplete #contactType3="matAutocomplete" [displayWith]="displayFnContactType3" (opened)="contactScroll3()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                    <ng-container *ngIf="!isLoading">
+                                                        <mat-option *ngFor="let contact3 of contactTypeList3" [value]="contact3">{{contact3.name}}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-autocomplete>
+                                                </mat-form-field>
+                                            </td> -->
+                                            <td>
+                                                <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                    <mat-label>LandLine 1</mat-label>
+                                                    <input matInput placeholder="Landline"  formControlName="landline"  (keypress)="numberOnly($event)" maxlength="10" autocomplete="off" >
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <td>
+                                                <mat-form-field style="width: 175px;">
+                                                    <mat-label>LandLine 2</mat-label>
+                                                    <input matInput placeholder="Landline2"  formControlName="landline2"  (keypress)="numberOnly($event)" maxlength="10" autocomplete="off" >
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                    <mat-label>Mobile 1</mat-label>
+                                                    <input matInput placeholder="Mobile" formControlName="mobile" autocomplete="off" pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" >
+                                                </mat-form-field>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                           
+                                            <td>
+                                                <mat-form-field style="width: 175px;">
+                                                    <mat-label>Mobile 2</mat-label>
+                                                    <input matInput placeholder="Mobile2" formControlName="mobile2" autocomplete="off" pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" >
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field style="width: 175px;margin-left: 30px;">
+                                                    <input matInput readonly [matDatepicker]="picker7" [max]="futureDaysCustomer2" formControlName="dob" [formControl]="defaultDate" (dateChange)="DOBSelection4($event.value)" placeholder="DOB">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker7"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker7></mat-datepicker>
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <td>
+                                                <mat-form-field style="width: 175px;">
+                                                    <input matInput readonly [matDatepicker]="picker8" formControlName="wedding_date" [formControl]="defaultDate" [min]= "select4" placeholder="Wedding Date">
+                                                    <mat-datepicker-toggle matSuffix [for]="picker8"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker8></mat-datepicker>
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </table>
+            <div style="margin-bottom: 5%;">
+                <button type="button" class="btn btn-outline-primary" 
+                (click)="onCancelClick()" style="border-radius: 40px;margin-left: 25px;">Cancel</button>
+                <button type="submit" style="border-radius: 40px;margin-left: 25px;" 
+                class="btn btn-outline-primary">Submit</button>
+
+            </div>
+        </form>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

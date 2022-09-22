@@ -1,0 +1,26 @@
+<div class="container" style="margin-top: 2%;">
+    <h1 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">Sector Create Form</h1><hr>
+</div>
+<div class="container">
+    <form [formGroup]="sectorform">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field style="width: 250px;">
+                    <mat-label>Sector Name</mat-label>
+                    <input type="text" matInput formControlName="name" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Sector Description</mat-label>
+                    <input type="text" matInput formControlName="desc" required>
+                </mat-form-field>
+
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-outline-success" (click)="submitform()" type="button" style="border-radius: 40px;">Submit</button>&nbsp;&nbsp;
+            <button type="button" (click)="clickcancel()" class="btn btn-outline-danger" style="border-radius: 40px;">Cancel</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,5 @@
+.modal-dialog .modal-content {
+    width: 1116px !important;
+    margin-left: -213px !important;
+}
+::ng-deep { .cdk-global-overlay-wrapper, .cdk-overlay-container { z-index: 9999!important; } }

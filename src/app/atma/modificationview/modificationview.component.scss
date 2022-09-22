@@ -1,0 +1,28 @@
+.create{
+    color: green;
+}
+.edit{
+    color:orange;}
+.delete{
+    color:red;
+}
+.size{
+    color:#884545;
+}
+.styled-table tbody td {
+    padding: 0.5em 0.1em 0.1em;
+    border: 1px solid #dddddd;
+    border-right: hidden;
+  }
+  
+  .styled-table {
+    margin: 25px 0;
+    font-family: "Montserrat";
+    width: 100%;
+  }
+  .styled-table tbody tr:nth-of-type(even) {
+    background-color: #F3FAFF;
+  }
+  .container{
+    font-family: "Montserrat";
+  }

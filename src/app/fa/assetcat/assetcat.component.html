@@ -1,0 +1,261 @@
+<div class="container">
+
+    <div class="modal" tabindex="-1" role="dialog" id="exampleModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title"> Depreciation setting</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="depform" (ngSubmit)="depCreateForm()">
+                        <table>
+                            <div>
+                                <tr>
+
+                                    <td>
+                                        <mat-form-field style="width: 175px;margin-left: 10px;">
+                                            <mat-label>Depreciation Type</mat-label>
+                                            <mat-select formControlName="doctype">
+                                                <mat-option *ngFor="let deptype of deptypeslist" [value]="deptype.name">
+                                                    {{deptype.show}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </td>
+                                </tr>
+                            </div>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--GL-->
+    <div class="modal" tabindex="-1" role="dialog" id="Glupdate">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title"> Asset Cat GL Details </h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="updateForm">
+                        <table>
+                            <div>
+                                <tr>
+
+                                    <td>
+                                        <mat-form-field style="width: 175px;margin-left: 10px;">
+                                            <mat-label>depgl_mgmt Type</mat-label>
+                                            <mat-select formControlName="depgl_mgmt">
+                                                <mat-option *ngFor="let deptype of deptypeslist" [value]="deptype.name">
+                                                    {{deptype.show}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </td>
+                                    <td>
+                                        <mat-form-field style="width: 175px;margin-left: 10px;">
+                                            <mat-label>Depreciation Type</mat-label>
+                                            <mat-select formControlName="depresgl_mgmt">
+                                                <mat-option *ngFor="let deptype of deptypeslist" [value]="deptype.name">
+                                                    {{deptype.show}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                    </td>
+                                    <td>
+                                        <mat-form-field style="width: 175px;margin-left: 10px;">
+                                            <mat-label>It Category Name</mat-label>
+                                            <input type="text" matInput formControlName="itcatname">
+                                            <!-- <mat-select formControlName="depresgl_mgmt">
+                                                <mat-option *ngFor="let deptype of deptypeslist" [value]="deptype.name">
+                                                    {{deptype.show}}
+                                                </mat-option>
+                                            </mat-select> -->
+                                        </mat-form-field>
+            
+                                    </td>
+                                </tr>
+                            </div>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success" (click)="savedata()">Submit</button>
+                            <button type="button" class="btn btn-secondary" (click)="closedialgogdata()">Close</button></div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--GLEND-->
+    
+
+        <form [formGroup]="SubcatSearchForm" (ngSubmit)="summarycreateForm()">
+            <div class="row col-md-12">
+            <div class='col-md-3'>
+                <mat-form-field >
+                    <mat-label>Sub category</mat-label>
+                    <input placeholder="Select type" matInput formControlName="subcategorys"
+                        [matAutocomplete]="subcattype">
+                    <mat-autocomplete #subcattype="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let subcat of subcatList" [value]="subcat">
+                                {{subcat.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+            <div class='col-md-3'>
+                <mat-form-field style="margin-top: 1px;" >
+                    <mat-label>Depreciation Type</mat-label>
+                    <mat-select formControlName="deptype">
+                        <mat-option *ngFor="let deptype of deptypelist" [value]="deptype.name">
+                            {{deptype.show}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6" style="margin-top: 16px;">
+
+                <!-- <p style="width: 175px;margin-left: 10px;">word:{{j}}</p> -->
+                <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;"
+                    color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>&nbsp;
+                <button class="btn btn-outline-primary" (click)="reset()" type="submit"
+                    style="border-radius:40px;" color="primary">Reset</button>&nbsp;
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal"
+                    style="border-radius:40px;">
+                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                </button>
+            </div>
+</div>
+        </form>
+    
+    <div class="row col-md-12">
+        <table class="table  table-responsive table-bordered" fixed-header>
+            <thead class="table_header">
+                <tr>
+                    <th>S.No</th>
+                    <th>Asset Subcat</th>
+                    <th>Subcategory</th>
+                    <th>IT Category Name</th>
+                    <th>Lifetime</th>
+                    <th>Dep Type</th>
+                    <th>Dep CA</th>
+                    <th>Dep ITC</th>
+                    <th>Dep MGMT</th>
+                    <th>Dep MGMT GL</th>
+                    <th>Dep MGMT RES GL</th>
+                    <th>Barcode</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let assetcat of assetcatlist; index as i">
+                    <th scope="row">{{ (presentpageasset-1)*pageSize+i+1 }}</th>
+                    <td>{{ assetcat.subcategory_id.category_id.name}}</td>
+                    <td>{{ assetcat.subcatname}}</td>
+                    <td>{{assetcat.itcatname}}</td>
+                    <td>{{ assetcat.lifetime}}</td>
+                    <td>{{ assetcat.deptype}}</td>
+                    <td>{{ assetcat.deprate_ca}}</td>
+                    <td>{{ assetcat.deprate_itc}}</td>
+                    <td>{{ assetcat.deprate_mgmt}}</td>
+                    <td>{{ assetcat.depgl_mgmt}}</td>
+                    <td>{{ assetcat.depresgl_mgmt}}</td>
+                    <td>
+                        <div *ngIf="assetcat.barcoderequired === true ; else notype">Yes</div>
+                        <ng-template #notype> No </ng-template>
+                    </td>
+                    <td  (click)="opendialognew(opendialog,assetcat)"><i
+                            class="fa fa-pencil" style="font-size:16px"></i></td>
+                </tr>
+                <ng-template #opendialog>
+                    <div class="container" style="background-color: rgb(81, 216, 240);">
+                        <h2 style="font-family: 'Times New Roman', Times, serif;color: black;font-size: 20px;"> Asset Cat GL Details </h2>
+                    </div>
+                    <div class="container">
+                        <form [formGroup]="updateForm">
+                            <br>
+                            <table>
+                                <div>
+                                    <tr>
+                
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 10px;">
+                                                <mat-label>depgl_mgmt Type</mat-label>
+                                                <mat-select formControlName="depgl_mgmt">
+                                                    <mat-option *ngFor="let deptype of deptypeslist" [value]="deptype.name">
+                                                        {{deptype.show}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 10px;">
+                                                <mat-label>Depreciation Type</mat-label>
+                                                <mat-select formControlName="depresgl_mgmt">
+                                                    <mat-option *ngFor="let deptype of deptypeslist" [value]="deptype.name">
+                                                        {{deptype.show}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 175px;margin-left: 10px;">
+                                                <mat-label>It Category Name</mat-label>
+                                                <input type="text" matInput formControlName="itcatname">
+                                                <!-- <mat-select formControlName="depresgl_mgmt">
+                                                    <mat-option *ngFor="let deptype of deptypeslist" [value]="deptype.name">
+                                                        {{deptype.show}}
+                                                    </mat-option>
+                                                </mat-select> -->
+                                            </mat-form-field>
+                
+                                        </td>
+                                    </tr>
+                                </div>
+                            </table>
+                            <br>
+                            <div >
+                                <button type="submit" class="btn btn-success" (click)="savedata()">Submit</button>
+                                <button type="button" class="btn btn-secondary" (click)="closedialgogdata()">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </ng-template>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 100px;">
+                <button mat-icon-button [disabled]="has_previousasset === false" color="primary"
+                    (click)=" previousClick()">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                {{presentpageasset}}
+                <button mat-icon-button [disabled]="has_nextasset === false" color="primary" (click)=" nextClick()">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,91 @@
+<h3 style="margin-left: 50px;font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">
+    Sub Tax Form
+</h3><hr>
+<br>
+<form [formGroup]="subtaxaddform" style="margin-left: 50px" >
+    <div class="col-12 row">
+       <div class="col-md-3">
+           <mat-form-field style="width: 200px;">
+               <mat-label>Tax Name</mat-label>
+               <input type="text" matInput formControlName="name" #taxnameinput required [matAutocomplete]="taxauto"  (click)="gettaxnamelists()">
+               <mat-autocomplete #taxauto="matAutocomplete" [displayWith]="getdisplaytaxnamelist" (opened)="gettaxinfinite('subtax')">
+                   <mat-option *ngIf="isLoading">Loading..</mat-option>
+                   <ng-container *ngIf="!isLoading">
+                       <mat-option *ngFor="let d of taxnamelist" [value]="d">{{d.name}}</mat-option>
+                   </ng-container>
+               </mat-autocomplete>
+           </mat-form-field>
+       </div>
+       <!-- <div class="col-md-2">
+           <mat-form-field style="width: 200px;margin-left: 50px;">
+               <mat-label>Sub Tax Name</mat-label>
+               <input type="text" matInput formControlName="tax" required (click)="getsubtaxratelist()" [matAutocomplete]="subtaxrateinfinite" #inputSubname>
+               <mat-autocomplete #subtaxrateinfinite="matAutocomplete" [displayWith]="getdisplaysubtaxrateinterface" (opened)="getsubtaxnameinfinite()">
+                   <mat-option *ngIf="isLoading">Loading..</mat-option>
+                   <ng-container *ngIf="!isLoading">
+                       <mat-option *ngFor="let d of subtaxnamelist" [value]="d">{{d.name}}</mat-option>
+                   </ng-container>
+               </mat-autocomplete>
+           </mat-form-field>
+       </div> -->
+       <!-- <button style="border-radius:20px;margin-left: 70px;height: 40px;" type="button"
+       class="buttonsize btn btn-outline-primary" (click)="getsubtaxena()">
+       <span *ngIf="subtaxenb" class="fa fa-plus"></span ><span *ngIf="subtaxcan"><mat-icon>cancel</mat-icon></span></button> -->
+       <div class="col-md-3" >
+           <mat-form-field style="width: 200px;">
+               <mat-label>Add Sub Tax Name</mat-label>
+               <input type="text" matInput formControlName="subtaxname" required >
+              
+           </mat-form-field>
+       </div>
+       <div class="col-md-3" >
+           <mat-form-field style="width: 200px;">
+               <mat-label>Sub Tax Limit</mat-label>
+               <input type="text" matInput formControlName="subtaxlimit" required>
+           </mat-form-field>
+       </div>
+   </div>
+   <div class="col-12 row" >
+       <div class="col-md-3">
+           <mat-form-field style="width: 200px;">
+               <mat-label>Sub Tax Remarks</mat-label>
+               <input type="text" matInput formControlName="subtaxremarks" required>
+           </mat-form-field>
+       </div>
+       <div class="col-md-3" style="width: 200px;">
+           <mat-form-field>
+               <mat-label>Choose Category</mat-label>
+               <input type="text" matInput formControlName="subcategory" (click)="datacategory()" required [matAutocomplete]="catlists" #catinput>
+               <mat-autocomplete #catlists="matAutocomplete" [displayWith]="getdisplaycategoryinterface" (opened)="getinfinitecategory()">
+                   <mat-option *ngIf="isLoading">Loading..</mat-option>
+                   <ng-container *ngIf="!isLoading">
+                       <mat-option *ngFor="let d of productcatlist" [value]="d">{{d.name}}</mat-option>
+                   </ng-container>
+               </mat-autocomplete>
+           </mat-form-field>
+       </div>
+       <div class="col-md-3" style="width: 200px;">
+           <mat-form-field>
+               <mat-label>Choose SubCategory</mat-label>
+               <input type="text" matInput formControlName="subcategorysub" required [matAutocomplete]="catsublists" (click)="getapsubcategorydata()" #subInput>
+               <mat-autocomplete #catsublists="matAutocomplete" [displayWith]="getsubcategoryinterface" (opened)="getsubcategoryinfinite()">
+                   <mat-option *ngIf="isLoading">Loading..</mat-option>
+                   <ng-container *ngIf="!isLoading">
+                       <mat-option *ngFor="let d of subcategorylistdata" [value]="d" (focusout)="subcategoryfocusout(d)">{{d.name}}</mat-option>
+                   </ng-container>
+               </mat-autocomplete>
+           </mat-form-field>
+       </div>
+       <div class="col-md-3" style="width: 200px;">
+           <mat-form-field>
+               <mat-label>GL No</mat-label>
+               <input type="number" readonly matInput formControlName="glno" required (keypress)="numberOnly($event)">
+           </mat-form-field>
+       </div>
+   </div> 
+
+</form>
+<button type="button" (click)="submittaxrate()" class="btn btn-outline-success" style="border-radius: 40px;height: 40px;margin-left: 100px;">Submit</button>
+
+<button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                style="border-radius: 40px;margin-left: 10px;">Cancel</button>

@@ -1,0 +1,31 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+    <h3>
+        Edit Roles Form
+    </h3>
+    <div>
+        <form [formGroup]="rolesEditForm" (ngSubmit)="submitForm()">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 175px;">
+                                <mat-label>Code</mat-label>
+                                <input matInput placeholder="Code" formControlName="code" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 175px;margin-left: 50px;">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                [disabled]="rolesEditForm.invalid">Submit</button>
+            <button type="button" (click)="onCancelClick()" style="border-radius: 40px;margin-left: 10px;"
+             class="btn btn-outline-primary">Cancel</button>
+        </form>
+    </div>
+</div>

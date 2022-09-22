@@ -1,0 +1,668 @@
+<div style="margin-left: 50px; margin-top: 1%;">
+    <h1 style="font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;">Entry Service Create</h1>
+    <hr />
+    <form [formGroup]="EntrySearchForm" (ngSubmit)="EntrySearch()">
+        <!-- <td style="margin-top: 5px;">
+                <mat-form-field style="width: 175px; margin-left: 50px;">
+                    <mat-label>Module Name</mat-label>
+                    <input class="toolbar-search" type="text" matInput autocomplete="off" matInput [matAutocomplete]="modulelist" #ModulelistInput formControlName="modulelist" style="width: 250px;" />
+                    <mat-placeholder>Select Module Name</mat-placeholder>
+                    <mat-autocomplete #modulelist="matAutocomplete" #module (opened)="autocompleteScroll_Modulelist()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container>
+                            <mat-option *ngFor="let d of ModulelistServ" [value]="d.name" (focusout)="checker_module(d)">
+                                {{d.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </td>
+            <td style="margin-top: 5px;">
+                <mat-form-field style="width: 175px; margin-left: 50px;">
+                    <mat-label>Report Name</mat-label>
+                    <input class="toolbar-search" type="text" matInput autocomplete="off" matInput [matAutocomplete]="reportname" #ReportnameInput formControlName="reportname" style="width: 250px;" />
+                    <mat-placeholder>Select Report Name</mat-placeholder>
+                    <mat-autocomplete #reportname="matAutocomplete" #report (opened)="autocompleteScroll_Reportname()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container>
+                            <mat-option *ngFor="let d of ReportlistServ" [value]="d.name" (focusout)="checker_report(d)">
+                                {{d.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </td>
+            <td>
+                <button class="btn btn-outline-primary" type="submit" style="border-radius: 40px; margin-left: 15px;" color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </td> -->
+
+        <!-- <div style="margin-top: 1%;">
+            <button class="btn btn-outline-primary" (click)="resetPMD()" type="submit"
+                style="border-radius:40px;margin-left: 15px;" color="primary">Reset</button>
+        </div> -->
+        <div class="row" style="width: 100%;">
+            <div class="col-md-3">
+                <mat-form-field appearance="fill">
+                    <mat-label>Choose Type</mat-label>
+                    <mat-select [formControl]="transactionTypeList">
+                        <mat-option *ngFor="let t of transactionList" [value]="t.text" (click)="transactionType(t.id,t.text)">
+                            {{t.text}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-form-field" appearance="fill">
+                    <mat-label>Enter Parameter Name</mat-label>
+                    <input matInput type="text" formControlName="parametername" />
+                </mat-form-field>
+            </div>
+            <!-- <div class="col-md-3" style="padding-left: 30%;">
+                <mat-form-field appearance="fill">
+                    <mat-label>Choose Transaction</mat-label>
+                    <mat-select formControlName="transaction">
+                        <mat-option *ngFor="let t of transaction" [value]="t.value" (click)="transactionEdit(t.value)">
+                            {{t.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+        </div>
+        <div class="row" style="padding-right: 20px;">
+            <div class="col-sm-6">
+                <h1 style="text-align: center;">DEBIT</h1>
+                <div id="table-wrapper">
+                    <div id="table-scroll">
+                        <div class="table-responsive" style="width: 100%; overflow-x: hidden;">
+                            <table class="table table-bordered">
+                                <thead class="table_header">
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Display Column</th>
+                                        <th>Value</th>
+                                        <th>Parameter</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <tr  formArrayName="listproduct" *ngFor="let entry of entryList;index as i" [formGroupName]="i"> -->
+                                    <tr *ngFor="let entry of entryListDebit;index as i">
+                                        <td>{{(presentpageentry-1)*pageSize +i+1}}</td>
+                                        <td>{{ entry.name }}</td>
+                                        <td>
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>None</mat-label>
+                                                <mat-select formControlName="status1">
+                                                    <mat-option *ngFor="let stat of status" [value]="stat.value" (click)="editDebit(stat.value,i,entry)">
+                                                        {{stat.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <!-- <div *ngIf="entry['statusCheck']" formArrayName="listproductdebit">
+                                                <mat-form-field class="example-form-field" appearance="fill" [formGroupName]="i">
+                                                    <mat-label>Enter Fixed Value</mat-label>
+                                                    <input matInput type="text" formControlName="dynamicdebit" />
+                                                </mat-form-field>
+                                            </div> -->
+                                            <div *ngIf="entry['statusCheck'] && entry['statusCheck']">
+                                                <mat-form-field appearance="fill" style="width: 150px;">
+                                                    <mat-label>Select Type</mat-label>
+                                                    <mat-select>
+                                                        <mat-option *ngFor="let stat of intyp" [value]="stat.text" (click)="selectionChangeTypeDebit(stat,i)">
+                                                            {{stat.text}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div *ngIf="entry['flagOptions']==true">
+                                                <mat-form-field appearance="fill" style="width: 150px;">
+                                                    <mat-label>Select Type</mat-label>
+                                                    <mat-select>
+                                                        <mat-option *ngFor="let stat of option" [value]="stat.text" (click)="selectionChangeTypeDebit(stat,i)">
+                                                            {{stat.text}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <section class="example-section">
+                                                <input type="checkbox" class="example-margin" formControlName="parameter" (change)="checkBoxDebit(entry,$event,i)" />
+                                                <!-- <mat-checkbox class="example-margin" [disabled]="true">Disabled</mat-checkbox> -->
+                                            </section>
+                                            <!-- <input type="checkbox" formControlName="parameter" /> -->
+                                        </td>
+                                        <!-- <td class="cursor">
+                                <div *ngIf="cc.status === 1 ; else cclock">
+                                    <mat-icon (click)="forInactivecc(cc)" title="Click to Inactive" style="color: green;">
+                                        lock_open</mat-icon> -
+                                </div>
+                                <ng-template #cclock>
+                                    <mat-icon (click)="foractivecc(cc)" title="Click to Active" disabled style="color: crimson;">lock
+                                    </mat-icon> -
+                                </ng-template>
+                            </td> -->
+                                    </tr>
+                                </tbody>
+                                <div *ngIf="entryListDebit?.length==0;" class="NodataAlign">No Records Found...</div>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h1 style="text-align: center;">CREDIT</h1>
+                <div id="table-wrapper">
+                    <div id="table-scroll">
+                        <div class="table-responsive" style="width: 100%; overflow-x: hidden;">
+                            <table class="table table-bordered">
+                                <thead class="table_header">
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Display Column</th>
+                                        <th>Value</th>
+                                        <th>Parameter</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <tr  formArrayName="listproduct" *ngFor="let entry of entryList;index as i" [formGroupName]="i"> -->
+                                    <tr *ngFor="let entry of entryListCredit;index as i">
+                                        <td>{{(presentpageentry-1)*pageSize +i+1}}</td>
+                                        <td>{{ entry.name }}</td>
+                                        <td>
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>None</mat-label>
+                                                <mat-select formControlName="status2">
+                                                    <mat-option *ngFor="let stat of status" [value]="stat.value" (click)="editCredit(stat.value,i,entry)">
+                                                        {{stat.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <!-- <div *ngIf="entry['statusCheck']" formArrayName="listproductcredit">
+                                                <mat-form-field class="example-form-field" appearance="fill" [formGroupName]="i">
+                                                    <mat-label>Enter Fixed Value</mat-label>
+                                                    <input matInput type="text" formControlName="dynamiccredit" />
+                                                </mat-form-field>
+                                            </div> -->
+
+                                            <div *ngIf="entry['statusCheck']">
+                                                <mat-form-field appearance="fill" style="width: 150px;">
+                                                    <mat-label>Select Type</mat-label>
+                                                    <mat-select>
+                                                        <mat-option *ngFor="let stat of intyp" [value]="stat.text" (click)="selectionChangeTypeCredit(stat,i)">
+                                                            {{stat.text}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div *ngIf="entry['flagOptionsCredit']==true">
+                                                <mat-form-field appearance="fill" style="width: 150px;">
+                                                    <mat-label>Select Type</mat-label>
+                                                    <mat-select>
+                                                        <mat-option *ngFor="let stat of optionCredit" [value]="stat.name" (click)="selectionChangeTypeCredit_new(stat,i)">
+                                                            {{stat.name}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <section class="example-section">
+                                                <input type="checkbox" class="example-margin" formControlName="parameter" (change)="checkBoxCredit(entry,$event,i)" />
+                                            </section>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <div *ngIf="entryListCredit?.length==0;" class="NodataAlign">No Records Found...</div>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br />
+    <hr />
+    <form [formGroup]="debitsave">
+        <h1 style="margin-left: 25px; position: absolute;">Entry Template</h1>
+        <div class="col-sm-2" style="float: right; margin-right: 1%; padding-bottom: 2%;">
+            <button mat-raised-button color="success" style="margin-left: 25px; width: 40px;" matTooltip="Add Row" (click)="addItemDebit($event)">Add</button>
+        </div>
+        <div class="table-responsive" style="padding-right: 20px; margin-top: 1%; width: 100%; overflow-x: hidden;">
+            <table class="table table-bordered">
+                <thead class="table_header">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Wisefin Category</th>
+                        <th>Wisefin Subcategory</th>
+                        <th>GL No</th>
+                        <th>Transaction</th>
+                        <th>Value</th>
+                        <!-- <th>Formula</th> -->
+                        <th>Display</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="listTransactionDebit">
+                    <tr *ngFor="let assetcat of debitsave.controls.listTransactionDebit['controls']; index as listIndex" [formGroupName]="listIndex">
+                        <th scope="row"><div style="padding-top: 3vh;">{{ (presentpagebuk-1)*pageSize+listIndex+1 }}</div></th>
+                        <td>
+                            <mat-form-field appearance="fill" style="width: 150px;">
+                                <mat-label>Select Type</mat-label>
+                                <mat-select formControlName="cattrans">
+                                    <mat-option *ngFor="let stat of status" [value]="stat.viewValue" (click)="transadddynamiccat(stat,listIndex)">
+                                        {{stat.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div *ngIf="EntryTemplateNewAddRow[listIndex]['dynamiccat']==true">
+                                <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                    <mat-label>Enter Dynamic Value</mat-label>
+                                    <input matInput type="text" formControlName="cat1" />
+                                    <!-- dynamicdebitentrycat -->
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="EntryTemplateNewAddRow[listIndex]['dynamiccat1']==true">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Choose Catergory</mat-label>
+                                    <input class="toolbar-search" type="text" matInput autocomplete="off" matInput [matAutocomplete]="checkercat" #catidInput formControlName="cat" style="width: 250px;" />
+                                    <mat-placeholder>Category</mat-placeholder>
+                                    <mat-autocomplete #checkercat="matAutocomplete" #cat (opened)="autocompleteScroll_cat()">
+                                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                                        <ng-container>
+                                            <mat-option *ngFor="let d of catdata" [value]="d.name" (focusout)="checker_cat(d,listIndex)">
+                                                {{d.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                        </td>
+                        <td>
+                            <mat-form-field appearance="fill" style="width: 150px;">
+                                <mat-label>Select Type</mat-label>
+                                <mat-select formControlName="subcattrans">
+                                    <mat-option *ngFor="let stat of status" [value]="stat.viewValue" (click)="transaddnewDebit(stat,listIndex)">
+                                        {{stat.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div *ngIf="EntryTemplateNewAddRow[listIndex]['dynamicsubcat']==true">
+                                <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                    <mat-label>Enter Dynamic Value</mat-label>
+                                    <input matInput type="text" formControlName="subcat1" />
+                                    <!-- dynamicdebitentrysubcat -->
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="EntryTemplateNewAddRow[listIndex]['dynamicsubcat1']==true">
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Choose SubCatergory</mat-label>
+                                    <input class="toolbar-search" type="text" matInput autocomplete="off" matInput [matAutocomplete]="checkersubcat" #subcatidInput formControlName="subcat" style="width: 250px;" />
+                                    <mat-placeholder>SubCategory</mat-placeholder>
+                                    <mat-autocomplete #checkersubcat="matAutocomplete" #cat (opened)="autocompleteScroll_subcat()">
+                                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                                        <ng-container>
+                                            <mat-option *ngFor="let d of subcatdata" [value]="d.name" (focusout)="checker_subcat(d,listIndex)">
+                                                {{d.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                            <!-- <mat-form-field>
+                                <input type="text" matInput autocomplete="off" formControlName="subcat" />
+                            </mat-form-field> -->
+                        </td>
+                        <td>
+                            <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                <mat-label>Enter GL NO</mat-label>
+                                <input matInput type="text" formControlName="transnew" />
+                            </mat-form-field>
+                            <!-- <mat-form-field appearance="fill" style="width: 150px;">
+                                <mat-label>None</mat-label>
+                                <mat-select formControlName="transnew">
+                                    <mat-option *ngFor="let stat of status" [value]="stat.viewValue" (click)="transaddnewDebit(stat,listIndex)">
+                                        {{stat.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div *ngIf="EntryTemplateNewAddRow['dynamic']==true">
+                                <mat-form-field class="example-form-field" appearance="fill" [formGroupName]="listIndex" style="width: 150px;">
+                                    <mat-label>Enter Fixed Value</mat-label>
+                                    <input matInput type="text" formControlName="dynamicdebitentry" />
+                                </mat-form-field>
+                            </div> -->
+                        </td>
+                        <td>
+                            <mat-form-field appearance="fill" style="width: 150px;">
+                                <mat-label>Select Type</mat-label>
+                                <mat-select formControlName="transactionNewValue">
+                                    <mat-option *ngFor="let stat of transaction" [value]="stat.viewValue" (click)="templateDebit(stat,listIndex)">
+                                        {{stat.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <!-- <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                <mat-label>Enter Value</mat-label>
+                                <input matInput type="text" formControlName="condition1" />
+                            </mat-form-field> -->
+                            <mat-form-field appearance="fill" style="width: 150px;">
+                                <mat-label>Select Type</mat-label>
+                                <mat-select formControlName="condition1">
+                                    <mat-option *ngFor="let stat of status" [value]="stat.viewValue" (click)="transaddnewvalue(stat,listIndex)">
+                                        {{stat.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div *ngIf="EntryTemplateNewAddRow[listIndex]['dynamicsecond']==true">
+                                <button mat-raised-button color="success" style="margin-left: 25px; width: 60px;" matTooltip="Calculate" (click)="getpaystatus(temp)">View</button>
+                                <!-- <span matTooltip="View" class="fa fa-eye create" style="color: green; cursor: pointer;" (click)="getpaystatus(listIndex)" data-toggle="modal" data-target="#showtrandetails"></span> -->
+                                <!-- <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                    <mat-label>Enter Dynamic Value</mat-label>
+                                    <input matInput type="text" formControlName="dynamicdebitvalue" />
+                                </mat-form-field> -->
+                            </div>
+                        </td>
+                        <!-- <td>
+                            <div *ngFor="let od of formulate">
+                            {{od}}
+                        </div>
+                            <mat-form-field appearance="fill" style="width: 150px;">
+                                <mat-label>Percentange</mat-label>
+                                <mat-select formControlName="value1">
+                                    <mat-option *ngFor="let stat of conditionDebit" [value]="stat.viewValue" (click)="conditionAddDebit(stat,listIndex)">
+                                        {{stat.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td> -->
+                        <td>
+                            <mat-form-field appearance="fill" style="width: 150px;">
+                                <mat-label>Select Display Type</mat-label>
+                                <mat-select formControlName="display1">
+                                    <mat-option *ngFor="let stat of display" [value]="stat.viewValue" (click)="displayselect1(stat,listIndex)">
+                                        {{stat.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <button mat-icon-button color="success" style="margin-left: 25px; width: 60px;" 
+                                matTooltip="Delete" (click)="actionDelete(listIndex)">
+                                <mat-icon>delete icon</mat-icon>
+                            </button>
+                        </td>
+                        <ng-template #temp>
+                            <div style="background: #21cbe5;">
+                                <h2 style="color: black; text-align: center;">ENTER FORMULA</h2>
+                            </div>
+                            <div style="margin-left: 50px; margin-right: 80%; margin-top: 2%; width: 90%;">
+                                <section class="example-list-section" >
+                                        <li *ngFor="let subtask of task.subtasks">
+                                          <mat-checkbox [color]="subtask.color"
+                                                        (change)="updateAllComplete($event,subtask.name)">
+                                            {{subtask.name}}
+                                          </mat-checkbox>
+                                        </li>
+                                  </section>
+                                <!-- <h3 style="color: blue; font-family: 'Times New Roman', Times, serif; position:absolute; text-align: right;">BASEAMOUNT</h3>
+                                <mat-checkbox (change)='model1($event)'></mat-checkbox>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                <h3 style="color: blue; font-family: 'Times New Roman', Times, serif; margin-left: 50px; position:absolute; text-align: right;">IGST</h3>
+                                <mat-checkbox (change)='model2($event)'></mat-checkbox>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                <h3 style="color: blue; font-family: 'Times New Roman', Times, serif; margin-left: 50px; position:absolute; text-align: right;">SGST</h3>
+                                <mat-checkbox (change)='model3($event)'></mat-checkbox>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                <h3 style="color: blue; font-family: 'Times New Roman', Times, serif; margin-left: 50px; position:absolute; text-align: right;">CGST</h3>
+                                <mat-checkbox (change)='model4($event)'></mat-checkbox>
+                                &nbsp;&nbsp;&nbsp;&nbsp; -->
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <mat-form-field class="example-full-width" appearance="fill" style="width: 300px; top: 10px;">
+                                                <mat-label>Enter the formula</mat-label>
+                                                <textarea matInput placeholder="Enter the formula" value="{{l1}} {{l2}} {{l3}} {{l4}} {{l5}} {{l6}}" formControlName="formula" (onChange)="new()"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-sm-3" style="left: 80px; margin-top: 20px;">
+                                            <button mat-raised-button color="success" style="margin-left: 25px;" matTooltip="Calculate" (click)="calculation(listIndex, $event)">Calculate</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    </div>
+                          </ng-template>
+                        <!-- <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" id="showtrandetails">
+                            <div class="modal-dialog modal-xl" style="width: 93%;">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background: #21cbe5;">
+                                        <h2 class="modal-title" style="color: black; text-align: center;">Transaction Details</h2>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div style="margin-left: 50px; margin-right: 80%; margin-top: 2%; width: 90%;">
+                                        <h3 style="color: blue; font-family: 'Times New Roman', Times, serif; position:absolute; text-align: right;">BASEAMOUNT</h3>
+                                        <input type="checkbox" (change)='model1($event)'/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <h3 style="color: blue; font-family: 'Times New Roman', Times, serif; margin-left: 50px; position:absolute; text-align: right;">IGST</h3>
+                                        <input type="checkbox" (change)='model2($event)'/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <h3 style="color: blue; font-family: 'Times New Roman', Times, serif; margin-left: 50px; position:absolute; text-align: right;">SGST</h3>
+                                        <input type="checkbox" (change)='model3($event)'/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <h3 style="color: blue; font-family: 'Times New Roman', Times, serif; margin-left: 50px; position:absolute; text-align: right;">CGST</h3>
+                                        <input type="checkbox" (change)='model4($event)'/>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <mat-form-field class="example-full-width" appearance="fill" style="width: 300px;">
+                                                        <mat-label>Enter the formula</mat-label>
+                                                        <textarea matInput placeholder="Enter the formula" value="{{l1}} {{l2}} {{l3}} {{l4}}" formControlName="formula"></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-sm-3" style="left: 40px; margin-top: 20px;">
+                                                    <button mat-raised-button color="success" style="margin-left: 25px;" matTooltip="Calculate"
+                                                    class="close" data-dismiss="modal" aria-label="Close" (click)="calculation(listIndex, $event)">Calculate</button>
+                                                </div>
+                                            </div> -->
+                                                <!-- <div class="table-responsive" id="styleScroll" style="margin-top: 2%; width: 95%; margin-left: 5px;"> -->
+                                                <!-- <table class="table scrolltable table-bordered" fixed-header>
+                                                        <thead class="table_header" style="font-family: 'Times New Roman'; font-size: 14px;">
+                                                            <tr>
+                                                                <th>InvoiceAmount</th>
+                                                                <th>Formula</th>
+                                                                <th>IGST</th>
+                                                                <th>SGST</th>
+                                                                <th>CGST</th>
+                                                                <th>Calculate</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody style="font-family: 'Times New Roman';">
+                                                            <td>100</td>
+                                                            <td>
+                                                                <mat-form-field appearance="fill" style="width: 150px;">
+                                                                    <mat-label>Enter Formula</mat-label>
+                                                                    <mat-select formControlName="value1">
+                                                                        <mat-option *ngFor="let stat of formula" [value]="stat.viewValue" (click)= "formulaCalculate(stat)">
+                                                                            {{stat.viewValue}}
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                                                    <mat-label>IGST</mat-label>
+                                                                    <input matInput type="text" formControlName="igst" [disabled]="formulaFlag==2" />
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                                                    <mat-label>SGST</mat-label>
+                                                                    <input matInput type="text" formControlName="sgst" />
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                                                    <mat-label>CGST</mat-label>
+                                                                    <input matInput type="text" formControlName="cgst" />
+                                                                </mat-form-field>
+                                                            </td>
+                                                            <td>
+                                                                <button mat-raised-button color="success" style="margin-left: 25px;" matTooltip="Calculate" (click)="calculation(listIndex)">Calculate</button>
+                                                            </td>
+                                                        </tbody>
+                                                    </table> -->
+                                                <!-- <div *ngIf="tranrecords ?.length == 0" style="margin-left: 42%;">
+                                                        <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!..</h3>
+                                                    </div> -->
+                                                <!-- </div>
+                                            </div>
+                                        </tr>
+                                    </tbody> -->
+                                                <!-- </table> -->
+                                        <!-- </div>
+                                    </div>
+                                </div> -->
+                                <!-- <form [formGroup]="creditsave" (ngSubmit)="savesub()">
+            <h1>Credit Parameter</h1>
+            <div class="table-responsive" style="margin-top: 2%; width: 100%; overflow-x: hidden;">
+                <div class="col-sm-2 addbtn" style="float: right; padding-right: 10%;">
+                    <button mat-raised-button color="primary" style="margin-left: 25px;" matTooltip="Add Row" (click)="addItemCredit()">Add</button>
+                </div>
+                <table class="table table-bordered">
+                    <thead class="table_header">
+                        <tr>
+                            <th>S.No</th>
+                            <th>GL No</th>
+                            <th>Transaction</th>
+                            <th>Value</th>
+                            <th>Value To Be Taken</th>
+                            <th>Wisefin Category</th>
+                            <th>Wisefin Subcategory</th>
+                            <th>Display</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="listTransactionCredit">
+                        <tr *ngFor="let assetcat of creditsave.controls.listTransactionCredit['controls']; index as listIndex" [formGroupName]="listIndex">
+                            <th scope="row"><div style="padding-top: 3vh;">{{ (presentpagebuk-1)*pageSize+listIndex+1 }}</div></th>
+                            <td>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>None</mat-label>
+                                    <mat-select formControlName="transnew">
+                                        <mat-option *ngFor="let stat of status" [value]="stat.viewValue" (click)="transaddnewCredit(stat,listIndex)">
+                                            {{stat.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div *ngIf="assetcat['creditstatusCheck']" formArrayName="listcreditentry">
+                                    <mat-form-field class="example-form-field" appearance="fill" [formGroupName]="i">
+                                        <mat-label>Enter Fixed Value</mat-label>
+                                        <input matInput type="text" formControlName="dynamiccreditentry" />
+                                    </mat-form-field>
+                                </div>
+                            </td>
+                            <td>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>None</mat-label>
+                                    <mat-select formControlName="transactionNewValue">
+                                        <mat-option *ngFor="let stat of transaction" [value]="stat.viewValue" (click)="templateCredit(stat,listIndex)">
+                                            {{stat.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input type="text" matInput autocomplete="off" formControlName="condition2" />
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Select Value To Be Taken</mat-label>
+                                    <mat-select formControlName="value2">
+                                        <mat-option *ngFor="let stat of conditionCredit" [value]="stat.viewValue" (click)="conditionAddDebit(stat,listIndex)">
+                                            {{stat.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input type="text" matInput autocomplete="off" formControlName="cat" />
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field>
+                                    <input type="text" matInput autocomplete="off" formControlName="subcat" />
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Select Display Type</mat-label>
+                                    <mat-select formControlName="display2">
+                                        <mat-option *ngFor="let stat of display" [value]="stat.viewValue" (click)="displayselect2(stat,listIndex)">
+                                            {{stat.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form> -->
+                                <!-- <footer>
+            <div class="row">
+                <td style="margin-left: 5px;">
+                    <mat-form-field class="example-form-field" appearance="fill">
+                        <mat-label>Parameter Code</mat-label>
+                        <input matInput type="text" formControlName="code" />
+                    </mat-form-field>
+                </td>
+                <td style="margin-left: 10px;">
+                    <mat-form-field class="example-form-field" appearance="fill">
+                        <mat-label>Parameter Name</mat-label>
+                        <input matInput type="text" formControlName="parametername" />
+                    </mat-form-field>
+                </td>
+                <td style="margin-left: 15px; margin-top: 10px;">
+                    <button type="button" style="border-radius: 40px;" class="btn btn-outline-primary" (click)="save()" [disabled]="EntrySearchForm.invalid">Submit</button>
+                </td>
+            </div>
+        </footer> -->
+                                <!-- <ng-template #paginationEntry>
+        <div style="font-size: small; text-align: right; margin-bottom: 100px;">
+            <button mat-icon-button [disabled]="has_previousentry === false" color="primary" (click)="previousClickEntry()">
+                <mat-icon>arrow_back </mat-icon>
+            </button>
+            {{presentpageentry}}
+            <button mat-icon-button [disabled]="has_nextentry === false" color="primary" (click)="nextClickEntry()">
+                <mat-icon>arrow_forward </mat-icon>
+            </button>
+        </div>
+    </ng-template> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="float: right; padding-right: 10%;">
+            <button type="button" style="border-radius: 40px;" class="btn btn-outline-success" (click)="save()" >Submit</button>
+            <button type="button" style="border-radius: 40px; margin-left: 20px;" class="btn btn-outline-primary" (click)="cancel()" >Cancel</button>
+            <!-- [disabled]="debitsave.invalid" -->
+        </div>
+    </form>
+</div>

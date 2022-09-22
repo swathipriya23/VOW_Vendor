@@ -1,0 +1,29 @@
+.matformfieldstyle{
+    font-size:7px;
+    margin-top: 5px
+  }
+  .matformfieldinputstyle{
+    font-size:16px ;
+  }
+
+
+  // table
+#commonstyle{
+    border:15px none #f6f6f6
+    }
+  
+    tr:nth-child(even) {background: #EDF8FA}
+    tr:nth-child(odd) {background: #FFF}
+  table,th,td{
+    text-align: left;
+    // padding: 5px;
+  }
+
+
+  ::ng-deep .mat-form-field-outline {
+    color:grey !important;
+  }
+  ::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+    color: red!important;
+    opacity: 0.8!important;
+  }

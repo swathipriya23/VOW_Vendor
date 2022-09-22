@@ -1,0 +1,52 @@
+<div style="background-color: #F6F6F6">
+    <mat-card style="margin:20px 12px 20px 20px;" class="mat-elevation-z0" >
+
+    <p style="color:black;font-size: 22px;font-weight: 500;margin-left: 15px;margin-top: 20px;">
+        User Summary
+    </p>
+
+    <button mat-fab style="margin-left: 20px;background-color: #f5c68b;" [routerLink]='"/usercreation/usercreation"'
+    skipLocationChange aria-label="Vendor Maker">
+<mat-icon matTooltip="Add User">add</mat-icon>
+    </button>
+
+    <div style="margin-left: 15px;">
+        <table class="table"style="margin-top: 10px;max-width: 100%;" id ='commonstyle'>
+            <thead class="table_header" >
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let  list of userSummaryList; index as i" style="text-align: left;">
+                    <td> {{(presentpage - 1)*pageSize +i+1 }} </td>
+                    <td>{{list.code}}</td>
+                    <td>{{list.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="userSummaryList ?.length == 0" style="margin-left: 42%;">
+            <h3>No Record found!.. </h3>
+        </div>
+
+    <div class="row" *ngIf="isUserPagination">
+        <div class="col-sm-12" style="margin-bottom: 5%;font-size: small;text-align:right;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+                <mat-icon>arrow_back</mat-icon>
+            </button> {{presentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    </div>
+    </mat-card>
+</div>
+
+
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

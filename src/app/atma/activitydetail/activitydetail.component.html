@@ -1,0 +1,135 @@
+
+
+<div style="margin-left: 19px;margin-top: 1%; width: 100%;">
+    <!-- <h3>
+        Activity Details Form
+    </h3> -->
+    <div>
+        <!-- <div>
+            <mat-label>Activity</mat-label><br>
+            <mat-form-field style="width: 250px;" class="matformfieldstyle" appearance="outline">
+                <mat-select  class="matformfieldinputstyle">
+                    <mat-option (click)="select_preActivity(list)" *ngFor="let list of activityList" [value]="list.id">{{list.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div> -->
+        
+        <form [formGroup]="ActivityDetailAddForm" (ngSubmit)="submitForm()" autocomplete="off">
+            <table>
+
+                <!-- <tr>
+                    <td>
+                        <mat-label>Activity Name<label style="color: red;" >*</label></mat-label><br>
+                        <mat-form-field style="width: 250px;">
+                            
+                            <input matInput formControlName="name" [readonly] = "true" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                    
+                </tr> -->
+                <tr>
+                    <td>
+                        <!-- <mat-form-field style="width: 200px;" class="input-style" (click)="brachname()">
+                            
+                            <mat-label>Branch </mat-label>
+                                    <input placeholder="Branch " matInput formControlName="branch_id" #branchContactInput
+                                        [matAutocomplete]="branchtype"  (click)="clearPremisesAndAgency()" required>
+                                    <mat-autocomplete #branchtype="matAutocomplete"  [displayWith]="displaybranch"
+                                    (opened)="autocompletebranchnameScroll()">
+                                        <mat-option *ngIf="isLoadingbranch" class="is-loading">Loading...</mat-option>
+                                        <ng-container *ngIf="!isLoadingbranch">
+                                            <mat-option *ngFor="let brach of branchlist"  (focusout)="branchFocusOut(brach)"
+                                                [value]="brach" >
+                                                ({{brach.code}}) {{brach.name+ " " }}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-autocomplete>
+                        </mat-form-field> -->
+
+
+                        <mat-label>Activity</mat-label><br>
+                        <mat-form-field style="width: 250px;" (click)="brachname()">
+                            <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <input matInput formControlName="activity_id" #branchContactInput
+                                        [matAutocomplete]="branchtype"required>
+                                    <mat-autocomplete #branchtype="matAutocomplete"  [displayWith]="displaybranch">
+                                        <mat-option *ngIf="isLoadingbranch" class="is-loading">Loading...</mat-option>
+                                        <ng-container *ngIf="!isLoadingbranch">
+                                            <mat-option *ngFor="let brach of branchlist" (focusout)="FocusOut_select_preActivity(brach)"
+                                                [value]="brach" >
+                                                 {{brach.name}}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-label>Detail Name</mat-label><br>
+                        <mat-form-field style="width: 250px;">
+                          
+                            <input matInput  type="text" (keypress)="namevalidation($event)" formControlName="detailname"  autocomplete="off">
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 60px;" >Raisor</mat-label><br>
+                        <mat-form-field style="width: 250px;margin-left: 60px;">
+                            
+                            <input #employeeRaisorInput matInput formControlName="raisor"
+                                [matAutocomplete]="raisoremp" readonly>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #raisoremp="matAutocomplete" [displayWith]="displayFnRaisor">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let temp of rasisorEmployeeList" [value]="temp">{{temp.full_name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+                </tr>    
+                <tr>
+                    <td>
+                        <mat-label>Approver<label style="color: red;" >*</label></mat-label><br>
+                        <mat-form-field style="width: 250px;" (click)="approveremployee()">
+                            
+                            <input #employeeApproverInput matInput formControlName="approver"
+                                [matAutocomplete]="approveremp" required>
+                                <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+                            <mat-autocomplete #approveremp="matAutocomplete" [displayWith]="displayFnApprover" (opened)="autocompleteApproverScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let temp of employeeList" [value]="temp">{{temp.full_name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 60px;" >Remarks</mat-label><br>
+                        <mat-form-field style="width: 250px;margin-left: 60px;">
+                            
+                            <input matInput  formControlName="remarks" type="text" (keypress)="addressvalidation($event)"   autocomplete="off">
+                        </mat-form-field>
+                    </td> 
+                </tr>        
+            </table>
+        
+        </form>
+    </div>
+</div>
+<div style="margin-top: 3%;margin-left: 10px;">
+    <button type="button" (click)="onCancelClick()" class="btn btn-light"
+    style="border-radius: 7px;
+border-color: black;
+background-color: white;margin-left: 10px;">Cancel</button>
+    <button type="submit" style="border-radius: 10px;
+    border-color: #f5c68b;
+    background-color: #f5c68b;margin-left: 10px;" 
+    class="btn btn-light" (click)="submitForm()" >Submit</button>
+</div>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

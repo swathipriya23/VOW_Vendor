@@ -1,0 +1,78 @@
+<div class="container" style="margin-top: 2%;">
+    <h1 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">Entity Group Create</h1>
+</div>
+<div class="container">
+    <form [formGroup]="expencecrateform">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Entity Name</mat-label>
+                    <input type="text" matInput formControlName="name" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Entity Name Description</mat-label>
+                    <input type="text" matInput formControlName="desc" required>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" (click)="getsubmitform()" class="btn btn-outline-success" style="border-radius: 40px;">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" (click)="onclickcancel()" class="btn btn-outline-danger" style="border-radius: 40px;">Cancel</button>
+
+
+        </div>
+    </form>
+</div>
+<!-- <div class="container" style="margin-top: 2%;">
+    <h1 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">Expence Create</h1>
+</div>
+<div class="container">
+    <form [formGroup]="expenceform">
+        <div class="row">
+            
+                <mat-form-field style="width: 200px;">
+                    <mat-label>Expence Name</mat-label>
+                    <input type="text" matInput formControlName="expid" required [matAutocomplete]="expidref" #expinput>
+                    <mat-autocomplete #expidref="matAutocomplete" [displayWith]="datainterfaceempid" (opened)="autocompleteDeptScroll()">
+                        <mat-option *ngIf="isLoading">Loading..</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let d of expidlist" [value]="d">{{d.name}}</mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            
+                <mat-form-field style="width: 200px;margin-left: 50px;">
+                    <mat-label>Expence Description</mat-label>
+                    <input type="text" matInput formControlName="head" required>
+                </mat-form-field>
+           
+                <mat-form-field style="width: 200px;margin-left: 50px;">
+                    <mat-label>Expence LineDescription</mat-label>
+                    <input type="text" matInput formControlName="linedesc" required>
+                </mat-form-field>
+                <mat-form-field style="width: 200px;margin-left: 50px;">
+                    <mat-label>Expence Group</mat-label>
+                    <input type="text" matInput formControlName="group" required>
+                </mat-form-field>
+            
+        </div>
+        <div class="row">
+            <mat-form-field style="width: 200px;">
+                <mat-label>Expence Scheme Level</mat-label>
+                <input type="text" matInput formControlName="schemeas" required>
+            </mat-form-field> 
+            <mat-form-field style="width: 200px;margin-left: 50px;">
+                <mat-label>Expence Scheme</mat-label>
+                <input type="text" matInput formControlName="scheme" required>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <button type="button" (click)="getexpencesubmit()" class="btn btn-outline-success" style="border-radius: 40px;">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" (click)="onclickcancel()" class="btn btn-outline-danger" style="border-radius: 40px;">Cancel</button>
+
+
+        </div>
+    </form>
+</div> -->

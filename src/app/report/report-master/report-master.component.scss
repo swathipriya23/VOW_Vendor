@@ -1,0 +1,55 @@
+.modal-body{
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.modal-dialog-center {
+    margin-left: 12%;
+}
+
+// tbody td {
+// 	padding: 0.5em 0.1em 0.1em;
+// }
+// .cursor{
+//     cursor: pointer;
+// }
+// th, td{
+//     text-align:center;
+// }
+// .NodataAlign{
+//     text-align: center;
+// }
+
+// .table td.rightalign {
+//     text-align: right;
+// }
+
+// .table td.leftalign {
+//     text-align: left;
+// }
+
+
+
+table tr th{
+    font-size: large;
+}
+
+.hyperLink{
+    cursor: pointer;
+    color: #51A2B6;
+    
+}
+
+mat-card {
+  height: 140px;
+    background:white;
+    margin:8px;
+    border-radius:0px;
+  }
+  mat-icon{
+    font-size: 48px;
+    margin-left: 30px;
+  }
+  h1{
+    margin-left: 2em;
+  }

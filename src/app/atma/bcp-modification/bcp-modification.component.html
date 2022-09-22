@@ -1,0 +1,73 @@
+<div>
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+        <h3>  Changes </h3>
+        </div>
+    </div>
+
+
+    <div>
+        <div class="timeline">
+            <ul>    
+                <li *ngIf="modificationdata.action==2">
+                    <h3 style="text-align: right;">New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+                <li>
+                <div>
+                       
+                    <div class="table-responsive" style="width: 98%;margin-top: 10px;overflow-x: hidden;">
+            
+                        <table class="table" id ='commonstyle'>
+                        <thead class="table_header" >
+                            <tr>
+                            <th>Sl.no</th>
+                            <th>Questionnaire</th>
+                            <th>Yes/No</th>
+                            <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr *ngFor="let bcp of bcpnewlist; let i = index; ">
+                                <td>{{i+1}}</td>
+                                <td>{{bcp.question}}</td>
+                                <td [class.changes]='bcp.ans_bool!=bcp.old_ans_bool'>{{bcp.ans_bool}}</td>
+                                <td [class.changes]='bcp.remarks!=bcp.old_remarks'>{{bcp.remarks}}</td>
+                            </tr>
+                      </tbody>
+                    </table>
+                    </div>
+                </div>
+                </li>
+                <li>
+                    <div *ngIf="modificationdata.action==2">
+                        <div class="table-responsive" style="width: 98%;margin-top: 10px;overflow-x: hidden;">
+            
+                            <table class="table" id ='commonstyle'>
+                            <thead class="table_header" >
+                                <tr>
+                                <th>Sl.no</th>
+                                <th>Questionnaire</th>
+                                <th>Yes/No</th>
+                                <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr *ngFor="let bcpold of bcpoldlist; let i = index; ">
+                                    <td>{{i+1}}</td>
+                                    <td>{{bcpold.question}}</td>
+                                    <td>{{bcpold.ans_bool}}</td>
+                                    <td>{{bcpold.remarks}}</td>
+                                </tr>
+                          </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </li>
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+</div>

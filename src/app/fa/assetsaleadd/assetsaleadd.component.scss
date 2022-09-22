@@ -1,0 +1,40 @@
+.modal-content {
+    width: 111000%; 
+}
+::ng-deep .cdk-overlay-container {
+    z-index: 1300 !important;
+  }
+  .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 200%;
+    margin-left: -175px;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+
+.mat-button-toggle-checked {
+  background-color:#007bff;
+  color:black!important;
+}
+.table_header {
+  
+  text-align: center;
+  font-size: 13px;
+}
+
+.filter-btn {
+  margin-left: 30px;
+}
+th{
+  text-align:center;
+  font-size: 14px;
+}
+tbody td {
+  padding: 0.5em 0.1em 1.1em;
+}

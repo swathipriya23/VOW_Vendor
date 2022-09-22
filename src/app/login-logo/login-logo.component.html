@@ -1,0 +1,50 @@
+<!-- <div class="container">
+    <div class="col-md-9">
+        <img src="./assets/images/NorthernArc.png" alt="NAC" class="loginlogo">
+    </div>
+    
+    <div class="col-md-9">
+        <form [formGroup]="logoForm" >
+            <h3 style="font-weight: bold;">Select Entity</h3>
+            <mat-form-field appearance="fill">
+                <mat-label>Choose Entity</mat-label>
+                <mat-select formControlName="entity">
+                    <mat-option *ngFor="let list of entityList" [value]="list.id">{{list.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+</div> -->
+
+
+<section class="vh-100" *ngIf="redirect_tO_NAC == false">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-sm-8 px-0 d-none d-sm-block">
+            <img src="./assets/images/NorthernArc.png" alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
+        </div>
+
+        <div class="col-sm-3 text-black">
+          <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+            <form style="width: 10rem;font-family: Montserrat;" [formGroup]="logoForm">
+                    <h3 style="font-weight: bold;font-family: Montserrat;">Select Entity</h3>
+                    <mat-form-field appearance="fill" style="width: 250px;font-family: Montserrat;">
+                        <mat-label>Choose Entity</mat-label>
+                        <mat-select formControlName="entity">
+                            <mat-option *ngFor="let list of entityList" (click)="select_entityName(list)" [value]="list.id">{{list.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div>
+                        <button class="btn btn-info btn-lg btn-block" (click)="viewDetail()" type="button">View Details</button>
+                    </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+

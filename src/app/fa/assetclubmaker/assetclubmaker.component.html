@@ -1,0 +1,232 @@
+<div class="container">
+    <div class="row col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-body"  style="margin-left: 30px; color: blue;font-family: 'Times New Roman', Times, serif;">Asset Club Maker
+
+
+            </div>
+        </div>
+    </div><hr>
+    <form class="example-form" [formGroup]="fasearchform" (ngSubmit)="fasearch()">
+        <div class="row col-md-12">
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label> Asset ID</mat-label>
+                    <input matInput placeholder="Asset" formControlName="assetdetails_id">
+                </mat-form-field>
+
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label> Asset Value</mat-label>
+                    <input matInput placeholder="Asset" formControlName="assetvalue">
+                </mat-form-field>
+
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Cap Date </mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="capstart_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Apcategory</mat-label>
+                    <input placeholder="Select Apcategory" matInput (click)="getcat()" formControlName="cat"
+                        [matAutocomplete]="apcattype">
+                    <mat-autocomplete #apcattype="matAutocomplete" [displayWith]="displayapsscat">
+                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let apcategory of apcategoryList" [value]="apcategory">
+                                {{apcategory.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Branch</mat-label>
+                    <input type="text" placeholder="Branch" (click)="branchget()" aria-label="Number" matInput
+                        formControlName='branch' [matAutocomplete]="autob">
+                    <mat-autocomplete #autob="matAutocomplete" [displayWith]="displayFnbranch">
+                        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                        <ng-container *ngIf="!isLoading">
+
+                            <mat-option *ngFor="let p of branchdata " [value]="p">
+                                {{p.name}}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;"
+                    color="primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+
+            </div>
+            <div class="col-md-2">
+                <button type="reset" class="btn btn-outline-success" style="border-radius:40px;margin-left: 10px"
+                 (click)="resets()"> Reset</button>
+            </div>
+        </div>
+    </form>
+    <!-- tabs -->
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="subModuleData($event)" #demoTab [(selectedIndex)]="selectIndex">
+        <mat-tab label="CHOOSE PARENT ASSET">
+            <!--GRID-->
+            <table class="table table-responsive table-bordered">
+
+                <thead class="table_header">
+                    <tr>
+
+                        <th>S.No</th>
+
+                        <th>Asset Id</th>
+                        <th>Product Name</th>
+                        <th>Category </th>
+                        <th>Capitalization Date</th>
+                        <th>Asset Value</th>
+                        <th>Branch</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of clubdata_array; index as j">
+                        <td scope="row">{{ (page-1)*10+j+1 }}</td>
+                        <td>{{ i.barcode}}</td>
+                        <td>{{ i.product_id.name}}</td>
+                        <td>{{ i.cat.name}}</td>
+                        <td>{{ i.capdate}}</td>
+                        <td>{{i.assetdetails_value}}</td>
+                        <td>{{ i.branch_id.name}}</td>
+                        <td>{{i.assetlocation_id.name}}</td>
+
+                        <td>Active</td>
+                        <td>
+                            <input [(ngModel)]="i.movetochecker" type="checkbox" (change)="getvalue2(i)"
+                                [checked]="selected === i" (change)="selected = i" />
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        
+
+                        <td colspan='10'>
+
+                            <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                                (click)=" locpreviousClick()">
+                                <mat-icon>arrow_back</mat-icon>
+                            </button>
+                            {{page}}
+                            <button mat-icon-button [disabled]="has_next === false" color="primary"
+                                (click)=" locnextClick()">
+                                <mat-icon>arrow_forward</mat-icon>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </mat-tab>
+
+
+        <mat-tab label="CHOOSE CHILD ASSET">
+
+            <table class="table table-responsive table-bordered">
+
+                <thead class="table_header">
+                    <tr>
+
+                        <th>S.No</th>
+
+                        <th>Asset id</th>
+                        <th>Product Name</th>
+                        <th>Category </th>
+                        <th>Capitalization Date</th>
+                        <th>Asset Value|number</th>
+                        <th>Branch</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                    <tr *ngFor="let i of clubdata_array; index as j">
+                        <td scope="row">{{ (page-1)*10+j+1 }}</td>
+                        <td>{{ i.barcode}}</td>
+                        <td>{{ i.product_id.name}}</td>
+                        <td>{{ i.cat.name}}</td>
+                        <td>{{ i.capdate}}</td>
+                        <td>{{i.assetdetails_value}}</td>
+                        <td>{{ i.branch_id.name}}</td>
+                        <td>{{i.assetlocation_id.name}}</td>
+
+                        <td>Active</td>
+                        <td>
+                            <input [(ngModel)]="i.movetochecker" type="checkbox" (change)="getvalue(i)" />
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td colspan="8">
+                            <div class="row col-sm-12">
+                                <div class="col-md-6"></div>
+                                <div class="col-sm-3">
+                                    <button mat-raised-button color="primary"
+                                        (click)="movetocheckerapi()">Submit</button></div>
+
+                                <div class="col-sm-3">
+                                    <button mat-raised-button>Cancel</button>
+                                </div>
+                            </div>
+
+                        </td>
+
+                        <td colspan='2'>
+
+                            <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                                (click)=" locpreviousClick()">
+                                <mat-icon>arrow_back</mat-icon>
+                            </button>
+                            {{page}}
+                            <button mat-icon-button [disabled]="has_next === false" color="primary"
+                                (click)=" locnextClick()">
+                                <mat-icon>arrow_forward</mat-icon>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </mat-tab>
+
+    </mat-tab-group>
+
+
+
+</div>

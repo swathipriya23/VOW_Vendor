@@ -1,0 +1,292 @@
+<div >
+    <div class="col-md-12">
+        <h2 style="margin-left: 2%;font-family:Times new Roman;font-size:20px;font-weight:bold;color:blue">Asset Transfer Maker Add</h2><hr>
+        <form [formGroup]="transferaddsearch" (ngSubmit)="fetch_assettransfer()">
+            <div class=" row col-md-12">
+
+                <!-- Asset category  -->
+                <div class="col-md-3">
+                    <mat-form-field (click)="asset_category()" style="width: 220px;">
+                        <mat-label>Asset Sub-Category</mat-label>
+                        <input #categoryInput placeholder="Select Asset category" matInput formControlName="category"
+                            [matAutocomplete]="categoryAutoComplete">
+                        <!-- <mat-error *ngIf="vendorSearchForm.controls.category.errors?.matchRequired">
+                Please select a character from the list.
+              </mat-error> -->
+                        <mat-autocomplete #categoryAutoComplete="matAutocomplete" [displayWith]="displayFnAssest"
+                            (opened)="autocompleteScrollcategory()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let category of category" [value]="category">
+                                    {{category.subcatname}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="vendorSearchForm.controls['category'].hasError('incorrect')">
+            Please select a valid project
+        </mat-error> -->
+
+                    </mat-form-field>
+                </div>
+                <!--End Asset category  -->
+
+                <!-- Branch Name -->
+                <div class="col-md-3">
+                    <mat-form-field (click)="Branch()" style="width: 268px;">
+                        <mat-label>Branch Name</mat-label>
+                        <input #BranchInput placeholder="Select Branch Name" matInput formControlName="branch_name"
+                            (focusout)="onFocusoutEvent($event)" [matAutocomplete]="branch">
+                        <mat-autocomplete #branch="matAutocomplete" [displayWith]="displayFn"
+                            (opened)="autocompleteScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let employee of employeeList" [value]="employee">{{employee.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+                <!-- End Branch Name -->
+                <!-- Asset barcode -->
+                <div class="col-md-3">
+                    <mat-form-field  style="width: 220px;">
+                        <!-- (click)="Assetbarcode()" -->
+                        <mat-label>Asset Barcode ID</mat-label>
+                        <input #AssetInput placeholder="Select Asset barcode" matInput formControlName="barcode"
+                           >
+                           <!--  [matAutocomplete]="asset" -->
+                        <!-- <mat-autocomplete #asset="matAutocomplete" [displayWith]="displayFnAssestId"
+                            (opened)="autocompleteScrollAssetId()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let details of assetDetails" [value]="details">{{details.barcode}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete> -->
+                    </mat-form-field>
+                </div>
+                <!-- End Asset barcode -->
+
+                <!-- cap date -->
+
+                <div class="col-md-3">
+                    <mat-form-field (click)="datefilter()">
+                        <mat-label>Capitalization Date</mat-label>
+                        <input matInput [matDatepicker]="excemfrom" formControlName="capdate_Value">
+                        <mat-datepicker-toggle matSuffix [for]="excemfrom"></mat-datepicker-toggle>
+                        <mat-datepicker #excemfrom disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <!-- end Cap Date -->
+                <!-- Asset Value -->
+                <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Asset Value</mat-label>
+                    <input type="text" formControlName="asset_value" (keypress)="decimalFilter($event)" matInput
+                        placeholder="Asset Value">
+                </mat-form-field>
+                </div>
+                <!-- end Asset Value -->
+                <!-- <div class="col-md-3">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Employee Name</mat-label>
+                        <input type="text" matInput formControlName="empname" [matAutocomplete]='empref'>
+                        <mat-autocomplete #empref="matAutocomplete"  [displayWith]="empdataintreface" (opened)="autocompleteScrollemployee()"> 
+                            <mat-option *ngIf="isLoading">Loading..</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let d of empdrpdwndata" [value]="d">{{d.full_name}}</mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div> -->
+                <div class="col-md-2">
+                <button type="submit" mat-fab color="basic" matTooltip="Search"
+                    style=" margin-top: 12px;"><mat-icon>search</mat-icon>
+                </button>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" mat-fab color="basic" (click)="clearSearch()" matTooltip="Clear"
+                        style=" margin-top: 12px;">Clear
+                    </button>
+                </div>
+                <div class="col-md-2">
+                <button type="button" mat-fab color="basic" routerLink="/fa/transfermakersummary" matTooltip="Back"
+                    style="margin-top: 12px;">Back</button></div>
+            </div>
+        </form>
+        <!-- table -->
+        <div>
+        <table class="table table scrolltable table-bordered" style="width: auto; margin-top: 20px;">
+            <thead class="table_header " fixed-header>
+                <tr>
+                    <th>S.No</th>
+                    <th>Asset Barcode ID</th>
+                    <th>Asset Sub-Category</th>
+                    <th>Asset Value</th>
+                    <th> Capitalisation Date</th>
+                    <th>Create Date</th>
+                    <th>Branch Name</th>
+                    <!-- <th>Bra    nch To</th> -->
+                    <th>Product Name</th>
+
+                    <th>Location</th>
+                    <!-- <th>Reason</th> -->
+                    <th>Status</th>
+                    <th>Action</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let value of fetchAssetTransfer; index as i;" >
+                    <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                    <td>{{value.barcode}}</td>
+                    <td>{{value.assetcat_subcatname}}</td>
+                    <td style="text-align:end;">{{value.assetdetails_value}}</td>
+                    <td style="text-align:center;">{{value.capdate| date:'dd-MMM-yyyy'}}</td>
+                    <td>{{value.created_date | date:"dd-MMM-yyyy"}}</td>
+                    <td>{{value?.branch?.name}}</td>
+                    <!-- <td>{{value.assetbranch_to}}</td> -->
+                    <td>{{value.product_name}}</td>
+                    <!-- <td><input type="number" class="form-control" name="newvalue-{{i}}"  [(ngModel)]="value.newvalue"> </td> -->
+
+                    <td>{{value?.location?.name}}</td>
+                    <!-- <td>{{value.reason}}</td> -->
+                    <td>{{value.assetdetails_status}}</td>
+                    <td><input type="checkbox" [value]="value.id" [checked]="value.checkbox == true"
+                            (change)="onCheckboxChange($event,value)"></td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="fetchAssetTransfer?.length == 0" style="margin-left: 42%;">
+            <h3>Sorry data not found!.. </h3>
+        </div>
+        </div>
+        <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+                <mat-icon>arrow_back</mat-icon>
+            </button> {{presentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+
+        </div>
+        <!-- <div class=" row col-md-12">
+           
+        </div> -->
+        <form [formGroup]="fetchassetTransfer">
+            <div class="col-12 row">
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <input class="toolbar-search" type="textarea" [(ngModel)]="reasons" [ngModelOptions]="{standalone: true}" matInput autocomplete="off">
+                        <mat-placeholder>Asset Transfer Reason</mat-placeholder>
+                    </mat-form-field>
+                </div>
+                <div class="row col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Transfer Date</mat-label>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="format" [ngModelOptions]="{standalone: true}" [max]="today" [min]="min_Date">
+                        <mat-datepicker-toggle matSuffix [for]="picker">
+                            <mat-icon (click)="mindatefind()" matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field style="width: 250px;">
+                        <mat-label>Employee Name</mat-label>
+                        <input type="text" matInput formControlName="empname" [matAutocomplete]='emprefs'>
+                        <mat-autocomplete #emprefs="matAutocomplete"  [displayWith]="empdataintreface"> 
+                            <mat-option *ngIf="isLoading">Loading..</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let d of empdrpdwndatas" [value]="d">{{d.full_name}}</mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class=" row col-md-12">
+                <!-- bs -->
+                <div class="col-md-3">
+                    <mat-form-field (click)="businessSegment()" style="width: 220px;">
+                        <mat-label>Select Business Segment</mat-label>
+                        <input placeholder="Select Business Segment" matInput formControlName="businessSegment"
+                            [matAutocomplete]="assetvalue">
+                            
+                        <mat-autocomplete #assetvalue="matAutocomplete" [displayWith]="displayFnbusinessSegment">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option  *ngFor="let details of businesssegment" [value]="details">{{details.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+                <!-- cc -->
+                <div class="col-md-3">
+                    <mat-form-field (click)="costCentre()" style="width: 220px;">
+                        <mat-label>Select Cost Centre</mat-label>
+                        <input #inputval placeholder="Select Cost Centre" matInput formControlName="costcentre"
+                            [matAutocomplete]="costcentre" (focus)="focussubCategory($event)">
+                        <mat-autocomplete #costcentre="matAutocomplete" [displayWith]="displayFnCostCentre">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let costcentre of Costcentre" [value]="costcentre">
+                                    {{costcentre.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+                <!-- Branch Name -->
+                <div class="col-md-3">
+                    <mat-form-field (click)="branchSearch()" style="width: 220px;">
+                        <mat-label>Branch Name</mat-label>
+                        <input #branchInput placeholder="Select Branch Name" matInput formControlName="branchname"
+                            [matAutocomplete]="BranchAuto">
+                        <mat-autocomplete #BranchAuto="matAutocomplete" [displayWith]="displayFnbranch"
+                            (opened)="autocompleteScrollBranch()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let employee of branchList" [value]="employee">{{employee.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+
+                <!-- End location Name -->
+                <div class="col-md-3">
+                    <mat-form-field (click)="locationsearch()" style="width: 220px;">
+                        <mat-label>Select Location</mat-label>
+                        <input #locationInput placeholder="Select Location" matInput formControlName="location"
+                            [matAutocomplete]="locationauto">
+                        <mat-autocomplete #locationauto="matAutocomplete" [displayWith]="displayFnlocation">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let costcentre of location" [value]="costcentre">{{costcentre.name}}
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+
+            </div>
+           
+        </form>
+        <button type="submit" style="margin-left: 427px;border-radius:40px;margin-bottom: 81px" class="btn btn-outline-primary"
+            (click)="submit()">Submit</button>
+            <ngx-spinner
+            bdColor="rgba(51,51,51,0.8)"
+            size="medium"
+            color="#fff"
+            type="ball-scale-multiple"
+          >
+            <p style="font-size: 20px; color: white">Loading...</p>
+          </ngx-spinner>

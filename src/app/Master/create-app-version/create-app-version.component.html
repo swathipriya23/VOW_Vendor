@@ -1,0 +1,33 @@
+<div class="container" style="margin-top: 2%;">
+    <h1 style="font-size: 23px;font-family: 'Times New Roman', Times, serif;color: blue;">App Version Create</h1>
+</div>
+<div class="container">
+    <form [formGroup]="expencecrateform">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Version No</mat-label>
+                    <input type="text" matInput formControlName="no" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Reference No</mat-label>
+                    <input type="text" matInput formControlName="ref_no" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field>
+                    <mat-label>Remarks</mat-label>
+                    <input type="text" matInput formControlName="remarks" required>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" (click)="getsubmitform()" class="btn btn-outline-success" style="border-radius: 40px;">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" (click)="onclickcancel()" class="btn btn-outline-danger" style="border-radius: 40px;">Cancel</button>
+
+
+        </div>
+    </form>
+</div>

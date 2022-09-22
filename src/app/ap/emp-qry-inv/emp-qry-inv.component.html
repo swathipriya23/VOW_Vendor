@@ -1,0 +1,244 @@
+<div class="container" style="max-width: 1301px;">
+    <div class="col-md-12">
+        <h2 style="margin-left: 2%;font-family:Times New Roman;font-size:20px;color:black;font-weight:bold;">Invoice</h2>
+        <div class=" row col-md-12">
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">CR Number : </pre>
+                <pre>{{invHdr.crno}}</pre>
+            </div>
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Invoice Type : </pre>
+                <pre>{{invHdr.aptype.text}}</pre>
+            </div>
+        </div>
+        <div class=" row col-md-12">
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Date : </pre>
+                <pre>{{invHdr.apinvoiceheader[0].invoiceheader[0].invoicedate | date:'dd-MMM-yyyy'}}</pre>
+            </div>
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Invoice Number : </pre>
+                <pre>{{invHdr.apinvoiceheader[0].invoiceheader[0].invoiceno}}</pre>
+            </div>
+        </div>
+        <div class=" row col-md-12">
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Invoice Amount : </pre>
+                <pre>{{invHdr.apinvoiceheader[0].invoiceheader[0].invoiceamount}}</pre>
+            </div>
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Employee Name : </pre>
+                <pre></pre>
+            </div>
+        </div>
+        <div class=" row col-md-12">
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Branch Name : </pre>
+                <pre></pre>
+            </div>
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">GST Applicable : </pre>
+                <pre>{{invHdr.apinvoiceheader[0].invoiceheader[0].invoicegst}}</pre>
+            </div>
+        </div>
+        <div class=" row col-md-12">
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Supplier Name : </pre>
+                <pre>{{invHdr.apinvoiceheader[0].invoiceheader[0].supplier}}</pre>
+            </div>
+        </div>
+        <div class=" row col-md-12">
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">GST Number : </pre>
+                <pre>{{invHdr.apinvoiceheader[0].suppliergst}}</pre>
+            </div>
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Supplier PAN Number : </pre>
+                <pre></pre>
+            </div>
+        </div>
+        <div class=" row col-md-12">
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Prepaid Expenses : </pre>
+                <pre>{{invHdr.ppx}}</pre>
+            </div>
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Capitalized : </pre>
+                <pre></pre>
+            </div>
+        </div>
+        <div class=" row col-md-12">
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">RCM Applicable : </pre>
+                <pre></pre>
+            </div>
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">PPX PO Number : </pre>
+                <pre></pre>
+            </div>
+        </div>
+        <div class=" row col-md-12">
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">Remarks : </pre>
+                <pre>{{invHdr.remark}}</pre>
+            </div>
+            <div class="col-md-6">
+                <pre style="font-weight: bolder;color: black;">MEP Number : </pre>
+                <pre></pre>
+            </div>
+        </div>        
+    </div>
+
+    <nav>
+        <div class="nav nav-tabs">
+            <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="invDet()">Invoice Details</a>            
+            <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="debitDet()">Debit</a>
+            <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="creditDet()">Credit</a>
+        </div>
+    </nav>
+
+    <div *ngIf="isInv" style="margin-left: 30px;overflow: hidden;">
+        <div class="Container" style="margin-left: 30px;overflow: hidden;">
+            <div class="table-responsive" class="tablescroll" style="margin-top: 2%;width: 95%;margin-left: 10px;overflow: auto;">
+                <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 20px;">
+                    <thead class="table_header " fixed-header>
+                        <tr>
+                            <th>S.No.</th>                             
+                            <th>Item</th>
+                            <th>Description</th>          
+                            <th>HSN Code</th>
+                            <th>Product Name</th>                
+                            <th>Product Code</th>                
+                            <th>Unit Price</th>          
+                            <th>Quantity</th>          
+                            <th>Amount</th>          
+                            <th>Discount</th>
+                            <th>Invoice Amount</th>
+                            <th>IGST</th>             
+                            <th>CGST</th>
+                            <th>SGST</th>
+                            <th>Total Amount</th>                               
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let value of invDetailList; index as i;">                
+                            <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                            <td>purpse</td>                
+                            <td>{{value.description}}</td>
+                            <td>{{value.hsn.code}}</td>                
+                            <td>{{value.productname}}</td>
+                            <td>{{value.productcode}}</td>                
+                            <td>{{value.unitprice}}</td>
+                            <td>{{value.quantity}}</td>
+                            <td>{{value.amount}}</td>
+                            <td>{{value.discount}}</td> 
+                            <td></td>
+                            <td>{{value.hsn.igstrate}}</td>
+                            <td>{{value.hsn.cgstrate}}</td>
+                            <td>{{value.hsn.sgstrate}}</td>
+                            <td>{{value.totalamount}}</td>                            
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="invDetailList?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isDebit" style="margin-left: 30px;overflow: hidden;">
+        <div class="Container" style="margin-left: 30px;overflow: hidden;">
+            <div class="table-responsive" class="tablescroll" style="margin-top: 2%;width: 95%;margin-left: 10px;overflow: auto;">
+                <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 20px;">
+                    <thead class="table_header " fixed-header>
+                        <tr>
+                            <th>S.No</th> 
+                            <th>Category Code</th>                             
+                            <th>Sub Category Code</th>
+                            <th>GL NO.</th>          
+                            <th>Amount</th>
+                            <th>Description</th>                
+                            <th>Add CCBS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let value of invDebitList; index as i;">
+                            <td style="text-align:center;"> {{i+1}}</td>
+                            <td>{{value.category_code.code}}</td>
+                            <td>{{value.subcategory_code.code}}</td>
+                            <td>{{value.debitglno}}</td>
+                            <td>{{value.amount}}</td>                
+                            <td>{{value.remarks}}</td> 
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Debit Total</td>
+                            <td>{{invDebitTot}}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="invDebitList?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <div *ngIf="isCredit" style="margin-left: 30px;overflow: hidden;">
+        <div class="Container" style="margin-left: 30px;overflow: hidden;">
+            <div class="table-responsive" class="tablescroll" style="margin-top: 2%;width: 95%;margin-left: 10px;overflow: auto;">
+                <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 20px;">
+                    <thead class="table_header " fixed-header>
+                        <tr>
+                            <th>S.No</th> 
+                            <th>Category Code</th>                             
+                            <th>Sub Category Code</th>
+                            <th>GL NO.</th>          
+                            <th>Amount</th>
+                            <th>Description</th>                
+                            <th>Add CCBS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let value of invCreditList; index as i;">
+                            <td style="text-align:center;"> {{i+1}}</td>
+                            <td>{{value.category_code.code}}</td>
+                            <td>{{value.subcategory_code.code}}</td>
+                            <td>{{value.debitglno}}</td>
+                            <td>{{value.amount}}</td>                
+                            <td>{{value.remarks}}</td> 
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Debit Total</td>
+                            <td>{{invDebitTot}}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="invCreditList?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+
+
+                            
+
+    
+
+
+    
+</div>

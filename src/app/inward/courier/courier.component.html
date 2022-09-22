@@ -1,0 +1,319 @@
+<div>
+    <form [formGroup]="courierForm" (ngSubmit)="courierCreateForm()">
+        <div class="header">
+            <h2>
+                Courier Form
+            </h2>
+            <table>
+                <tr>
+
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 15px;">
+                            <mat-label>Courier Name</mat-label>
+                            <input matInput placeholder="Name" autocomplete="off" formControlName="name" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 50px;">
+                            <mat-label>Contact Person</mat-label>
+                            <input matInput placeholder="Contact Person" formControlName="contactperson"
+                                autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <h2 style="margin-left: 4%;">Contact</h2>
+
+        <div [formGroup]="courierForm.controls.contact">
+            <table>
+                <tr>
+                        <!-- <mat-form-field style="width: 200px;margin-left: 50px;">
+                            <mat-label>Designation</mat-label>
+                            <mat-select formControlName="designation_id">
+                                <mat-option *ngFor="let designation of designationList" [value]="designation.id">
+                                    {{designation.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
+                        <td>
+                            <mat-form-field style="width: 250px; margin-left: 50px;">
+                                <mat-label>Designation</mat-label>
+                                <input #designationInput placeholder="Select Designation" matInput formControlName="designation_id"
+                                    [matAutocomplete]="designationtype">
+                                    <mat-placeholder>Designation</mat-placeholder>
+                                <mat-autocomplete #designationtype="matAutocomplete" [displayWith]="displayFndesignation" (opened)="autocompleteScroll_Designation()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let d of designationList" [value]="d.name" (focusout)="checker_designation(d)">
+                                            {{d.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 50px;">
+                            <mat-label>Type</mat-label>
+                            <mat-select formControlName="type_id">
+                                <mat-option *ngFor="let contact of contactTypeList" [value]="contact.id" (focusout)="checker_contacttype">
+                                    {{contact.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 50px;">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Name" autocomplete="off" formControlName="name" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 50px;">
+                            <mat-label>Email</mat-label>
+                            <input matInput placeholder="Email" autocomplete="off" formControlName="email" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 50px;">
+                            <mat-label>LandLine 1</mat-label>
+                            <input matInput placeholder="Landline" formControlName="landline" autocomplete="off"
+                                required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 50px;">
+                            <mat-label>LandLine 2</mat-label>
+                            <input matInput placeholder="Landline2" formControlName="landline2" autocomplete="off"
+                                required>
+                        </mat-form-field>
+                    </td>
+
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 50px;">
+                            <mat-label>Mobile 1</mat-label>
+                            <input matInput placeholder="Mobile" formControlName="mobile" autocomplete="off"
+                                pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 50px;">
+                            <mat-label>Mobile 2</mat-label>
+                            <input matInput placeholder="Mobile2" formControlName="mobile2" autocomplete="off"
+                                pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10" required>
+                        </mat-form-field>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+        <h2 style="margin-left: 4%;">Address</h2>
+        <div [formGroup]="courierForm.controls.address">
+            <table>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 250px;margin-left: 50px;">
+                            <mat-label>Address</mat-label>
+                            <input matInput placeholder="No" formControlName="line1" autocomplete="off" required>
+                        </mat-form-field>
+                    </td>
+
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>LandLine 1</mat-label>
+                                <input matInput placeholder="Landline" formControlName="line2" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+    
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>LandLine 2</mat-label>
+                                <input matInput placeholder="Landline2" formControlName="line3" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+    
+                        <!-- <td>
+                            <mat-form-field style="width: 200px;margin-left: 50px;">
+                                <mat-label>Pin Code</mat-label>
+                                <mat-select formControlName="pincode_id">
+                                    <mat-option *ngFor="let pin of pinCodeList" [value]="pin.id">
+                                        {{pin.no}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td> -->
+                        <td>
+                            <mat-form-field style="width: 250px; margin-left: 50px;">
+                                <mat-label>Pin Code</mat-label>
+                                <input #SCROLLpinInput placeholder="Select Pin Code" matInput formControlName="pincode_id"
+                                    [matAutocomplete]="pintype">
+                                <mat-autocomplete #pintype="matAutocomplete" [displayWith]="displayFnpin" (opened)="autocompletepinScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let pin of pinCodeList" (focusout)="pinCode(pin)" [value]="pin">
+                                            {{pin.no}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        </tr>
+                        <tr>
+                    <!-- <td>
+                        <mat-form-field style="width: 200px;margin-left: 50px;">
+                            <mat-label>City</mat-label>
+                            <mat-select formControlName="city_id">
+                                <mat-option *ngFor="let city of cityList" [value]="city.id">
+                                    {{city.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+
+                    <td>
+                        <mat-form-field style="width: 200px;margin-left: 50px;">
+                            <mat-label>District</mat-label>
+                            <mat-select formControlName="district_id">
+                                <mat-option *ngFor="let district of districtList" [value]="district.id">
+                                    {{district.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 200px;margin-left: 50px;">
+                            <mat-label>State</mat-label>
+                            <mat-select formControlName="state_id">
+                                <mat-option *ngFor="let state of stateList" [value]="state.id">
+                                    {{state.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td> -->
+                    <td>
+                        <mat-form-field style="width: 250px; margin-left: 50px;">
+                            <mat-label>City</mat-label>
+                            <input #SCROLLcityInput placeholder="Select city" matInput formControlName="city_id"
+                                [matAutocomplete]="citytype">
+                            <mat-autocomplete #citytype="matAutocomplete" [displayWith]="displayFncity" (opened)="autocompletecityScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let city of cityList" (focusout)="citys(city)" [value]="city">
+                                        {{city.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 250px; margin-left: 50px;">
+                            <mat-label>District</mat-label>
+                            <input #SCROLLdistrictInput placeholder="Select District" matInput formControlName="district_id"
+                                [matAutocomplete]="districttype">
+                            <mat-autocomplete #districttype="matAutocomplete" [displayWith]="displayFndistrict" (opened)="autocompletedistScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let district of districtList" [value]="district">
+                                        {{district.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 250px; margin-left: 50px;">
+                            <mat-label>State</mat-label>
+                            <input #SCROLLstateInput placeholder="Select State" matInput formControlName="state_id"
+                                [matAutocomplete]="statetype">
+                            <mat-autocomplete #statetype="matAutocomplete" [displayWith]="displayFnstate" (opened)="autocompletestatScroll()">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let state of stateList" [value]="state">
+                                        {{state.name}}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </td>
+        
+                </tr>
+                </table>
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+        <br>
+        <div style="margin-bottom: 100px;">
+            <button type="submit" style="border-radius: 40px;margin-left: 50px;"
+                class="btn btn-outline-primary">Submit</button>
+            <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary"
+                style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+        </div>
+    </form>
+</div>
+
+
+<!-- [disabled]="courierForm.invalid" -->
+
+<!-- <tr>
+                    <th colspan="8" style="text-align: center;background-color: #DDEFDD;">Address</th>
+                </tr> -->

@@ -1,0 +1,55 @@
+
+<div style="margin-left: 19px;margin-right: 80%;margin-top: 3%;">
+    <!-- <h3>
+        Contractor Edit Form
+    </h3> -->
+    <div>
+        <form [formGroup]=" contractorEditForm" (ngSubmit)="contractorEdit()" autocomplete="off">
+            <table>
+                <div>
+                    <tr>
+                        <td>
+                            <mat-label>Contractor Name<label style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field class="matformfieldstyle" appearance="outline" style="width: 175px;">
+                                
+                                <input matInput placeholder="Contractor Name" 
+                                    formControlName="name" autocomplete="off" class="matformfieldinputstyle" type="text" (keypress)="namevalidation($event)" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-label style="margin-left: 30px;" >Service<label style="color: red;" >*</label></mat-label><br>
+                            <mat-form-field class="matformfieldstyle" appearance="outline" style="width: 175px;margin-left: 30px;">
+                                
+                                <input matInput placeholder="Service" class="matformfieldinputstyle" formControlName="service" type="text" (keypress)="addressvalidation($event)"
+                                     autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+
+                        <td>
+                            <mat-label style="margin-left: 30px;" >Remarks</mat-label><br>
+                            <mat-form-field class="matformfieldstyle" appearance="outline" style="width: 175px;margin-left: 30px;">
+                                
+                                <input matInput placeholder="Remarks" class="matformfieldinputstyle" formControlName="remarks" type="text" (keypress)="addressvalidation($event)"
+                                     autocomplete="off">
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+            </table>
+           
+        </form>
+    </div>
+</div>
+
+<div style="margin-left: 11px;margin-top: 3%;">
+    <button type="button" class="btn btn-light" (click)="onCancelClick()"
+    style="border-radius: 7px;margin-left: 10px;
+    border-color: black;
+    background-color: white;">Cancel</button>
+    <button type="submit" style="border-radius: 10px;margin-left: 10px;
+    border-color: #f5c68b;
+    background-color: #f5c68b;" class="btn btn-light" (click)="contractorEdit()" >Submit</button>
+    </div>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

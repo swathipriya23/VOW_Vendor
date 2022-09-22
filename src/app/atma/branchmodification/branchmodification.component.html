@@ -1,0 +1,312 @@
+<div class="container">
+   
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+        <h3>  Changes </h3>
+        </div>
+ <div class="col-md-7 text-right">
+  <button type="button" class="btn btn-light"  style="border-radius: 7px;margin-left: 10px;
+  border-color: black;
+  background-color: white;"
+      (click)="Cancel()">Cancel</button>
+      </div></div>
+    <div>
+        <!-- <form [formGroup]="branchForm">
+            <div class=" row col-md-12">
+                  <div style="margin-bottom: 17%;">
+            <button type="button" class="btn btn-outline-primary" style="border-radius: 40px;margin-left: 10px;"
+                (click)="Cancel()">Cancel</button>
+        </div>
+        <h6> Changes</h6>
+                <div class="col-md-4">
+                    <mat-form-field>
+                        <mat-label>Name:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.name!=modificationdata.old_data.name">{{modificationdata.old_data.name}}</code>
+                        </mat-label>
+                        <input matInput  formControlName="name" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field>
+                        <mat-label>Limitdays:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.limitdays!=modificationdata.old_data.limitdays">{{modificationdata.old_data.limitdays}}</code>
+                        </mat-label>
+                        <input matInput  formControlName="limitdays" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field>
+                        <mat-label>Credit Terms:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.creditterms!=modificationdata.old_data.creditterms">{{modificationdata.old_data.creditterms}}</code>
+                        </mat-label>
+                        <input matInput  formControlName="creditterms" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field>
+                        <mat-label>GST Number:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.gstno!=modificationdata.old_data.gstno">{{modificationdata.old_data.gstno}}</code>
+                        </mat-label>
+                        <input matInput  formControlName="gstno" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field>
+                        <mat-label>Pan Number:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.panno!=modificationdata.old_data.panno">{{modificationdata.old_data.panno}}</code>
+                        </mat-label>
+                        <input matInput  formControlName="panno" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field>
+                        <mat-label>Remarks:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.remarks!=modificationdata.old_data.remarks">{{modificationdata.old_data.remarks}}</code>
+                        </mat-label>
+                        <input matInput  formControlName="remarks" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div  class="col-md-6" [formGroup]=" branchForm.controls.contact">
+                    
+                        <legend>Contact:</legend>
+                        <mat-form-field>
+                            <mat-label>Name:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.contact_id.name!=modificationdata.old_data.contact_id.name">{{modificationdata.old_data.contact_id.name}}</code>
+                            </mat-label>
+                            <input matInput  formControlName="name" autocomplete="off" >
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Email:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.contact_id.email!=modificationdata.old_data.contact_id.email">{{modificationdata.old_data.contact_id.email}}</code>
+                            </mat-label>
+                            <input matInput  formControlName="email" autocomplete="off" >
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Designation:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.contact_id.designation_id.name!=modificationdata.old_data.contact_id.designation_id.name">{{modificationdata.old_data.contact_id.designation_id.name}}</code>
+                            </mat-label>
+                            <input matInput  formControlName="designation_id" autocomplete="off" >
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Type:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.contact_id.type_id.name!=modificationdata.old_data.contact_id.type_id.name">{{modificationdata.old_data.contact_id.type_id.name}}</code>
+                            </mat-label>
+                            <input matInput  formControlName="type_id" autocomplete="off" >
+                        </mat-form-field>
+                       
+                        <mat-form-field>
+                            <mat-label>Landline:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.contact_id.landline!=modificationdata.old_data.contact_id.landline">{{modificationdata.old_data.contact_id.landline}}</code>
+                            </mat-label>
+                            <input matInput  formControlName="landline" autocomplete="off" >
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Landline 2:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.contact_id.landline2!=modificationdata.old_data.contact_id.landline2">{{modificationdata.old_data.contact_id.landline2}}</code>
+                            </mat-label>
+                            <input matInput  formControlName="landline2" autocomplete="off" >
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Mobile 1:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.contact_id.mobile!=modificationdata.old_data.contact_id.mobile">{{modificationdata.old_data.contact_id.mobile}}</code>
+                            </mat-label>
+                            <input matInput  formControlName="mobile" autocomplete="off" >
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Mobile 2:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.contact_id.mobile2!=modificationdata.old_data.contact_id.mobile2">{{modificationdata.old_data.contact_id.mobile2}}</code>
+                            </mat-label>
+                            <input matInput  formControlName="mobile2" autocomplete="off" >
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>DOB:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.contact_id.dob!=modificationdata.old_data.contact_id.dob">{{modificationdata.old_data.contact_id.dob}}</code>
+                            </mat-label>
+                            <input matInput  formControlName="dob" autocomplete="off" >
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>wedding_date :<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.contact_id.wedding_date!=modificationdata.old_data.contact_id.wedding_date">{{modificationdata.old_data.contact_id.wedding_date}}</code>
+                            </mat-label>
+                            <input matInput  formControlName="wedding_date" autocomplete="off" >
+                        </mat-form-field>
+                    
+                </div>
+                <div  class="col-md-6" [formGroup]=" branchForm.controls.address">
+                
+                        <legend>Address:</legend>
+                        <mat-form-field>
+                            <mat-label>Address 1:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.line1!=modificationdata.old_data.address_id.line1">{{modificationdata.old_data.address_id.line1}}</code>
+                            </mat-label>
+    
+                            <input matInput placeholder="Name" formControlName="line1" autocomplete="off" >
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Address 2:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.line2!=modificationdata.old_data.address_id.line2">{{modificationdata.old_data.address_id.line2}}</code>
+                            </mat-label>
+    
+                            <input matInput placeholder="Name" formControlName="line2" autocomplete="off" >
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Address 3:<code
+                                    *ngIf="modificationdata.new_data.modify_status==2  && modificationdata.new_data.address_id.line3!=modificationdata.old_data.address_id.line3">{{modificationdata.old_data.address_id.line3}}</code>
+                            </mat-label>
+    
+                            <input matInput placeholder="Name" formControlName="line3" autocomplete="off" >
+                        </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Pin Code:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.pincode_id.id!=modificationdata.old_data.address_id.pincode_id.id">{{modificationdata.old_data.address_id.pincode_id.no}}</code>
+                        </mat-label>
+
+                        <input matInput placeholder="Name" formControlName="pincode_id" autocomplete="off">
+                    </mat-form-field>
+                    <mat-form-field>
+                    <mat-label>City:<code
+                        *ngIf="modificationdata.new_data.modify_status==2  && modificationdata.new_data.address_id.city_id.id!=modificationdata.old_data.address_id.city_id.id">{{modificationdata.old_data.address_id.city_id.name}}</code>
+                </mat-label>
+
+                <input matInput placeholder="Name" formControlName="city_id" autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>District:<code
+                        *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.district_id.id!=modificationdata.old_data.address_id.district_id.id">{{modificationdata.old_data.address_id.district_id.name}}</code>
+                </mat-label>
+
+                <input matInput placeholder="Name" formControlName="district_id" autocomplete="off"
+                    >
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>State:<code
+                        *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.state_id.id!=modificationdata.old_data.address_id.state_id.id">{{modificationdata.old_data.address_id.state_id.name}}</code>
+                </mat-label>
+
+                <input matInput placeholder="Name" formControlName="state_id" autocomplete="off"
+                    >
+            </mat-form-field>
+                     
+                </div>
+                
+            </div>
+        </form> -->
+      
+        <div class="timeline">
+            <ul>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+                <li>
+                    <div class="content">
+                        <p><code>Name</code>:&nbsp;<span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.name!=modificationdata.old_data.name'>{{ modificationdata.new_data.name | titlecase}}</span>
+                    </p>
+                    <p><code>Remarks</code>:&nbsp;<span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.remarks!=modificationdata.old_data.remarks'>{{ modificationdata.new_data.remarks | titlecase}}</span>
+                    </p>
+                    <p><code>Limit days</code>:&nbsp;<span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.limitdays!=modificationdata.old_data.limitdays'>{{ modificationdata.new_data.limitdays}}</span>
+                    </p>
+                    <p><code>Credit Terms</code>:&nbsp;<span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.creditterms!=modificationdata.old_data.creditterms'>{{ modificationdata.new_data.creditterms}}</span>
+                    </p>
+                    <p><code>PAN Number</code>:&nbsp;<span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.panno!=modificationdata.old_data.panno'>{{ modificationdata.new_data.panno}}</span>
+                    </p>
+                    <p><code>GST Number</code>:&nbsp;<span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.gstno!=modificationdata.old_data.gstno'>{{ modificationdata.new_data.gstno}}</span>
+                    </p>
+                    
+                    <Address>
+                        <code>Address</code>:&nbsp;
+                        <span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.address_id.line1!=modificationdata.old_data.address_id.line1'>{{ modificationdata.new_data.address_id.line1 | titlecase}}</span>,
+                        <span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.address_id.line2!=modificationdata.old_data.address_id.line2'>{{ modificationdata.new_data.address_id.line2 | titlecase}}</span>,
+                        <span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.address_id.line3!=modificationdata.old_data.address_id.line3'>{{ modificationdata.new_data.address_id.line3 | titlecase}}</span>,
+                    
+                    
+                        <span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.address_id.city_id.name!=modificationdata.old_data.address_id.city_id.name'>{{ modificationdata.new_data.address_id.city_id.name |titlecase}}</span>,
+                    
+                        <span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.address_id.district_id.name!=modificationdata.old_data.address_id.district_id.name'>{{ modificationdata.new_data.address_id.district_id.name |titlecase}}</span>,
+                        <span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.address_id.pincode_id.no!=modificationdata.old_data.address_id.pincode_id.no'>{{ modificationdata.new_data.address_id.pincode_id.no}}</span>,
+                        <span
+                            [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.address_id.state_id.name!=modificationdata.old_data.address_id.state_id.name'>{{ modificationdata.new_data.address_id.state_id.name |titlecase}}</span>
+                    </Address>
+                        <Address>
+                            <code>Contact</code>:&nbsp;
+                            <span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.name!=modificationdata.old_data.contact_id.name'> {{ modificationdata.new_data.contact_id.name |titlecase}}</span>,
+                            <span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.designation!=modificationdata.old_data.contact_id.designation'>{{ modificationdata.new_data.contact_id.designation |titlecase}}</span>,
+                            <span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.email!=modificationdata.old_data.contact_id.email'>{{ modificationdata.new_data.contact_id.email}}</span>,
+                            <!-- <span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.type_id.name!=modificationdata.old_data.contact_id.type_id.name'> {{ modificationdata.new_data.contact_id.type_id.name}}</span>, -->
+                            <span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.landline!=modificationdata.old_data.contact_id.landline'>{{ modificationdata.new_data.contact_id.landline}}</span>,
+                            <span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.landline1!=modificationdata.old_data.contact_id.landline1'>{{ modificationdata.new_data.contact_id.landline1}}</span>,
+                            <span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.mobile!=modificationdata.old_data.contact_id.mobile'> {{ modificationdata.new_data.contact_id.mobile}}</span>,
+                            <span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.mobile2!=modificationdata.old_data.contact_id.mobile2'> {{ modificationdata.new_data.contact_id.mobile2}}</span>,
+                            <!-- <span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.dob!=modificationdata.old_data.contact_id.dob'> dob:{{ modificationdata.new_data.contact_id.dob  | date:'dd-MMM-yyyy'}}</span>, -->
+                            <!-- <span [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.wedding_date!=modificationdata.old_data.contact_id.wedding_date'> wedding date: {{ modificationdata.new_data.contact_id.wedding_date  | date:'dd-MMM-yyyy'}}</span>, -->
+                            
+                         
+
+                        </Address>
+                        
+                    </div>
+
+                </li>
+
+                <li>
+                    <div class="content" *ngIf="modificationdata.action==2">
+                        <p><code>Name</code>:&nbsp;{{ modificationdata.old_data.name | titlecase}}</p>
+                        <p><code>Remarks</code>:&nbsp;{{ modificationdata.old_data.remarks | titlecase}}</p>
+                        <p><code>Limit days</code>:&nbsp;{{ modificationdata.old_data.limitdays}}</p>
+                        <p><code>Credit Terms</code>:&nbsp;{{ modificationdata.old_data.creditterms}}</p>
+                        <p><code>PAN Number</code>:&nbsp;{{ modificationdata.old_data.panno}}</p>
+                        <p><code>GST Number</code>:&nbsp;{{ modificationdata.old_data.gstno}}</p>
+                        
+                        <Address>
+                            <code>Address</code>:&nbsp;
+                           {{ modificationdata.old_data.address_id.line1 | titlecase}}, 
+                            {{ modificationdata.old_data.address_id.line3 | titlecase}},   {{ modificationdata.old_data.address_id.city_id.name |titlecase}},
+                            {{ modificationdata.old_data.address_id.line1}},   {{ modificationdata.old_data.address_id.district_id.name |titlecase}},
+                            {{ modificationdata.old_data.address_id.pincode_id.no}},
+                            {{ modificationdata.old_data.address_id.state_id.name |titlecase}}
+                        </Address>
+                        <Address>
+                            <code>Contact</code>:&nbsp;
+                            <span > {{ modificationdata.old_data.contact_id.name |titlecase}}</span>,
+                            <span>{{ modificationdata.old_data.contact_id.designation |titlecase}}</span>,
+                            <span >{{ modificationdata.old_data.contact_id.email}}</span>,
+                            <!-- <span > {{ modificationdata.old_data.contact_id.type_id.name}}</span>, -->
+                            <span >{{ modificationdata.old_data.contact_id.landline}}</span>,
+                            <span >{{ modificationdata.old_data.contact_id.landline1}}</span>,
+                            <span > {{ modificationdata.old_data.contact_id.mobile}}</span>,
+                            <span > {{ modificationdata.old_data.contact_id.mobile2}}</span>,
+                            <!-- <span > dob:{{ modificationdata.old_data.contact_id.dob | date:'dd-MMM-yyyy'}}</span>, -->
+                            <!-- <span > wedding date: {{ modificationdata.old_data.contact_id.wedding_date | date:'dd-MMM-yyyy'}}</span>, -->
+                            
+                         
+                        
+                        </Address>
+
+                    </div>
+
+                </li>
+
+
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+
+
+    </div>
+</div>

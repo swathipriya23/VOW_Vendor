@@ -1,0 +1,233 @@
+.mat-stroked-button.mat-success {
+    color: #38a91c;
+}
+
+.hover-class:hover {
+    background-color: #38a91c;
+    color: white;
+}
+
+.hover-class-primary:hover {
+    background-color: #176ba7;
+    color: #fff;
+}
+
+.hover-class-warn:hover {
+    background-color: #e72e2e;
+    color: #fff;
+}
+
+.example-button-row button {
+    display: table-cell;
+    margin-right: 8px;
+}
+
+.example-button-row {
+    margin-left: 14%;
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+    margin: 35px;
+}
+
+.deleteBtn {
+    color: red
+}
+
+.add-btn {
+    margin-left: 70%;
+    margin-top: 30px;
+}
+
+th.mat-header-cell {
+    text-align: left;
+    color: #0b8ae4f2;
+    font-size: inherit;
+}
+
+.nc {
+    text-align: center;
+    padding: 20px;
+}
+
+.example-header {
+    min-height: 56px;
+    max-height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 8px 24px 0;
+    font-size: 20px;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+}
+
+.mat-input-container {
+    font-size: 14px;
+    flex-grow: 1;
+    margin-left: 32px;
+    margin-top: 8px;
+}
+
+.example-no-results {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+    font-size: 12px;
+    font-style: italic;
+}
+
+
+/** Selection styles */
+
+.example-selection-header {
+    font-size: 18px;
+    background: rgba(255, 64, 129, 0.3);
+    border-bottom: 1px solid #d696ac;
+}
+
+.mat-column-select {
+    max-width: 54px;
+}
+
+.mat-row:hover,
+.example-selected-row {
+    background: #f5f5f5;
+}
+
+.mat-row:active,
+.mat-row.example-selected-row {
+    background: #eaeaea;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+}
+
+.fab-Btn {
+    color: white;
+    background-color: #2565f5;
+}
+
+.example-footer {
+    min-height: 56px;
+    max-height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 8px 24px 0;
+    background-color: white;
+    font-size: 20px;
+    margin-left: auto;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+}
+
+.save-btn {
+    background-color: #99ff33;
+}
+
+.table_container {
+    border: 1px solid #ddd;
+    font-size: 13px;
+    width: 100%;
+    margin-bottom: 20px;
+    line-height: 2;
+    text-align: justify;
+    vertical-align: top;
+}
+
+.container {
+    margin: 10px;
+}
+
+.table_header {
+    background-color: #ddebef42;
+    padding-right: 10px;
+    font-weight: 500;
+}
+
+.btn-submit {
+    margin-left: 10px;
+}
+
+.mat-card-actions {
+    margin-left: 81%;
+}
+
+
+/* 
+.btn-comment:hover {
+    background-color: #38a91c;
+    color: white;
+    margin-left: 10px;
+}
+ */
+
+.btn-comment {
+    margin-left: 10px;
+    color: #38a91c;
+}
+
+.btn-cancel {
+    margin-left: 15px;
+}
+
+.reply {
+    margin-left: 88%;
+}
+
+    
+.Container{
+    position: relative;
+}
+
+.Table{
+    margin-left: 65px;
+}
+
+
+.detail_table_label{
+    color: #7282bb;
+    font-size: 18px;
+}
+
+
+.subject-text{
+    margin-left: 4%;;
+}
+
+.comment-box{
+    width: 100%;
+    float: left;
+    /* height: 100%; */
+    padding: 10px 10px 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.comment-space{
+    margin-left: 28px;
+}
+
+.view-text{
+    margin-left: 28px;
+
+}
+
+.btn-success{
+    margin-left: 10px;
+}
+
+
+.btn-approve{
+    margin-left: 10px;
+    
+}
+
+.row-btn{
+    margin-left: 68%;
+}

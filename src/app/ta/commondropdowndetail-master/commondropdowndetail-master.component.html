@@ -1,0 +1,104 @@
+<h2 style="margin-left: 40px;">
+    CommonDropdowndetails Summary
+</h2>
+<div style="margin-top: 15px;margin-left: 25px;">
+    <button mat-fab style="margin-left: 800px;" data-toggle="modal" 
+    data-target="#commondropdowndetailcreate" color="primary" aria-label="Tour Maker">
+        <mat-icon>add</mat-icon>
+    </button>
+    <div class="table-responsive">
+       <table class="table table-bordered" fixed-header
+        style="width: 95%;margin-top: 10px;margin-left:30px;overflow-x: hidden;">
+        <thead class="table_header" style="text-align: left;">
+        <tr>
+        <th style="text-align: center;">S.No</th>
+        <th style="text-align: center;">Name</th>
+        <th style="text-align: center;">CommonDropdown Name</th>
+        <th style="text-align: center;">Entity</th>
+        <th style="text-align: center;">Reason</th>
+        <th style="text-align: center;">Action</th>
+        
+        </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let detail of getcommondropdowndetailList; index as i">
+            <td style="text-align: center;">{{i+1}}</td>
+            <td style="text-align: center;">{{detail.name}}</td> 
+            <td style="text-align: center;">{{detail.common_drop_down.name}}</td> 
+            <td style="text-align: center;">{{detail.entity}}</td>
+            <td style="text-align: center;">{{detail.reason}}</td>
+            <td style="text-align: center;"><button mat-icon-button matTooltip="Delete" class="iconbutton" (click)="deletedetail(detail.id)"
+                color="primary">
+            <mat-icon style="color: gray;" aria-label="Delete">delete</mat-icon>
+            </button>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+       
+        </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+        id="commondropdowndetailcreate">
+        <div class="modal-dialog modal-xl" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background:#DDEFDD;">
+                    <h2 class="modal-title" style="color:black ;">Common Dropdowndetail</h2>
+                    <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div style="margin-left: 70px;margin-right: 80%;margin-top: 2%; width: 40%;">
+
+                    <form #tacommondropdowndetailForm="ngForm" >
+                        <table>
+                            <div>
+                                <tr>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;">
+                                            <mat-label>Name</mat-label>
+                                            <input  matInput placeholder="name"  name="name" [(ngModel)]="dropdowndetailmodel.name"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                            <mat-label>Entity</mat-label>
+                                            <input  matInput placeholder="entity"  name="entity" [(ngModel)]="dropdowndetailmodel.entity"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td> 
+                                    <td>
+                                        <mat-form-field  style="width: 175px;margin-left: 50px;">
+                                            <mat-label>Reason</mat-label>
+                                            <input  matInput placeholder="reason"  name="reason" [(ngModel)]="dropdowndetailmodel.reason"  autocomplete="off"  >
+                                        </mat-form-field>
+                                    </td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <mat-form-field style="width: 175px;">
+                                            <mat-label>Common Dropdown</mat-label>
+                                            <mat-select name="common_drop_down_id"   [(ngModel)]="dropdowndetailmodel.common_drop_down_id">
+                                                <mat-option *ngFor="let list of dropdownlist" [value]="list.id">
+                                                    {{list.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                            </div>
+                        </table>
+                        <tr>
+                            <div style="margin-bottom: 5%;">
+                                <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary" (click)="submitForm()"
+                                >Submit</button>
+                                <button type="button"  class="btn btn-outline-primary" (click)="OnCancelclick()" data-dismiss="modal"
+                                    style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+                            </div>
+                        </tr>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

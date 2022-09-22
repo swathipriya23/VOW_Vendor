@@ -1,0 +1,2893 @@
+<div style="background-color: #f6f6f6;" >
+    <mat-card style="margin:20px 12px 20px 20px;" class="mat-elevation-z0" >
+<div style="margin-left: 15px;">
+    <!-- <tr> -->
+    <div class="btn-rm-edit">
+        <button class="btn btn-success" type="button" style="border-radius: 10px;" *ngIf="isDraft" data-toggle="modal"
+            data-target="#exampleModalCenter" (click)="movetorm()">
+            Submit to RM </button>
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Move To RM Validation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="popupform">
+
+                            <mat-checkbox class="example-margin" formControlName="suppbrnch" readonly>Supplier Branch
+                            </mat-checkbox><br>
+
+                            <!-- <mat-checkbox class="example-margin" formControlName="suppprod" readonly>Supplier Product
+                            </mat-checkbox><br> -->
+
+                            <!-- <mat-checkbox class="example-margin" formControlName="client" readonly>Vendor Client
+                            </mat-checkbox><br> -->
+                            <mat-checkbox class="example-margin" formControlName="suppdoc" readonly>Vendor Document
+                            </mat-checkbox><br>
+                            <!-- <div *ngIf="vendor_category == 'THIRD PARTY INTERMEDIARY'">
+                                <mat-checkbox class="example-margin" formControlName="Intermediary" readonly>Intermediary due diligence
+                                </mat-checkbox><br>
+                            </div> -->
+                            <div *ngIf="comflag == true">
+                                <mat-checkbox class="example-margin" formControlName="Due_diligence" readonly>Due Diligence Questionnaire
+                                </mat-checkbox><br>
+                                <mat-checkbox class="example-margin" formControlName="BCP_quest" readonly>BCP Questionnaire
+                                </mat-checkbox><br>
+                            </div>
+                            <mat-checkbox class="example-margin" formControlName="Pan" readonly>PAN
+                            </mat-checkbox><br>
+                            <div *ngIf="gst_category != 3">
+                                <mat-checkbox class="example-margin" formControlName="Gst" readonly>GST
+                                </mat-checkbox><br>
+                            </div>
+                            <mat-checkbox class="example-margin" formControlName="Cancel_cheque" readonly>Cancel Cheque
+                            </mat-checkbox><br>
+                            <mat-checkbox class="example-margin" formControlName="Board_resolution" readonly>Board resolution
+                            </mat-checkbox><br>
+                            <mat-checkbox class="example-margin" formControlName="Contract" readonly>Contract/Email/Letter of Engagement
+                            </mat-checkbox><br>
+                            <div *ngIf="comflag == true">
+                                <mat-checkbox class="example-margin" formControlName="kyc" readonly>KYC
+                                </mat-checkbox><br>
+                            </div>
+                            <!-- <mat-checkbox class="example-margin" formControlName="suppcont" readonly>Vendor Contractor
+                            </mat-checkbox> -->
+                        </form>
+                        <div *ngIf="Branchpopup">
+
+                            <h3 class="modal-title" id="exampleModalLongTitle" style="color:hotpink;">Missing Branch
+                                Details</h3>
+                            <table>
+                                <tbody>
+                                    <tr *ngFor="let names of branchnames;index as i">
+                                        <td>{{i+1}}</td>&nbsp;&nbsp;
+                                        <td>{{names.name}}</td>
+
+                                        <!-- <td>{{branchnames}}</td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" style="border-radius:10px;margin-left:10px" data-dismiss="modal">Close</button>
+                        <!-- <button type="button" class="btn btn-primary" 
+                            (click)="submitrm()" >Proceed</button>
+                        </div> -->
+                        <div *ngIf="branchstatus === false; else dismiss">
+                            <button type="button" class="btn btn-primary" style="border-radius:10px;margin-left:10px" (click)="submitrm()">Proceed</button>
+                        </div>
+                    </div>
+                    <ng-template #dismiss>
+                        <button type="button"  *ngIf="((branch_Flag == true) && (doc_Flag == true) && (kycfg == true))" class="btn btn-primary" style="border-radius:10px;margin-left:10px" data-dismiss="modal"
+                            (click)="submitrm()">Proceed</button>
+                    </ng-template>
+
+                    <!-- </div>  -->
+                </div>
+            </div>
+        </div>
+
+
+        <!-- <button type="button" mat-button data-toggle="modal" *ngIf="rm_viewscreen" class="btn btn-success"
+            (click)="changes_view()" style="border-radius: 10px;margin-top: 10px;margin-left:10px">
+            View Changes</button> -->
+        
+        <button class="btn btn-success" *ngIf="ismodification" type="button" style="border-radius:10px;margin-left:10px"
+            (click)="modificationrequest()">
+            Modification Request </button>
+        <!-- <button class="btn btn-success" *ngIf="isdeactivation" type="button" style="border-radius:10px;margin-left:10px"
+            (click)="deactivaterequest()">
+            Deactivate </button>
+        <button class="btn btn-success" *ngIf="isactivation" type="button" style="border-radius:10px;margin-left:10px"
+            (click)="activaterequest()">
+            Activate </button>
+        <button class="btn btn-success" *ngIf="istermination" type="button" style="border-radius:10px;margin-left:10px"
+            (click)="terminationrequest()">
+            Terminate </button>
+
+        <button class="btn btn-success" *ngIf="isPendingHeader" type="button" (click)="approver()" style="border-radius:10px;margin-left:10px" >
+            Approve </button> -->
+        
+            <!-- <button class="btn btn-success" *ngIf="isPendingRM" type="button" (click)="headapprover()" style="border-radius:10px;margin-left:10px" >
+                {{condition}} </button>  -->
+        
+
+        <!-- <button class="btn btn-danger" type="button" *ngIf="isRejectBtn" data-toggle="modal" style="border-radius:10px;margin-left:10px"
+            data-target="#rejectModal">
+            Reject</button>
+
+        <button class="btn btn-success" type="button" *ngIf="isReturnBtn" data-toggle="modal" style="border-radius:10px;margin-left:10px"
+            data-target="#returnModal">
+            Return</button>     -->
+
+        <button class="btn btn-success" style="border-radius: 10px;margin-left:10px"  type="button" (click)="vendorEdit()" *ngIf="vendor_flag">
+            Edit</button>
+    </div>
+   <!-- </tr> --><br>
+
+    <!-- <tr> -->
+    <mat-chip-list>
+        <mat-chip>
+            Name : {{ name }}
+        </mat-chip>
+        <mat-chip>
+            Type : {{ classification | titlecase }}
+        </mat-chip>
+        <mat-chip>
+            GST Category : {{ composite | titlecase}}
+        </mat-chip>
+        <mat-chip *ngIf="PANNO_FLAG == true">
+            PAN No : {{ panNo }}
+        </mat-chip>
+        <!-- <mat-chip *ngIf="AADHAR_FLAG == true">
+            Aadhar No : {{aadharno}}
+        </mat-chip> -->
+    </mat-chip-list>
+   <!-- </tr> -->
+
+  
+
+
+    <div>
+
+        <hr style="margin-top: 3rem;">
+
+        <div style="float: right;margin-right: 5%;">
+            <button *ngIf="vendor_flag" mat-button [matMenuTriggerFor]="menu" id="primarybtn" type="button"
+            class="btn btn-light">Action</button>
+          <mat-menu #menu="matMenu" style="width:150px">
+            <div>
+              <!-- <button style="display: none;" data-toggle="modal"
+              data-target="#addBranchpopup" #addBranchpopup></button> -->
+
+              <button *ngIf="isBranchButton" type="button" mat-menu-item  (click)="branch_view()" (click)="addBranch()"
+              data-toggle="modal"
+              data-target="#addBranchpopup">Branch Details</button>
+              <!-- <button type="button" mat-menu-item (click)="client_view()" (click)="addClient()" data-toggle="modal"
+                data-target="#addClientpopup"  >Client</button> -->
+              <!-- <button type="button" mat-menu-item data-toggle="modal" (click)="Contract_view()" (click)="addContractor()"
+                data-target="#addContractorpopup">Contract</button> -->
+              <button type="button" mat-menu-item (click)="tax_view()" (click)="taxadd()"  
+              data-toggle="modal" data-target="#addTax">Tax Details</button>
+              
+  
+              <!-- <button type="button" mat-menu-item data-toggle="modal" data-target="#productformpopup" (click)="product_view()" (click)="addProduct()" >
+                  Product</button> -->
+              <button type="button" mat-menu-item data-toggle="modal" data-target="#documentcreatepopup"
+                  (click)="document_view()" (click)="adddocument()">Document</button>
+              <button type="button" mat-menu-item data-toggle="modal" data-target="#riskcreatepopup"
+                  (click)="risk_view()" (click)="addrisk()">Risk</button>
+              <button *ngIf="this.comflag == true" type="button" mat-menu-item data-toggle="modal" data-target="#kyccreatepopup"
+                  (click)="kyc_view()" (click)="addkyc()">KYC</button>
+              <!-- <button type="button" mat-menu-item data-toggle="modal" data-target="#transactionpopup"
+                 (click)="transaction_view()"  >Transaction</button> -->
+            
+            </div>
+          </mat-menu>   
+        </div>
+
+        <div  *ngIf="ismodificationView" style="float: right;margin-right: 3%; ">
+            <button mat-button type="button" data-toggle="modal"
+            data-target="#viewChangespopup" style="border-radius: 10px;"
+            class="btn btn-primary">Vendor View</button>
+            <!-- <div *ngIf="ismodificationView"> -->
+                <!-- <app-vendormodification (onCancel)="rmVendorViewCancel()"></app-vendormodification> -->
+                <!-- <div class="modal fade" id="addBranchpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="margin-left: 247px;" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <p class="modal-title" id="exampleModalLongTitle">Branch Form</p>
+                      <button type="button" #closebuttonbranch class="close" (click)="branchCancel()"  data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <app-branch (onCancel)="branchCancel()" (onSubmit)="branchSubmit()"></app-branch>
+                    </div>
+                  </div>
+                </div>
+                </div> -->
+            <!-- </div> -->
+        </div>
+
+        
+
+
+        <table width="100%" style="margin-top: 1%;">
+            <tbody>
+                <tr>
+                    <td width="30%" valign="top">
+                        <mat-accordion class="example-headers-align">
+                            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title style="font-weight: bold;" >
+                                        Vendor Details
+                                    </mat-panel-title>
+                                    <mat-panel-description style="color: black;margin-left: 113px;">
+                                    
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <br>
+
+                                <div class="row" style="margin-left: 2px;" >
+                                    <div>
+                                        
+                                        <p style="color: #808080;"> Relationship Category <span
+                                                style="color: black;margin-left: 42px;">{{group | titlecase}}
+                                            </span></p>
+                                        <p style="color: #808080;"> Vendor Category <span
+                                                style="color: black;margin-left: 80px;">{{customerCategory | titlecase}}
+                                            </span></p>
+                                        <p style="color: #808080;"> Organization Type <span
+                                                style="color: black;margin-left: 70px;">
+                                                {{ organizationType | titlecase }}
+                                            </span></p>
+                                        <p style="color: #808080;"> Website <span
+                                                style="color: black;margin-left: 142px;">{{website}}
+                                            </span></p>
+                                            <p style="color: #808080;"> Company Reg No <span
+                                                style="color: black;margin-left: 80px;">{{companyRegNo}}
+                                            </span></p>
+                                        
+
+                                    </div>
+                                    
+                                    <div style="margin-left: 70px;">
+                                        <p style="color: #808080;">Renewal Trigger Email days <span
+                                                style="color: black;margin-left: 15px;">{{emailDays}}</span>
+                                        </p>
+                                        <p style="color: #808080;"> Actual Spend <span
+                                                style="color: black;margin-left: 119px;">{{actualSpend}}
+                                            </span></p>
+                                        <p style="color: #808080;">Approximate Spend <span
+                                                style="color: black;margin-left: 82px;">{{ aproxSpend}}
+                                            </span></p>
+                                        <p style="color: #808080;"> RM Name <span
+                                                style="color: black;margin-left: 144px;">{{ rmName  }}
+                                            </span></p>
+                                        <p style="color: #808080;"> Remarks <span
+                                                style="color: black;margin-left: 152px;">{{ remarks  }}
+                                            </span></p>
+                                        
+
+                                    </div>
+                                    <div style="margin-left: 70px;" >
+                                        <p style="color: #808080;"> Main Status <span
+                                            style="margin-left: 132px;" [ngClass]="(mainStatusName == 'Approved' )? 'approved':'notapproved' " >{{ mainStatusName | titlecase }}
+                                        </span></p>
+                                    <p style="color: #808080;"> Vendor Status <span
+                                            style="margin-left: 117px;" [ngClass]="(vendorStatusName == 'Approved' )? 'approved':'notapproved' "  >{{ vendorStatusName | titlecase }}
+                                        </span></p>
+                                    <p style="color: #808080;"> Request Status <span
+                                            style="margin-left: 109px;" [ngClass]="(requestStatusName == 'Approved' )? 'approved':'notapproved' " >{{ requestStatusName | titlecase }}
+                                        </span></p>
+                                    </div>
+
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+            </td>
+                </tr>
+                <tr>
+            <td style="width: 100%;" >
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel>
+
+                        <mat-expansion-panel-header>
+                            <mat-panel-title style="font-weight: bold;" >
+                                Contract Details
+                            </mat-panel-title>
+                            
+                        </mat-expansion-panel-header>
+                        <div>
+                        <p style="color: #808080;"> Active Contract <span
+                                style="color: black;margin-left: 55px;">
+                                {{ activeContract | titlecase }}
+                            </span></p>
+                        <p style="color: #808080;"> Contract Reason <span
+                                style="color: black;margin-left: 47px;">{{contractReason | titlecase}}
+                            </span></p>
+                        <p style="color: #808080;"> Contract From <span
+                                style="color: black;margin-left: 62px;">{{ contractFrom | date:'dd-MM-yyyy' }}
+                            </span></p>
+                        <p style="color: #808080;"> Contract To <span
+                                style="color: black;margin-left: 80px;">{{ contractTo | date:'dd-MM-yyyy'}}
+                            </span></p>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                </td>
+                </tr>
+                <tr>
+                    <td style="width: 100px;"  >
+                        <mat-accordion class="example-headers-align">
+                            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title style="font-weight: bold;" >
+                                        Contact,Profile & Address
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="row" style="margin-left: 2px;">
+
+                                    <div>
+                                        <p style="color: #808080;">Name
+                                            <span style="color: black;margin-left: 81px;">
+                                                {{contactName }}
+                                            </span>
+                                        </p>
+                                        <p style="color: #808080;">Email
+                                            <span style="color: black;margin-left: 86px;">
+                                                {{contactEmail}}
+                                            </span>
+                                        </p>
+                                        <p style="color: #808080;">Designation
+                                            <span style="color: black;margin-left: 37px;">
+                                                {{contactDesignation }}
+                                            </span>
+                                        </p>
+                                        <p style="color: #808080;">Landline1
+                                            <span style="color: black;margin-left: 55px;">
+                                                {{contactLandline1}}
+                                            </span>
+                                        </p>
+                                        <p style="color: #808080;">Landline2
+                                            <span style="color: black;margin-left: 54px;">
+                                                {{contactLandline2}}
+                                            </span>
+                                        </p>
+                                        <p style="color: #808080;">Mobile1
+                                            <span style="color: black;margin-left: 29%;">
+                                                {{contactMobile1}}
+                                            </span>
+                                        </p>
+                                        <p style="color: #808080;">Mobile2
+                                            <span style="color: black;margin-left: 28%;">
+                                                {{contactMobile2}}
+                                            </span>
+                                        </p>
+                                       
+                                        <!-- <p style="color: #808080;">DOB
+                                            <span style="color: black;margin-left: 93px;">
+                                                {{dateofbirth | date:'dd-MMM-yyyy'}}
+                                            </span>
+                                        </p> -->
+                                    </div>
+                                    <div style="margin-left: 70px;">
+                                        <!-- <p style="color: #808080;"> Employee <span
+                                                style="color: black;margin-left: 60px;">
+                                                {{
+                                                profile_Per_Employee}}(per)+{{profile_Temp_Employee}}(tem)={{profile_Tot_Employee}}(Total)
+                                            </span></p>
+                                        <p style="color: #808080;"> Award Details<span
+                                                style="color: black;margin-left: 10%;">{{
+                                                profileAward}}
+                                            </span></p> -->
+                                    
+                                        <!-- <p style="color: #808080;"> Factory <span
+                                                style="color: black;margin-left: 79px;">{{
+                                                profileFactory}}
+                                            </span></p> -->
+                                        <p style="color: #808080;"> Branch Count <span
+                                                style="color: black;margin-left: 35px;">{{ profileBranch}}
+                                            </span></p>
+                                        <p style="color: #808080;"> Year <span
+                                                style="color: black;margin-left: 103px;">{{
+                                                profileYear}}
+                                            </span></p>
+                                        <p style="color: #808080;"> Remarks <span
+                                                style="color: black;margin-left: 70px;">{{
+                                                profileRemarks }}
+                                            </span></p>     
+                                    </div>
+                                    
+                                    
+                                    <div style="margin-left: 70px;">
+                                        <p style="  margin: 0px 0 4px;">
+                                            {{lineName1 | titlecase}},{{lineName2 | titlecase}}
+                                        </p>
+                                        <p style="  margin: 0px 0 4px;">
+                                            {{lineName3 | titlecase}}
+                                        </p>
+                                        <p style="  margin: 0px 0 4px;">
+                                            {{cityName }},{{districtName }},
+                                        </p>
+                                        <p style="  margin: 0px 0 4px;"> {{stateName }},{{pinCode}}</p>
+                                    </div>
+                                </div>
+
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- <table width="100%" style="margin-top: 1%;">
+            <tbody>
+                <tr>
+                    <td width="30%" valign="top">
+                        <mat-accordion class="example-headers-align">
+                            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+                                
+                                <mat-expansion-panel-header>
+                                  <mat-panel-title style="color: #808080;">
+                                    Code
+                                  </mat-panel-title>
+                                  <mat-panel-description style="color: black;margin-left: 113px;">
+                                    {{ code}}
+                                  </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <p style="color: #808080;"> Name <span
+                                    style="color: black;margin-left: 156px;">{{  name }}
+                                </span></p>
+                                <p style="color: #808080;"> Relationship Category <span
+                                    style="color: black;margin-left: 42px;">{{group}}
+                                </span></p>
+                            <p style="color: #808080;"> Relationship Subcategory <span
+                                    style="color: black;margin-left: 17px;">{{customerCategory}}
+                                </span></p>
+                            <p style="color: #808080;"> Organization Type <span
+                                    style="color: black;margin-left: 70px;">
+                                    {{ organizationType }}
+                                </span></p>
+                            <p style="color: #808080;"> Website <span
+                                    style="color: black;margin-left: 142px;">{{website}}
+                                </span></p>
+                            <p style="color: #808080;"> Type <span
+                                    style="color: black;margin-left: 166px;">{{  classification }}
+                                </span></p>
+                            <p style="color: #808080;"> GST Category <span
+                                    style="color: black;margin-left: 103px;">{{ composite}}
+                                </span></p>
+                            
+                              
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </td>
+                    <td width="30%" valign="top">
+                        <mat-accordion class="example-headers-align">
+                            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+                                
+                                <mat-expansion-panel-header>
+                                  <mat-panel-title style="color: #808080;">
+                                    Classification
+                                  </mat-panel-title>
+                                  <mat-panel-description style="color: black;margin-left: 60px;">
+                                    {{ type}}
+                                  </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <p style="color: #808080;"> Pan No <span
+                                    style="color: black;margin-left: 111px;">{{  panNo }}
+                                </span></p>
+                                <p style="color: #808080;"> Company RegNo <span
+                                    style="color: black;margin-left: 42px;">{{companyRegNo}}
+                                </span></p>
+                            <p style="color: #808080;"> Aadhar No <span
+                                    style="color: black;margin-left: 88px;">{{aadharno}}
+                                </span></p>
+                            <p style="color: #808080;"> Active Contract <span
+                                    style="color: black;margin-left: 55px;">
+                                    {{ activeContract }}
+                                </span></p>
+                            <p style="color: #808080;"> Contract Reason <span
+                                    style="color: black;margin-left: 47px;">{{contractReason}}
+                                </span></p>
+                            <p style="color: #808080;"> Contract From <span
+                                    style="color: black;margin-left: 62px;">{{  contractFrom | date:'dd-MMM-yyyy' }}
+                                </span></p>
+                            <p style="color: #808080;"> Contract To: <span
+                                    style="color: black;margin-left: 80px;">{{ contractTo | date:'dd-MMM-yyyy'}}
+                                </span></p>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                        
+                    </td>
+
+                    <td width="30%" valign="top">
+                        <mat-accordion class="example-headers-align">
+                            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+                                
+                                <mat-expansion-panel-header>
+                                  <mat-panel-title style="color: #808080;">
+                                    Renewal Date
+                                  </mat-panel-title>
+                                  <mat-panel-description style="color: black;margin-left: 127px;">
+                                    {{ renewalDate | date:'dd-MMM-yyyy'}}
+                                  </mat-panel-description>
+                                </mat-expansion-panel-header>
+                            <p style="color: #808080;">Renewal Trigger Email days <span
+                                    style="color: black;margin-left: 15px;">{{emailDays}}</span>
+                            </p>
+                            <p style="color: #808080;"> Actual Spend <span
+                                    style="color: black;margin-left: 119px;">{{actualSpend}}
+                                </span></p>
+                            <p style="color: #808080;">Aproximate Spend <span
+                                    style="color: black;margin-left: 82px;">{{ aproxSpend}}
+                                </span></p>
+                            <p style="color: #808080;"> RM Name <span
+                                    style="color: black;margin-left: 144px;">{{ rmName  }}
+                                </span></p>
+                            <p style="color: #808080;"> Remarks <span
+                                    style="color: black;margin-left: 152px;">{{ remarks  }}
+                                </span></p>
+                            <p style="color: #808080;"> Main Status <span
+                                    style="color: black;margin-left: 132px;">{{ mainStatusName  }}
+                                </span></p>
+                            <p style="color: #808080;"> Vendor Status <span
+                                    style="color: black;margin-left: 117px;">{{ vendorStatusName  }}
+                                </span></p>
+                            <p style="color: #808080;"> Request Status <span
+                                    style="color: black;margin-left: 109px;">{{ requestStatusName }}
+                                </span></p>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </td>
+                </tr>
+            </tbody>
+        </table> -->
+    </div>
+    <!-- <div>
+        <table width="100%" style="margin-top: 1%;">
+            <tbody>
+                <tr>
+                    <td width="30%" valign="top">
+                        <mat-accordion class="example-headers-align">
+                            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+                                
+                                <mat-expansion-panel-header>
+                                  <mat-panel-title style="font-weight: bold;">
+                                    Profile
+                                  </mat-panel-title>
+                                </mat-expansion-panel-header>
+                            <p style="color: #808080;"> Employee <span
+                                    style="color: black;margin-left: 60px;">
+                                    {{ profile_Per_Employee}}(per)+{{profile_Temp_Employee}}(tem)={{profile_Tot_Employee}}(Total)
+                                </span></p>
+                            <p style="color: #808080;"> Award Details<span
+                                    style="color: black;margin-left: 10%;">{{ profileAward}}
+                                </span></p>
+                            <p style="color: #808080;"> Remarks <span
+                                    style="color: black;margin-left: 70px;">{{ profileRemarks}}
+                                </span></p>
+                            <p style="color: #808080;"> Factory <span
+                                    style="color: black;margin-left: 79px;">{{ profileFactory}}
+                                </span></p>
+                            <p style="color: #808080;"> Branch Count <span
+                                    style="color: black;margin-left: 35px;">{{ profileBranch}}
+                                </span></p>
+                            <p style="color: #808080;"> Year <span
+                                    style="color: black;margin-left: 103px;">{{ profileYear}}
+                                </span></p>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                        
+                    </td>
+                    <td width="30%" valign="top">
+                        <mat-accordion class="example-headers-align">
+                            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+                                
+                                <mat-expansion-panel-header>
+                                  <mat-panel-title style="font-weight: bold;">
+                                    Address
+                                  </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <p style="  margin: 0px 0 4px;">
+                                    {{lineName1}},{{lineName2}}
+                                </p>
+                                <p style="  margin: 0px 0 4px;">
+                                    {{lineName3}}
+                                </p>
+                                <p style="  margin: 0px 0 4px;">
+                                    {{cityName}},{{districtName}},
+                                </p>
+                                <p style="  margin: 0px 0 4px;"> {{stateName}},{{pinCode}}</p>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                    </td>
+
+                    <td width="30%" valign="top">
+                        <mat-accordion class="example-headers-align">
+                            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+                                
+                                <mat-expansion-panel-header>
+                                  <mat-panel-title style="font-weight: bold;">
+                                    Contact
+                                  </mat-panel-title>
+                                </mat-expansion-panel-header>
+                               
+                                <p style="color: #808080;">Name
+                                    <span style="color: black;margin-left: 81px;">
+                                        {{contactName}}
+                                    </span>
+                                </p>
+                                <p style="color: #808080;">Designation
+                                    <span style="color: black;margin-left: 37px;">
+                                        {{contactDesignation}}
+                                    </span>
+                                </p>
+                                <p style="color: #808080;">Land Line
+                                    <span style="color: black;margin-left: 55px;">
+                                        {{contactLandline1}} {{contactLandline2}}
+                                    </span>
+                                </p>
+                                <p style="color: #808080;">Mobile Number
+                                    <span style="color: black;margin-left: 4%;">
+                                        {{contactMobile1}} {{contactMobile2}}
+                                    </span>
+                                </p>
+                                <p style="color: #808080;">Email
+                                    <span style="color: black;margin-left: 86px;">
+                                        {{contactEmail}}
+                                    </span>
+                                </p>
+                                <p style="color: #808080;">DOB
+                                    <span style="color: black;margin-left: 93px;">
+                                        {{dateofbirth | date:'dd-MMM-yyyy'}}
+                                    </span>
+                                </p>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
+    <div style="margin-top: 2%;">
+        <p style="  margin: 0px 0 4px;">Remarks:
+            <span style="margin-left: 3%;" *ngIf="vendorStatusName ==='REJECTED' else rejectValue;">
+                {{rejectedList}}
+            </span>
+            <ng-template #rejectValue>
+                <label *ngIf="vendorStatusName !='REJECTED'" style="margin-left: 3%;">
+                    {{rejectedList}}</label>
+            </ng-template>
+        </p>
+    </div>
+    <br>
+
+
+    <div class="modal fade" id="viewChangespopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <p class="modal-title" id="exampleModalLongTitle">Vendor Changes</p>
+                      <button type="button" #closebuttonvendorview class="close" (click)="rmVendorViewCancel()"  data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- <app-branch (onCancel)="branchCancel()" (onSubmit)="branchSubmit()"></app-branch> -->
+                      <div *ngIf="save">
+                        <app-vendormodification (onCancel)="rmVendorViewCancel()"></app-vendormodification>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+
+
+                <div *ngIf="this.comflag == true" style="float: right;margin-right: 1%;">
+                    <!-- <mat-form-field style="width: 200px;">
+                        <mat-label>View Tab</mat-label>
+                        <mat-select [(ngModel)]="dropDownTag">
+                            <mat-option  (onSelectionChange)="tabchange($event)"
+                            *ngFor="let status of TabArray" [value]="status">
+                                {{status}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+
+                    <mat-label>View Tab</mat-label><br>
+                            <mat-form-field class="matformfieldstyle" style="width: 200px;" appearance="outline">
+                                <mat-select  class="matformfieldinputstyle" [(ngModel)]="dropDownTag">
+                                    <mat-option  (onSelectionChange)="tabchange($event)"
+                                      *ngFor="let status of TabArray" [value]="status">
+                                        {{status}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                </div>
+
+
+                <div *ngIf="this.comflag == false" style="float: right;margin-right: 1%;">
+
+                    <mat-label>View Tab</mat-label><br>
+                            <mat-form-field class="matformfieldstyle" style="width: 200px;" appearance="outline">
+                                <mat-select  class="matformfieldinputstyle" [(ngModel)]="dropDownTag">
+                                    <mat-option  (onSelectionChange)="tabchange($event)"
+                                      *ngFor="let status of TabArrayforothers" [value]="status">
+                                        {{status}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                </div>
+
+    <div *ngIf="branchSummary">
+
+
+        <div>
+            <div *ngIf="isBranchForm">
+                <!-- <app-branch (onCancel)="branchCancel()" (onSubmit)="branchSubmit()"></app-branch> -->
+             <div class="modal fade" id="addBranchpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl"  role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Branch Detail Create Form</p>
+                  <button type="button" #closebuttonbranch class="close" (click)="branchCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <app-branch (onCancel)="branchCancel()" (onSubmit)="branchSubmit()"></app-branch>
+                </div>
+              </div>
+            </div>
+             </div>
+           </div>
+        </div>
+        <div>
+            <div *ngIf="isBranchEditForm">
+                <!-- <app-branch-edit (onCancel)=" branchEditCancel()" (onSubmit)="branchEditSubmit()"></app-branch-edit> -->
+                <div class="modal fade" id="editBranchpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl"  role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Branch Detail Form</p>
+                      <button type="button" #closebuttonbranchedit class="close" (click)="branchEditCancel()" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <app-branch-edit (onCancel)=" branchEditCancel()" (onSubmit)="branchEditSubmit()"></app-branch-edit>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div *ngIf="isBranch">
+            <!-- <div class=" row col-md-10 ">
+                <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                    <button type="button" class="btn btn-outline-success" *ngIf="isBranchButton" (click)="addBranch()"
+                        style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span
+                            class="fa fa-plus"></span>
+                        Add</button>
+
+                </div>
+            </div> -->
+            <p style="margin-top: 20px;color:black;font-size: 22px;font-weight: 500">Branch Details Summary</p>
+            <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+                <!-- <table class="styled-table">
+                    <thead class="tableheader"> -->
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <th>S.No</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>PAN No</th>
+                            <th>GST No</th>
+                            <th>Credit Terms</th>
+                            <th>Limit Days</th>
+                            <th>Edit</th>
+                            <th *ngIf="action_flag_branch==true">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let branch of branchList; index as i">
+                            <td> {{(branchpage - 1)*pageSize +i+1 }} </td>
+                            <td> {{branch.code}} </td>
+                            <td (click)="branchView(branch)" style="cursor: pointer;color:blue;"><span>
+                                    {{ branch.name | titlecase}}</span>
+                            </td>
+                            <td>{{ branch.panno }}</td>
+                            <td>{{branch.gstno }}</td>
+                            <td>{{ branch.creditterms}}</td>
+                            <td>{{ branch.limitdays}}</td>
+                            <td *ngIf=" vendor_flag==true">
+                                <button *ngIf="branch.modify_ref_id>0" mat-icon-button matTooltip=" Edit"
+                                    class="iconbutton" data-toggle="modal"
+                                    data-target="#editBranchpopup" (click)="branchEditForm(branch)" [disabled]="true"
+                                    color="primary">
+                                    <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                </button>
+                                <button *ngIf="branch.modify_ref_id=='-1'" mat-icon-button matTooltip="Edit"
+                                    class="iconbutton" data-toggle="modal"
+                                    data-target="#editBranchpopup" (click)="branchEditForm(branch)" color="primary">
+                                    <mat-icon style="color: black;" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </td>
+                            <td *ngIf=" vendor_flag==false">
+                                <button mat-icon-button matTooltip=" Edit" class="iconbutton"
+                                data-toggle="modal"
+                                data-target="#editBranchpopup" (click)="branchEditForm(branch)" [disabled]="true" color="primary">
+                                    <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </td>
+                            <div *ngIf="action_flag_branch==true">
+                                <td *ngIf=" vendor_flag==true">
+                                    <button *ngIf="branch.modify_ref_id>0" mat-icon-button matTooltip="Active/Inactive"
+                                        class="iconbutton"  [disabled]="true"
+                                        color="primary">
+                                        <mat-icon style="color:gray;" aria-label="Active/Inactive">wb_sunny</mat-icon>
+                                    </button>
+                                    <button *ngIf="branch.modify_ref_id=='-1'" mat-icon-button matTooltip="Active/Inactive"
+                                        class="iconbutton" (click)="active_inactive(branch)" color="primary">
+                                        <mat-icon class="icon-{{branch.is_active}}" aria-label="Active/Inactive">wb_sunny</mat-icon>
+                                    </button>
+                                </td>
+                                <td *ngIf=" vendor_flag==false">
+                                    <button mat-icon-button matTooltip=" Edit" class="Active/Inactive"
+                                    data-toggle="modal"
+                                    data-target="#editBranchpopup" (click)="branchEditForm(branch)" [disabled]="true" color="primary">
+                                        <mat-icon style="color:gray;" aria-label="Active/Inactive">wb_sunny</mat-icon>
+                                    </button>
+                                </td>
+                            </div>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="branchList ?.length == 0" style="margin-left: 42%;margin-bottom: 4%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+                <div class="row" *ngIf="isBranchPagination">
+                    <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                        <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                            (click)="previousClickBranch()">
+                            <mat-icon>arrow_back</mat-icon>
+                        </button> {{branchpage}}
+                        <button mat-icon-button [disabled]="has_next === false" color="primary"
+                            (click)="nextClickBranch()">
+                            <mat-icon>arrow_forward</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div *ngIf="branch_modify" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+            <p style="color:black;font-size: 22px;font-weight: 500" >Branch Details Modification Summary</p>
+            <!-- <table class="styled-table">
+                <thead class="tableheader"> -->
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>PAN No</th>
+                        <th>GST No</th>
+                        <th>Credit Terms</th>
+                        <th>Limit Days</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let j of branch_data; index as i">
+                        <td> {{i+1 }} </td>
+                        <td>{{j.new_data.code}}</td>
+                        <td *ngIf="j.new_data.modify_status==1" (click)="branchView(j.new_data)"
+                            style="cursor: pointer;color:blue;">
+                            <span>{{j.new_data.name | titlecase}}</span> </td>
+                        <td *ngIf="j.new_data.modify_status==2 || j.new_data.modify_status==0 || j.new_data.modify_status ==3">
+                            <span>{{j.new_data.name | titlecase}}</span> </td>
+                        <td>{{ j.new_data.panno }}</td>
+                        <td>{{j.new_data.gstno }}</td>
+                        <td>{{ j.new_data.creditterms}}</td>
+                        <td>{{ j.new_data.limitdays}}</td>
+                        <td *ngIf="j.new_data.modify_status==1">Create</td>
+                        <td *ngIf="j.new_data.modify_status==2">Edit</td>
+                        <td *ngIf="j.new_data.modify_status==0">Delete</td>
+                        <td *ngIf="j.new_data.modify_status==3">
+                            <span *ngIf="!j.new_data.is_active">Inactive</span>
+                            <span *ngIf="j.new_data.is_active">Active</span>
+                        <td>
+                            <span *ngIf="j.new_data.modify_ref_id !=j.new_data.id && j.new_data.modify_status==1">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                data-toggle="modal"
+                                data-target="#editBranchpopup" (click)="branchEditForm(j.new_data)" color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_status==3">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                data-toggle="modal"
+                                data-target="#editBranchpopup"    (click)="branchEditForm(j.new_data)" color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_ref_id ==j.new_data.id && j.new_data.modify_status==1">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                data-toggle="modal"
+                                data-target="#editBranchpopup"  (click)="branchEditForm(j.new_data)" color="primary">
+                                    <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_status==2  &&  j.new_data.modify_ref_id != true">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                data-toggle="modal"
+                                data-target="#editBranchpopup"    (click)="branchEditForm(j.new_data)" color="primary">
+                                    <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_status==2  &&  j.new_data.modify_ref_id ==true">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                data-toggle="modal"
+                                data-target="#editBranchpopup"    (click)="branchEditForm(j.new_data)" color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+
+
+                        </td>
+
+
+
+                        <td>
+                            <span *ngIf="j.new_data.modify_ref_id !=j.new_data.id && j.new_data.modify_status==3">
+                                <button mat-icon-button matTooltip="Active/Inactive" class="iconbutton"
+                                  (click)="active_inactive(j.new_data)" color="primary">
+                                    <mat-icon class="icon-{{j.new_data.is_active}}" aria-label="Active/Inactive">wb_sunny</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_ref_id ==j.new_data.id && j.new_data.modify_status==3">
+                                <button mat-icon-button matTooltip="Active/Inactive" class="iconbutton"
+                                    (click)="active_inactive(j.new_data)" color="primary">
+                                    <mat-icon class="icon-{{j.new_data.is_active}}" aria-label="Active/Inactive">wb_sunny</mat-icon>
+                                </button>
+                            </span>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="branch_data ?.length == 0" style="margin-left: 42%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div>
+        <div *ngIf="isClientForm">
+            <!-- <app-client (onCancel)="clientCancel()" (onSubmit)="clientSubmit()"></app-client> -->
+            <div class="modal fade" id="addClientpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Client Create Form</p>
+                  <button type="button" #closebuttonclient class="close" (click)="clientCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-client (onCancel)="clientCancel()" (onSubmit)="clientSubmit()"></app-client>
+                </div>
+              </div>
+            </div>
+             </div>
+        </div>
+    </div>
+
+    <div>
+        <div *ngIf="client_RMView">
+            <!-- <app-clientmodifyview (onCancel)="clientCancel()"></app-clientmodifyview> -->
+            <div class="modal fade" id="viewClientpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Client Changes</p>
+                  <button type="button" #closebuttonclientview class="close" (click)="clientCancelview()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-clientmodifyview (onCancel)="clientCancelview()"></app-clientmodifyview>
+                </div>
+              </div>
+            </div>
+             </div>
+        </div>
+    </div>
+
+
+
+
+    <div>
+        <div *ngIf="isClientEditForm">
+            <!-- <app-client-edit (onCancel)="clientEditCancel()" (onSubmit)="clientEditSubmit()"></app-client-edit> -->
+            <div class="modal fade" id="editClientpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Client Edit Form</p>
+                  <button type="button" #closebuttonclientedit class="close" (click)="clientEditCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-client-edit (onCancel)="clientEditCancel()" (onSubmit)="clientEditSubmit()"></app-client-edit>
+                </div>
+              </div>
+            </div>
+             </div>
+        </div>
+    </div>
+    <div *ngIf="isClient">
+
+        <!-- <div class=" row col-md-10 ">
+            <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                <button type="button" class="btn btn-outline-success" (click)="addClient()"
+                    style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span class="fa fa-plus"></span>
+                    Add</button>
+            </div>
+        </div> -->
+        <p style="margin-top: 20px;color:black;font-size: 22px;font-weight: 500">Client Summary</p>
+        <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>District</th>
+                        <th>State</th>
+                        <th>View</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let client of clientList; index as i">
+                        <td> {{i+1 }} </td>
+                        <td>{{ client.name | titlecase}}</td>
+                        <td>{{ client.address_id.line1 | titlecase }}</td>
+                        <td>{{client.address_id.city_id.name | titlecase }}</td>
+                        <td>{{client.address_id.district_id.name  | titlecase}}</td>
+                        <td>{{client.address_id.state_id.name | titlecase }}</td>
+                        <td> <button mat-icon-button matTooltip="view" class="iconbutton"
+                                (click)="RMView_client({'new_data':client})" data-toggle="modal"
+                                data-target="#viewClientpopup" color="primary">
+                                <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                            </button></td>
+                        <td *ngIf=" vendor_flag==true">
+                            <button *ngIf="client.modify_ref_id>0 " mat-icon-button matTooltip=" Edit"
+                                class="iconbutton" (click)="clientEditForm(client,'')" data-toggle="modal"
+                                data-target="#editClientpopup" [disabled]="true"
+                                color="primary">
+                                <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button *ngIf="client.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit"
+                                class="iconbutton" (click)="clientEditForm(client,'')"  data-toggle="modal"
+                                data-target="#editClientpopup"color="primary">
+                                <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" [disabled]="true"
+                                color="primary">
+                                <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="clientList ?.length == 0" style="margin-left: 42%;margin-bottom: 4%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+            <div class="row" *ngIf="isClientPagination">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClickClient()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button> {{clientpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickClient()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="client_modify" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+            <p style="color:black;font-size: 22px;font-weight: 500" >Client Modification Summary</p>
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>District</th>
+                        <th>State</th>
+                        <th>Status</th>
+                        <th>View</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let j of client_data; index as i ">
+
+                        <td> {{i+1 }} </td>
+                        <td>{{ j.new_data.name}}</td>
+                        <td>{{ j.new_data.address_id.line1  | titlecase}}</td>
+                        <td>{{j.new_data.address_id.city_id.name | titlecase }}</td>
+                        <td>{{j.new_data.address_id.district_id.name | titlecase }}</td>
+                        <td>{{j.new_data.address_id.state_id.name  | titlecase | titlecase}}</td>
+                        <td *ngIf="j.new_data.modify_status==1">Create</td>
+                        <td *ngIf="j.new_data.modify_status==2">Edit</td>
+                        <td *ngIf="j.new_data.modify_status==0">Delete</td>
+                        <td> <button mat-icon-button matTooltip="view" class="iconbutton" (click)="modify_client(j)" data-toggle="modal"
+                            data-target="#mod_viewClientpopup"
+                                color="primary">
+                                <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                            </button></td>
+
+
+                        <td>
+                            <span *ngIf="j.new_data.modify_ref_id !=j.new_data.id && j.new_data.modify_status==1">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                    (click)="clientEditForm(j,'modify')" data-toggle="modal"
+                                    data-target="#editClientpopup" color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_ref_id ==j.new_data.id && j.new_data.modify_status==1">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                    (click)="clientEditForm(j,'modify')" data-toggle="modal"
+                                    data-target="#editClientpopup" color="primary">
+                                    <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_status==2  &&  j.new_data.modify_ref_id != true">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                    (click)="clientEditForm(j,'modify')" data-toggle="modal"
+                                    data-target="#editClientpopup" color="primary">
+                                    <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_status==2  &&  j.new_data.modify_ref_id ==true">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton"
+                                    (click)="clientEditForm(j,'modify')" data-toggle="modal"
+                                    data-target="#editClientpopup" color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+
+
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="client_data ?.length == 0" style="margin-left: 42%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div>
+        <span *ngIf="isContractorForm">
+            <!-- <app-contractor (onCancel)="contractorCancel()" (onSubmit)="contractorSubmit()"></app-contractor> -->
+            <div class="modal fade" id="addContractorpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Contractor Create Form</p>
+                  <button type="button" #closebuttoncontractorcreate class="close" (click)="contractorCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-contractor (onCancel)="contractorCancel()" (onSubmit)="contractorSubmit()"></app-contractor>
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+
+    <div>
+        <span *ngIf="contractor_RMView">
+            <!-- <app-contractmodification (onCancel)="contractorCancel()"></app-contractmodification> -->
+            <div class="modal fade" id="contractorviewpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Contractor Changes</p>
+                  <button type="button" #closecontractorCancel class="close" (click)="contractorrvmCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-contractmodification (onCancel)="contractorrvmCancel()"></app-contractmodification>
+        
+                </div>
+              </div>
+            </div>
+             </div>
+
+        </span>
+    </div>
+
+
+    <div>
+        <div *ngIf="client_flag">
+            <!-- <app-clientmodifyview (onCancel)="clientCancel()"></app-clientmodifyview> -->
+            <div class="modal fade" id="mod_viewClientpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Client Changes</p>
+                  <button type="button" #closebuttonclientmod_view class="close" (click)="clientCancelmod_view()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-clientmodifyview (onCancel)="clientCancelmod_view()"></app-clientmodifyview>
+                </div>
+              </div>
+            </div>
+             </div>
+        </div>
+    </div>
+    <div>
+        <span *ngIf="isContactorEditForm">
+            <!-- <app-contractor-edit (onCancel)="contractorEditCancel()" (onSubmit)="contractorEditSubmit()">
+            </app-contractor-edit> -->
+
+            <div class="modal fade" id="contractoreditpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Contractor Edit Form</p>
+                  <button type="button" #closebuttoncontractoredit class="close" (click)="contractorEditCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-contractor-edit (onCancel)="contractorEditCancel()" (onSubmit)="contractorEditSubmit()">
+                    </app-contractor-edit>
+        
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+
+
+
+
+    <div *ngIf="isContractor">
+        <!-- <div class=" row col-md-10 ">
+            <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                <button type="button" class="btn btn-outline-success" (click)="addContractor()"
+                    style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span class="fa fa-plus"></span>
+                    Add</button>
+            </div>
+        </div> -->
+        <p style="margin-top: 20px;color:black;font-size: 22px;font-weight: 500"> Contractor Summary</p>
+
+        <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Service</th>
+                        <th>Remarks</th>
+                        <th>View</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let contractor of contactorList; index as i">
+                        <td> {{(contractorpage - 1)*pageSize +i+1 }} </td>
+                        <td>{{ contractor.name | titlecase}}</td>
+                        <td>{{ contractor.service| titlecase }}</td>
+                        <td>{{ contractor.remarks | titlecase}}</td>
+                        <td> <button mat-icon-button matTooltip="view" class="iconbutton"
+                                (click)="RMView_contractor({'new_data':contractor})" data-toggle="modal"
+                                data-target="#contractorviewpopup" color="primary">
+                                <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                            </button></td>
+                        <td *ngIf=" vendor_flag==true">
+
+                            <button *ngIf="contractor.modify_ref_id>0 " mat-icon-button matTooltip=" Edit"
+                                class="iconbutton" (click)="contractEditForm(contractor,'')" [disabled]="true"
+                                data-toggle="modal"
+                                data-target="#contractoreditpopup"
+                                color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button *ngIf="contractor.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit"
+                                class="iconbutton" data-toggle="modal"
+                                data-target="#contractoreditpopup" (click)="contractEditForm(contractor,'')" color="primary">
+                                <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button matTooltip=" Edit"
+                             class="iconbutton" [disabled]="true"
+                                color="primary">
+                                <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="contactorList ?.length == 0" style="margin-left: 42%;">
+                <h3  >Sorry data not found!.. </h3>
+            </div>
+            <div class="row" *ngIf="isContractorPagination">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClickContractor()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button> {{contractorpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary"
+                        (click)="nextClickContractor()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="contract_modify">
+                <p style="color:black;font-size: 22px;font-weight: 500" >Contractor Modification Summary</p>
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Service</th>
+                            <th>Remarks</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let j of contract_data; index as i">
+
+                            <td> {{i+1}} </td>
+                            <td>{{ j.new_data.name | titlecase}}</td>
+                            <td>{{ j.new_data.service | titlecase}}</td>
+                            <td>{{ j.new_data.remarks | titlecase}}</td>
+                            <td *ngIf="j.new_data.modify_status==1">Create</td>
+                            <td *ngIf="j.new_data.modify_status==2">Edit</td>
+                            <td *ngIf="j.new_data.modify_status==0">Delete</td>
+                            <td>
+                                <span *ngIf="j.new_data.modify_ref_id !=j.new_data.id && j.new_data.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal"
+                                    data-target="#contractoreditpopup"
+                                        (click)="contractEditForm(j,'modify')" color="primary"
+                                         [disabled]="true">
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.new_data.modify_ref_id ==j.new_data.id && j.new_data.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal"
+                                    data-target="#contractoreditpopup"
+                                        (click)="contractEditForm(j,'modify')" color="primary">
+                                        <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.new_data.modify_status==2  &&  j.new_data.modify_ref_id != true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal"
+                                    data-target="#contractoreditpopup"
+                                        (click)="contractEditForm(j,'modify')" color="primary">
+                                        <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.new_data.modify_status==2  &&  j.new_data.modify_ref_id ==true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal"
+                                    data-target="#contractoreditpopup"
+                                        (click)="contractEditForm(j,'modify')" color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+
+                                <!-- <button *ngIf="j[i].modify_ref_id !=j.id && j.modify_status==2"  mat-icon-button matTooltip="Edit" class="iconbutton"
+                                        (click)="contractEditForm(j)" color="primary">
+                                        <mat-icon style="color: green;" aria-label="Edit">edit</mat-icon>
+                                    </button> -->
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="contract_data ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- tax -->
+
+    <div>
+        <span *ngIf="Branchtaxadd">
+            <!-- <app-branch-tax (onCancel)="branchtaxaddcancl()" (onSubmit)="branchtaxaddsbt()"></app-branch-tax> -->
+            <div class="modal fade" id="addTax" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Branch Tax Create Form</p>
+                  <button type="button" #closebuttonbranchtax class="close" (click)="branchtaxaddcancl()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-branch-tax (onCancel)="branchtaxaddcancl()" (onSubmit)="branchtaxaddsbt()"></app-branch-tax>
+        
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="branchtax_RMView">
+            <!-- <app-branchtaxmodification (onCancel)="branchtaxaddcancl()"></app-branchtaxmodification> -->
+            <div class="modal fade" id="branchtaxview" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;">Branch Tax Changes</p>
+                  <button type="button" #closebuttonbranchtaxview class="close" (click)="branchtaxviewclosefun()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-branchtaxmodification (onCancel)="branchtaxviewclosefun()"></app-branchtaxmodification>
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+    <div>
+        <span *ngIf="taxedit">
+            <!-- <app-branch-tax (onCancel)="taxeditcancel()" (onSubmit)="taxeditsubt()"></app-branch-tax> -->
+            <div class="modal fade" id="branchtaxedit" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle"  style="font-weight: bold;">Branch Tax Edit Form</p>
+                  <button type="button" #closebuttonbranchtaxedit class="close" (click)="taxeditcancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-branch-tax (onCancel)="taxeditcancel()" (onSubmit)="taxeditsubt()"></app-branch-tax>
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+    <div>
+        <!-- <br> -->
+        <div *ngIf="istax">
+
+            <!-- <div class=" row col-md-10 ">
+                <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                    <button type="button" class="btn btn-outline-success" (click)="taxadd()"
+                        style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span
+                            class="fa fa-plus"></span>
+                        Add</button>
+                </div>
+            </div> -->
+            <p style="margin-top: 20px;color:black;font-size: 22px;font-weight: 500">Tax Summary</p>
+            <!-- <br /> -->
+            <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <!-- <th>S.No</th>
+                            <th>Supplier Branch</th>
+                            <th>PAN No.</th>
+                            <th>Tax</th>
+                            <th>Sub Tax</th>
+                            <th>Tax Rate</th>
+                            <th>View</th>
+                            <th>Action</th> -->
+                            <th>S.No</th>
+                            <!-- <th>Supplier Branch</th> -->
+                            <th>PAN No</th>
+                            <th>Tax</th>
+                            <th>Sub Tax</th>
+                            <!-- <th>Tax Rate</th> -->
+                            <th>View</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let tax of products ;index as i">
+                            <td>{{i+1}}</td>
+                            <!-- <td>{{ tax.branch_id.name}}</td> -->
+                            <td>{{ tax.panno }}</td>
+                            <td>{{tax.tax.name | titlecase}}</td>
+                            <td>{{tax.subtax.name | titlecase}}</td>
+                            <!-- <td>{{tax.taxrate.rate}}</td> -->
+
+                            <td>
+                                <button mat-icon-button matTooltip="view" class="iconbutton" data-toggle="modal" data-target="#branchtaxview"
+                                    (click)="RMView_branchtax({'new_data':tax})" color="primary">
+                                    <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                                </button>
+                            </td>
+                            <td>
+                                <span *ngIf=" vendor_flag==true">
+                                    <button *ngIf="tax.modify_ref_id>0" mat-icon-button matTooltip=" Edit" data-toggle="modal" data-target="#branchtaxedit"
+                                        class="iconbutton" (click)="Taxedit(tax)" [disabled]="true" color="primary">
+                                        <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                    <button *ngIf="tax.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit" data-toggle="modal"
+                                    data-target="#branchtaxedit"
+                                        class="iconbutton" (click)="Taxedit(tax)" color="primary">
+                                        <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf=" vendor_flag==false">
+                                    <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="Taxedit(tax)" data-toggle="modal"
+                                    data-target="#branchtaxedit"
+                                        [disabled]="true" color="primary">
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+
+
+
+                                <button *ngIf="tax.isexcempted=='Y'" mat-icon-button matTooltip="attachment"
+                                    (click)="downattach(tax)" class="iconbutton" color="primary">
+                                    <mat-icon class="enabled_icon" aria-label="attachment">photo_album</mat-icon>
+                                </button>
+                                <button *ngIf="tax.isexcempted=='N'" mat-icon-button matTooltip="attachment"
+                                    class="iconbutton" color="primary">
+                                    <mat-icon class="disabled_icon" aria-label="attachment">photo_album</mat-icon>
+                                </button>
+
+
+                                <!-- <span *ngIf=" vendor_flag==true">
+                                <button *ngIf="tax.modify_ref_id>0" mat-icon-button class="iconbutton"
+                                    [disabled]="true" (click)="delete_tax(tax.id)" color="primary">
+                                        <mat-icon  class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                    <button *ngIf="tax.modify_ref_id=='-1'" mat-icon-button class="iconbutton"
+                                        (click)="delete_tax(tax.id)" color="primary">
+                                        <mat-icon class="enabled_icon">delete</mat-icon>
+                                    </button>
+                            </span>
+                            <span *ngIf=" vendor_flag==false">
+                                <button mat-icon-button  class="iconbutton"
+                                        (click)="delete_tax(tax.id)" color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                </button>
+                            </span>               -->
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+
+                </table>
+
+                <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+                    <button mat-icon-button [disabled]="has_previous_tax === false" color="primary"
+                        (click)="previousClick()">
+                        <mat-icon>arrow_back
+                        </mat-icon>
+                    </button>
+                    {{presentpage}}
+                    <button mat-icon-button [disabled]="has_next_tax === false" color="primary" (click)="nextClick()">
+                        <mat-icon>arrow_forward
+                        </mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="tax_modify" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+                <p style="color:black;font-size: 22px;font-weight: 500" >Tax Modification Summary</p>
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <!-- <th>S.No</th>
+                            <th>Supplier Branch</th>
+                            <th>PAN No.</th>
+                            <th>Tax</th>
+                            <th>Sub Tax</th>
+                            <th>Tax Rate</th>
+                            <th>Status</th>
+                            <th>Action</th> -->
+                            <th>S.No</th>
+                            <!-- <th>Supplier Branch</th> -->
+                            <th>PAN No</th>
+                            <th>Tax</th>
+                            <th>Sub Tax</th>
+                            <!-- <th>Tax Rate</th> -->
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let j of tax_data; index as i">
+
+                            <td> {{i+1}} </td>
+                            <!-- <td>{{ j.branch_id.name}}</td> -->
+                            <td>{{ j.panno }}</td>
+                            <td>{{j.tax.name | titlecase}}</td>
+                            <td>{{j.subtax.name | titlecase}}</td>
+                            <!-- <td>{{j.subtax.id}}</td> -->
+
+                            <td *ngIf="j.modify_status==1">Create</td>
+                            <td *ngIf="j.modify_status==2">Update</td>
+                            <td *ngIf="j.modify_status==0">Delete</td>
+                            <td>
+                                <span *ngIf="j.modify_ref_id !=j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="Taxedit(j)"
+                                        color="primary" [disabled]="true" data-toggle="modal" data-target="#branchtaxedit" >
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_ref_id ==j.id && j.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="Taxedit(j)"
+                                        color="primary" data-toggle="modal" data-target="#branchtaxedit" >
+                                        <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id != true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="Taxedit(j)"
+                                        color="primary" data-toggle="modal" data-target="#branchtaxedit" >
+                                        <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==2  &&  j.modify_ref_id ==true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" (click)="Taxedit(j)"
+                                        color="primary" [disabled]="true" data-toggle="modal" data-target="#branchtaxedit" >
+                                        <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+
+                                <button mat-icon-button matTooltip="attachment" class="iconbutton" color="primary">
+                                    <mat-icon style="color: gray;" aria-label="attachment">photo_album</mat-icon>
+                                </button>
+                                <!--                             
+                                <span *ngIf="j.modify_status!=0">
+                                    <button mat-icon-button class="iconbutton"
+                                        (click)="delete_tax(j.id)" color="primary">
+                                        <mat-icon class="enabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="j.modify_status==0">
+                                    <button mat-icon-button  class="iconbutton"
+                                        (click)="delete_tax(j.id)" color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                </span> -->
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="tax_data ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- tax -->
+    <div>
+        <span *ngIf="isProductForm">
+            <!-- <app-product (onCancel)="productCancel()" (onSubmit)="productSubmit()"></app-product> -->
+            <div class="modal fade" id="productformpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;" >Product Create Form </p>
+                  <button type="button" #closebuttonproductform class="close" (click)="productCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-product (onCancel)="productCancel()" (onSubmit)="productSubmit()"></app-product>
+        
+                </div>
+              </div>
+            </div>
+             </div>
+            
+        </span>
+    </div>
+
+    <div>
+        <span *ngIf="product_RMView">
+            <!-- <app-productmodification (onCancel)="productCancel()"></app-productmodification> -->
+            <div class="modal fade" id="productview" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;" >Product Changes</p>
+                  <button type="button" #closebuttonproductview class="close" (click)="productviewclose()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-productmodification (onCancel)="productviewclose()"></app-productmodification>
+        
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+
+    <div>
+        <span *ngIf="isProductEditForm">
+            <!-- <app-product-edit (onCancel)="productEditCancel()" (onSubmit)="productEditSubmit()"></app-product-edit> -->
+            <div class="modal fade" id="producteditpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl"  role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;" >Product Edit Form</p>
+                  <button type="button" #closebuttonproducteditform class="close" (click)="productEditCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-product-edit (onCancel)="productEditCancel()" (onSubmit)="productEditSubmit()"></app-product-edit>
+        
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+    <div *ngIf="isProduct">
+        <!-- <div class=" row col-md-10 ">
+            <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                <button type="button" class="btn btn-outline-success" (click)="addProduct()"
+                    style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span class="fa fa-plus"></span>
+                    Add</button>
+            </div>
+        </div> -->
+        <p style="margin-top: 20px;color:black;font-size: 22px;font-weight: 500">Product Summary</p>
+        <div class="table-responsive" style="width: 80%;margin-top: 1opx;overflow-x: hidden;">
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Age</th>
+                        <th>View</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of productList; index as i">
+                        <td> {{(productpage - 1)*pageSize +i+1 }} </td>
+                        <td>{{ product.name | titlecase}}</td>
+                        <td>{{ product.type | titlecase }}</td>
+                        <td>{{ product.age}}</td>
+                        <td>
+                            <button mat-icon-button matTooltip="view" class="iconbutton"
+                                (click)="RMView_product({'new_data':product})" data-toggle="modal" data-target="#productview" color="primary">
+                                <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==true">
+
+                            <button *ngIf="product.modify_ref_id>0 " mat-icon-button matTooltip=" Edit" data-toggle="modal"
+                                data-target="#producteditpopup"
+                                class="iconbutton" (click)="productEditForm(product)" [disabled]="true" color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button *ngIf="product.modify_ref_id=='-1' " mat-icon-button matTooltip=" Edit"
+                            data-toggle="modal"
+                            data-target="#producteditpopup"
+                                class="iconbutton" (click)="productEditForm(product)" color="primary">
+                                <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" [disabled]="true"
+                                color="primary">
+                                <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="productList ?.length == 0" style="margin-left: 42%;margin-bottom: 4%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+
+            <div class="row" *ngIf="isProductPagination">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClickProduct()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button> {{productpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary"
+                        (click)="nextClickProduct()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="product_modify" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+            <p style="color:black;font-size: 22px;font-weight: 500" >Product Modification Summary</p>
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Age</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let j of product_data; index as i">
+
+                        <td> {{i+1}} </td>
+                        <td>{{ j.new_data.name | titlecase}}</td>
+                        <td>{{ j.new_data.type | titlecase }}</td>
+                        <td>{{ j.new_data.age}}</td>
+                        <td *ngIf="j.new_data.modify_status==1">Create</td>
+                        <td *ngIf="j.new_data.modify_status==2">Edit</td>
+                        <td *ngIf="j.new_data.modify_status==0">Delete</td>
+                        <td>
+                            <span *ngIf="j.new_data.modify_ref_id !=j.new_data.id && j.new_data.modify_status==1">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal"
+                                data-target="#producteditpopup"
+                                    (click)="productEditForm(j)" color="primary" [disabled]="true">
+                                    <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_ref_id ==j.new_data.id && j.new_data.modify_status==1">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal"
+                                data-target="#producteditpopup"
+                                    (click)="productEditForm(j.new_data)" color="primary">
+                                    <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_status==2  &&  j.new_data.modify_ref_id != true">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal"
+                                data-target="#producteditpopup"
+                                    (click)="productEditForm(j.new_data)" color="primary">
+                                    <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="j.new_data.modify_status==2  &&  j.new_data.modify_ref_id ==true">
+                                <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal"
+                                data-target="#producteditpopup"
+                                    (click)="productEditForm(j.new_data)" color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                </button>
+                            </span>
+
+
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="product_data ?.length == 0" style="margin-left: 42%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div *ngIf="isTransaction">
+        <div class="table-responsive" style="width: 80%;margin-top: 10px;">
+            <p style="color:black;font-size: 22px;font-weight: 500" >Transaction Details</p>
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No</th>
+                        <th>Comments</th>
+                        <!-- <th>From id </th> -->
+                        <th>From Name</th>
+                        <th>Create Date</th>
+                        <!-- <th>To id </th> -->
+                        <th>To Name</th>
+                        <!-- <th>Status</th> -->
+                        <!-- <th>Action</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let transaction of transactionList;index as i">
+                        <td scope="row">{{(this.transactionpage - 1)*pageSize +i+1 }}</td>
+                        <td style="vertical-align: middle;">{{transaction.comments }}</td>
+                        <!-- <td style="vertical-align: middle;">{{transaction.from_id.id}}</td> -->
+                        <td style="vertical-align: middle;">{{transaction.from_id.full_name}}</td>
+                        <td style="vertical-align: middle;">{{transaction.set_created_date | date:'dd-MM-yyyy' }}</td>
+                        <!-- <td style="vertical-align: middle;">{{transaction.to_id.id}}</td> -->
+                        <td style="vertical-align: middle;">{{transaction.to_id.full_name}}</td>
+                        <!-- <td style="vertical-align: middle;">{{transaction.status}}</td> -->
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+                <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                    (click)="previousClicklandlordBank()">
+                    <mat-icon>arrow_back
+                    </mat-icon>
+                </button>
+                {{transactionpage}}
+                <button mat-icon-button [disabled]="has_next === false" color="primary"
+                    (click)="nextClickLandlordbank()">
+                    <mat-icon>arrow_forward
+                    </mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- kyc -->
+
+
+    <div>
+        <span *ngIf="isKYCForm">
+           
+            <div class="modal fade" id="kyccreatepopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle"  style="font-weight: bold;">KYC</p>
+                  <button type="button" class="close" #closebuttonkycform (click)="kycCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-kyc (onCancel)="kycCancel()" (onSubmit)="kycSubmit()"></app-kyc>
+                </div>
+              </div>
+            </div>
+             </div>
+
+        </span>
+    </div>
+
+
+    <div *ngIf="isKYC">
+        <p style="margin-top: 20px;color:black;font-size: 22px;font-weight: 500"> KYC Summary</p>
+        <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No </th>
+                        <th>Entity</th>
+                        <th *ngIf="this.organizationType == 'Individual'">Individual</th>
+                        <th *ngIf="this.organizationType == 'Sole Proprietorship'">Sole Proprietor</th>
+                        <th *ngIf="(this.organizationType != 'Individual' && this.organizationType != 'Sole Proprietorship')">Directors</th>
+                        <th>Sanctions Screening Conducted</th>
+                        <th>Match Found</th>
+                        <th>View</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let kyc of KYCList; index as i">
+                        <td scope="row">{{ (this.kycpage-1)*pageSize+i+1 }}</td>
+                        <td>{{ kyc.kyc_entity | titlecase}}</td>
+                        <td *ngIf="this.organizationType == 'Individual'">{{ kyc.organization_name | titlecase}}</td>
+                        <td *ngIf="this.organizationType == 'Sole Proprietorship'">{{ kyc.organization_name | titlecase}}</td>
+                        <td *ngIf="(this.organizationType != 'Individual' && this.organizationType != 'Sole Proprietorship')">{{ kyc.organization_name | titlecase}}</td>
+                        <td>{{ kyc.sanctions_conducted.name }}</td>
+                        <td>{{ kyc.match_found.name }}</td>
+                        <td> <button mat-icon-button matTooltip="view" class="iconbutton" data-toggle="modal" data-target="#kycviewpopup"
+                                (click)="KYCView_kyc({'new_data':kyc})" color="primary">
+                                <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                            </button></td>
+                        <td *ngIf=" vendor_flag==true">
+
+
+                            <button *ngIf="kyc.modify_ref_id>0" mat-icon-button matTooltip=" Edit" data-toggle="modal" data-target="#kyceditpopup"
+                                class="iconbutton" (click)="kycEdit(kyc)" [disabled]="true" color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button *ngIf="kyc.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit" data-toggle="modal" data-target="#kyceditpopup"
+                                class="iconbutton" (click)="kycEdit(kyc)" color="primary">
+                                <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                            </button>
+
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" [disabled]="true"
+                                color="primary">
+                                <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+
+                        <td *ngIf=" vendor_flag==true">
+
+                            <span *ngIf="kyc.modify_ref_id=='-1'">
+                                <button mat-icon-button class="iconbutton" (click)="deletekyc(kyc)"
+                                    color="primary">
+                                    <mat-icon class="enabled_icon">delete</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="kyc.modify_ref_id==0||kyc.modify_ref_id>0">
+                                <button mat-icon-button class="iconbutton" (click)="deletekyc(kyc)"
+                                    color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon">delete</mat-icon>
+                                </button>
+                            </span>
+
+
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button class="iconbutton" (click)="deletekyc(kyc)"
+                                color="primary" [disabled]="true">
+                                <mat-icon class="disabled_icon">delete</mat-icon>
+                            </button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="KYCList ?.length == 0" style="margin-left: 42%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+            <div class="row" *ngIf="iskycPagination">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="kyc_previous === false" color="primary"
+                        (click)="previouskycClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{kycpage}}
+                    <button mat-icon-button [disabled]="kyc_next === false" color="primary" (click)="nextkycClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <!-- </div> -->
+            <div *ngIf="kyc_modify">
+                <p style="color:black;font-size: 22px;font-weight: 500" > KYC Modification Summary</p>
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <th>S.No </th>
+                            <th>Entity</th>
+                            <th *ngIf="this.organizationType == 'Individual'">Individual</th>
+                            <th *ngIf="this.organizationType == 'Sole Proprietorship'">Sole Proprietor</th>
+                            <th *ngIf="(this.organizationType != 'Individual' && this.organizationType != 'Sole Proprietorship')">Directors</th>
+                            <th>Sanctions Screening Conducted</th>
+                            <th>Match Found</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let kycMofidy of kyc_data; index as j">
+
+                            <td> {{j+1}} </td>
+                            <td>{{ kycMofidy.new_data.kyc_entity | titlecase}}</td>
+                            <td *ngIf="this.organizationType == 'Individual'">{{ kycMofidy.new_data.organization_name | titlecase}}</td>
+                            <td *ngIf="this.organizationType == 'Sole Proprietorship'">{{ kycMofidy.new_data.organization_name | titlecase}}</td>
+                            <td *ngIf="(this.organizationType != 'Individual' && this.organizationType != 'Sole Proprietorship')">{{ kycMofidy.new_data.organization_name | titlecase}}</td>
+                            <td>{{ kycMofidy.new_data.sanctions_conducted.name }}</td>
+                            <td>{{ kycMofidy.new_data.match_found.name }}</td>
+                            <td *ngIf="kycMofidy.new_data.modify_status==1">Create</td>
+                            <td *ngIf="kycMofidy.new_data.modify_status==2">Edit</td>
+                            <td *ngIf="kycMofidy.new_data.modify_status==0">Delete</td>
+                            <td>
+
+                                <span
+                                    *ngIf="kycMofidy.new_data.modify_ref_id !=kycMofidy.new_data.id && kycMofidy.new_data.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#kyceditpopup"
+                                        (click)="kycEdit(kycMofidy.new_data)" color="primary" [disabled]="true">
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span
+                                    *ngIf="kycMofidy.new_data.modify_ref_id ==kycMofidy.new_data.id && kycMofidy.new_data.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#kyceditpopup"
+                                        (click)="kycEdit(kycMofidy.new_data)" color="primary">
+                                        <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="kycMofidy.new_data.modify_status==2  &&  kycMofidy.new_data.modify_ref_id != true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#kyceditpopup"
+                                        (click)="kycEdit(kycMofidy.new_data)" color="primary">
+                                        <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="kycMofidy.new_data.modify_status==2  &&  kycMofidy.new_data.modify_ref_id ==true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#kyceditpopup"
+                                        (click)="kycEdit(kycMofidy.new_data)" color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+
+                            </td>
+
+
+                            <td>
+                                <span *ngIf="kycMofidy.new_data.modify_status!=0">
+                                    <button mat-icon-button class="iconbutton" (click)="deletekyc(kycMofidy.new_data)"
+                                        color="primary">
+                                        <mat-icon class="enabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="kycMofidy.new_data.modify_status==0">
+                                    <button mat-icon-button class="iconbutton" (click)="deletekyc(kycMofidy.new_data)"
+                                        color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="kyc_data ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <div>
+        <span *ngIf="isKYCEditForm">
+            <div class="modal fade" id="kyceditpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle"  style="font-weight: bold;" >KYC Edit Form </p>
+                  <button type="button" #closebuttonkycedit class="close" (click)="kycEditCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-kyc-edit (onCancel)="kycEditCancel()" (onSubmit)="kycEditSubmit()"></app-kyc-edit>
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+
+
+    <div>
+        <span *ngIf="kyc_RMView">
+            <div class="modal fade" id="kycviewpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;" >KYC Changes</p>
+                  <button type="button" #closebuttonkycview class="close" (click)="kycviewCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-kycmodification (onCancel)="kycviewCancel()"></app-kycmodification>
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+
+
+
+   
+    
+
+
+
+    
+    <div>
+        <span *ngIf="isRiskForm">
+           
+            <div class="modal fade" id="riskcreatepopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl"  role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle"  style="font-weight: bold;">Risk</p>
+                  <button type="button" class="close" #closebuttonriskform (click)="riskCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-risk (onCancel)="riskCancel()" (onSubmit)="riskSubmit()"></app-risk>
+        
+                </div>
+              </div>
+            </div>
+             </div>
+
+        </span>
+    </div>
+
+
+    <div *ngIf="isRisk">
+        <p style="margin-top: 20px;color:black;font-size: 22px;font-weight: 500"> Risk Summary</p>
+        <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No </th>
+                        <th>Type of Risk</th>
+                        <th>Risk Mitigant</th>
+                        <!-- <th>Review mechanism of risk mitigation</th> -->
+                        <th>View</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let risk of riskList; index as i">
+                        <td scope="row">{{ (this.riskpage-1)*pageSize+i+1 }}</td>
+                        <td>{{ risk.risktype_id.name | titlecase}}</td>
+                        <td>{{ risk.risk_mitigant |titlecase }}</td>
+                        <!-- <td>{{ document.risk_mitigant_review | titlecase}}</td> -->
+                        <td> <button mat-icon-button matTooltip="view" class="iconbutton" data-toggle="modal" data-target="#riskviewpopup"
+                                (click)="RMView_risk({'new_data':risk})" color="primary">
+                                <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                            </button></td>
+                        <td *ngIf=" vendor_flag==true">
+
+
+                            <button *ngIf="risk.modify_ref_id>0" mat-icon-button matTooltip=" Edit" data-toggle="modal" data-target="#riskeditpopup"
+                                class="iconbutton" (click)="riskEdit(risk)" [disabled]="true" color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button *ngIf="risk.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit" data-toggle="modal" data-target="#riskeditpopup"
+                                class="iconbutton" (click)="riskEdit(risk)" color="primary">
+                                <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                            </button>
+
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" [disabled]="true"
+                                color="primary">
+                                <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+
+                        <td *ngIf=" vendor_flag==true">
+
+                            <span *ngIf="risk.modify_ref_id=='-1'">
+                                <button mat-icon-button class="iconbutton" (click)="deleterisk(risk)"
+                                    color="primary">
+                                    <mat-icon class="enabled_icon">delete</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="risk.modify_ref_id==0||risk.modify_ref_id>0">
+                                <button mat-icon-button class="iconbutton" (click)="deleterisk(risk)"
+                                    color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon">delete</mat-icon>
+                                </button>
+                            </span>
+
+
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button class="iconbutton" (click)="deleterisk(risk)"
+                                color="primary" [disabled]="true">
+                                <mat-icon class="disabled_icon">delete</mat-icon>
+                            </button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="riskList ?.length == 0" style="margin-left: 42%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+            <div class="row" *ngIf="isRiskPagination">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="risk_previous === false" color="primary"
+                        (click)="previousriskClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{riskpage}}
+                    <button mat-icon-button [disabled]="risk_next === false" color="primary" (click)="nextriskClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <!-- </div> -->
+            <div *ngIf="risk_modify">
+                <p style="color:black;font-size: 22px;font-weight: 500" > Risk Modification Summary</p>
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <th>S.No </th>
+                           <th>Type of Risk</th>
+                        <th>Risk Mitigant</th>
+                        <!-- <th>Review mechanism of risk mitigation</th> -->
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let rik of risk_data; index as j">
+
+                            <td> {{j+1}} </td>
+                            <td>{{ rik.new_data.risktype_id.name | titlecase}}</td>
+                            <td>{{ rik.new_data.risk_mitigant | titlecase}}</td>
+                            <td *ngIf="rik.new_data.modify_status==1">Create</td>
+                            <td *ngIf="rik.new_data.modify_status==2">Edit</td>
+                            <td *ngIf="rik.new_data.modify_status==0">Delete</td>
+                            <td>
+
+                                <span
+                                    *ngIf="rik.new_data.modify_ref_id !=rik.new_data.id && rik.new_data.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#riskeditpopup"
+                                        (click)="riskEdit(rik.new_data)" color="primary" [disabled]="true">
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span
+                                    *ngIf="rik.new_data.modify_ref_id ==rik.new_data.id && rik.new_data.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#riskeditpopup"
+                                        (click)="riskEdit(rik.new_data)" color="primary">
+                                        <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="rik.new_data.modify_status==2  &&  rik.new_data.modify_ref_id != true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#riskeditpopup"
+                                        (click)="riskEdit(rik.new_data)" color="primary">
+                                        <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="rik.new_data.modify_status==2  &&  rik.new_data.modify_ref_id ==true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#riskeditpopup"
+                                        (click)="riskEdit(rik.new_data)" color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+
+                            </td>
+
+
+                            <td>
+                                <span *ngIf="rik.new_data.modify_status!=0">
+                                    <button mat-icon-button class="iconbutton" (click)="deleterisk(rik.new_data)"
+                                        color="primary">
+                                        <mat-icon class="enabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="rik.new_data.modify_status==0">
+                                    <button mat-icon-button class="iconbutton" (click)="deleterisk(rik.new_data)"
+                                        color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="risk_data ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <div>
+        <span *ngIf="isRiskEditForm">
+            <!-- <app-document-edit (onCancel)="documentEditCancel()" (onSubmit)="documentEditSubmit()"></app-document-edit> -->
+            <div class="modal fade" id="riskeditpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle"  style="font-weight: bold;" >Risk Edit Form </p>
+                  <button type="button" #closebuttonriskedit class="close" (click)="riskEditCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <!-- <app-document-edit (onCancel)="riskEditCancel()" (onSubmit)="riskEditSubmit()"></app-document-edit> -->
+                    <app-risk-edit (onCancel)="riskEditCancel()" (onSubmit)="riskEditSubmit()"></app-risk-edit>
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+
+
+    <div>
+        <span *ngIf="risk_RMView">
+            <div class="modal fade" id="riskviewpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;" >Risk Changes</p>
+                  <button type="button" #closebuttonriskview class="close" (click)="riskviewCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-riskmodification (onCancel)="riskviewCancel()"></app-riskmodification>
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+
+
+    <div>
+        <span *ngIf="isDocumentForm">
+            <!-- <app-vendordocumentcreate (onCancel)="documentCancel()" (onSubmit)="documentSubmit()">
+            </app-vendordocumentcreate> -->
+
+            <div class="modal fade" id="documentcreatepopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle"  style="font-weight: bold;">Document Create Form </p>
+                  <button type="button" #closebuttondocumentform class="close" (click)="documentCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-vendordocumentcreate (onCancel)="documentCancel()" (onSubmit)="documentSubmit()">
+                    </app-vendordocumentcreate>
+        
+                </div>
+              </div>
+            </div>
+             </div>
+
+        </span>
+    </div>
+
+    <div>
+        <span *ngIf="document_RMView">
+            <!-- <app-documentmodification (onCancel)="documentCancel()"></app-documentmodification> -->
+            <div class="modal fade" id="documentviewpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;" >Document Changes</p>
+                  <button type="button" #closebuttondocumentview class="close" (click)="documentviewCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-documentmodification (onCancel)="documentviewCancel()"></app-documentmodification>
+        
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+
+    <div>
+        <span *ngIf="isDocumentEditForm">
+            <!-- <app-document-edit (onCancel)="documentEditCancel()" (onSubmit)="documentEditSubmit()"></app-document-edit> -->
+            <div class="modal fade" id="documenteditpopup" tabindex="-1" role="dialog" aria-labelledby="actionpopupTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <p class="modal-title" id="exampleModalLongTitle"  style="font-weight: bold;" >Document Edit Form </p>
+                  <button type="button" #closebuttondocumentedit class="close" (click)="documentEditCancel()"  data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <app-document-edit (onCancel)="documentEditCancel()" (onSubmit)="documentEditSubmit()"></app-document-edit>
+        
+                </div>
+              </div>
+            </div>
+             </div>
+        </span>
+    </div>
+    <div *ngIf="isDocument">
+        <!-- <div class=" row col-md-10 ">
+            <div *ngIf="vendor_flag" class="col-md-12 text-right ">
+                <button type="button" class="btn btn-outline-success" (click)="adddocument()"
+                    style="border-radius:40px;margin-left: 50px;margin-bottom: 5px;"><span class="fa fa-plus"></span>
+                    Add</button>
+            </div>
+        </div> -->
+        <p style="margin-top: 20px;color:black;font-size: 22px;font-weight: 500"> Document Summary</p>
+        <div class="table-responsive" style="width: 80%;margin-top: 10px;overflow-x: hidden;">
+
+            <table class="table" id ='commonstyle'>
+                <thead class="table_header" >
+                    <tr>
+                        <th>S.No </th>
+                        <th>Partner Id</th>
+                        <th>DocGroup Name</th>
+                        <th>Remarks</th>
+                        <th>View</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let document of documentList; index as i">
+                        <td scope="row">{{ (this.documentpage-1)*pageSize+i+1 }}</td>
+                        <td>{{ document.partner_id}}</td>
+                        <td>{{ document.docgroup_id.name | titlecase }}</td>
+                        <td>{{ document.remarks | titlecase}}</td>
+                        <td> <button mat-icon-button matTooltip="view" class="iconbutton" data-toggle="modal" data-target="#documentviewpopup"
+                                (click)="RMView_document({'new_data':document})" color="primary">
+                                <mat-icon class="enabled_icon" aria-label="view">visibility</mat-icon>
+                            </button></td>
+                        <td *ngIf=" vendor_flag==true">
+
+
+                            <button *ngIf="document.modify_ref_id>0" mat-icon-button matTooltip=" Edit" data-toggle="modal" data-target="#documenteditpopup"
+                                class="iconbutton" (click)="documentEdit(document)" [disabled]="true" color="primary">
+                                <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                            <button *ngIf="document.modify_ref_id=='-1'" mat-icon-button matTooltip=" Edit" data-toggle="modal" data-target="#documenteditpopup"
+                                class="iconbutton" (click)="documentEdit(document)" color="primary">
+                                <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                            </button>
+
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button matTooltip=" Edit" class="iconbutton" [disabled]="true"
+                                color="primary">
+                                <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                            </button>
+                        </td>
+
+                        <td *ngIf=" vendor_flag==true">
+
+                            <span *ngIf="document.modify_ref_id=='-1'">
+                                <button mat-icon-button class="iconbutton" (click)="deletedocument(document)"
+                                    color="primary">
+                                    <mat-icon class="enabled_icon">delete</mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="document.modify_ref_id==0||document.modify_ref_id>0">
+                                <button mat-icon-button class="iconbutton" (click)="deletedocument(document)"
+                                    color="primary" [disabled]="true">
+                                    <mat-icon class="disabled_icon">delete</mat-icon>
+                                </button>
+                            </span>
+
+
+                        </td>
+                        <td *ngIf=" vendor_flag==false">
+                            <button mat-icon-button class="iconbutton" (click)="deletedocument(document)"
+                                color="primary" [disabled]="true">
+                                <mat-icon class="disabled_icon">delete</mat-icon>
+                            </button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="documentList ?.length == 0" style="margin-left: 42%;">
+                <h3>Sorry data not found!.. </h3>
+            </div>
+            <div class="row" *ngIf="isDocumentPagination">
+                <div class="col-sm-12" style="font-size: small;text-align: right;margin-bottom: 5%;">
+                    <button mat-icon-button [disabled]="has_previous === false" color="primary"
+                        (click)="previousClick()">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                    {{documentpage}}
+                    <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+                        <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <!-- </div> -->
+            <div *ngIf="document_modify">
+                <p style="color:black;font-size: 22px;font-weight: 500" > Document Modification Summary</p>
+                <table class="table" id ='commonstyle'>
+                    <thead class="table_header" >
+                        <tr>
+                            <th>S.No </th>
+                            <th>Partner Id</th>
+                            <th>DocGroup Name</th>
+                            <th>Remarks</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let doc of document_data; index as j">
+
+                            <td> {{j+1}} </td>
+                            <td>{{ doc.new_data.partner_id}}</td>
+                            <td>{{ doc.new_data.docgroup_id.docname | titlecase }}</td>
+                            <td>{{ doc.new_data.remarks | titlecase}}</td>
+                            <td *ngIf="doc.new_data.modify_status==1">Create</td>
+                            <td *ngIf="doc.new_data.modify_status==2">Edit</td>
+                            <td *ngIf="doc.new_data.modify_status==0">Delete</td>
+                            <td>
+
+                                <span
+                                    *ngIf="doc.new_data.modify_ref_id !=doc.new_data.id && doc.new_data.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#documenteditpopup"
+                                        (click)="documentEdit(doc.new_data)" color="primary" [disabled]="true">
+                                        <mat-icon style="color:gray;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span
+                                    *ngIf="doc.new_data.modify_ref_id ==doc.new_data.id && doc.new_data.modify_status==1">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#documenteditpopup"
+                                        (click)="documentEdit(doc.new_data)" color="primary">
+                                        <mat-icon style="color:black;" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="doc.new_data.modify_status==2  &&  doc.new_data.modify_ref_id != true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#documenteditpopup"
+                                        (click)="documentEdit(doc.new_data)" color="primary">
+                                        <mat-icon class="enabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="doc.new_data.modify_status==2  &&  doc.new_data.modify_ref_id ==true">
+                                    <button mat-icon-button matTooltip="Edit" class="iconbutton" data-toggle="modal" data-target="#documenteditpopup"
+                                        (click)="documentEdit(doc.new_data)" color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon" aria-label="Edit">edit</mat-icon>
+                                    </button>
+                                </span>
+
+                            </td>
+
+
+                            <td>
+                                <span *ngIf="doc.new_data.modify_status!=0">
+                                    <button mat-icon-button class="iconbutton" (click)="deletedocument(doc.new_data)"
+                                        color="primary">
+                                        <mat-icon class="enabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                                <span *ngIf="doc.new_data.modify_status==0">
+                                    <button mat-icon-button class="iconbutton" (click)="deletedocument(doc.new_data)"
+                                        color="primary" [disabled]="true">
+                                        <mat-icon class="disabled_icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="document_data ?.length == 0" style="margin-left: 42%;">
+                    <h3>Sorry data not found!.. </h3>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+</div>
+
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title  w-100 font-weight-bold" id="rejectModalLabel">Reject</h4>
+                <button type="button" #closebutton class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <from [formGroup]="rejectFrom">
+                    <mat-form-field style="width: 175px; ">
+                        <mat-label>Remarks</mat-label>
+                        <input matInput placeholder="Remarks" autocomplete="off" formControlName="comments" required>
+                    </mat-form-field>
+                    <!-- <div class="modal-footer">
+                        <button class="btn btn-outline-success" type="button" data-toggle="modal"
+                            data-target="#rejectModal">
+                            Cancel </button>
+                        <button class="btn btn-outline-primary" type="submit" (click)="rejectRemarks()"
+                            [disabled]="rejectFrom.invalid" style="border-radius:40px;margin-left: 10px;">
+                            Submit</button>
+                    </div> -->
+                    <div class="modal-footer" >
+                        <button type="button"  class="btn btn-light" data-toggle="modal" data-target="#rejectModal"
+                                    style="border-radius: 7px;margin-left: 25px;
+                                     border-color: black;
+                                    background-color: white;">Cancel</button>
+                       <button type="submit" style="border-radius: 10px;margin-left: 25px;
+                                    border-color: #f5c68b;
+                                    background-color: #f5c68b;" [disabled]="rejectFrom.invalid"
+                                    class="btn btn-light" (click)="rejectRemarks()"  >Submit</button>
+                    </div>
+                </from>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- return -->
+<div class="modal fade" id="returnModal" tabindex="-1" role="dialog" aria-labelledby="returnModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title  w-100 font-weight-bold" id="returnModalLabel">Return</h4>
+                <button type="button" #closebuttonretn class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <from [formGroup]="returnForm">
+                    <mat-form-field style="width: 175px; ">
+                        <mat-label>Remarks</mat-label>
+                        <input matInput placeholder="Remarks" autocomplete="off" formControlName="comments" required>
+                    </mat-form-field>
+                    <!-- <div class="modal-footer">
+                        <button class="btn btn-outline-success" type="button" data-toggle="modal"
+                            data-target="#rejectModal">
+                            Cancel </button>
+                        <button class="btn btn-outline-primary" type="submit" (click)="rejectRemarks()"
+                            [disabled]="rejectFrom.invalid" style="border-radius:40px;margin-left: 10px;">
+                            Submit</button>
+                    </div> -->
+                    <div class="modal-footer" >
+                        <button type="button"  class="btn btn-light" data-toggle="modal" data-target="#returnModal"
+                                    style="border-radius: 7px;margin-left: 25px;
+                                     border-color: black;
+                                    background-color: white;">Cancel</button>
+                       <button type="submit" style="border-radius: 10px;margin-left: 25px;
+                                    border-color: #f5c68b;
+                                    background-color: #f5c68b;" [disabled]="returnForm.invalid"
+                                    class="btn btn-light" (click)="returnRemarks()"  >Submit</button>
+                    </div>
+                </from>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="submittocheckerModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title  w-100 font-weight-bold">Please Confirm</h4>
+                <button type="button" #closedeclbutton class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <from [formGroup]="declarationForm">
+                    
+                    <mat-checkbox class="example-margin" (change)="rm_check($event)" formControlName="rm_verify">I Confirm that I have verify the Contract
+                    </mat-checkbox>
+
+                    <div class="modal-footer" >
+                        
+                       <button type="submit" style="border-radius: 10px;margin-left: 25px;
+                                    border-color: #f5c68b;
+                                    background-color: #f5c68b;"
+                                    class="btn btn-light" (click)="checker()"  >OK</button>
+                                    <button type="button"  class="btn btn-light" data-dismiss="modal"
+                                    style="border-radius: 7px;margin-left: 25px;
+                                     border-color: black;
+                                    background-color: white;">Cancel</button>
+                    </div>
+                </from>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+  </mat-card>
+</div>

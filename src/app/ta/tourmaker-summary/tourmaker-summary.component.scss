@@ -1,0 +1,56 @@
+#commonstyle{
+    border:15px none #f6f6f6;
+    vertical-align: middle;
+    }
+
+    tr:nth-child(even) {background: #EDF8FA}
+    tr:nth-child(odd) {background: #FFF}
+table,th,td{
+    text-align: left;
+    vertical-align: center;
+}
+
+.fixed-header1{
+    position: sticky;
+    left: 0;
+    background-color: white;
+    
+
+}
+
+.fixed-header2{
+    position: sticky;
+    left: 62.5px;
+    background-color: white;
+
+}
+.fixed-header3{
+    position: sticky;
+    left: 136.3px;
+    background-color: white;
+
+}
+.fixed-header4{
+    position: sticky;
+    left: 250.6px;
+    background-color: white;
+
+}
+.fixed-header5{
+    position: sticky;
+    left: 318.5px;
+    background-color: white;
+
+}
+.fixed-header6{
+    position: sticky;
+    left: 382.5px;
+    background-color: white;
+
+}
+
+.lastfixed-header{
+    position: sticky;
+    right: 0;
+    background-color: white;
+}

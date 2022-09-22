@@ -1,0 +1,154 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 1%; width: 100%;">
+    <h3 style="margin-left: 2%;font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;">
+        Edit Bank Branch Form
+    </h3><hr>
+    <div>
+        <form [formGroup]="bankbranchEditForm" (ngSubmit)="editBranchForm()"autocomplete="off">
+            <table>
+                <div>
+                    <tr>
+                        
+                        <td>
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Name" formControlName="name" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <mat-form-field style="width: 250px;">
+                                <mat-label>IFSCCode</mat-label>
+                                <input matInput placeholder="IFSCCode" formControlName="ifsccode"   minlength="7" maxlength="11" [ngModel]="inputIFSCValue"
+                                (ngModelChange)="inputIFSCValue = $event.toUpperCase()" autocomplete="off"  required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>MICROCode</mat-label>
+                                <input matInput placeholder="MICROCode" formControlName="microcode" autocomplete="off" required>
+                            </mat-form-field>
+                        </td>
+                    
+                        <td>
+                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                <mat-label>Bank Name</mat-label>
+                                <input placeholder="Select Bank" matInput formControlName="bank_id"
+                                    [matAutocomplete]="bank">
+                                <mat-autocomplete #bank="matAutocomplete" [displayWith]="displayFnBank">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let bank of bankList" [value]="bank">{{bank.name}}
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h3>Address</h3>
+                                <div [formGroup]="bankbranchEditForm.controls.address_id">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field style="width: 250px;">
+                                                <mat-label>Line1</mat-label>
+                                                <input matInput placeholder="Line1" formControlName="line1" autocomplete="off" required>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                                <mat-label>Line2</mat-label>
+                                                <input matInput placeholder="Line2" formControlName="line2" autocomplete="off"
+                                                    required>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 250px;margin-left: 50px;">
+                                                <mat-label>Line3</mat-label>
+                                                <input matInput placeholder="Line3" formControlName="line3" autocomplete="off"
+                                                    required>
+                                            </mat-form-field>
+                                        </td>          
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <mat-form-field style="width: 250px;margin-top: 20px; ">
+                                                <mat-label>City</mat-label>
+                                                <input #SCROLLcityInput placeholder="Select city" matInput formControlName="city_id"
+                                                    [matAutocomplete]="citytype">
+                                                <mat-autocomplete #citytype="matAutocomplete" [displayWith]="displayFncity" (opened)="autocompletecityScroll()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                    <ng-container *ngIf="!isLoading">
+                                                        <mat-option *ngFor="let city of cityList" (focusout)="citys(city)" [value]="city">
+                                                            {{city.name}}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 250px;margin-top: 20px; margin-left: 50px;">
+                                                <mat-label>District</mat-label>
+                                                <input #SCROLLdistrictInput placeholder="Select District" matInput formControlName="district_id"
+                                                    [matAutocomplete]="districttype">
+                                                <mat-autocomplete #districttype="matAutocomplete" [displayWith]="displayFndistrict" (opened)="autocompletedistScroll()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                    <ng-container *ngIf="!isLoading">
+                                                        <mat-option *ngFor="let district of districtList" [value]="district">
+                                                            {{district.name}}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field style="width: 250px;margin-top: 20px; margin-left: 50px;">
+                                                <mat-label>State</mat-label>
+                                                <input #SCROLLstateInput placeholder="Select State" matInput formControlName="state_id"
+                                                    [matAutocomplete]="statetype">
+                                                <mat-autocomplete #statetype="matAutocomplete" [displayWith]="displayFnstate" (opened)="autocompletestatScroll()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                    <ng-container *ngIf="!isLoading">
+                                                        <mat-option *ngFor="let state of stateList" [value]="state">
+                                                            {{state.name}}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <mat-form-field style="width: 250px;margin-top: 20px; ">
+                                                <mat-label>Pin Code</mat-label>
+                                                <input #SCROLLpinInput placeholder="Select Pin Code" matInput formControlName="pincode_id"
+                                                    [matAutocomplete]="pintype">
+                                                <mat-autocomplete #pintype="matAutocomplete" [displayWith]="displayFnpin" (opened)="autocompletepinScroll()">
+                                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                                    <ng-container *ngIf="!isLoading">
+                                                        <mat-option *ngFor="let pin of pinCodeList" (focusout)="pinCode(pin)" [value]="pin">
+                                                            {{pin.no}}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;"  class="btn btn-outline-primary text-center" 
+            >Submit</button>
+            <button type="button" (click)="onCancelClick()" class="btn btn-outline-primary text-center" 
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+           
+        </form>
+    </div>
+</div>

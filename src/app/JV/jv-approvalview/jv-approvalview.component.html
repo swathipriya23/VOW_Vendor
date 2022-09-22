@@ -1,0 +1,335 @@
+<div style="background-color: #F6F6F6">
+    <mat-card style="margin-top: 13px;margin-left: 20px;margin-right: 20px;margin-bottom: 20px;">
+        <div style="margin-left: 10px;margin-top: 1%; width: 100%;">
+        <h2 style="margin-left: 1px;font-weight:bold;">JV Approval View</h2>
+
+        <div>
+            <form [formGroup]="approverviewForm" style="margin-left:2%;">
+                <table style="margin-bottom: 2%;">
+                    <div>
+                        <tr>
+                            <td>
+                                <mat-form-field
+                                style="width:200px;">
+                                <input matInput placeholder="CR Number" formControlName="crno"
+                                    autocomplete="off" readonly>
+                                </mat-form-field>
+                            </td>
+
+                            <td>
+                                <mat-form-field
+                                style="width:200px;margin-left: 50px;">
+                                <input matInput placeholder="Ref Number" formControlName="refno"
+                                    autocomplete="off" readonly>
+                                </mat-form-field>
+                            </td>
+
+                            <td>
+                                <mat-form-field
+                                style="width:200px;margin-left: 50px;">
+                                <input matInput placeholder="Transaction Date" formControlName="date"
+                                    autocomplete="off" readonly>
+                                </mat-form-field>
+                            </td>
+
+                            <td>
+                                <mat-form-field
+                                style="width:300px;margin-left:50px;">
+                                <input matInput placeholder="Branch" formControlName="branch"
+                                    autocomplete="off" readonly>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            <h3  (click)="gettrandata()" data-toggle="modal"
+                            data-target="#showtrandetails" style="cursor: pointer;color:blue;font-family: 'Montserrat';" class="btn btn-link" matTooltip="Transaction View">View Transaction Details</h3>
+                        </td>
+                        <td>
+                            <h3 data-toggle="modal"
+                            data-target="#showfiledetails" style="cursor: pointer;color:blue;font-family: 'Montserrat';" class="btn btn-link" matTooltip="File View">View File Details</h3>
+                        </td>
+                    </div>
+                </table>
+            </form>
+        </div>
+
+    <br><br>
+
+    <div>
+
+        <div class="table-responsive" style="width:100%;margin-top: 1%;">
+            <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+                <thead class="table_header" style="text-align: left;">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Entry Type</th>
+                        <th>Branch Name</th>
+                        <th>AP Category</th>
+                        <th>AP Subcategory</th>
+                        <th>BS</th>
+                        <th>CC</th>
+                        <th>CBS GL </th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let data of viewList;index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{data.jedtype}}</td>
+                        <td>{{data.jedbranch.name}}</td>
+                        <td>{{data.jedcat_code.name}}</td>
+                        <td>{{data.jedsubcat_code.name}}</td>
+                        <td>{{data.jedbs_code.name}}</td>
+                        <td>{{data.jedcc_code.name}}</td>
+                        <td>{{data.jedglno}}</td>
+                        <td>{{data.jeddescription}}</td>
+                        <td>{{data.jedamount}}</td>
+
+                    </tr>
+                    <tr>
+                        <th class="totaldisplay" colspan="5" style="text-align: end;">Sum Of Debits:&nbsp;{{debitsum | currency:'INR'}}</th>
+                        <th class="totaldisplay" colspan="2" style="text-align: end;">Sum Of Credits:&nbsp;{{creditsum | currency:'INR'}}</th>
+                        <th class="totaldisplay" colspan="3" style="text-align: end;">Total Amount:&nbsp;{{sum | currency:'INR'}}</th>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="viewList ?.length == 0" style="margin-left: 42%;">
+                <h3 >Sorry data not found!.. </h3>
+            </div>
+        </div>
+    </div>
+    <h2 style="font-weight:bold;margin-left: 30px;">Description : {{description}}</h2>
+    <br><br>
+    
+
+
+    <div>
+        <form [formGroup]="SubmitApproverForm" style="margin-left:2%;">
+            <table style="margin-bottom: 5%;">
+                <div>
+                    <tr>
+                        <td>
+                            <mat-label >Remarks<label style="color: red;">*</label></mat-label><br>
+                            <mat-form-field class="matformfieldstyle" style="width: 450px;"
+                                appearance="outline">
+                                <textarea type="text" matInput formControlName="remark" autocomplete="off"
+                                    class="matformfieldinputstyle" placeholder="Remarks"></textarea>
+                            </mat-form-field>
+                            </td>
+
+                            <td>
+                                <button class="btn btn-success"  type="button"  style="border-radius:10px;margin-bottom: -75%;margin-left:10px;"
+                                (click)="jvapprove()" [disabled]="SubmitApproverForm?.value?.remark ==''">
+                                    Approve  </button>
+                            </td>
+
+                            <td>
+                                <button class="btn btn-danger"  type="button"  style="border-radius:10px;margin-bottom: -85%;margin-left:10px;" 
+                                (click)="jvreject()" [disabled]="SubmitApproverForm?.value?.remark ==''">
+                                    Reject  </button>
+                            </td>
+
+                            <td>
+                                <button type="button" class="btn btn-light" style="border-radius:7px;margin-left:10px;margin-bottom:-95%;
+                                border-color: black; 
+                               background-color: white;" (click)="back()">Back</button>
+                            </td>
+                        </tr>
+                    </div>
+                </table>
+            </form>
+        </div>
+                           
+
+
+
+
+</div>
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true"
+    id="showtrandetails">
+    <div class="modal-dialog modal-xl " style="width: 93%;">
+        <div class="modal-content">
+            <div class="modal-header"  style="background: #21cbe5;">
+                <h2 class="modal-title" style="color:black ;text-align: center;font-weight: bold;">Transaction Details</h2>
+                <button type="button" class="close" data-dismiss="modal" #closedbuttons aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div style="margin-left: 50px;margin-right: 80%;margin-top: 2%; width: 90%;">
+                <div class="container">
+                    <div class="row">
+                        <div class="table-responsive" style="width:100%;margin-top: 1%;">
+                            <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+                                <thead class="table_header" style="text-align: left;">
+
+
+                                    <tr style="text-align:center">
+
+                                        <th>S.No</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Remarks</th>
+                                        <th>Employee Name</th>
+                                        <th>Approver Name</th>
+                                        <th>Approved By</th>
+                                       
+
+
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr *ngFor="let dtl of tranrecords; index as i" style="text-align:center">
+                                        <td>{{i+1}}</td>
+                                        <td>{{dtl?.status}}</td>
+                                        <td>{{dtl?.created_date|date:'dd/MM/yyyy'}}</td>
+                                        <td>{{dtl?.remarks}}</td>
+                                        <td>{{dtl?.from_user?.name}}</td>
+                                        <td>{{dtl?.to_user?.name}}</td>
+                                        <td>{{dtl?.to_user?.name}}</td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div *ngIf="tranrecords ?.length == 0" style="margin-left: 42%;">
+                                <h3 >Sorry data not found!.. </h3>
+                            </div>
+                            
+                            
+                           
+                        </div>
+                        <tr>
+                            <td>
+
+                                <button type="button" class="btn btn-light" style="border-radius:7px;margin-left:450px;
+                                border-color: black; margin-bottom: 20px;
+                                background-color: white;" (click)="tranback()">Back</button>
+
+                            </td>
+                        </tr>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div >
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true"
+      id="showfiledetails">
+      <div class="modal-dialog modal-xl " style="width: 70%;">
+        <div class="modal-content">
+          <div class="modal-header"  style="background: #21cbe5;">
+            <h2 class="modal-title" style="color:black ;text-align: center;font-weight: bold;">JV Attachments</h2>
+            <button type="button" class="close" data-dismiss="modal" #closefile aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div style="margin-left: 50px;margin-right: 80%;margin-top: 2%; width: 90%;">
+            <div class="container">
+              <div class="row">
+                <div class="table-responsive" style="width:100%;margin-top: 1%;">
+                    <table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+                        <thead class="table_header" style="text-align: left;">
+
+                      <tr >
+                        <th style="text-align: center;">S.No</th>
+                        <th style="text-align: center;">File Name</th>
+                        <th style="text-align: center;">Download File</th>
+                        <!-- <th style="text-align: center;">Delete File</th> -->
+
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr  *ngFor="let attach of filedatas; index as i" style="text-align: center;">
+                        <td >{{i+1}}</td>
+                       
+                        <td>
+                            <a (click)="viewfile(attach)" class="btn btn-link" style="cursor: pointer;color:blue;"
+                                matTooltip="View File"  data-target="#my-modal" data-toggle="modal">{{ attach.file_name}}</a>
+                        </td>
+                        <td>
+                            <i class="material-icons" (click)="downloadfiles(attach)">
+                                get_app
+                            </i>
+                        </td>
+                        <!-- <td>
+                            <mat-icon style="color: black;cursor: pointer;"
+                                (click)="fileDeletes(attach,i)">delete</mat-icon>
+                        </td> -->
+                        <!-- margin-left: 80px; -->
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div *ngIf="filedatas ?.length == 0" style="margin-left: 42%;">
+                    <h3 >Sorry data not found!.. </h3>
+                </div>
+
+                </div>
+                <tr>
+                    <td>
+
+                        <button type="button" class="btn btn-light" style="border-radius:7px;margin-left:450px;
+                        border-color: black; margin-bottom: 20px;
+                        background-color: white;" (click)="fileback()">Back</button>
+
+                    </td>
+                </tr>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showimageHeaderAPI" id="my-modal" class="modal fade" aria-labelledby="my-modalLabel" aria-hidden="true"
+  tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl" data-dismiss="modal" style="width: 60%;height: 80%;">
+      <div class="modal-content">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="modal-body">
+              <img src="{{jpgUrlsAPI}}" class="img-responsive" style="width: 100%;">
+
+          </div>
+      </div>
+  </div>
+</div>
+
+<div *ngIf="showimagepdf" id="my-modal" class="modal fade" aria-labelledby="my-modalLabel" aria-hidden="true"
+  tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+          <div class="modal-header" style="background:#21cbe5;">
+              <h2 class="modal-title">JV Attachments</h2>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <pdf-viewer [src]="pdfurl" [original-size]="false" [render-text]='false' [show-borders]="true"
+              [fit-to-page]="true" [show-all]="true" style="display: block; height: 600px;" [fit-to-page]="true">
+          </pdf-viewer>
+      </div>
+  </div>
+
+</div>
+
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">
+    <p style="color: white">Please Wait. </p>
+</ngx-spinner>

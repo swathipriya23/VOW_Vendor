@@ -1,0 +1,144 @@
+<div class="container">
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+            <h3> Changes </h3>
+        </div>
+        <div class="col-md-7 text-right">
+            <!-- <button type="button" class="btn btn-outline-primary" style="border-radius: 40px;margin-left: 10px;"
+                (click)="Cancel()">Cancel</button> -->
+                <button type="button" class="btn btn-light" (click)="Cancel()"
+                style="border-radius: 7px;margin-left: 25px;
+                border-color: black;
+                background-color: white;">Cancel</button>
+            
+            
+        </div>
+    </div>
+    <div>
+        <div class="timeline">
+            <ul>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+
+                <li>
+                    <div class="content">
+                        <p><code>Activity Name</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.name!=modificationdata.old_data.name'>
+                                {{ modificationdata.new_data.name | titlecase}}</span></p>
+                        <p><code> Activity Type</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.type!=modificationdata.old_data.type'>
+                                {{modificationdata.new_data.type | titlecase}}</span></p>
+                        <p><code>RM</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.rm!=modificationdata.old_data.rm'>
+                                {{modificationdata.new_data.rm | titlecase}}</span></p>
+                        <p><code>Status</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.activity_status!=modificationdata.old_data.activity_status'>
+                                {{modificationdata.new_data.activity_status | titlecase}} </span></p>
+
+                        <p><code>Start Date</code>:&nbsp;<SPAN
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.start_date!=modificationdata.old_data.start_date'>{{ modificationdata.new_data.start_date | date:'dd-MM-yyyy'}}</SPAN>
+                        </p>
+                        <p><code>End Date</code>:&nbsp;<SPAN
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.end_date!=modificationdata.old_data.end_date'>{{ modificationdata.new_data.end_date | date:'dd-MM-yyyy'}}</SPAN>
+                        </p>
+                        <p><code>Contract Spend</code>:&nbsp;<SPAN
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contract_spend!=modificationdata.old_data.contract_spend'>{{ modificationdata.new_data.contract_spend}}</SPAN>
+                        </p>
+                        <!-- <p><code>Name</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 && 
+                             modificationdata.new_data.name!=modificationdata.old_data.fidelity'> modificationdata.new_data.name}}</p> -->
+                        <!-- <p><code>Specification</code>:&nbsp;{{ modificationdata.new_data.specification}}</p> -->
+                        <p><code>Fidelity </code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  
+                                modificationdata.new_data.fidelity!=modificationdata.old_data.fidelity'
+                                *ngIf="modificationdata.new_data.fidelity=='True'">Yes</span><span [class.changes]='modificationdata.new_data.modify_status==2 &&  
+                                modificationdata.new_data.fidelity!=modificationdata.old_data.fidelity'
+                                *ngIf="modificationdata.new_data.fidelity=='False'">No</span></p>
+                        <p><code> Bidding</code>:&nbsp;<span [class.changes]='modificationdata.new_data.modify_status==2 &&  
+                                modificationdata.new_data.bidding!=modificationdata.old_data.bidding'
+                                *ngIf="modificationdata.new_data.bidding=='True'">Yes</span><span [class.changes]='modificationdata.new_data.modify_status==2 &&  
+                                modificationdata.new_data.bidding!=modificationdata.old_data.bidding'
+                                *ngIf="modificationdata.new_data.bidding=='False'">No</span></p>
+                        <p><code>Description</code>:&nbsp;{{ modificationdata.new_data.description | titlecase}}</p>
+
+                        <Address>
+                            <code>Contact</code>:&nbsp;
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.name!=modificationdata.old_data.contact_id.name'>
+                                {{ modificationdata.new_data.contact_id.name | titlecase}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.designation!=modificationdata.old_data.contact_id.designation'>{{ modificationdata.new_data.contact_id.designation | titlecase}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.email!=modificationdata.old_data.contact_id.email'>{{ modificationdata.new_data.contact_id.email}}</span>,
+                            <!-- <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.type_id.name!=modificationdata.old_data.contact_id.type_id.name'>
+                                {{ modificationdata.new_data.contact_id.type_id.name}}</span>, -->
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.landline!=modificationdata.old_data.contact_id.landline'>{{ modificationdata.new_data.contact_id.landline}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.landline1!=modificationdata.old_data.contact_id.landline1'>{{ modificationdata.new_data.contact_id.landline1}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.mobile!=modificationdata.old_data.contact_id.mobile'>
+                                {{ modificationdata.new_data.contact_id.mobile}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.mobile2!=modificationdata.old_data.contact_id.mobile2'>
+                                {{ modificationdata.new_data.contact_id.mobile2}}</span>,
+                            <!-- <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.dob!=modificationdata.old_data.contact_id.dob'>
+                                dob:{{ modificationdata.new_data.contact_id.dob | date:'dd-MMM-yyyy'}}</span>, -->
+                            <!-- <span 
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.contact_id.wedding_date!=modificationdata.old_data.contact_id.name.wedding_date'> -->
+                            <!-- wedding date: {{ modificationdata.new_data.contact_id.wedding_date}}</span>, -->
+
+
+
+
+                        </Address>
+
+
+                    </div>
+                </li>
+                <li>
+                    <div class="content" *ngIf="modificationdata.action==2">
+
+                        <p><code>Activity Name</code>:&nbsp;{{ modificationdata.old_data.name | titlecase}}</p>
+                        <p><code> Activity Type</code>:&nbsp;{{ modificationdata.old_data.type | titlecase}}</p>
+                        <p><code>RM</code>:&nbsp;{{ modificationdata.old_data.rm | titlecase}}</p>
+                        <p><code>Status</code>:&nbsp;{{ modificationdata.old_data.activity_status  | titlecase}}</p>
+                        <p><code>Start Date</code>:&nbsp;{{ modificationdata.old_data.start_date | date:'dd-MM-yyyy'}}
+                        </p>
+                        <p><code>End Date</code>:&nbsp;{{ modificationdata.old_data.end_date | date:'dd-MM-yyyy'}}</p>
+                        <p><code>Contract Spend</code>:&nbsp;{{ modificationdata.old_data.contract_spend}}</p>
+                        <p><code>Fidelity </code>:&nbsp;<span
+                                *ngIf="modificationdata.old_data.fidelity=='True'">Yes</span><span
+                                *ngIf="modificationdata.old_data.fidelity=='False'">No</span></p>
+                        <p><code> Bidding</code>:&nbsp;<span
+                                *ngIf="modificationdata.old_data.bidding=='True'">Yes</span><span
+                                *ngIf="modificationdata.old_data.bidding=='False'">No</span></p>
+                        <p><code>Description</code>:&nbsp;{{ modificationdata.old_data.description | titlecase}}</p>
+                        <Address>
+                            <code>Contact</code>:&nbsp;
+
+                            <span> {{ modificationdata.old_data.contact_id.name | titlecase}}</span>,
+                            <span>{{ modificationdata.old_data.contact_id.designation | titlecase}}</span>,
+                            <span>{{ modificationdata.old_data.contact_id.email}}</span>,
+                            <!-- <span> {{ modificationdata.old_data.contact_id.type_id.name}}</span>, -->
+                            <span>{{ modificationdata.old_data.contact_id.landline}}</span>,
+                            <span>{{ modificationdata.old_data.contact_id.landline1}}</span>,
+                            <span> {{ modificationdata.old_data.contact_id.mobile}}</span>,
+                            <span> {{ modificationdata.old_data.contact_id.mobile2}}</span>,
+                            <!-- <span> dob:{{ modificationdata.old_data.contact_id.dob | date:'dd-MMM-yyyy'}}</span>, -->
+                            <!-- <span> wedding date: {{ modificationdata.old_data.contact_id.wedding_date}}</span>, -->
+
+                        </Address>
+
+                    </div>
+                </li>
+
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+</div>

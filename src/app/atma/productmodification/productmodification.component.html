@@ -1,0 +1,224 @@
+<div class="container">
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+            <h3> Changes </h3>
+        </div>
+        <div class="col-md-7 text-right">
+            <button type="button" class="btn btn-outline-primary" style="border-radius: 40px;margin-left: 10px;"
+                (click)="Cancel()">Cancel</button>
+        </div>
+    </div>
+    <div>
+        <div class="timeline">
+            <ul>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+
+                <li>
+                    <div class="content">
+                        <p><code> Name</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.name!=modificationdata.old_data.name'>
+                                {{ modificationdata.new_data.name}}</span></p>
+                        <p><code> Type</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.type!=modificationdata.old_data.type'>
+                                {{modificationdata.new_data.type}}</span></p>
+                        <p><code>Age</code>:&nbsp;<span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.age!=modificationdata.old_data.age'>
+                                {{modificationdata.new_data.age}}</span></p>
+
+                        <Address>
+                            <code> Client1 Contact</code>:&nbsp;
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client1_id.name!=modificationdata.old_data.client1_id.name'>
+                                {{ modificationdata.new_data.client1_id.name}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client1_id.designation_id.name!=modificationdata.old_data.client1_id.designation_id.name'>{{ modificationdata.new_data.client1_id.designation_id.name}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client1_id.email!=modificationdata.old_data.client1_id.email'>{{ modificationdata.new_data.client1_id.email}}</span>,
+                            <!-- <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client1_id.type_id.name!=modificationdata.old_data.client1_id.type_id.name'>
+                                {{ modificationdata.new_data.client1_id.type_id.name}}</span>, -->
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client1_id.landline!=modificationdata.old_data.client1_id.landline'>{{ modificationdata.new_data.client1_id.landline}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client1_id.landline1!=modificationdata.old_data.client1_id.landline1'>{{ modificationdata.new_data.client1_id.landline1}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client1_id.mobile!=modificationdata.old_data.client1_id.mobile'>
+                                {{ modificationdata.new_data.client1_id.mobile}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client1_id.mobile2!=modificationdata.old_data.client1_id.mobile2'>
+                                {{ modificationdata.new_data.client1_id.mobile2}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client1_id.dob!=modificationdata.old_data.client1_id.dob'>
+                                dob:{{ modificationdata.new_data.client1_id.dob|date:'dd-MMM-yyyy'}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client1_id.wedding_date!=modificationdata.old_data.client1_id.wedding_date'>
+                                wedding date: {{ modificationdata.new_data.client1_id.wedding_date|date:'dd-MMM-yyyy'}}</span>,
+                        </Address>
+
+
+                        <Address>
+                            <code>Client2 Contact</code>:&nbsp;
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client2_id.name!=modificationdata.old_data.client2_id.name'>
+                                {{ modificationdata.new_data.client2_id.name}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client2_id.designation_id.name!=modificationdata.old_data.client2_id.designation_id.name'>{{ modificationdata.new_data.client2_id.designation_id.name}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client2_id.email!=modificationdata.old_data.client2_id.email'>{{ modificationdata.new_data.client2_id.email}}</span>,
+                            <!-- <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client2_id.type_id.name!=modificationdata.old_data.client2_id.type_id.name'>
+                                {{ modificationdata.new_data.client2_id.type_id.name}}</span>, -->
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client2_id.landline!=modificationdata.old_data.client2_id.landline'>{{ modificationdata.new_data.client2_id.landline}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client2_id.landline1!=modificationdata.old_data.client2_id.landline1'>{{ modificationdata.new_data.client2_id.landline1}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client2_id.mobile!=modificationdata.old_data.client2_id.mobile'>
+                                {{ modificationdata.new_data.client2_id.mobile}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client2_id.mobile2!=modificationdata.old_data.client2_id.mobile2'>
+                                {{ modificationdata.new_data.client2_id.mobile2}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client2_id.dob!=modificationdata.old_data.client2_id.dob'>
+                                dob:{{ modificationdata.new_data.client2_id.dob|date:'dd-MMM-yyyy'}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.client2_id.wedding_date!=modificationdata.old_data.client2_id.wedding_date'>
+                                wedding date: {{ modificationdata.new_data.client2_id.wedding_date|date:'dd-MMM-yyyy'}}</span>,
+
+
+                        </Address>
+                        <Address>
+                            <code> Customer1</code>:&nbsp;
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer1_id.name!=modificationdata.old_data.customer1_id.name'>
+                                {{ modificationdata.new_data.customer1_id.name}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer1_id.designation_id.name!=modificationdata.old_data.customer1_id.designation_id.name'>{{ modificationdata.new_data.customer1_id.designation_id.name}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer1_id.email!=modificationdata.old_data.customer1_id.email'>{{ modificationdata.new_data.customer1_id.email}}</span>,
+                            <!-- <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer1_id.type_id.name!=modificationdata.old_data.customer1_id.type_id.name'>
+                                {{ modificationdata.new_data.customer1_id.type_id.name}}</span>, -->
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer1_id.landline!=modificationdata.old_data.customer1_id.landline'>{{ modificationdata.new_data.customer1_id.landline}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer1_id.landline1!=modificationdata.old_data.customer1_id.landline1'>{{ modificationdata.new_data.customer1_id.landline1}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer1_id.mobile!=modificationdata.old_data.customer1_id.mobile'>
+                                {{ modificationdata.new_data.customer1_id.mobile}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer1_id.mobile2!=modificationdata.old_data.customer1_id.mobile2'>
+                                {{ modificationdata.new_data.customer1_id.mobile2}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer1_id.dob!=modificationdata.old_data.customer1_id.dob'>
+                                dob:{{ modificationdata.new_data.customer1_id.dob|date:'dd-MMM-yyyy'}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer1_id.wedding_date!=modificationdata.old_data.customer1_id.wedding_date'>
+                                wedding date: {{ modificationdata.new_data.customer1_id.wedding_date|date:'dd-MMM-yyyy'}}</span>,
+                        </Address>
+                        <Address>
+                            <code> Customer2</code>:&nbsp;
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer2_id.name!=modificationdata.old_data.customer2_id.name'>
+                                {{ modificationdata.new_data.customer2_id.name}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer2_id.designation_id.name!=modificationdata.old_data.customer2_id.designation_id.name'>{{ modificationdata.new_data.customer2_id.designation_id.name}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer2_id.email!=modificationdata.old_data.customer2_id.email'>{{ modificationdata.new_data.customer2_id.email}}</span>,
+                            <!-- <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer2_id.type_id.name!=modificationdata.old_data.customer2_id.type_id.name'>
+                                {{ modificationdata.new_data.customer2_id.type_id.name}}</span>, -->
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer2_id.landline!=modificationdata.old_data.customer2_id.landline'>{{ modificationdata.new_data.customer2_id.landline}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer2_id.landline1!=modificationdata.old_data.customer2_id.landline1'>{{ modificationdata.new_data.customer2_id.landline1}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer2_id.mobile!=modificationdata.old_data.customer2_id.mobile'>
+                                {{ modificationdata.new_data.customer2_id.mobile}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer2_id.mobile2!=modificationdata.old_data.customer2_id.mobile2'>
+                                {{ modificationdata.new_data.customer2_id.mobile2}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer2_id.dob!=modificationdata.old_data.customer2_id.dob'>
+                                dob:{{ modificationdata.new_data.customer2_id.dob|date:'dd-MMM-yyyy'}}</span>,
+                            <span
+                                [class.changes]='modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.customer2_id.wedding_date!=modificationdata.old_data.customer2_id.wedding_date'>
+                                wedding date: {{ modificationdata.new_data.customer2_id.wedding_date|date:'dd-MMM-yyyy'}}</span>,
+                        </Address>
+                    </div>
+                </li>
+                <li>
+                    <div class="content" *ngIf="modificationdata.action==2">
+
+                        <p><code> Name</code>:&nbsp;{{ modificationdata.old_data.name}}</p>
+                        <p><code> Type</code>:&nbsp;{{ modificationdata.old_data.type}}</p>
+                        <p><code>Age</code>:&nbsp;{{ modificationdata.old_data.age}}</p>
+
+                        <Address>
+                            <code> Client1 Contact</code>:&nbsp;
+                            <span> {{ modificationdata.old_data.client1_id.name}}</span>,
+                            <span>{{ modificationdata.old_data.client1_id.designation_id.name}}</span>,
+                            <span>{{ modificationdata.old_data.client1_id.email}}</span>,
+                            <!-- <span> {{ modificationdata.old_data.client1_id.type_id.name}}</span>, -->
+                            <span>{{ modificationdata.old_data.client1_id.landline}}</span>,
+                            <span>{{ modificationdata.old_data.client1_id.landline1}}</span>,
+                            <span> {{ modificationdata.old_data.client1_id.mobile}}</span>,
+                            <span> {{ modificationdata.old_data.client1_id.mobile2}}</span>,
+                            <span> dob:{{ modificationdata.old_data.client1_id.dob|date:'dd-MMM-yyyy'}}</span>,
+                            <span> wedding date: {{ modificationdata.old_data.client1_id.wedding_date|date:'dd-MMM-yyyy'}}</span>,
+
+                        </Address>
+                        <Address>
+                            <code> Client2 Contact</code>:&nbsp;
+                            <span> {{ modificationdata.old_data.client2_id.name}}</span>,
+                            <span>{{ modificationdata.old_data.client2_id.designation_id.name}}</span>,
+                            <span>{{ modificationdata.old_data.client2_id.email}}</span>,
+                            <!-- <span> {{ modificationdata.old_data.client2_id.type_id.name}}</span>, -->
+                            <span>{{ modificationdata.old_data.client2_id.landline}}</span>,
+                            <span>{{ modificationdata.old_data.client2_id.landline1}}</span>,
+                            <span> {{ modificationdata.old_data.client2_id.mobile}}</span>,
+                            <span> {{ modificationdata.old_data.client2_id.mobile2}}</span>,
+                            <span> dob:{{ modificationdata.old_data.client2_id.dob|date:'dd-MMM-yyyy'}}</span>,
+                            <span> wedding date: {{ modificationdata.old_data.client2_id.wedding_date|date:'dd-MMM-yyyy'}}</span>,
+
+                        </Address>
+
+                        <Address>
+                            <code> Customer1</code>:&nbsp;
+                            <span> {{ modificationdata.old_data.customer1_id.name}}</span>,
+                            <span>{{ modificationdata.old_data.customer1_id.designation_id.name}}</span>,
+                            <span>{{ modificationdata.old_data.customer1_id.email}}</span>,
+                            <!-- <span> {{ modificationdata.old_data.customer1_id.type_id.name}}</span>, -->
+                            <span>{{ modificationdata.old_data.customer1_id.landline}}</span>,
+                            <span>{{ modificationdata.old_data.customer1_id.landline1}}</span>,
+                            <span> {{ modificationdata.old_data.customer1_id.mobile}}</span>,
+                            <span> {{ modificationdata.old_data.customer1_id.mobile2}}</span>,
+                            <span> dob:{{ modificationdata.old_data.customer1_id.dob|date:'dd-MMM-yyyy'}}</span>,
+                            <span> wedding date: {{ modificationdata.old_data.customer1_id.wedding_date|date:'dd-MMM-yyyy'}}</span>,
+                        </Address>
+                        <Address>
+                            <code> Customer2</code>:&nbsp;
+                            <span> {{ modificationdata.old_data.customer2_id.name}}</span>,
+                            <span>{{ modificationdata.old_data.customer2_id.designation_id.name}}</span>,
+                            <span>{{ modificationdata.old_data.customer2_id.email}}</span>,
+                            <!-- <span> {{ modificationdata.old_data.customer2_id.type_id.name}}</span>, -->
+                            <span>{{ modificationdata.old_data.customer2_id.landline}}</span>,
+                            <span>{{ modificationdata.old_data.customer2_id.landline1}}</span>,
+                            <span> {{ modificationdata.old_data.customer2_id.mobile}}</span>,
+                            <span> {{ modificationdata.old_data.customer2_id.mobile2}}</span>,
+                            <span> dob:{{ modificationdata.old_data.customer2_id.dob|date:'dd-MMM-yyyy'}}</span>,
+                            <span> wedding date: {{ modificationdata.old_data.customer2_id.wedding_date|date:'dd-MMM-yyyy'}}</span>,
+                        </Address>
+                    </div>
+                </li>
+
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+</div>

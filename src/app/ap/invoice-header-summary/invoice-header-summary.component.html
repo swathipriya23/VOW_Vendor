@@ -1,0 +1,451 @@
+<div class="container" style="max-width: 1301px;">
+    <div class="col-md-12">
+        <h2 style="margin-left: 1px;font-family:'Times New Roman';font-weight:bold;">Invoice Header Summary</h2>
+
+        <div class="table-responsive" class="tablescroll" style="margin-top: 2%;width: 95%;margin-left: 10px;overflow: auto;">
+        <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 20px;">
+        <thead class="table_header " fixed-header>
+            <tr>
+                <th>S.No</th> 
+                <th>Supplier Code</th>                             
+                <th>Supplier Name</th>
+                <th>Invoice No.</th>          
+                <th>Invoice Date</th>
+                <th>Invoice Amount</th>                
+                <th>Taxable Amount</th>
+                <th>GST Type</th>             
+                <th>Supplier GST No</th>
+                <th>Status</th>
+                <th>Action</th>                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let value of invoiceheaderres; index as i;">
+                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                <td>{{value.supplier.code}}</td>
+                <td>{{value.supplier.name}}</td>
+                <td>{{value.invoiceno}}</td>
+                <td>{{value.invoicedate| date:'dd-MMM-yyyy'}}</td>
+                <td>{{value.totalamount}}</td>
+                <td>{{value.invoiceamount}}</td>
+                <td>{{value.gsttype}}</td>
+                <td>{{value.suppliergst}}</td>                
+                <td>{{value.status.text}}</td> 
+                <td style="cursor: pointer; color: #3684BF; " (click)="invDetView(value.id)">View</td>                   
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="invHdrSummary?.length == 0" style="margin-left: 42%;">
+        <h3>Sorry data not found!.. </h3>
+    </div>
+</div>
+    
+
+    </div>
+    <div class="col-md-12">
+        <h2 style="margin-left: 1px;font-family:'Times New Roman';font-weight:bold;">Invoice Header</h2>
+
+
+        <div>
+            <form [formGroup]="InvoiceHeaderForm">
+
+                <table>
+                    <div>
+                        <tr>
+                            <td>
+                                <div style="margin-left: 5px;font-family: 'Times New Roman', Times, serif;">
+                                    <mat-label>GST Applicable</mat-label>
+                                    <mat-radio-group formControlName="invoicegst">
+                                        <mat-radio-button *ngFor="let n of yesorno" [value]="n.value"
+                                            style="margin-left: 10px;" (click)="GSTstatus(n)">
+
+                                            {{n.display}}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-outline-success"
+                                    matTooltip="Add invoice header" style="border-radius:40px;margin-left:5px;"
+                                    (click)="addSection()"><span class="fa fa-plus"></span></button>
+
+                            </td>
+                        </tr>
+                    </div>
+                </table>
+
+                <div class="table-responsive" id="styleScroll"
+                    style="margin-top: 1%;width: 95%;margin-left: 5px;margin-bottom: 5%;">
+                    <table class="table scrolltable table-bordered" fixed-header>
+                        <thead class="table_header" style='font-family:"Times New Roman"'>
+                            <tr>
+
+                                <th>S.No</th>
+                                <th>Supplier Name</th>
+                                <th>Supplier GST</th>
+                                <th>Invoice No</th>
+                                <th>Invoice Date</th>
+                                <th>Taxable Amount</th>
+                                <th>Tax Amount</th>
+                                <th>Round Off</th>
+                                <th>Other Adjustment</th>
+                                <th>Total Amount</th>
+                                <th>File Upload</th>
+                                <th>Action</th>
+                                <th>Invoice Detail</th>
+                            </tr>
+                        </thead>
+                        <ng-container formArrayName="invoiceheader"
+                            *ngFor="let section of getSections(InvoiceHeaderForm); let i = index">
+                            <tr [formGroupName]="i">
+                                <td>{{i+1}}</td>
+                                <td>
+                                    <mat-form-field
+                                        style="width:200px;font-family: 'Times New Roman', Times, serif;">
+                                        <input matInput placeholder="Supplier Name" formControlName="suppname"
+                                            class="nowrap" autocomplete="off" required>
+
+                                    </mat-form-field>
+
+                                    <button type="button" class="btn btn-outline-primary"
+                                        matTooltip="Select Supplier" data-toggle="modal"
+                                        data-target="#selectSupplier" (click)="getsuppindex(i)"
+                                        style="border-radius:40px;margin-left:15px;font-family: 'Times New Roman', Times, serif;"><span
+                                            class="fa fa-arrow-up"></span></button>
+
+                                </td>
+                                <td>
+                                    <mat-form-field
+                                        style="width:150px;font-family: 'Times New Roman', Times, serif;">
+                                        <input matInput placeholder="Supplier Gst" formControlName="suppliergst"
+                                            disabled autocomplete="off">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field
+                                        style="width:110px;font-family: 'Times New Roman', Times, serif;">
+                                        <input matInput placeholder="Invoice No" formControlName="invoiceno"
+                                            required autocomplete="off">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field
+                                        style="width: 110px;font-family: 'Times New Roman', Times, serif;">
+                                        <mat-label>Date</mat-label>
+                                        <input matInput [matDatepicker]="picker1" placeholder="Date" autocomplete="off"
+                                            formControlName="invoicedate" [max]="tomorrow" required>
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field
+                                        style="width:65px;font-family: 'Times New Roman', Times, serif;">
+                                        <input matInput placeholder="Amount" formControlName="invoiceamount"
+                                            required autocomplete="off">
+                                    </mat-form-field>
+                                </td>
+                                <td >
+                                    <mat-form-field
+                                        style="width:50px;font-family: 'Times New Roman', Times, serif;">
+                                        <input matInput placeholder="Tax Amount" formControlName="taxamount"
+                                            autocomplete="off">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field
+                                        style="width:50px;font-family: 'Times New Roman', Times, serif;">
+                                        <input matInput type="number" [(ngModel)]="Rvalue" [min]="min" [max]="max"
+                                            (ngModelChange)="RoundingOFF($event)" formControlName="roundoffamt"
+                                            autocomplete="off" (keypress)="numberOnlyandDotminus($event)">
+                                    </mat-form-field>
+
+                                </td>
+                                <td>
+                                    <mat-form-field
+                                        style="width:50px;font-family: 'Times New Roman', Times, serif;">
+                                        <input matInput type="number" [(ngModel)]="Ovalue" [min]="min" [max]="max"
+                                            (ngModelChange)="OtherAdjustment($event)" formControlName="otheramount"
+                                            autocomplete="off" (keypress)="numberOnlyandDot($event)">
+                                    </mat-form-field>
+
+                                </td>
+                                <td>
+                                    <mat-form-field
+                                        style="width:75px;font-family: 'Times New Roman', Times, serif;">
+
+                                        <input matInput placeholder="Total Amount" type="number"
+                                            formControlName="totalamount" autocomplete="off" (click)="datasums()"
+                                            (keypress)="numberOnlyandDot($event)">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <input type="file" accept=".txt,.doc,.pdf,.ppt,.pot,.pps,.pptx,.odt,.odg,.odp,.ods,.docx,.docm,.dotx,.dotm,.docb,
+                                       .xlsx,.xls,.xlt,.xlm,.xlsm,.xltx,.xltm,.jpg,.jpeg,.tiff,.tif,.png" style="width:200px;" 
+                                        formControlName="images" name="images" #takeInput
+                                        (change)="fileChange($event)" class="inputfile inputfile-4" multiple="multiple">
+                                        <div *ngFor="let upload of uploadList;index as i" class="btn-link">
+                                            {{ upload}}
+                                            <button mat-icon-button type="button">
+                                                <mat-icon style="color: gray;" aria-label="Edit" (click)="deleteUpload(upload, i)">
+                                                    delete</mat-icon>
+                                            </button>
+                
+                                        </div>
+                                        <!-- <div *ngFor="let filedata of fileList;index as i">
+
+                                        <tr *ngFor="let multifile of filedata.file_data;index as i">
+
+                                            <td>{{i+1}}</td>
+                                            <td>
+                                            <a (click)="data(multifile)" >{{ multifile.file_name}}<i class="material-icons">
+                                        get_app
+                                            </i></a>
+                                        </td>
+                                           
+                                            <td>
+                                                <mat-icon style="color: gray;cursor: pointer;" (click)="fileDeletes(multifile,i)">delete</mat-icon>
+                                            </td> 
+                                           </tr>
+                                        </div>  -->
+                                </td>
+                                <td>
+                                    <button mat-icon-button type="button">
+                                        <mat-icon style="color: green;" aria-label="Edit"
+                                           (click)=deleteinvheader(InvoiceHeaderForm.value,section,i)>
+                                            delete</mat-icon>
+                                    </button>
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary"
+                                        matTooltip="Add invdetails/debit/credit"
+                                        style="border-radius:40px;margin-left:5px;color: rgb(0, 0, 255);"
+                                        (click)="Addinvoice(section,i)"><span
+                                            class="fa fa-arrow-right"></span></button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <tr >
+                            <th class="totaldisplay" colspan="9"
+                                style="font-family: 'Times New Roman', Times, serif;">
+                                Net Amount:</th>
+                            <td>{{sum | currency:'INR'}}</td>
+
+
+                        </tr>
+                    </table>
+                    <tr>
+                        <td>
+                            <button type="button" style="border-radius:40px;margin-left: 450px;margin-bottom:2%;"
+                                class="btn btn-outline-primary" (click)="submitinvoiceheader()">
+                                Save</button>
+                        </td>
+                        <td>
+                            <button type="button" style="border-radius:40px;margin-left: 450px;margin-bottom:2%;"
+                                class="btn btn-outline-primary" (click)="apHeader()">
+                                Back</button>
+                        </td>
+                    </tr>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    id="selectSupplier">
+
+<div class="modal-dialog modal-xl" style="width:80%;height:200%;">
+    <div class="modal-content">
+        <div class="modal-header" style="background:#DDEFDD;">
+            <h2 class="modal-title" style="font-family: 'Times New Roman', Times, serif;">
+                Find Supplier</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <br>
+        <div>
+            <form [formGroup]="SelectSupplierForm" (ngSubmit)="SelectSuppliersearch()">
+                <table style="margin-left: 20px;">
+                    <div>
+                        <tr>
+                            <td>
+                                <mat-form-field style="width: 200px;font-family: 'Times New Roman', Times, serif;">
+                                    <mat-label>Supplier GST Number</mat-label>
+                                    <input matInput placeholder="GST No" formControlName="gstno" autocomplete="off"
+                                        (keypress)="only_numalpha($event)" maxlength="">
+                                </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </td>
+
+                            <td>
+                                <mat-form-field style="width: 200px;font-family: 'Times New Roman', Times, serif;">
+                                    <mat-label>Supplier Code</mat-label>
+                                    <input matInput placeholder="Supplier" formControlName="code" autocomplete="off"
+                                        (keypress)="only_numalpha($event)">
+                                </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </td>
+
+                            <td>
+                                <mat-form-field style="width: 200px;font-family: 'Times New Roman', Times, serif;">
+                                    <mat-label>PAN Number</mat-label>
+                                    <input matInput placeholder="PAN" formControlName="panno" autocomplete="off"
+                                        (keypress)="only_numalpha($event)">
+                                </mat-form-field>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </td>
+
+                            <button class="btn btn-outline-primary" type="submit"
+                                style="border-radius:40px;margin-left: 15px;font-family: 'Times New Roman', Times, serif;"
+                                color="primary" (click)="SelectSuppliersearch()"><i class="fa fa-search"
+                                    aria-hidden="true"></i></button>&nbsp;
+
+                            <button type="button"
+                                style="border-radius:40px;margin-left: 15px;font-family: 'Times New Roman', Times, serif;"
+                                class="btn btn-outline-primary" (click)="dataclear()">
+                                Reset</button>
+                        </tr>
+                        <tr>
+                            <div *ngIf="default">
+                                <td>
+                                    <mat-form-field
+                                        style="width: 250px;margin-top: 5px;font-family: 'Times New Roman', Times, serif;">
+                                        <mat-label>Choose Supplier</mat-label>
+                                        <input #suppInput placeholder="Choose Supplier" matInput
+                                            formControlName="name" [matAutocomplete]="Suppliertype">
+                                        <mat-autocomplete #Suppliertype="matAutocomplete" [displayWith]="displayFn"
+                                            (opened)="supplierScroll()">
+
+                                            <mat-option *ngIf="isLoading" class="is-loading">Loading...
+                                            </mat-option>
+                                            <ng-container *ngIf="!isLoading">
+                                                <mat-option *ngFor="let suppliername of supplierNameData"
+                                                    ngDefaultControl [(ngModel)]="inputSUPPLIERValue"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (ngModelChange)="inputSUPPLIERValue = $event.toUpperCase()"
+                                                    (focusout)="getsuppView(suppliername)" [value]="suppliername">
+                                                    {{suppliername.name}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </td>
+                            </div>
+
+                            <div *ngIf="alternate">
+                                <td>
+                                    <mat-form-field
+                                        style="width: 250px;margin-top: 5px;font-family: 'Times New Roman', Times, serif;">
+                                        <mat-label>Choose Supplier</mat-label>
+                                        <input #name placeholder="Choose Supplier" matInput formControlName="name"
+                                            [matAutocomplete]="autosupp2">
+                                        <mat-autocomplete #autosupp2="matAutocomplete" [displayWith]="displaytest">
+
+                                            <mat-option *ngIf="isLoading" class="is-loading">Loading...
+                                            </mat-option>
+                                            <ng-container *ngIf="!isLoading">
+                                                <mat-option *ngFor="let suppliername of selectsupplierlist"
+                                                    ngDefaultControl [(ngModel)]="inputSUPPLIERValue"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (ngModelChange)="inputSUPPLIERValue = $event.toUpperCase()"
+                                                    (focusout)="getsuppView(suppliername)" [value]="suppliername">
+                                                    {{suppliername.name}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </td>
+                            </div>
+                        </tr>
+                    </div>
+                </table>
+
+                <!-- <form [formGroup]="supplierchooseForm"></form> -->
+                <table width="100%" style="margin-top: 2%;margin-bottom: 5%;">
+                    <tbody>
+                        <tr>
+                            <td width="20%" valign="top">
+                                <table width="100%;" style="font-size:14px;margin-left: 20px;">
+                                    <tbody>
+                                        <tr>
+                                            <p
+                                                style="color: #808080; margin: 0px 0 4px;font-family: 'Times New Roman', Times, serif;">
+                                                Supplier Name:
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                                    style="color: black;margin-left: 2.2em;">{{SupplierName }}
+                                                </span>
+                                            </p>
+                                            <p
+                                                style="color: #808080; margin: 0px 0 4px;margin-top: 3%;font-family: 'Times New Roman', Times, serif;">
+                                                Supplier Code:
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span style="color: black;margin-left: 3.2em;">{{SupplierCode}}
+                                                </span>
+                                            </p>
+                                            <p
+                                                style="color: #808080; margin: 0px 0 4px;margin-top: 3%;font-family: 'Times New Roman', Times, serif;">
+                                                Supplier GST Number:
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span style="color: black;margin-left: 0.2em;">{{SupplierGSTNumber}}
+                                                </span>
+                                            </p>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="20%" valign="top">
+                                <table width="100%;" style="font-size:14px;margin-left:-120px;">
+                                    <tbody>
+                                        <tr>
+                                            <p
+                                                style="color: #808080; margin: 0px 0 4px;font-family: 'Times New Roman', Times, serif;">
+                                                Supplier PAN Number:
+                                                &nbsp;&nbsp;&nbsp;<span
+                                                    style="color: black;margin-left: 0em;">{{SupplierPANNumber}}
+                                                </span>
+                                            </p>
+                                            <p
+                                                style="color: #808080; margin: 0px 0 4px;margin-top: 3%;font-family: 'Times New Roman', Times, serif;">
+                                                Address:
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span style="color: black;margin-left: 3.6em;"> {{line1}},
+                                                    {{line2}},
+                                                    {{line3}}</span>
+                                            </p>
+                                            <p
+                                                style="color: #808080; margin: 0px 0 4px;margin-top: 3%;font-family: 'Times New Roman', Times, serif;">
+                                                City:
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span style="color: black;margin-left: 2.5em;">{{City}} </span>
+                                            </p>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <br><br>
+                        <div *ngIf="submitbutton" style="margin-left: 20px; ">
+                            <tr>
+                                <button type="button" data-dismiss="modal"
+                                    style="border-radius:40px;margin-left: 500px;" class="btn btn-outline-primary">
+                                    Submit</button>
+                            </tr>
+                        </div>
+                    </tbody>
+                </table>
+
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+    <ngx-spinner
+      bdColor="rgba(51,51,51,0.8)"
+      size="medium"
+      color="#fff"
+      type="ball-scale-multiple">
+      <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner>

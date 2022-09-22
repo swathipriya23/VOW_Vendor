@@ -1,0 +1,184 @@
+<div class="container">
+    <h2>DSS Head Group</h2>
+    <form [formGroup]="head_groupsummary">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field (click)="source_dropdown()">
+                        <mat-label>Source</mat-label>
+                        <input #sourceinput placeholder="Source" matInput formControlName="source"
+                            [matAutocomplete]="sourceauto">
+                        <mat-autocomplete #sourceauto="matAutocomplete" [displayWith]="displayfnsource" (opened)="autocompletesourceScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let name_code of source_data" [value]="name_code">
+                                    ({{name_code.code}}){{name_code.name}} </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field (click)="headgrp_dropdown()">
+                        <mat-label>Head Group</mat-label>
+                        <input #headinput placeholder="Head Group" matInput formControlName="headgrp"
+                            [matAutocomplete]="headauto">
+                        <mat-autocomplete #headauto="matAutocomplete" [displayWith]="displayfnheadgrp" (opened)="autocompleteheadgrbScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let head_grp of headgrp_data" [value]="head_grp">
+                                    ({{head_grp.code}}){{head_grp.name}} </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <div style="text-align: center;cursor: pointer;">
+                        <button class="btn btn-outline-primary" style="border-radius: 40px;"
+                            (click)="headgrp_summary_search(head_groupsummary.value)">
+                            Search
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div style="text-align: center;cursor: pointer;">
+                        <button class="btn btn-outline-primary" style="border-radius: 40px;"
+                            (click)="headgrp_summary_clear()">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <!-- <button type="button" class="btn btn-outline-primary" style="border-radius: 40px;" data-toggle="modal" data-target="#headegrpAdd">
+                        Add
+                        </button> -->
+                    <button type="button" class="btn btn-outline-primary" style="border-radius: 40px;" (click)="headergroupsnewrowAdd()"> Add  </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form [formGroup]="dss_headgroup">
+        <div style="margin-top: 6%; white-space: nowrap;overflow: auto;" class="tableFixHead" formArrayName="headergroups">
+            <table class="table table-bordered" id="commonstyle" fixed-header>
+                <thead>
+                    <th>S.No</th>
+                    <th>Source Name</th>
+                    <th>Head Group Code</th>
+                    <th>Head Group Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let headergroup of dss_headgroup.controls.headergroups['controls']; let newindex=index" [formGroupName]="newindex">
+                        <td>{{(presentpage - 1)*identificationSize +newindex+1 }}</td>
+                        <td>
+                            <div *ngIf="dss_headgroup.get('headergroups').value[newindex].isEditable==true;else headersourceelse">
+                                <ng-container *ngIf="headergroup?.value?.headersource!='' || headergroup?.value?.headersource!=undefined || headergroup?.value?.headersource!= null">{{headergroup?.value?.headersource?.name}}</ng-container>
+                                <ng-container *ngIf="headergroup?.value?.headersource=='' || headergroup?.value?.headersource==undefined || headergroup?.value?.headersource== null">--</ng-container>
+                            </div>
+                            <ng-template #headersourceelse>
+                            <mat-form-field style=" max-height: 45px;" (click)="dss_headgroup.get('headergroups').value[newindex].isEditable ? '' : addsource_dropdown(newindex)" [appearance]="dss_headgroup.get('headergroups').value[newindex].isEditable? 'none' : 'outline'">
+                                <mat-label [ngStyle]="{'display':dss_headgroup.get('headergroups').value[newindex].isEditable ? 'none' : 'inline'}">Source </mat-label>
+                                <input #sourceinputto placeholder="Source" matInput formControlName="headersource"
+                                    [matAutocomplete]="addsourceauto"  [readonly]="dss_headgroup.get('headergroups').value[newindex].isEditable">
+                                <mat-autocomplete #addsourceauto="matAutocomplete" [displayWith]="displayfnsourceadd" (opened)="autocompletesourcetoScroll()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let namecode of sourcedata" [value]="namecode">
+                                            {{namecode.name}} </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                            </ng-template>
+                        </td>
+                        <td>
+                            <div *ngIf="headergroup.value.headercode=='' || headergroup.value.headercode == undefined || headergroup.value.headercode == null">--</div>
+                            <div *ngIf="headergroup.value.headercode!='' || headergroup.value.headercode != undefined || headergroup.value.headercode != null">{{headergroup.value.headercode}}</div>
+                        </td>
+                        <td>
+                            <div *ngIf="dss_headgroup.get('headergroups').value[newindex].isEditable==true;else headernameelse">
+                                <ng-container *ngIf="headergroup.value.headername != '' || headergroup.value.headername != undefined || headergroup.value.headername != null">
+                                    {{headergroup.value.headername}}
+                                </ng-container>
+                                <ng-container *ngIf="headergroup.value.headername == '' || headergroup.value.headername == undefined || headergroup.value.headername == null">
+                                    --
+                                </ng-container>
+                            </div>
+                            <ng-template #headernameelse>
+                            <div>
+                                <mat-form-field style=" max-height: 45px;" [appearance]="dss_headgroup.get('headergroups').value[newindex].isEditable? 'none' : 'outline'">
+                                    <mat-label [ngStyle]="{'display':dss_headgroup.get('headergroups').value[newindex].isEditable ? 'none' : 'inline'}">
+                                    Enter The Header Group Name</mat-label>
+                                    <input matInput placeholder="Header Group Name" autocomplete="off" [readonly]="dss_headgroup.get('headergroups').value[newindex].isEditable" formControlName="headername">
+                                </mat-form-field>
+                           </div>
+                          </ng-template>
+                        </td>
+                       
+                        <td>
+                            <div *ngIf="dss_headgroup.get('headergroups').value[newindex].isEditable==true;else headerdescriptionelse">
+                                <ng-container *ngIf="headergroup.value.headerdescription != '' || headergroup.value.headerdescription != undefined || headergroup.value.headerdescription != null">
+                                    {{headergroup.value.headerdescription}}
+                                </ng-container>
+                                <ng-container *ngIf="headergroup.value.headerdescription == '' || headergroup.value.headerdescription == undefined || headergroup.value.headerdescription == null">
+                                    --
+                                </ng-container>
+                            </div>
+                            <ng-template #headerdescriptionelse>
+                                <div>
+                                    <mat-form-field [appearance]="dss_headgroup.get('headergroups').value[newindex].isEditable? 'none' : 'outline'">
+                                        <mat-label [ngStyle]="{'display':dss_headgroup.get('headergroups').value[newindex].isEditable ? 'none' : 'inline'}">Enter The Description</mat-label>
+                                        <textarea [readonly]="dss_headgroup.get('headergroups').value[newindex].isEditable" matInput placeholder="Description" autocomplete="off" formControlName="headerdescription"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </ng-template>
+                        </td>
+                        <td>
+                            <div *ngIf="headergroup.value.headerstatus==0">InActive</div>
+                            <div *ngIf="headergroup.value.headerstatus==1">Active</div>
+                            <div *ngIf="headergroup.value.headerstatus==2">--</div>
+                        </td>
+                        <td style="font-size: 13px;">
+                            <button mat-icon-button class="material-icons app-toolbar-menu save-button" matTooltip="Save Changes"
+                             (click)="savesource(dss_headgroup,newindex)"
+                              *ngIf="!dss_headgroup.get('headergroups').value[newindex].isEditable" style="color:'#0297ff'">
+                              <mat-icon>check_circle</mat-icon>
+                            </button>
+          
+                            <button mat-icon-button class="material-icons app-toolbar-menu cancel-button"
+                              matTooltip="Cancel Changes" color="warn" (click)="Cancelheaderdetails(dss_headgroup,newindex)"
+                              *ngIf="!dss_headgroup.get('headergroups').value[newindex].isEditable">
+                              <mat-icon>cancel</mat-icon>
+                            </button>
+          
+                            <button mat-icon-button class="material-icons app-toolbar-menu save-button" [hidden]="dss_headgroup.get('headergroups').value[newindex].headerstatus == 0"
+                              *ngIf="dss_headgroup.get('headergroups').value[newindex].isEditable" matTooltip="Edit" style="color:'#0297ff'"
+                              (click)="EditSource(dss_headgroup,newindex)">
+                              <mat-icon>edit</mat-icon>
+                            </button>
+          
+                            <button mat-icon-button class="material-icons app-toolbar-menu delete-button" (click)="deletehead(headergroup,newindex)" 
+                              *ngIf="dss_headgroup.get('headergroups').value[newindex].isEditable"  color="warn" (click)="EditSource(dss_headgroup,newindex)" [ngStyle]="{'color':dss_headgroup.get('headergroups').value[newindex].headerstatus == 0 ? '#66bb6a' : 'red' }" [matTooltip]="dss_headgroup.get('headergroups').value[newindex].headerstatus == 0 ? 'Active' : 'In-Active' ">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+        <button mat-icon-button [disabled]="has_previous_summary === false" color="primary" (click)="previousClick()">
+            <mat-icon>arrow_back</mat-icon>
+        </button> {{presentpage}}
+        <button mat-icon-button [disabled]="has_next_summary === false" color="primary" (click)="nextClickhead_groupsummary()">
+            <mat-icon>arrow_forward</mat-icon>
+        </button>
+
+    </div>
+
+
+
+</div>
+<!-- <pre>{{dss_headgroup.controls.headergroups['controls'][0].value.headerstatus}}</pre> -->
+

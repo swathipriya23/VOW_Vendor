@@ -1,0 +1,170 @@
+
+
+<div class="container">
+
+  <!-- <div class="col-md-12 row">
+    <div class="alert " role="alert">
+      Branch Payment 
+    </div>
+  </div> -->
+  <form [formGroup]="branchPayment" (ngSubmit)="branchPaymentCreate()" autocomplete="off">
+    <div class=" row col-md-12">
+
+                  
+                  
+      <div class="col-md-3">
+
+        <mat-label>Supplier Branch</mat-label><br>
+        <mat-form-field  >
+          
+          <input matInput  formControlName="supplier" [readonly] ="true"  autocomplete="off">
+
+        </mat-form-field>
+
+      </div>
+      <div class="col-md-3">
+        <mat-label>Pay Mode<label style="color: red;" >*</label></mat-label><br>
+        <mat-form-field (click)="getpayname()">
+          
+          <input #paymodeInput  matInput formControlName="paymode_id"
+              [matAutocomplete]="paymodedata">
+              <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+          <mat-autocomplete #paymodedata="matAutocomplete" [displayWith]="displayPaymode"
+          (opened)="paymodeScroll()">
+              <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+              <ng-container *ngIf="!isLoading">
+                  <mat-option *ngFor="let i of getPaymodeList" [value]="i" (focusout)="paymodetype(i)">{{i.name}}
+                  </mat-option>
+              </ng-container>
+          </mat-autocomplete>
+      </mat-form-field>
+
+        
+      </div>
+      <div class="col-md-3" *ngIf="!paymode_ddflag">
+        <mat-label  for="parent">Account Type<label style="color: red;" >*</label></mat-label><br>
+         <mat-form-field >
+          
+          <mat-select class="matformfieldinputstyle" formControlName="account_type">
+          <mat-option value="current">Current</mat-option>
+           <mat-option value="savings">Savings</mat-option>
+           </mat-select>
+          </mat-form-field>
+     
+      </div>
+     
+      
+        <div class="col-md-3" *ngIf="!paymode_ddflag">
+       
+  
+       
+
+          <mat-label>IFSC<label style="color: red;" >*</label></mat-label><br>
+        <mat-form-field (click)="getbranchnames()"  >
+         
+          <input #branchInput #branch_id   matInput formControlName="branch_id"
+              [matAutocomplete]="branchdata">
+              <mat-icon matSuffix class="maticonsize" >unfold_more</mat-icon>
+          <mat-autocomplete #branchdata="matAutocomplete" [displayWith]="displayBranch"
+          (opened)="branchScroll()">
+              <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+              <ng-container *ngIf="!isLoading">
+                  <mat-option *ngFor="let i of getBankbranchList" [value]="i" (onSelectionChange)="getbranchname(i)">{{i.ifsccode}}
+                  </mat-option>
+              </ng-container>
+          </mat-autocomplete>
+      </mat-form-field>
+      
+        </div>
+        <div class="col-md-3" *ngIf="!paymode_ddflag">
+          <!-- <mat-form-field  (click)="getbanknames()">
+            <mat-label>Bank</mat-label>
+            <input #bankInput placeholder="Select Bank" matInput formControlName="bank_id"
+            (click)="clear()" [matAutocomplete]="bankdata">
+            <mat-autocomplete #bankdata="matAutocomplete" [displayWith]="displayBank"
+            (opened)="bankScroll()">
+                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                <ng-container *ngIf="!isLoading">
+                    <mat-option *ngFor="let i of bankList"  (focusout)="getbranch(i)" [value]="i">{{i.name}}
+                    </mat-option>
+                </ng-container>
+            </mat-autocomplete>
+        </mat-form-field>-->
+        <mat-label>Bank</mat-label><br>
+        <mat-form-field >
+          
+          <input matInput [readonly] ="true"  formControlName="bankname">
+          <input type="hidden" [readonly] ="true"   formControlName="bank_id">
+
+        </mat-form-field>
+          </div>
+
+        <div class="col-md-3" *ngIf="!paymode_ddflag">
+
+          <mat-label>Branch</mat-label><br>
+          <mat-form-field >
+           
+            <input matInput [readonly] ="true"   formControlName="bname">
+  
+          </mat-form-field>
+        </div>
+      <div class="col-md-3" *ngIf="!paymode_ddflag">
+
+        <mat-label>Account No <label style="color: red;" >*</label></mat-label><br>
+          <mat-form-field  >
+            
+            <input matInput (keypress)="omit_special_char($event)" [maxlength]="maxlength" formControlName="account_no" autocomplete="off" required>
+  
+          </mat-form-field>
+  
+
+        </div>
+        <div class="col-md-3"  >
+
+          <mat-label>Beneficiary</mat-label><br>
+          <mat-form-field >
+            
+            <input matInput  formControlName="beneficiary"   min="2" max="48"   type="text" (keypress)="addressvalidation($event)"autocomplete="off">
+  
+          </mat-form-field>
+  
+        </div>
+        <div class="col-md-3">
+          <mat-label>Remarks</mat-label><br>
+          <mat-form-field  >
+            
+            <input matInput   formControlName="remarks"   type="text" (keypress)="addressvalidation($event)" autocomplete="off">
+  
+          </mat-form-field>
+  
+        </div>
+
+
+     
+
+    </div>
+
+    
+  </form>
+</div>
+<div class="text-left" style="margin-top: 3%;margin-left: 30px;">
+  <!-- <button type="submit" class="btn btn-outline-success" >Submit</button> &nbsp; &nbsp;
+  <button type="button" class="btn btn-outline-primary ">Cancel</button> -->
+
+
+  
+<button type="button"  style="border-radius: 7px;
+border-color: black;
+background-color: white;"  (click)="onCancelClick()"class="btn btn-light" 
+>Cancel</button> &nbsp; &nbsp;
+<button type="submit"  style="border-radius: 10px;
+border-color: #f5c68b;
+background-color: #f5c68b;" class="btn btn-light" (click)="branchPaymentCreate()" >Submit</button>
+
+</div>
+
+<br/>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
+  <p style="color: white">Please Wait. </p>
+</ngx-spinner>
+<!-- <app-branchpayment-summary></app-branchpayment-summary> -->

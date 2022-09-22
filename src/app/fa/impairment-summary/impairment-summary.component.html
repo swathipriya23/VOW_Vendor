@@ -1,0 +1,201 @@
+<div *ngIf="isImpairAdd">
+    <app-impairment-add (onSubmit)="ImpairCreateSubmit()" (onCancel)="ImpairCreateCancel()"></app-impairment-add>
+</div>
+<div *ngIf="isCGUmap">
+    <app-impairment-mapping (onSubmit)="CGUmapCreateSubmit()" (onCancel)="CGUmapCreateCancel()">
+    </app-impairment-mapping>
+</div>
+<div *ngIf="maker">
+    <!-- <a routerLink="/fa/fa" style="margin-left: 50px; font-size: 20px;">FA</a>/ Asset Impairment Maker -->
+    <form [formGroup]="ImpairSearchForm">
+        <h2 style="margin-left: 3%;font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;
+        ">Asset Impair Maker Summary</h2><hr>
+        <table>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="name" matInput autocomplete="off">
+                        <mat-placeholder>CGU Name</mat-placeholder>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="cgu_value" matInput
+                            autocomplete="off">
+                        <mat-placeholder>CGU value</mat-placeholder>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 50px;"
+                        (click)="getImpairsummarySearch()" color="primary"><i class="fa fa-search"
+                            aria-hidden="true"></i></button>
+                </td>
+                <td><button class="btn btn-outline-primary" (click)="resetImpair()"
+                        style="border-radius:40px;margin-left: 50px;" color="primary">Reset</button></td>
+                <td><button style="border-radius:40px;margin-left: 50px;" type="button"
+                        class="buttonsize btn btn-outline-success" (click)="addImpair()">
+                        <span class="fa fa-plus">Add</span></button></td>
+                <td><button style="border-radius:40px;margin-left: 50px;" type="button"
+                        class="buttonsize btn btn-outline-success" (click)="addCGUMap()">
+                        <span class="fa fa-plus">CGU Map</span></button></td>
+
+
+            </tr>
+        </table>
+    </form>
+
+
+    <div class="table-responsive" style="margin-top: 1%;width: 94%;margin-left: 50px;">
+        <table class="table scrolltable table-bordered" fixed-header>
+            <thead>
+                <tr class="table_header" fixed-header>
+                    <th>S.No</th>
+                    <th>CGU Name</th>
+                    <th>Total No Assets</th>
+                    <th>Old CGU Value</th>
+                    <th>New CGU Value</th>
+                    <th>Impair Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let Impair of ImpairMakerlist; index as i">
+                    <td>{{ (presentpageImpair-1)*pageSize+i+1 }}</td>
+                    <td>{{ Impair?.name}}</td>
+                    <td>{{ Impair?.asset_count}}</td>
+                    <td>{{ Impair?.old_cguvalue}}</td>
+                    <td>{{ Impair?.newcgu_value}}</td>
+                    <td>{{Impair.impairheader_status}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="ImpairMakerlist?.length==0; else paginationImpair" class="NodataAlign">No Records Found...</div>
+        <!-- <div style="text-align: center;margin-bottom:100px;" *ngIf="ReasonImpairmaker">
+            <h2>Reason: {{ReasonShow}} </h2>
+        </div> -->
+        <ng-template #paginationImpair>
+            <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+                <button mat-icon-button [disabled]="has_previousImpair == false" color="primary"
+                    (click)="ImpairpreviousClick()">
+                    <mat-icon> arrow_back </mat-icon>
+                </button>
+                {{presentpageImpair}}
+                <button mat-icon-button [disabled]="has_nextImpair == false" color="primary"
+                    (click)="ImpairnextClick()">
+                    <mat-icon> arrow_forward </mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </div>
+
+
+</div>
+
+
+
+<div *ngIf="checker">
+    <!-- <a routerLink="/fa/fa" style="margin-left: 50px; font-size: 20px;">FA</a>/ Asset Impair Checker -->
+    <form [formGroup]="ImpairCheckerSearchForm">
+        <h2 style="margin-left: 3%;font-family:Times New Roman;font-size:20px;color:blue;font-weight:bold;
+        ">Asset Impair Checker Summary</h2><hr>
+        <table>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="name" matInput autocomplete="off">
+                        <mat-placeholder>CGU Name</mat-placeholder>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="example-full-width" style="margin-left: 50px;">
+                        <input class="toolbar-search" type="text" formControlName="cgu_value" matInput
+                            autocomplete="off">
+                        <mat-placeholder>CGU value</mat-placeholder>
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 50px;"
+                        color="primary" (click)="getImpairAppsummarySearch()"><i class="fa fa-search"
+                            aria-hidden="true"></i></button>
+                </td>
+                <td><button class="btn btn-outline-primary" (click)="resetImpairApp()"
+                        style="border-radius:40px;margin-left: 50px;" color="primary">Reset</button></td>
+            </tr>
+        </table>
+    </form>
+
+    <div class="table-responsive" style="margin-top: 1%;width: 94%;margin-left: 50px;">
+        <table class="table scrolltable table-bordered" fixed-header>
+            <thead>
+                <tr class="table_header" fixed-header>
+                    <th>S.No</th>
+                    <th>CGU Name</th>
+                    <th>Total No Assets</th>
+                    <th>Old CGU Value</th>
+                    <th>New CGU Value</th>
+                    <th>Impair Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let Impair of ImpairApprovallist; index as i">
+                    <td>{{ (presentpageImpair-1)*pageSize+i+1 }}</td>
+                    <td>{{ Impair?.name}}</td>
+                    <td>{{ Impair?.asset_count}}</td>
+                    <td>{{ Impair?.old_cguvalue}}</td>
+                    <td>{{ Impair?.newcgu_value}}</td>
+                    <td>{{Impair.impairheader_status}}</td>
+                    <td><input type="checkbox" [checked]="Impair.checkbox == true"
+                            (click)="selectedAssetValue(Impair, $event)" class="checkboxsize" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="ImpairApprovallist?.length==0; else paginationImpairApp" class="NodataAlign">No Records Found...
+        </div>
+        <!-- <div style="text-align: center;margin-bottom:100px;" *ngIf="ReasonShowApproval">
+            <h2>Reason: {{ReasonShowApp}} </h2>
+        </div> -->
+        <ng-template #paginationImpairApp>
+            <div class="cursor" style="font-size: small;text-align:right; margin-bottom:100px;">
+                <button mat-icon-button [disabled]="has_previousImpairApp == false" color="primary"
+                    (click)="ImpairApppreviousClick()">
+                    <mat-icon> arrow_back </mat-icon>
+                </button>
+                {{presentpageImpairApp}}
+                <button mat-icon-button [disabled]="has_nextImpairApp == false" color="primary"
+                    (click)="ImpairAppnextClick()">
+                    <mat-icon> arrow_forward </mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </div>
+    <br>
+    <!-- <div *ngIf=ischecks> -->
+    <div class="row" style="margin-left: 100px; margin-bottom: 100px;" *ngIf="ReasonShowApprovalSubmit">
+        <mat-form-field style="margin-left: 15%;width: 220px;">
+            <input #rejectInput placeholder="Rejection Reason" type="text" matInput autocomplete="off">
+        </mat-form-field>
+        <button (click)="ImpairChecker('', 1)" class="btn btn-outline-success"
+            style="border-radius: 40px;margin-left: 50px;font-size: large;">APPROVE</button>
+        <button class="btn btn-outline-danger" style="border-radius: 40px;margin-left: 50px;font-size: large;;"
+            (click)="ImpairChecker(rejectInput.value, 3)">REJECT</button>
+    </div>
+</div>
+
+<div style="margin-left: 50px; margin-bottom: 100px; ">
+    <button type="button" class="btn btn-outline-primary" routerLink="/fa/fa"
+        style="border-radius: 40px;margin-left: 10px;">Back</button>
+</div>
+
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

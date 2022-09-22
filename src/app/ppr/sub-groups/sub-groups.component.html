@@ -1,0 +1,253 @@
+<div class="container">
+    <h2>Sub Groups</h2>
+    <form [formGroup]="sub_groupsummary">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field (click)="subgrp_dropdown()">
+                        <mat-label>Sub Group Name </mat-label>
+                        <input placeholder="Sub Group Name" matInput formControlName="subgrp" #subgrpinput
+                            [matAutocomplete]="subgrpauto">
+                        <mat-autocomplete #subgrpauto="matAutocomplete" [displayWith]="displayfnsubgrp" (opened)="autocompletesubgrpScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let sub_grp of subgrp_data" [value]="sub_grp">
+                                    ({{sub_grp.code}}){{sub_grp.name}} </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                
+
+                <div class="col-md-3">
+                    <mat-form-field (click)="headgrp_dropdown()">
+                        <mat-label>Head Group Name </mat-label>
+                        <input placeholder="Head Group Name" matInput formControlName="headgrp" #headgrpinput
+                            [matAutocomplete]="headauto">
+                        <mat-autocomplete #headauto="matAutocomplete" [displayWith]="displayfnheadgrp" (opened)="autocompleteheadgrpScroll()">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let head_grp of headgrp_data" [value]="head_grp">
+                                    ({{head_grp.code}}){{head_grp.name}} </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <div style="text-align: center;cursor: pointer;">
+                        <button class="btn btn-outline-primary" style="border-radius: 40px;"
+                            (click)="subgrp_summary_search(sub_groupsummary.value)">
+                            Search
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius: 40px;" data-toggle="modal" data-target="#subgrpAdd">
+                        Add
+                        </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+      <!-- summary -->
+      <div style="margin-top: 6%;" class="tableFixHead">
+        <table class="table table-bordered" id="commonstyle" fixed-header>
+            <thead>
+                <th>Sub Group Name</th>
+                <th>Description</th>
+                <!-- <th>Source Name</th> -->
+                <th>Edit</th>
+                <th>View</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let subgrpsummary of subgrp_summary">
+                    <td>({{subgrpsummary.code}}){{subgrpsummary.name}}</td>
+                    <td>
+                        <div *ngIf="subgrpsummary?.description==null">--</div>
+                        <div *ngIf="subgrpsummary?.description!=null">{{subgrpsummary.description}}</div></td>
+                    <!-- <td>({{headgrpsummary.sourcecode}}){{headgrpsummary.sourcecode}}</td> -->
+                     <td class="text-center">
+                        <a style="color:#2177e5;cursor: pointer;"  data-toggle="modal" data-target="#subgrpedit"  matTooltip="Edit"  (click)='editview_subgrp(subgrpsummary)'>
+                            <mat-icon>edit</mat-icon>
+                        </a>
+                    </td>
+                   <td style="text-align: center;">
+                        <a style="color:#2177e5;cursor: pointer;" matTooltip="View" data-toggle="modal" data-target="#subgrpview" (click)='editview_subgrp(subgrpsummary)'>
+                            <mat-icon>visibility</mat-icon>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-bottom: 5%;font-size: small;text-align:right;">
+            <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick(sub_groupsummary.value)">
+                <mat-icon>arrow_back</mat-icon>
+            </button> {{presentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick(sub_groupsummary.value)">
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+
+        </div>
+    </div>
+
+     <!--ADD Modal -->
+  <div class="modal fade" data-backdrop="static" id="subgrpAdd" tabindex="-1" role="dialog" aria-labelledby="subgrpAddLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="supgrpAddLabel">PPR Sub Group Add</h2>
+          <button type="button" class="close" #closepop data-dismiss="modal" (click)="clearsource()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+	        <form [formGroup]="pprsubgrpsource">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Sub Group Name</mat-label>
+                                <input matInput placeholder="Sub Group Name" autocomplete="off" formControlName="subgrpname">
+                            </mat-form-field>                       
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field (click)="headgrpadd_dropdown()" appearance="outline">
+                                <mat-label>Head Group Name </mat-label>
+                                <input placeholder="Head Group Name" matInput formControlName="headgrp_add" #headgrpinput
+                                    [matAutocomplete]="headaddauto">
+                                <mat-autocomplete #headaddauto="matAutocomplete" [displayWith]="displayfnheadgrpadd" (opened)="autocompleteheadgrpScrolladd()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let head_grp of headgrpdata" [value]="head_grp">
+                                            ({{head_grp.code}}){{head_grp.name}} </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Description</mat-label>
+                                <textarea matInput placeholder="Description" autocomplete="off" formControlName="description"></textarea>
+                            </mat-form-field>                       
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="clearsource()" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="save_subgrp(pprsubgrpsource.value,1)">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- edit -->
+   <div class="modal fade" data-backdrop="static" id="subgrpedit" tabindex="-1" role="dialog" aria-labelledby="subgrpeditLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="subgrpeditLabel">PPR Sub Group Edit</h2>
+          <button type="button" class="close" #closepopedit data-dismiss="modal" (click)="clearsource()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+	        <form [formGroup]="pprsubgrpsource">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Sub Group Name</mat-label>
+                                <input matInput placeholder="Sub Group Name" autocomplete="off" formControlName="subgrpname">
+                            </mat-form-field>                       
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field (click)="headgrpadd_dropdown()" appearance="outline">
+                                <mat-label>Head Group Name </mat-label>
+                                <input placeholder="Head Group Name" matInput formControlName="headgrp_add" #headgrpinput
+                                    [matAutocomplete]="headaddauto">
+                                <mat-autocomplete #headaddauto="matAutocomplete" [displayWith]="displayfnheadgrpadd" (opened)="autocompleteheadgrpScrolladd()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let head_grp of headgrpdata" [value]="head_grp">
+                                            ({{head_grp.code}}){{head_grp.name}} </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Description</mat-label>
+                                <textarea matInput placeholder="Description" autocomplete="off" formControlName="description"></textarea>
+                            </mat-form-field>                       
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="clearsource()" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="save_subgrp(pprsubgrpsource.value,2)">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!--view  -->
+   <div class="modal fade" data-backdrop="static" id="subgrpview" tabindex="-1" role="dialog" aria-labelledby="subgrpeviewLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title" id="subgrpviewLabel">PPR Sub Group View</h2>
+          <button type="button" class="close"  data-dismiss="modal" (click)="clearsource()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+	        <form [formGroup]="pprsubgrpsource">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Sub Group Name</mat-label>
+                                <input matInput placeholder="Sub Group Name" autocomplete="off" formControlName="subgrpname" readonly>
+                            </mat-form-field>                       
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field (click)="headgrpadd_dropdown()" appearance="outline">
+                                <mat-label>Head Group Name </mat-label>
+                                <input placeholder="Head Group Name" matInput formControlName="headgrp_add" #headgrpinput
+                                    [matAutocomplete]="headaddauto" readonly>
+                                <mat-autocomplete #headaddauto="matAutocomplete" [displayWith]="displayfnheadgrpadd" (opened)="autocompleteheadgrpScrolladd()">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let head_grp of headgrpdata" [value]="head_grp">
+                                            ({{head_grp.code}}){{head_grp.name}} </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter The Description</mat-label>
+                                <textarea matInput placeholder="Description" autocomplete="off" formControlName="description" readonly></textarea>
+                            </mat-form-field>                       
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="clearsource()" data-dismiss="modal">Close</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

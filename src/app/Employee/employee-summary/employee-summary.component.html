@@ -1,0 +1,599 @@
+<div class="Container" style="margin-left: 40px;">
+<nav>
+    <div class="nav nav-tabs" style="margin-top: 1%;">
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="empToDeptMapBtn()">Employee
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="costCentreBtn()">Cost Centre
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="businessSegmentBtn()">Business Segment
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="ccbsBtn()">CCBS
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="hierarchyBtn()">Hierarchy
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="contactBtn()">Contact
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="designationBtn()">Designation
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="countryBtn()">Country
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="stateBtn()">State
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="districtBtn()">District
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="cityBtn()">City
+        </a>
+        <a class="nav-item nav-link" data-toggle="tab" role="tab" (click)="pincodeBtn()">Pincode
+        </a>
+
+<div *ngIf="isShownCostcentre">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createCostcentre"' skipLocationChange><span class="fa fa-plus"></span> Cost Centre</button>
+</div>
+<div *ngIf="isShownBusinesssegment">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createBusinesssegment"' skipLocationChange><span class="fa fa-plus"></span> Business Segment</button>
+</div>
+<div *ngIf="isShownCCBS">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createccbs"' skipLocationChange><span class="fa fa-plus"></span> CCBS</button>
+</div>
+<div *ngIf="isShownHierarchy">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createHierarchy"' skipLocationChange><span class="fa fa-plus"></span> Hierarchy</button>
+</div>
+<div *ngIf="isShownContact">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createcontact"' skipLocationChange><span class="fa fa-plus"></span> Contact</button>
+</div>
+<div *ngIf="isShownDesignation">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createDesignation"' skipLocationChange><span class="fa fa-plus"></span> Designation</button>
+</div>
+<div *ngIf="isShownCountry">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createCountry"' skipLocationChange><span class="fa fa-plus"></span> Country</button>
+</div>
+<div *ngIf="isShownState">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createState"' skipLocationChange><span class="fa fa-plus"></span> State</button>
+</div>
+<div *ngIf="isShownDistrict">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createDistrict"' skipLocationChange><span class="fa fa-plus"></span> District</button>
+</div>
+<div *ngIf="isShownCity">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createCity"' skipLocationChange><span class="fa fa-plus"></span> City</button>
+</div>
+<div *ngIf="isShownPincode">
+    <button type="button" class="btn btn-outline-success" style="border-radius:40px;margin-left: 50px"
+        [routerLink]='"/createPincode"' skipLocationChange><span class="fa fa-plus"></span> Pincode</button>
+</div>
+</div>
+</nav>
+
+<div *ngIf="isShownEmpToDeptMap">
+    <div class="table-responsive" style="margin-top: 2%;width: 50%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>DOB</th>
+                    <th>DOJ</th>
+                    <th>Code</th>
+                  </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let employee of employeeList; index as i">
+                    <td scope="row">{{ i+1 }}</td>
+                    <td (click)="employeeView(employee)">{{ employee.full_name }}</td>
+                    <td>{{ employee.dob }}</td>
+                    <td>{{ employee.doj }}</td>
+                    <td>{{ employee.code }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;">
+                <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClickEmployee()">
+                    <mat-icon style="color: black;">arrow_back</mat-icon>
+                </button>
+                {{currentpage}}
+                <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickEmployee()">
+                    <mat-icon style="color: black;">arrow_forward</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShownCostcentre">
+    <div class="table-responsive" style="margin-top: 2%;width: 60%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>No</th>
+                    <th>Description</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let costCentre of costCentreList;index as i">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ costCentre.code }}</td>
+                    <td>{{ costCentre.name }}</td>
+                    <td>{{ costCentre.no}}</td>
+                    <td>{{ costCentre.description }}</td>
+                    <td>{{ costCentre.remarks }}</td>
+                    <td>
+                        <button mat-icon-button matTooltip="Click to Edit" class="iconbutton"
+                            (click)="costCentreEdit(costCentre)" color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClick3()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick3()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShownBusinesssegment">
+    <div class="table-responsive" style="margin-top: 2%;width: 60%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>No</th>
+                    <th>Description</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let businessSegment of businessSegmentList;index as i">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ businessSegment.code }}</td>
+                    <td>{{ businessSegment.name }}</td>
+                    <td>{{ businessSegment.no}}</td>
+                    <td>{{ businessSegment.description }}</td>
+                    <td>{{ businessSegment.remarks }}</td>
+                    <td>
+                        <button mat-icon-button matTooltip="Click to Edit" class="iconbutton"
+                            (click)="businessSegmentEdit(businessSegment)" color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClick2()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick2()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div> 
+    </div>
+</div>
+
+<div *ngIf="isShownCCBS">
+    <div class="table-responsive" style="margin-top: 2%;width: 80%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>No</th>
+                    <th>Glno</th>
+                    <th>Costcentre</th>
+                    <th>Businesssegment</th>
+                    <th>Description</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ccbs of ccbsList;index as i">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ ccbs.code }}</td>
+                    <td>{{ ccbs.name }}</td>
+                    <td>{{ ccbs.no}}</td>
+                    <td>{{ ccbs.glno}}</td>
+                    <td>{{ ccbs.cc_name}}</td>
+                    <td>{{ ccbs.bs_name}}</td>
+                    <td>{{ ccbs.description }}</td>
+                    <td>{{ ccbs.remarks }}</td>
+                    <td>
+                        <button mat-icon-button matTooltip="Click to Edit" class="iconbutton"
+                            (click)="ccbsEdit(ccbs)" color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClickMapping()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickMapping()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div>        
+    </div>
+</div>
+
+<div *ngIf="isShownHierarchy">
+    <div class="table-responsive" style="margin-top: 2%;width: 60%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Layer</th>
+                    <th>Order</th>
+                    <th>Remarks</th>
+                    <th>Flag</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let hierarchy of hierarchyList;index as i">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ hierarchy.layer }}</td>
+                    <td>{{ hierarchy.order }}</td>
+                    <td>{{ hierarchy.remarks }}</td>
+                    <td>{{ hierarchy.flag }}</td>
+                    <td>
+                        <button mat-icon-button matTooltip="Click to Edit" class="iconbutton"
+                            (click)="hierarchyEdit(hierarchy)" color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClickHierarchy()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickHierarchy()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div> 
+    </div>
+</div>
+
+<div *ngIf="isShownContact">
+    <div class="table-responsive" style="margin-top: 2%;width: 60%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let contact of contactList; index as i">
+                    <td scope="row">{{ i+1 }}</td>
+                    <td>{{ contact.name}}</td>
+                    <td>{{ contact.code }}</td>
+                    <td>{{ contact.remarks}}</td>
+                    <td>
+                        <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="contactEdit(contact)"
+                            color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                    <td>       
+                        <mat-icon style="color: gray;" (click)="deleteContact(contact)">delete</mat-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClickContact()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickContact()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShownDesignation">
+    <div class="table-responsive" style="margin-top: 2%;width: 50%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let designation of designationList; index as i">
+                    <td scope="row">{{ i+1 }}</td>
+                    <td>{{ designation.name}}</td>
+                    <td>{{ designation.code }}</td>
+                    <td>
+                        <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="designationEdit(designation)"
+                            color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                    <td>       
+                        <mat-icon style="color: gray;" (click)="deleteDesignation(designation)">delete</mat-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClickDesignation()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickDesignation()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShownCountry">
+    <div class="table-responsive" style="margin-top: 2%;width: 50%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let country of countryList; index as i">
+                    <td scope="row">{{ i+1 }}</td>
+                    <td>{{ country.name}}</td>
+                    <td>{{ country.code }}</td>
+                    <td>
+                        <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="countryEdit(country)"
+                            color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                    <td>       
+                        <mat-icon style="color: gray;" (click)="deleteCountry(country)">delete</mat-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClickCountry()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickCountry()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShownState">
+    <div class="table-responsive" style="margin-top: 2%;width: 60%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Country Name</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let state of stateList; index as i">
+                    <td scope="row">{{ i+1 }}</td>
+                    <td>{{ state.name}}</td>
+                    <td>{{ state.code }}</td>
+                    <td>{{ state.country_name}}</td>
+                    <td>
+                        <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="stateEdit(state)"
+                            color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                    <td>       
+                        <mat-icon style="color: gray;" (click)="deleteState(state)">delete</mat-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClickState()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickState()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShownDistrict">
+    <div class="table-responsive" style="margin-top: 2%;width: 60%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>State Name</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let district of districtList; index as i">
+                    <td scope="row">{{ i+1 }}</td>
+                    <td>{{ district.name}}</td>
+                    <td>{{ district.code }}</td>
+                    <td>{{ district.state_name}}</td>
+                    <td>
+                        <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="districtEdit(district)"
+                            color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                    <td>       
+                        <mat-icon style="color: gray;" (click)="deleteDistrict(district)">delete</mat-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClickDistrict()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickDistrict()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isShownCity">
+    <div class="table-responsive" style="margin-top: 2%;width: 60%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>State Name</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let city of cityList; index as i">
+                    <td scope="row">{{ i+1 }}</td>
+                    <td>{{ city.name}}</td>
+                    <td>{{ city.code }}</td>
+                    <td>{{ city.state_name}}</td>
+                    <td>
+                        <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="cityEdit(city)"
+                            color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                    <td>       
+                        <mat-icon style="color: gray;" (click)="deleteCity(city)">delete</mat-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClickCity()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickCity()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="isShownPincode">pinsearch
+    <form [formGroup]="pinform" (ngSubmit)="pinsearch()">
+        <div class="row">
+        <div class="col-md-3">
+            <mat-form-field class="example-full-width" >
+                <input class="toolbar-search"  matInput type="text"   maxlength="15"  formControlName="name" autocomplete="off">
+                <mat-placeholder>Name</mat-placeholder>
+            </mat-form-field>
+         </div>
+         <div class="col-md-1">
+            <button class="btn btn-outline-primary" type="submit" style="border-radius:40px;margin-left: 15px;margin-top: 17px;"
+                color="primary">Search</button></div>
+            </div>
+            
+        </form>
+    <div class="table-responsive" style="margin-top: 2%;width: 60%;">
+        <table class="table">
+            <thead class="table_header">
+                <tr>66
+                    <th>S.n333o</th>
+                    <th>City Name</th>
+                    <th>District Name</th>
+                    <th>No</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pincode of pincodeList; index as i">
+                    <td scope="row">{{ i+1 }}</td>
+                    <td>{{ pincode.city_name}}</td>
+                    <td>{{ pincode.district_name}}</td>
+                    <td>{{ pincode.no}}</td>
+                    <td>
+                        <button mat-icon-button matTooltip=" Edit" class="iconbutton" (click)="pincodeEdit(pincode)"
+                            color="primary">
+                            <mat-icon style="color: gray;" aria-label="Edit">edit</mat-icon>
+                        </button>
+                    </td>
+                    <td>       
+                        <mat-icon style="color: gray;" (click)="deletePincode(pincode)">delete</mat-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-12" style="font-size: small;text-align: right;" >
+            <button mat-icon-button  [disabled]="has_previous === false" color="primary" (click)="previousClickPincode()">
+                <mat-icon style="color: black;">arrow_back</mat-icon></button>
+            {{currentpage}}
+            <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClickPincode()">
+                <mat-icon style="color: black;">arrow_forward</mat-icon></button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

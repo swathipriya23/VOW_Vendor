@@ -1,0 +1,41 @@
+
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+    <h2>
+        Edit Template Form
+    </h2>
+    <div>
+        <form [formGroup]="templateEditForm" (ngSubmit)="submitForm()">
+            
+            <table>
+                <tr>
+                    <td>
+                        <mat-label>File Type<label style="color: red;" >*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" style="width: 250px;" appearance="outline">
+                            <mat-select formControlName="file_type" class="matformfieldinputstyle">
+                                <mat-option *ngFor="let filetype of filetypeList" [value]="filetype.id">{{filetype.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-label style="margin-left: 60px;">Template<label style="color: red;" >*</label></mat-label><br>
+                        <mat-form-field class="matformfieldstyle" appearance="outline" style="width: 250px;margin-left: 60px;">
+                    <input matInput placeholder="Template"  class="matformfieldinputstyle" formControlName="template" required> 
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+            <div style="margin-top: 20px;">
+            <button (click)="onCancelClick()" skipLocationChange class="btn btn-light"
+            style="border-radius: 7px;margin-left: 10px;
+            border-color: black;
+            background-color: white;">Cancel</button>
+            <button type="submit" style="border-radius: 10px;margin-left: 10px;
+            border-color: #f5c68b;
+            background-color: #f5c68b;" class="btn btn-light"
+                [disabled]="templateEditForm.invalid">Submit</button>
+            </div>
+        </form>    
+    </div>
+</div>
+

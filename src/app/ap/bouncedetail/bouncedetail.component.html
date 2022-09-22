@@ -1,0 +1,656 @@
+<div *ngIf="detflag" style="background-color: #F6F6F6">
+    <mat-card style="margin:20px 12px 20px 20px;" class="mat-elevation-z0" >
+    <h2 style="margin-left: 2%;font-family:Times New Roman;font-size:20px;color:rgb(53, 138, 163);font-weight:bold;">
+        Invoice Bounce</h2>
+    <hr>
+    <div style="float: right;margin-right: 140px;margin-bottom: 15px;">
+        <button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;"
+            data-toggle="modal" data-target="#ccbsModal" (click)="audit()"><i class="fa fa-arrow-up" aria-hidden="true">Audit
+                Checklist</i>
+        </button>
+        <button type="button" class="btn btn-outline-primary"
+            style="border-radius:40px;height: 44px; margin-top: 12px;margin-left: 50px;" data-toggle="modal"
+            data-target="#data" (click)="dedup()" ><i class="fa fa-arrow-up" aria-hidden="true">Dedupe Check</i>
+        </button>
+        <button type="button" class="btn btn-outline-primary"
+        style="border-radius:40px;height: 44px; margin-top: 12px;margin-left: 50px;" data-toggle="modal"
+        data-target="#viewtran" (click)="viewtrn()"><i class="fa fa-arrow-up" aria-hidden="true">View Tranasaction </i>
+    </button>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+    id="ccbsModal">
+        <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;color:rgb(31, 29, 29);text-align:center">
+                <h2 class="modal-title" style="text-align:center;margin-left:42%">Audit Checklist</h2>
+            <button class="close" type="button" data-dismiss="modal">x</button>      
+            </div>
+            <div>
+                <table class="table table-bordered" style="width: 100%;text-align: center;">
+                    <thead class="table_header">
+                    <tr>
+                        <th>S.NO</th>
+                        <th>Question</th>
+                        <th>Solution</th>
+                        <th>Ok/Not.Ok</th>
+                    </tr>
+                    </thead>
+                    <tr *ngFor="let dt of data;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{dt.question}}</td>
+                    <td>{{dt.solution}}</td>
+                    <!-- <td> <mat-button-toggle-group [value]="dt['value'].id">
+                        <mat-button-toggle [value]="1"  (change)="ok(dt)">
+                        OK
+                        </mat-button-toggle>
+                        <mat-button-toggle  [value]="2" (change)="notok(dt)">
+                        NOT-OK
+                        </mat-button-toggle>
+                        <mat-button-toggle [value]="3" (change)="na(dt)">
+                            N/A
+                            </mat-button-toggle>
+                    </mat-button-toggle-group> </td>   -->
+                    <!-- <td>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons"  > 
+                        <label class="btn btn-outline-success " [ngClass]="(dt.value.id==1)? 'active': ''" >
+                          <input type="radio" name="options" id="option1"  (change)="ok(dt)" > Ok
+                          </label>
+                        <label class="btn btn-outline-danger " [ngClass]="(dt.value.id==2)? 'active': ''">
+                          <input type="radio" name="options" id="option2"  (change)="notok(dt)"> Not-OK
+                        </label>
+                        <label class="btn btn-outline-secondary" [ngClass]="(dt.value.id==3)? 'active': ''">
+                          <input type="radio" name="options" id="option3"  (change)="na(dt)"> N/A
+                        </label>
+                      </div>
+                    </td> -->
+                    <td>{{dt.value.text}}</td>
+                      <!-- <td>
+                       <mat-button-toggle-group [formControl]="fontStylefun" aria-label="Font Style" (change)="ok(i,$event.value,dt)" color="primary">
+                        <mat-button-toggle value="1" color="primary">OK</mat-button-toggle>
+                        <mat-button-toggle class="active" color="warm" value="2">NOT-OK</mat-button-toggle>
+                        <mat-button-toggle value="3" color="accent">N/A</mat-button-toggle>
+                      </mat-button-toggle-group>
+                    </td> -->
+                </tr>
+                </table>
+            </div>
+            <div style="text-align: center; width: 100%;margin-bottom: 1%;" >
+            <!-- <mat-form-field style="width: 20rem;margin-left: 30px; ">
+                <mat-label>Remarks</mat-label>
+                <input matInput [formControl]="rem" autocomplete="off" required>
+            </mat-form-field>
+            
+        </div> -->
+        <!-- <div >    
+        <button  mat-raised-button class="btn btn-success btn-lg float-right"  style="margin-right: 10px;" (click)="submitted()">Submit</button>
+        <button  mat-raised-button data-dismiss="modal" class="btn-lg float-right" style="margin-right: 20px;">Close</button> 
+         </div> -->
+         <button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;text-align:center ;" data-dismiss="modal" >Back</button>
+    </div>
+        </div>
+        </div>
+    </div>
+        <!-- start -->
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+    id="data" >
+    <div class="modal-dialog modal-xl" style="width:80%;height:200%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;color:rgb(31, 29, 29)">
+            <h2 class="modal-title" style="text-align:center;margin-left:45%">Dedupe</h2>
+            <button class="close" type="button" data-dismiss="modal">x</button>                
+            </div>
+            <div class="modal-body">
+                <pre>EXACT_MATCH</pre>
+                <div class="table-responsive" class="tablescroll" style="margin-top: 10px;width: 100%;margin-left: 10px;overflow: auto;">
+                    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 10px;">
+                        <thead class="table_header " fixed-header>
+                            <tr>
+                                <th>S.No</th> 
+                                <th>Invoice Number</th>                             
+                                <th>Invoice Header Amount</th>
+                                <th>Status</th>          
+                                <th>CR Number</th>                
+                                <th>Supplier Name</th>
+                                <th>Branch Name</th>             
+                                <th>Employee Name</th>                                      
+                            </tr>
+                        </thead>
+                        <tbody>                    
+                            <tr *ngFor="let value of exactList; index as i;">
+                                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                                <td>{{value.invoiceno}}</td>
+                                <td>{{value.invoiceamount}}</td>     
+                                <td>{{value['status'].text}}</td>
+                                <td>{{value.crno}}</td>                         
+                                <td>{{value['supplier'].name}}</td>
+                                <td>{{value['branch'].name}}</td>
+                                <td>{{value.raised_empname}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="exactList ?.length == 0" style="margin-left: 42%;">
+                        <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!..</h3>
+                    </div>
+                </div>
+                <br>
+
+                <pre>WITHOUT_SUPPLIER</pre>
+                <div class="table-responsive" class="tablescroll" style="margin-top: 10px;width: 100%;margin-left: 10px;overflow: auto;">
+                    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 10px;">
+                        <thead class="table_header " fixed-header>
+                            <tr>
+                                <th>S.No</th> 
+                                <th>Invoice Number</th>                             
+                                <th>Invoice Header Amount</th>
+                                <th>Status</th>          
+                                <th>CR Number</th>                
+                                <th>Supplier Name</th>
+                                <th>Branch Name</th>             
+                                <th>Employee Name</th>                                      
+                            </tr>
+                        </thead>
+                        <tbody>                    
+                            <tr *ngFor="let value of withoutSuppList; index as i;">
+                                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                                <td>{{value.invoiceno}}</td>
+                                <td>{{value.invoiceamount}}</td>     
+                                <td>{{value['status'].text}}</td>
+                                <td>{{value.crno}}</td>                         
+                                <td>{{value['supplier'].name}}</td>
+                                <td>{{value['branch'].name}}</td>
+                                <td>{{value.raised_empname}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="withoutSuppList ?.length == 0" style="margin-left: 42%;">
+                        <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!..</h3>
+                    </div>
+                </div>
+                <br>
+
+                <pre>WITHOUT_INVOICE_AMOUNT</pre>
+                <div class="table-responsive" class="tablescroll" style="margin-top: 10px;width: 100%;margin-left: 10px;overflow: auto;">
+                    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 10px;">
+                        <thead class="table_header " fixed-header>
+                            <tr>
+                                <th>S.No</th> 
+                                <th>Invoice Number</th>                             
+                                <th>Invoice Header Amount</th>
+                                <th>Status</th>          
+                                <th>CR Number</th>                
+                                <th>Supplier Name</th>
+                                <th>Branch Name</th>             
+                                <th>Employee Name</th>                                      
+                            </tr>
+                        </thead>
+                        <tbody>                    
+                            <tr *ngFor="let value of withoutInvAmtList; index as i;">
+                                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                                <td>{{value.invoiceno}}</td>
+                                <td>{{value.invoiceamount}}</td>     
+                                <td>{{value['status'].text}}</td>
+                                <td>{{value.crno}}</td>                         
+                                <td>{{value['supplier'].name}}</td>
+                                <td>{{value['branch'].name}}</td>
+                                <td>{{value.raised_empname}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="withoutInvAmtList ?.length == 0" style="margin-left: 42%;">
+                        <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!..</h3>
+                    </div>
+                </div>
+                <br>
+
+                <pre>WITHOUT_INVOICE_NUMBER</pre>
+                <div class="table-responsive" class="tablescroll" style="margin-top: 10px;width: 100%;margin-left: 10px;overflow: auto;">
+                    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 10px;">
+                        <thead class="table_header " fixed-header>
+                            <tr>
+                                <th>S.No</th> 
+                                <th>Invoice Number</th>                             
+                                <th>Invoice Header Amount</th>
+                                <th>Status</th>          
+                                <th>CR Number</th>                
+                                <th>Supplier Name</th>
+                                <th>Branch Name</th>             
+                                <th>Employee Name</th>                                      
+                            </tr>
+                        </thead>
+                        <tbody>                    
+                            <tr *ngFor="let value of withoutInvNoList; index as i;">
+                                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                                <td>{{value.invoiceno}}</td>
+                                <td>{{value.invoiceamount}}</td>     
+                                <td>{{value['status'].text}}</td>
+                                <td>{{value.crno}}</td>                         
+                                <td>{{value['supplier'].name}}</td>
+                                <td>{{value['branch'].name}}</td>
+                                <td>{{value.raised_empname}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="withoutInvNoList ?.length == 0" style="margin-left: 42%;">
+                        <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!..</h3>
+                    </div>
+                </div>
+                <br>
+
+                <pre>WITHOUT_INVOICE_DATE</pre>
+                <div class="table-responsive" class="tablescroll" style="margin-top: 10px;width: 100%;margin-left: 10px;overflow: auto;">
+                    <table class="table table scrolltable table-bordered" style="width: 99%; margin-top: 10px;">
+                        <thead class="table_header " fixed-header>
+                            <tr>
+                                <th>S.No</th> 
+                                <th>Invoice Number</th>                             
+                                <th>Invoice Header Amount</th>
+                                <th>Status</th>          
+                                <th>CR Number</th>                
+                                <th>Supplier Name</th>
+                                <th>Branch Name</th>             
+                                <th>Employee Name</th>                                      
+                            </tr>
+                        </thead>
+                        <tbody>                    
+                            <tr *ngFor="let value of withoutInvDtList; index as i;">
+                                <td style="text-align:center;"> {{(presentpage - 1)*identificationSize +i+1 }} </td>
+                                <td>{{value.invoiceno}}</td>
+                                <td>{{value.invoiceamount}}</td>     
+                                <td>{{value['status'].text}}</td>
+                                <td>{{value.crno}}</td>                         
+                                <td>{{value['supplier'].name}}</td>
+                                <td>{{value['branch'].name}}</td>
+                                <td>{{value.raised_empname}}</td>    
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div *ngIf="withoutInvDtList ?.length == 0" style="margin-left: 42%;">
+                        <h3 style="font-family: 'Times New Roman', Times, serif;">Sorry data not found!..</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"  class="col-md-12 text-center" style="margin-bottom: 2%;">
+                <button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;text-align:center ;" data-dismiss="modal" >Back</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!-- View Tranasaction -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabels" aria-hidden="true"
+    id="viewtran">
+    <div class="modal-dialog modal-xl" style="width:80%;height:200%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background:#21cbe5;color:rgb(31, 29, 29);text-align:center">
+                <h2 class="modal-title" style="text-align:center;margin-left:42%">View Tranasaction</h2>
+            <button class="close" type="button" data-dismiss="modal">x</button>      
+            </div>
+            <div>
+                <table class="table table-bordered" style="width: 100%;text-align: center;">
+                    <thead class="table_header">
+                    <tr>
+                        <th>S.NO</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>From Date</th>
+                        <th>Remarks</th>
+                        <th>Employee Name</th>
+                        <th>Approver Name</th>
+                        <th>Approved By</th>
+                    </tr>
+                    </thead>
+                    <tr *ngFor="let dt of viewtrnlist;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{dt.type}}</td>
+                        <td>{{dt.status.text}}</td>
+                        <td>{{dt.created_date}}</td>
+                        <td>{{dt.remarks}}</td>
+                        <td>{{dt.from_user.name}}
+                        <br>
+                        <div *ngIf="dt.from_user_id==-1; else deta"></div>
+                            <ng-template #deta>
+                                <a style="color: green;cursor: pointer;"  (click)="view(dt)">View Details</a>
+                            </ng-template>
+                        </td>
+                        <td>{{dt.to_user.name}}
+                        <br>
+                        <div *ngIf="dt.to_user_id==-1; else det"></div>
+                        <ng-template #det>
+                        <a style="color: green;cursor: pointer;"  (click)="viewto(dt)">View Details</a>
+                        </ng-template></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer" >
+                <table  style="width: 100%;text-align: center;">
+                    <tr>
+                        <td>Employee Name:{{this.name}}</td>
+                        <td>Branch Code :{{this.branch}}</td>
+                        <!-- <td>Designation: {{this.designation}}</td> -->
+                     </tr>
+                     <tr><td colspan="3"><button type="button" class="btn btn-outline-primary" style="border-radius:40px;height: 44px; margin-top: 12px;" data-dismiss="modal" >Back</button></td></tr>
+                </table>
+            </div>
+             
+        </div>   
+        
+    </div>
+</div>
+ <!-- </div>  -->
+<!-- end -->
+
+<!-- </div> -->
+
+    <div>
+        <div>
+            <table style="width: 100%;margin-left: 2%;font-size:18px;">
+                <tr>
+                    <td>
+                        <mat-label>CR Number:</mat-label>
+                        {{apHdrSummarydt.crno}}
+                    </td>
+
+                    <td>
+                        <mat-label>Invoice Type:
+                        </mat-label> {{apHdrSummarydt?.aptype?.text}}
+                    </td>
+
+                    <td>
+                        <mat-label>GST Applicable:{{apHdrSummarydt.apinvoiceheader[0].invoicegst}}
+                        </mat-label>
+                    </td>
+                </tr>
+                <tr style="margin-top: 20px;">
+                    <td>
+                        <mat-label>Supplier Name:{{apHdrSummarydt.apinvoiceheader[0].supplier.name}}
+                        </mat-label>
+                    </td>
+                    <td>
+                        <mat-label>Invoice Date:{{apHdrSummarydt.apinvoiceheader[0].invoicedate}}
+                        </mat-label>
+                    </td>
+                    <td>
+                        <mat-label>Invoice Number:{{apHdrSummarydt.apinvoiceheader[0].invoiceno}}
+                        </mat-label>
+                    </td>
+                </tr>
+                <tr style="margin-top: 20px;">
+                    <td>
+                        <mat-label>Amount:{{apHdrSummarydt.apinvoiceheader[0].invoiceamount}}
+                        </mat-label>
+                    </td>
+                    <td>
+                        <mat-label>Taxable Amount:{{apHdrSummarydt.apinvoiceheader[0].taxamount}}
+                        </mat-label>
+                    </td>
+                    <td>
+                        <mat-label>Employee:
+                        </mat-label> {{apHdrSummarydt.raisername}}
+                    </td>
+
+                </tr>
+                <tr style="margin-top: 20px;">
+                    <td>
+                        <mat-label>Branch:{{apHdrSummarydt.branch}}
+                        </mat-label>
+                    </td>
+                    <td>
+                        <mat-label>Branch GST No:{{apHdrSummarydt.raisorbranchgst}}
+                        </mat-label>
+                    </td>
+
+                    <td>
+                        <mat-label>Bar Code:
+
+                        </mat-label> {{apHdrSummarydt.rmubarcode}}
+                    </td>
+                </tr>
+
+                <tr style="margin-top: 20px;">
+                    <td>
+                        <mat-label>RMU Code:
+
+                        </mat-label> {{apHdrSummarydt.rmubarcode}}
+                    </td>
+
+                    <td>
+                        <mat-label>Remarks:
+
+                        </mat-label> {{apHdrSummarydt.remark}}
+                    </td>
+                    <td>
+                        <mat-label>Total:
+
+                        </mat-label> {{apHdrSummarydt.apamount}}
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <h2 style="margin-left: 2%;font-family:'Times New Roman';font-weight:bold;">Invoice Header</h2>
+    <div class="table-responsive" id="styleScroll"
+        style="margin-top: 1%;width: 95%;margin-left: 2%;margin-bottom: 5%;">
+        <table class="table scrolltable table-bordered" fixed-header>
+            <thead class="table_header" style='font-family:"Times New Roman"'>
+                <tr>
+                    <th>S.No</th>
+                    <th>Supplier Name</th>
+                    <th>Supplier GST</th>
+                    <th>Invoice No</th>
+                    <th>Date</th>
+                    <th>Taxable Amount</th>
+                    <th>Tax Amount</th>
+                    <th>Round Off</th>
+                    <th>Other Adjustment</th>
+                    <th>Total Amount</th>
+                    <th>File</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <ng-container *ngFor="let apinvoiceheader of apHdrSummarydt.apinvoiceheader;index as i;">
+                <tr (click)="apinvoiceheader.expanded = !apinvoiceheader.expanded" style="cursor: pointer;">
+                    <td>{{i+1}}</td>
+                    <td><p style="cursor: pointer;color: blue">{{apinvoiceheader.supplier.name}}</p></td>
+                    <td>{{apinvoiceheader.supplier.gstno}}</td>
+                    <td>{{apinvoiceheader.invoiceno}}</td>
+                    <td>{{apinvoiceheader.invoicedate}}</td>
+                    <td>{{apinvoiceheader.invoiceamount}}</td>
+                    <td>{{apinvoiceheader.taxamount}}</td>
+                    <td>{{apinvoiceheader.roundoffamt}}</td>
+                    <td>{{apinvoiceheader.otheramount}}</td>
+                    <td>{{apinvoiceheader.totalamount}}</td>
+                    <td>
+                        <a >{{this.file}}<i class="material-icons" matTooltip="Downaled" style="cursor: pointer;">
+                            <a (click)="getfiles()">get_app</a> 
+                         </i></a>
+                    </td>
+                    <td>{{apinvoiceheader.status.text}}</td>
+                </tr>
+                <tr *ngIf="apinvoiceheader.expanded">
+                    <td colspan="12">
+                        <tr style="font-family:'Times New Roman';font-weight:bold;font-size:12px ;">Invoice Details</tr>
+                        <div>
+                            <table class="table scrolltable table-bordered" fixed-header>
+                                <thead class="table_header" style='font-family:"Times New Roman"'>
+                                    <tr>
+                                        <th>Particulars</th>
+                                        <th>Product Name</th>
+                                        <th>UOM</th>
+                                        <th>HSN Code</th>
+                                        <th>HSN %</th>
+                                        <th>Unit Price</th>
+                                        <th>Quantity</th>
+                                        <th>Amount</th>
+                                        <th>CGST</th>
+                                        <th>SGST</th>
+                                        <th>IGST</th>
+                                        <th>Tax Amount</th>
+                                        <th>Discount</th>
+                                        <th>Total Amount</th>
+                                    </tr>
+                                </thead>
+                            <ng-container *ngFor="let invdetails of apinvoiceheader.apinvoicedetails">
+                                <tr (click)="invdetails.expanded = !invdetails.expanded " style="cursor: pointer;">
+                                    <td style="padding-left: 12px"><p style="cursor: pointer;color: blue">{{invdetails.description}}</p>  </td>
+                                    <td> {{invdetails.productname}} </td>
+                                    <td> {{invdetails.uom.uom}} </td>
+                                    <td> {{invdetails.hsn.code}} </td>
+                                    <td> {{invdetails.hsn_percentage}} </td>
+                                    <td> {{invdetails.unitprice}} </td>
+                                    <td> {{invdetails.quantity}} </td>
+                                    <td> {{invdetails.amount}} </td>
+                                    <td> {{invdetails.cgst}} </td>
+                                    <td> {{invdetails.sgst}} </td>
+                                    <td> {{invdetails.igst}} </td>
+                                    <td> {{invdetails.taxamount}} </td>
+                                    <td> {{invdetails.discount}} </td>
+                                    <td> {{invdetails.totalamount}} </td>
+                                </tr>
+                                <tr *ngIf="invdetails.expanded">
+                                    <td colspan="14">
+                                        <tr style="font-family:'Times New Roman';font-weight:bold;font-size:12px ;">Debit Details</tr>
+                                        <div>
+                                            <table class="table scrolltable table-bordered" fixed-header>
+                                                <thead class="table_header" style='font-family:"Times New Roman"'>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>SubCategory</th>
+                                                        <th>GL Number</th>
+                                                        <th>Amount</th>
+                                                        <th>Adjust Amount</th>
+                                                        <th>Debit Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <ng-container *ngFor="let apdebit of invdetails.apdebit">
+                                                    <tr (click)="apdebit.expanded = !apdebit.expanded" style="cursor: pointer;">
+                                                  <!-- <tr *ngFor="let apdebit of invdetails.apdebit"  (click)="invdetails.expanded = !invdetails.expanded"> -->
+                                                   
+                                                    <td><p style="cursor: pointer;color: blue"> {{apdebit.category_code.name}} </p></td>
+                                                    <td> {{apdebit.subcategory_code.name}} </td>
+                                                    <td> {{apdebit.debitglno}} </td>
+                                                    <td> {{apdebit.amount}} </td>
+                                                    <td> {{apdebit.deductionamount}} </td>
+                                                    <td> {{apdebit.amount}} </td>
+                                                    
+                                                    </tr>
+                                                    <tr *ngIf="apdebit.expanded">
+                                                        <td colspan="14">
+                                                            <tr style="font-family:'Times New Roman';font-weight:bold;font-size: 12px;">CCBS Details</tr>
+                                                            <div>
+                                                                <table class="table scrolltable table-bordered" fixed-header>
+                                                                    <thead class="table_header" style='font-family:"Times New Roman"'>
+                                                                        <tr>
+                                                                            <th>CC Code</th>
+                                                                            <th>BS Code</th>
+                                                                            <th>Percentage</th>
+                                                                            <th>Amount</th>
+                                                                            
+                                                                        </tr>
+                                                                    </thead>
+                                                                    
+                                                                        <tr *ngFor="let ccbs of apdebit.ccbs">
+                                                                   
+                                                                        <td>{{ccbs.cc_code.name}}</td>
+                                                                        <td>{{ccbs.bs_code.name}}</td>
+                                                                        
+                                                                        <td>{{ccbs.ccbspercentage}}</td>
+                                                                        <td>{{ccbs.amount}}</td>
+                                                                        
+                                                                        </tr>
+                                                                    
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                            </ng-container>
+                            </table>
+                        </div>
+                        <div>
+                            <tr *ngIf="apinvoiceheader.expanded">
+                                <td colspan="11">
+                                   <tr style="font-family:'Times New Roman';font-weight:bold;font-size:12px ;">Credit Details</tr>
+                                    <table class="table scrolltable table-bordered" fixed-header>
+                                        <thead class="table_header" style='font-family:"Times New Roman"'>
+                                            <tr>
+                                                <th>Pay Mode</th>
+                                                <th>Bank Account Number</th>
+                                                <th>Bank Name</th>
+                                                <th>IFSC Code</th>
+                                                <th>Tax Type</th>
+                                                <th>Refno</th>
+                                                <th>Taxable Amount</th>
+                                                <th>Suplier Tax Rate</th>
+                                                <th>Taxexcempted</th>
+                                                <th>GL Number</th>
+                                                <th>DD PayBranch</th>
+                                                <th>DD TranBranch</th>
+                                                <th>Credit Amount</th>
+                                            </tr>
+                                        </thead>
+                                            <tr *ngFor="let apcrt of apinvoiceheader.apcredit">
+                                                <td>{{apcrt.paymode.name}}</td>
+                                                <td>{{apcrt.creditrefno}}</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>{{apcrt.suppliertaxtype}}</td>
+                                                <td>{{apcrt.creditrefno}}</td>
+                                                <td>{{apcrt.taxableamount}}</td>
+                                                <td>{{apcrt.suppliertaxrate}}</td>
+                                                <td>{{apcrt.taxexcempted}}</td>
+                                                <td>{{apcrt.creditglno}}</td>
+                                                <td>{{apcrt.ddpaybranch}}</td>
+                                                <td>{{apcrt.ddtranbranch}}</td>
+                                                <td>{{apcrt.amount}}</td>
+                                            </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+        </table>
+    </div>
+    <div class=" row col-md-12">
+            <div class="col-md-3" >
+                <mat-form-field style="width: 16rem;margin-left: 30px; ">
+                    <mat-label>Remarks</mat-label>
+                    <input matInput [formControl]="rem" autocomplete="off" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-9" style="text-align: center;">
+                    <button type="button" class="btn btn-outline-primary" style="border-radius:40px;"
+                    [disabled]="rem.invalid==true" (click)="reaudit()">Re-Audit</button>
+                <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 12px;"
+                    [disabled]="rem.invalid==true" (click)="reject()">Reject</button>
+                    
+                <button type="button" class="btn btn-outline-primary" style="border-radius:30px;height:40px; margin-left: 12px;"><span
+                        class="fa fa-arrow-left" (click)="goBack()">Back</span></button>
+            </div>
+                        <!-- <div class="col-md-6" >
+                <input type="file" accept=".txt,.doc,.pdf,.ppt,.pot,.pps,.pptx,.odt,.odg,.odp,.ods,.docx,.docm,.dotx,.dotm,.docb,
+                                .xlsx,.xls,.xlt,.xlm,.xlsm,.xltx,.xltm,.jpg,.jpeg,.tiff,.tif,.png" style="width:200px;" 
+                                                 class="inputfile inputfile-4" multiple="multiple">
+            </div> -->
+    </div>
+    <!-- <div style="text-align: center;">
+        <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 12px;"
+            [disabled]="rem.invalid==true" (click)="reaudit()">Re-Audit</button>
+        <button type="button" class="btn btn-outline-primary" style="border-radius:40px;margin-left: 12px;"
+            [disabled]="rem.invalid==true" (click)="reject()">Reject</button>
+            
+        <button type="button" routerLink="/ap//commonsummary" class="btn btn-outline-primary" style="border-radius:30px;height:40px; margin-left: 12px;"><span
+                 class="fa fa-arrow-left" (click)="goBack()">Back</span></button>
+    </div> -->
+    </mat-card>
+</div>
+    

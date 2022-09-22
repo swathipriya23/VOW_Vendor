@@ -1,0 +1,427 @@
+<div style="background-color: #F6F6F6">
+	<mat-card id="cardstyle">
+		<div style="margin-left: 10px;margin-right: 80%;margin-top: 1%; width: 100%;">
+			<tr>
+				<td style="color:rgb(0, 0, 0);font-size: 20px;font-weight: 500px;">
+					Travel Domestic/International Expense
+				</td>
+			</tr>
+			<!-- <div *ngIf="isonbehalf">
+		<p style="margin-left: 44px;color:rgb(0, 0, 0);font-size: 18px; font-weight: 400;">
+			On Behalf Employee - {{onbehalf_empName}}
+		</p>
+	</div> -->
+			<hr>
+			<p style="color:rgb(0, 0, 0);font-size: 18px; font-weight: 500;">
+				Travel Details
+			</p>
+			<div>
+				<form [formGroup]="travelingform">
+					<table>
+						<tr>
+							<td>
+								<mat-label>Travel No</mat-label> <br>
+								<mat-form-field style="width: 175px;" appearance="standard">
+
+									<input matInput placeholder="Travel No" [disabled]="true" [value]="expenseid"
+										autocomplete="off" required>
+								</mat-form-field>
+							</td>
+							<td>
+								<mat-label style="width: 175px;margin-left: 50px;">Employee Code</mat-label> <br>
+								<mat-form-field style="width: 175px;margin-left: 50px;" appearance="standard">
+
+									<input matInput placeholder="Employee Name" [disabled]="true" [value]="employeecode"
+										autocomplete="off" required>
+								</mat-form-field>
+							</td>
+							<td>
+								<mat-label style="margin-left: 50px;">Employee Name</mat-label> <br>
+								<mat-form-field style="width: 300px;margin-left: 50px;" appearance="standard">
+
+									<input matInput placeholder="Employee Name" [disabled]="true" [value]="employeename"
+										autocomplete="off" required>
+								</mat-form-field>
+							</td>
+					
+							<!-- <td>
+						<mat-form-field style="width: 175px;margin-left: 50px;">
+							<mat-label>Designation</mat-label>
+							<input matInput placeholder="Designation" [disabled]="true" [value]="employeedesignation"
+								autocomplete="off" required>
+						</mat-form-field>
+					</td>
+					<td>
+						<mat-form-field style="width: 175px;margin-left: 50px;">
+							<mat-label>Employee Grade</mat-label>
+							<input matInput placeholder="Emp grade" [disabled]="true" [value]="employeegrade"
+								autocomplete="off" required>
+						</mat-form-field>
+					</td> -->
+							<td *ngIf="show_button">
+								<button *ngIf="!approver" type="button" class="btn btn-light" (click)="addSection()"
+									style="margin-left: 50px;color: black;"><span class="fa fa-plus"></span>
+									ADD</button>
+							</td>
+						</tr>
+					</table>
+
+
+					<div formArrayName='data' class="table-responsive"
+						style="width:100%;margin-top: 1%;margin-right: 10px;">
+						<table class="table table-bordered" fixed-header style="width: 99%;margin-top: 10px;">
+							<thead class="table_header" style="text-align: left;">
+								<tr>
+									<th>S.No</th>
+									<th>Travel Type</th>
+									<th>Departure Date and Time <br> (DD-MM-YYYY HH:MM)<label
+											style="color:red">*</label></th>
+									<th>Departure Place<label style="color:red">*</label></th>
+									<th>Arrival Date and Time <br>(DD-MM-YYYY HH:MM)<label style="color:red">*</label>
+									</th>
+									<th>Arrival Place<label style="color:red">*</label></th>
+									<th>Actual Mode of Travel<label style="color:red">*</label></th>
+									<th>Class Of Travel<label style="color:red">*</label></th>
+									<!-- <th>Total Ticket Amount*</th> -->
+									<th>Bill Number</th>
+									<th>Claim Amount (INR)<label style="color:red">*</label></th>
+									<th>Remarks</th>
+									<!-- <th *ngIf="approver" >Eligible Mode of Travel</th> -->
+									<th>Higher Mode Opted Due To Personal Reason of Exigencies</th>
+									<th>Prior Permisson Taken For Higher Mode of Travel</th>
+									<th>Who Has Opted Higher Mode</th>
+									<!-- <th>No of Tickets/No of dependent Traveling</th> -->
+									<!-- <th>Dependent on Traveling</th> -->
+
+									<th>Vendor Name</th>
+									<!-- <th>Vendor Code</th>
+									<th>HSN code</th>
+									<th>Bank GST No</th>
+									<th>Vendor GST No</th>
+									<th *ngIf="gstshow">GST Percentage</th> -->
+									<!-- <th *ngIf="approver && applevel >= 1">Approved Amount*</th> -->
+									<th *ngIf="!approver">Action</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let dtl of travelingform.controls.data['controls']|paginate: { itemsPerPage: pageSize, currentPage: p }; index as ind"
+									[formGroupName]="fieldGlobalIndex(ind)">
+									<td scope="row" style="vertical-align: middle;"> {{((p-1)*pageSize)+ind+1}} </td>
+
+									<td>
+										<mat-form-field floatLabel="never">
+
+											<mat-select formControlName="traveltype" [disabled]="approver"
+												placeholder="Mode Of Travel">
+												<mat-option *ngFor="let actualtravel of travelmodelist"
+													[value]="actualtravel.value" required>
+													{{actualtravel.name}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</td>
+									<td>
+										<fieldset [disabled]='approver' style="width:310px">
+
+											<mat-form-field floatLabel="never" id="tadate">
+
+												<input matInput [matDatepicker]="picker1" readonly
+													[min]="minselect(ind)" [max]="maximum" (dateChange)="invaliddatestart(((p-1)*pageSize)+ind)"
+													 placeholder="From Date" 
+													autocomplete="off" formControlName="fromdate">
+												<mat-datepicker-toggle matPrefix [for]="picker1">
+												</mat-datepicker-toggle>
+												<mat-datepicker #picker1></mat-datepicker>
+											</mat-form-field>
+											<mat-form-field matSuffix id="tatime" style="margin-left:15px">
+												<span matSuffix class="material-icons">watch_later</span>
+												<input (keyup)="timefilter($event)" #time  (blur)="timedropdowncheck(time,ind)" (keypress)="numberOnly($event)"formControlName="fromtime"
+													type="text" placeholder="Time" required matInput
+													[matAutocomplete]="timefile">
+												<mat-autocomplete #timefile="matAutocomplete">
+													<mat-option *ngFor="let time of timeclone" [value]="time.name" (click)="datechange(ind)" >
+														{{time.name}}
+
+													</mat-option>
+												</mat-autocomplete>
+											</mat-form-field>
+										</fieldset>
+									</td>
+
+
+									<td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+												<input matInput placeholder="Departure Place"
+													formControlName="fromplace" required>
+											</mat-form-field>
+										</fieldset>
+									</td>
+									<td>
+										<fieldset [disabled]='approver' style="width:310px">
+
+											<mat-form-field floatLabel="never" id="tadate">
+												<input matInput [matDatepicker]="picker2" readonly
+													[min]="maxselect(ind)" [max]="maximum"
+													(dateChange)="datechange(ind)" placeholder="To Date"
+													autocomplete="off" formControlName="todate">
+												<mat-datepicker-toggle matPrefix [for]="picker2">
+												</mat-datepicker-toggle>
+												<mat-datepicker #picker2></mat-datepicker>
+											</mat-form-field>
+											<mat-form-field id="tatime"  style="margin-left:15px">
+
+												<span matSuffix class="material-icons">watch_later</span>
+												<input #totime (change)="totimechange(ind,totime);timedropdowncheck(totime,ind)" (keypress)="numberOnly($event)" formControlName="totime" type="text"
+													placeholder="Time" required matInput [matAutocomplete]="timeto">
+												<mat-autocomplete #timeto="matAutocomplete">
+													<mat-option *ngFor="let time of totimes(ind,totime)" [value]="time.name">
+														{{time.name}}
+
+													</mat-option>
+												</mat-autocomplete>
+
+											</mat-form-field>
+										</fieldset>
+									</td>
+
+									<td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+												<input matInput placeholder="Arrival Place" formControlName="toplace"
+													autocomplete="off" required>
+											</mat-form-field>
+										</fieldset>
+									</td>
+									<td>
+										<mat-form-field floatLabel="never">
+
+											<mat-select formControlName="actualmode" [disabled]="approver" (selectionChange)="boardingnotify(((p-1)*pageSize)+ind)"
+												placeholder="Mode Of Travel">
+												<mat-option *ngFor="let actualtravel of acttravellist" #actual
+													[value]="actualtravel.value" required>
+													{{actualtravel.name}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</td>
+
+									<td>
+										<mat-form-field floatLabel="never">
+											<mat-select formControlName="travelclass" [disabled]="approver"
+												placeholder="Class Of Travel">
+												<mat-option *ngFor="let classoftravel of classt(ind)"
+													[value]="classoftravel.value">
+													{{classoftravel.name}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+
+									</td>
+									<!-- <td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+												<input matInput placeholder="Total Ticket Amount"
+													formControlName="totaltkttamt" (keypress)="numberOnly($event)"
+													autocomplete="off" required>
+											</mat-form-field>
+										</fieldset>
+									</td> -->
+
+									<td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+												<input matInput placeholder="Bill No" formControlName="billno"
+													autocomplete="off">
+											</mat-form-field>
+										</fieldset>
+									</td>
+									<td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never" id="amountlen">
+												<mat-icon id="rupee" matPrefix>currency_rupee</mat-icon>
+												<input matInput placeholder="Claim Amount"
+													formControlName="totaltkttamt" (keypress)="numberOnly($event)" #tx
+													(blur)="decs(tx,ind,$event)" autocomplete="off" required>
+											</mat-form-field>
+										</fieldset>
+									</td>
+									<td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+												<input matInput placeholder="Remarks" formControlName="remarks"
+													autocomplete="off">
+											</mat-form-field>
+										</fieldset>
+									</td>
+
+									<td>
+										<mat-form-field floatLabel="never">
+
+											<mat-select formControlName="highermodereason" [disabled]="approver"
+												required>
+												<mat-option *ngFor="let yesno of yesnoList" [value]="yesno.value">
+													{{yesno.name}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</td>
+
+
+									<td>
+										<mat-form-field floatLabel="never">
+
+											<mat-select formControlName="prior_permission" [disabled]="approver"
+												required>
+												<mat-option *ngFor="let yesno of yesnoList" [value]="yesno.value">
+													{{yesno.name}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</td>
+									<td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+												<input matInput placeholder="Higher Mode"
+													formControlName="highermodeopted" autocomplete="off" required>
+											</mat-form-field>
+										</fieldset>
+									</td>
+
+
+
+									<td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+												<input matInput (keypress)="omit_special_char($event)"
+													placeholder="Vendor Name" formControlName="vendorname"
+													autocomplete="off">
+											</mat-form-field>
+										</fieldset>
+									</td>
+									<!-- <td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+												<input (keypress)="omit_special_char($event)" matInput
+													placeholder="Vendor Code" formControlName="vendorcode"
+													autocomplete="off">
+											</mat-form-field>
+										</fieldset>
+										</td> -->
+									<!-- <td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+
+												
+												<input (keypress)="hsnsearch(ind)" type="text" #hsncodeid
+													placeholder="Select HSN" matInput (blur)="gst_calc(ind)"
+													[matAutocomplete]="hsnn" formControlName="hsncode">
+												<mat-autocomplete #hsnid #hsnn="matAutocomplete" [displayWith]="hsnshow"
+													(opened)="autocompletehsnid()">
+													<mat-option *ngFor="let hsn of hsnList" [value]="hsn">
+														{{hsn.code}}-{{hsn.igstrate}}
+
+													</mat-option>
+												</mat-autocomplete>
+											</mat-form-field>
+										</fieldset>
+									</td>
+									<td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+
+												
+												<input (keypress)="gstsearch(ind)" type="text" #gstcodeid
+													placeholder="Select GST" matInput (blur)="gst_calc(ind)"
+													[matAutocomplete]="gstt" formControlName="bankgstno">
+												<mat-autocomplete #gstid #gstt="matAutocomplete"
+													(opened)="autocompletegstid()">
+													<mat-option *ngFor="let gst of gstList" [value]="gst.bankgstno">
+														{{gst.bankgstno}}
+
+													</mat-option>
+												</mat-autocomplete>
+											</mat-form-field>
+											
+										</fieldset>
+									</td>
+									<td>
+										<fieldset [disabled]='approver'>
+											<mat-form-field floatLabel="never">
+												<input matInput placeholder="Vendor GST No"
+													(keypress)="omit_special_char($event)" (blur)="gst_calc(ind)"
+													formControlName="vendorgstno" [value]='vendorgstno'
+													autocomplete="off">
+											</mat-form-field>
+										</fieldset>
+									</td>
+
+									<td *ngIf="gstshow && checkscgst(ind)">
+										<mat-form-field floatLabel="never">
+
+											<input readonly="true" style="border-style: outset; font-weight: 500;"
+												(keypress)="numberOnly($event)" matInput placeholder="CGST Percentage"
+												formControlName="cgst" [value]='cgst' autocomplete="off" required>
+
+											<input readonly="true"
+												style="margin-top: 4px;border-style: outset; font-weight: 500;" matInput
+												placeholder="SGST Percentage" formControlName="sgst" [value]='sgst'
+												autocomplete="off" required>
+
+										</mat-form-field>
+
+									</td>
+									<td *ngIf="gstshow && checkscgst(ind)==false && checkigst(ind) == false">
+
+									</td>
+									<td *ngIf="gstshow && checkigst(ind)">
+										<mat-form-field floatLabel="never">
+											<input readonly="true" style="border-style: outset; font-weight: 500;"
+												matInput placeholder="IGST Percentage" formControlName="igst"
+												[value]='igst' autocomplete="off" required>
+										</mat-form-field>
+									</td> -->
+
+									<td *ngIf="!approver">
+										<button mat-icon-button matTooltip="Delete"
+											[disabled]="travelingform.controls.data['controls'].length == 1"
+											(click)="removeSection(ind)" class="iconbutton" color="primary">
+											<mat-icon style="color:black;" aria-label="Delete">delete</mat-icon>
+										</button>
+									</td>
+								</tr>
+								<tr>
+									<th colspan="7">
+										<div class="pagination" style="text-align: center;">
+											<pagination-controls responsive="true" (pageChange)="p = $event">
+											</pagination-controls>
+										</div>
+									</th>
+								</tr>
+							</tbody>
+
+
+						</table>
+					</div>
+
+
+					<div class="col-md-12 text-center" style="margin-top: 3%; margin-bottom: 3%;">
+						<!-- <button *ngIf='statusid==2' type="submit" id="primarybtn"
+							style="border-color: black; background-color:green; color: white;" class="btn btn-light"
+							(click)="ApproveForm()">Approve</button> -->
+						<button *ngIf='!approver' type="submit" style="margin-left: 10px;" id="primarybtn"
+							class="btn btn-light" (click)="submitForm()">Submit</button>
+
+						<button type="button" class="btn btn-light" (click)="back()" id="secondarybtn"
+							style="margin-left: 10px;">Back</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- <pre>
+			{{travelingform.value.data | json}}
+		</pre> -->
+	</mat-card>
+</div>

@@ -1,0 +1,230 @@
+<div style="margin-left: 50px; margin-top: 1%;">
+    <h1 style="font-family: Times New Roman; font-size: 20px; color: blue; font-weight: bold;">Entry Summary</h1>
+    <hr />
+    <form [formGroup]="EntryForm" (ngSubmit)="Entry()">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field class="example-form-field" appearance="fill">
+                    <mat-label>Search Parameter Code</mat-label>
+                    <input matInput type="text" formControlName="code" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-form-field" appearance="fill">
+                    <mat-label>Search Parameter Name</mat-label>
+                    <input matInput type="text" formControlName="parametername" />
+                </mat-form-field>
+            </div>
+            <div style="margin-left: 20px;">
+                <button class="btn btn-outline-primary" style="border-radius: 35px; height: 40px; margin-right: 7px; margin-top: 10px;" (click)="getApiAP(1)">
+                    Search
+                </button>
+            </div>
+            <div style="margin-left: 20px;">
+                <button class="btn btn-outline-success" style="border-radius: 35px; height: 40px; margin-right: 7px; margin-top: 10px;" (click)="entryCreate()">
+                    Create
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="table-responsive" style="padding-right: 40px; margin-left: 50px; margin-top: 1%; width: 80%; overflow-x: hidden;">
+    <table class="table table-bordered">
+        <thead class="table_header">
+            <tr style="text-align: center;">
+                <th>S.No</th>
+                <th>Parameter Code</th>
+                <th>Parameter Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let entry of entrylist; index as listIndex" style="text-align: center;">
+                <th scope="row">{{ (presentpage-1)*pageSize+listIndex+1 }}</th>
+                <td>{{entry.code}}</td>
+                <td>{{entry.paramname}}</td>
+                <td>
+                    <button mat-icon-button color="success" style="margin-left: 25px; width: 60px;" matTooltip="View" (click)="actionView(temp, entry.id, listIndex)"><mat-icon>visibility icon</mat-icon></button>
+                    <button mat-icon-button color="success" style="margin-left: 25px; width: 60px;" matTooltip="Delete" (click)="actionDelete(temp1,entry.id, listIndex)"><mat-icon>delete icon</mat-icon></button>
+                </td>
+                <ng-template #temp>
+                    <form [formGroup]="debitsave">
+                        <div style="background: #21cbe5;">
+                            <h2 style="color: black; text-align: center;">ENTRY TEMPLATE</h2>
+                        </div>
+                        <div style="margin-right: 80%; margin-top: 2%; width: 100%;">
+                            <div class="table-responsive" style="padding-right: 40px; margin-top: 1%; width: 100%;">
+                                <table class="table table-bordered">
+                                    <thead class="table_header">
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Wisefin Category</th>
+                                            <th>Wisefin Subcategory</th>
+                                            <th>GL No</th>
+                                            <th>Transaction</th>
+                                            <th>Value</th>
+                                            <th>Display</th>
+                                            <!-- <th>Action</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="listTransactionDebit">
+                                        <tr *ngFor="let assetcat of debitsave.controls.listTransactionDebit['controls']; index as listIndexarr" [formGroupName]="listIndexarr">
+                                            <th scope="row"><div style="padding-top: 3vh;">{{ (presentpagebuk-1)*pageSize+listIndexarr+1 }}</div></th>
+                                            <td>
+                                                <!-- <mat-form-field appearance="fill" style="width: 150px;" class="tab-header">
+                                                    <mat-label>Select Type</mat-label>
+                                                    <mat-select formControlName="cattrans">
+                                                        <mat-option *ngFor="let stat of status" [value]="stat.viewValue" (click)="transadddynamiccat(stat,listIndexarr)">
+                                                            {{stat.viewValue}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <div *ngIf="EntryTemplateNewAddRow[listIndexarr]['dynamiccat']==true">
+                                                    <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                                        <mat-label>Enter Dynamic Value</mat-label>
+                                                        <input matInput type="text" formControlName="cat1" />
+                                                    </mat-form-field>
+                                                </div> -->
+                                                <!-- <div *ngIf="EntryTemplateNewAddRow[listIndexarr]['dynamiccat1']==true"> -->
+                                                    <mat-form-field class="example-full-width">
+                                                        <mat-label>Choose Catergory</mat-label>
+                                                        <input class="toolbar-search" type="text" matInput autocomplete="off" matInput [matAutocomplete]="checkercat" #catidInput formControlName="cat" style="width: 250px;" />
+                                                        <mat-placeholder>Category</mat-placeholder>
+                                                        <mat-autocomplete #checkercat="matAutocomplete" #cat (opened)="autocompleteScroll_cat()">
+                                                            <mat-option *ngIf="isLoading">Loading..</mat-option>
+                                                            <ng-container>
+                                                                <mat-option *ngFor="let d of catdata" [value]="d.name" (focusout)="checker_cat(d,listIndexarr)">
+                                                                    {{d.name}}
+                                                                </mat-option>
+                                                            </ng-container>
+                                                        </mat-autocomplete>
+                                                    </mat-form-field>
+                                                <!-- </div> -->
+                                            </td>
+                                            <td>
+                                                <!-- <mat-form-field appearance="fill" style="width: 150px;" class="tab-header">
+                                                    <mat-label>Select Type</mat-label>
+                                                    <mat-select formControlName="subcattrans">
+                                                        <mat-option *ngFor="let stat of status" [value]="stat.viewValue" (click)="transaddnewDebit(stat,listIndexarr)">
+                                                            {{stat.viewValue}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <div *ngIf="EntryTemplateNewAddRow[listIndexarr]['dynamicsubcat']==true">
+                                                    <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                                        <mat-label>Enter Dynamic Value</mat-label>
+                                                        <input matInput type="text" formControlName="subcat1" />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div *ngIf="EntryTemplateNewAddRow[listIndexarr]['dynamicsubcat1']==true"> -->
+                                                    <mat-form-field class="example-full-width">
+                                                        <mat-label>Choose SubCatergory</mat-label>
+                                                        <input class="toolbar-search" type="text" matInput autocomplete="off" matInput [matAutocomplete]="checkersubcat" #subcatidInput formControlName="subcat" style="width: 250px;" />
+                                                        <mat-placeholder>SubCategory</mat-placeholder>
+                                                        <mat-autocomplete #checkersubcat="matAutocomplete" #cat (opened)="autocompleteScroll_subcat()">
+                                                            <mat-option *ngIf="isLoading">Loading..</mat-option>
+                                                            <ng-container>
+                                                                <mat-option *ngFor="let d of subcatdata" [value]="d.name" (focusout)="checker_subcat(d,listIndexarr)">
+                                                                    {{d.name}}
+                                                                </mat-option>
+                                                            </ng-container>
+                                                        </mat-autocomplete>
+                                                    </mat-form-field>
+                                                <!-- </div> -->
+                                            </td>
+                                            <td>
+                                                <mat-form-field class="example-form-field" appearance="fill" style="width: 150px;">
+                                                    <mat-label>Enter GL NO</mat-label>
+                                                    <input matInput type="text" formControlName="transnew" />
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="fill" style="width: 150px;" class="tab-header">
+                                                    <mat-label>Select Type</mat-label>
+                                                    <mat-select formControlName="transactionNewValue">
+                                                        <mat-option *ngFor="let stat of transaction" [value]="stat.viewValue" (click)="templateDebit(stat,listIndexarr)">
+                                                            {{stat.viewValue}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field class="example-full-width" appearance="fill" style="width: 300px; top: 10px;">
+                                                    <mat-label>Enter the formula</mat-label>
+                                                    <textarea matInput placeholder="Enter the formula" formControlName="formula" (onChange)="new()"></textarea>
+                                                </mat-form-field>
+                                            </td>
+                                            <td>
+                                                <mat-form-field appearance="fill" style="width: 150px;" class="tab-header">
+                                                    <mat-label>Select Display Type</mat-label>
+                                                    <mat-select formControlName="display1">
+                                                        <mat-option *ngFor="let stat of display" [value]="stat.viewValue" (click)="displayselect1(stat,listIndexarr)">
+                                                            {{stat.viewValue}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </td>
+                                            <!-- <td>
+                                                <button mat-icon-button color="success" style="margin-left: 25px; width: 60px;" matTooltip="Delete" (click)="actionDelete1(listIndexarr)">
+                                                    <mat-icon>delete icon</mat-icon>
+                                                </button>
+                                            </td> -->
+
+                                            <!-- <tr>
+                                                    <th>S.No</th>
+                                                    <th>Category Code</th>
+                                                    <th>SubCategory Code</th>
+                                                    <th>GL No</th>
+                                                    <th>Transaction</th>
+                                                    <th>Formula</th>
+                                                    <th>Display</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let entry of entrylistID; index as listIndex">
+                                                    <td>{{ (presentpage-1)*pageSize+listIndex+1 }}</td>
+                                                    <td>{{entry.category_code}}</td>
+                                                    <td>{{entry.subcategory_code}}</td>
+                                                    <td>{{entry.debitglno}}</td>
+                                                    <td>{{entry.transaction}}</td>
+                                                    <td>{{entry.value_to_taken}}</td>
+                                                    <td>{{entry.display}}</td>
+                                                </tr> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                <div class="col-sm-3" style="left: 80px; margin-top: 20px;">
+                                    <button mat-raised-button color="success" style="margin-left: 25px;" matTooltip="Update" (click)="update($event)">Update</button>
+                                </div>
+                                <div class="col-sm-3" style="left: 80px; margin-top: 20px;">
+                                    <button mat-raised-button color="warn" style="margin-left: 25px;" matTooltip="Cancel" (click)="cancel()">Cancel</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+                <ng-template #temp1>
+                    <h1>Are you sure want to delete?</h1>
+                    <div style="align-items: center; padding-left: 10px;">
+                        <button mat-raised-button color="primary" style="margin-left: 10px;" (click)="onConfirmClick(entry.id, listIndex)" tabindex="-1">YES</button>
+                        <button mat-raised-button mat-dialog-close style="margin-left: 10px;" tabindex="-1">NO</button>
+                    </div>
+                </ng-template>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="entrylist.length==0; else paginationpage" class="NodataAlign" style="padding-left: 4%; margin-top: 1%;">No Records Found...</div>
+<ng-template #paginationpage>
+    <div class="cursor" style="font-size: small; text-align: right; margin-bottom: 100px; float: right; margin-right: 300px;">
+        <button mat-icon-button [disabled]="has_previous === false" color="primary" (click)="previousClick()">
+            <mat-icon>arrow_back </mat-icon>
+        </button>
+        {{presentpage}}
+        <button mat-icon-button [disabled]="has_next === false" color="primary" (click)="nextClick()">
+            <mat-icon>arrow_forward </mat-icon>
+        </button>
+    </div>
+</ng-template>

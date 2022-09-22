@@ -1,0 +1,1159 @@
+<div class="container" *ngIf="tabcheck_ppr">
+	<br>
+	<h2>PPR Summary</h2>
+	<form [formGroup]="pprSearchForm">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="finyear_dropdown()">
+						<mat-label>Fin Year</mat-label>
+						<input placeholder="fin_year" matInput formControlName="finyear" #finyearInput
+							[matAutocomplete]="fin_year" required>
+						<mat-autocomplete #fin_year="matAutocomplete" [displayWith]="displayfnfinyear"
+							(opened)="autocompletefinyearScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let finyearname of finyearList" [value]="finyearname">
+									{{finyearname.finyer}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<mat-label>Select Quarterly or Monthly</mat-label>
+					<br>
+					<mat-radio-group aria-label="Select Quarterly or Monthly" formControlName="year_term"
+						#group="matRadioGroup">
+						<mat-radio-button value="Quarterly" (change)="Quarterly()">Quarterly</mat-radio-button>&nbsp;&nbsp;&nbsp;
+						<mat-radio-button value="Monthly" (change)="Monthly()"> Monthly</mat-radio-button>
+					</mat-radio-group>
+				</div>
+				<div class="col-md-3">
+					<mat-label>Select Amount</mat-label>
+					<br>
+					<mat-radio-group aria-label="Select Quarterly or Monthly" formControlName="divAmount"
+						#group="matRadioGroup">
+						<mat-radio-button value="L" (change)="lakhs()">In Lakhs</mat-radio-button>&nbsp;&nbsp;&nbsp;
+						<mat-radio-button value="K" (change)="thousands()"> In Thousands</mat-radio-button>
+					</mat-radio-group>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="branchname()">
+						<mat-label>Branch</mat-label>
+						<input #branchInput placeholder="branch" matInput formControlName="branch_id"
+							#branchContactInput [matAutocomplete]="branch" >
+						<mat-autocomplete #branch="matAutocomplete" [displayWith]="displayfnbranch"
+							(opened)="autocompletebranchnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let branch of branchList" [value]="branch">
+									{{branch.code}}-{{branch.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<mat-form-field (click)="Sector_dropdown()">
+						<mat-label>Sector</mat-label>
+						<input placeholder="Sector" matInput formControlName="sectorname" #sectornameInput
+							[matAutocomplete]="sector_name" required>
+						<mat-autocomplete #sector_name="matAutocomplete" [displayWith]="displayfnsectorname"
+						(opened)="autocompletesectorScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let sector of sectorList" [value]="sector"
+									(click)="secotralldata_clear()" (focusout)="selectsectorSection(sector)">
+									{{sector.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="Business_dropdown()">
+						<mat-label>Business</mat-label>
+						<input placeholder="Business" matInput formControlName="businesscontrol" #businessInput
+							[matAutocomplete]="business_name">
+						<mat-autocomplete #business_name="matAutocomplete" [displayWith]="displayfnbusiness"
+						(opened)="autocompletebusinessnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let business of businessList" (click)="business_bs_clear()"
+									[value]="business" (click)="bs_clear()"
+									(focusout)="selectbusinessSection(business)"> {{business.name}}
+								</mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="bsname_dropdown()">
+						<mat-label>BS</mat-label>
+						<input placeholder="bs" matInput formControlName="bs_id" #bsInput [matAutocomplete]="bs">
+						<mat-autocomplete #bs="matAutocomplete" [displayWith]="displayfnbs"
+							(opened)="autocompletebsnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let bs of bsList" [value]="bs" (click)="bs_cc_clear()"
+									(focusout)="selectbsSection(bs)"> {{bs.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<mat-form-field (click)="ccname_dropdown()">
+						<mat-label>CC</mat-label>
+						<input #bsclear_nameInput placeholder="cc_name" matInput formControlName="cc_id" #ccInput
+							[matAutocomplete]="cc_name">
+						<mat-autocomplete #cc_name="matAutocomplete" [displayWith]="displayfncc"
+							(opened)="autocompletccnameScroll()">
+							<mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+							<ng-container *ngIf="!isLoading">
+								<mat-option *ngFor="let cc of ccList" [value]="cc"> {{cc.name}} </mat-option>
+							</ng-container>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<!-- <label style="margin-left: 20px;color: blue;">Branch: </label> -->
+					<!-- <mat-form-field (click)="Expensegrp_dropdown()">
+                                        <mat-label>Expense Group</mat-label>
+                                        <input placeholder="Expense" matInput formControlName="expensegrp" #expenseInput
+                                            [matAutocomplete]="expense_name">
+                                        <mat-autocomplete #expense_name="matAutocomplete" [displayWith]="displayfnexpense"
+                                        (opened)="autocompletebsnameScroll()">
+                                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                            <ng-container *ngIf="!isLoading">
+                                                <mat-option *ngFor="let expense of expensegrpList" [value]="expense">
+                                                    {{expense.name}}
+                                                </mat-option>
+                                            </ng-container>
+                                        </mat-autocomplete>
+                                        
+                                    </mat-form-field>  -->
+					<mat-form-field style="width: 100%;" (click)="Expensegrp_dropdown()">
+						<mat-label>Expense Group</mat-label>
+						<mat-chip-list #chipListprod>
+							<mat-chip *ngFor="let pro of chipSelectedprod" [selectable]=true [removable]=true
+								(removed)="removedprod(pro)"> {{pro.name}}
+								<mat-icon matChipRemove>cancel</mat-icon>
+							</mat-chip>
+							<input #expInput [formControl]="expensegrp" [matAutocomplete]="exp"
+								[matChipInputFor]="chipListprod" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+								[matChipInputAddOnBlur]=true>
+						</mat-chip-list>
+						<mat-autocomplete #exp="matAutocomplete" (optionSelected)="prodSelected($event)" (opened)="autocompletexpenseScroll()">
+							<mat-option *ngFor="let prod of expenseList" [value]="prod"> {{prod.name}} </mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+				<div class="col-md-3">
+					<button type="submit" style="border-radius: 40px;" class="btn btn-outline-primary"
+						>Search</button>
+				</div>
+				<div class="col-md-3">
+					<button type="submit" style="border-radius: 40px;" class="btn btn-outline-primary"
+						(click)="clear_budgetdata()">Reset</button>
+				</div>
+			</div>
+		</div>
+	</form> <span style="margin-left: 800px;color: blue;">{{amount_type}}</span>
+
+	<div class="tableFixHead">
+		<!-- <table> -->
+		<table class="table table-bordered" id="commonstyle" fixed-header>
+			<thead [hidden]=headercheckone>
+				<tr>
+					<th>Name</th>
+					<th>  Apr  {{startyear}} </th>
+					<th>  May  {{startyear}}</th>
+					<th>  Jun  {{startyear}} </th>
+					<th>  Jul  {{startyear}} </th>
+					<th>  Aug  {{startyear}} </th>
+					<th>  Sep  {{startyear}} </th>
+					<th>  Oct  {{startyear}} </th>
+					<th>  Nov  {{startyear}}</th>
+					<th>  Dec  {{startyear}} </th>
+					<th>  Jan  {{lastyear}}</th>
+					<th>  Feb  {{lastyear}} </th>
+					<th>  Mar  {{lastyear}} </th>
+					<th>YTD </th>
+				</tr>
+			</thead>
+
+
+
+			<tbody [hidden]=headercheckone *ngFor="let level of levelslist;let i=index">
+				<ng-container>
+					<tr>
+						<td colspan="1" *ngIf="level.name=='Level 2'"
+						style="background-color: #ffff0045; text-align: center;font-size: 16px;"
+						>
+							Direct Cost
+						</td>
+						<td colspan="1" *ngIf="level.name=='Level 0-Income'"
+						style="background-color: #ffff0045; text-align: center;font-size: 16px;"
+						>
+							Income
+						</td>
+						<td colspan="1" *ngIf="level.name=='Level 1-HR Cost' || level.name=='Level 3' || level.name=='Level 4.A.1-Rentals'||level.name=='Level 4.A.2-Electricity'|| level.name=='Level 4.A.3-Security' || level.name=='Level 4(B)-Technology'"
+						style="background-color: #ffff0045; text-align: center;"
+						>
+							
+						</td>
+						<td (click)="expant_level(i,level)" colspan="13"
+							style="background-color: #ffff0045; text-align: center;font-size: 14px;"
+							(click)="level.expanded = !level.expanded">
+							<a style="color: blue;">{{level.name}}</a>
+
+
+						</td>
+					</tr>
+					<ng-container #exp *ngIf="i==0">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levelsdatas;index as k">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div *ngIf="leveldata.Padding_left!='200px'" style="color: blue; ">
+										<a (click)="treelevelsDatas(i,k,leveldata,levelsdatas)"
+											title="{{leveldata.title}}">{{leveldata.name}}
+										</a>
+									</div>
+									<div *ngIf="leveldata.Padding_left==='200px'" style="color: black;">
+										<a (click)="treelevelsDatas(i,k,leveldata,levelsdatas)"
+											title="Sub Category">{{leveldata.name}}</a>
+									</div>
+
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+							<!--</div>  -->
+
+
+						</ng-container>
+
+					</ng-container>
+
+					<ng-container *ngIf="i==1">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levelsonedatas;index as j">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"
+										title="{{leveldata.title}}">
+
+										<a (click)="treelevelsDatas(i,j,leveldata,levelsonedatas)">{{leveldata.name}}</a>
+									</div>
+									<div *ngIf="leveldata.Padding_left==='200px'" style="color: black;">
+										<a (click)="treelevelsDatas(i,j,leveldata,levelsonedatas)"
+											title="Sub Category">{{leveldata.name}}</a>
+									</div>
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+
+					<ng-container *ngIf="i==2">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levelstwodatas;index as levelind">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"
+										title="{{leveldata.title}}"
+										(click)="treelevelsDatas(i,levelind,leveldata,levelstwodatas)">{{leveldata.name}}
+									</div>
+									<div *ngIf="leveldata.Padding_left==='200px'" style="color: black;"
+										title="Sub Category" (click)="treelevelsDatas(i,levelind,leveldata,levelstwodatas)">
+										{{leveldata.name}}
+									</div>
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									{{leveldata.YTD}}
+
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+
+					<!-- </ng-container> -->
+					<ng-container *ngIf="i==4">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levels4adatas ;let e=index">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<!-- <div *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"><a title="{{leveldata.title}}"
+											(click)="treelevelsDatas(i,e,leveldata,levels4adatas)">{{leveldata.name}}</a>
+									</div> -->
+									<div title="Sub Category" style="color: black;">{{leveldata.name}}</div>
+									<!-- <div  style="color: blue;">{{leveldata.name}}</div> -->
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+
+					<ng-container *ngIf="i==5">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levels4a2datas;index as levelind5a">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div *ngIf="leveldata.Padding_left!='120px'" style="color: blue;"
+										(click)="treelevelsDatas(i,levelind5a,leveldata,levels5adatas)">
+										{{leveldata.name}}
+									</div>
+									<div *ngIf="leveldata.Padding_left==='120px'" title="Sub Category"
+										(click)="treelevelsDatas(i,levelind5a,leveldata,levels5adatas)">
+										{{leveldata.name}}</div>
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+					<ng-container *ngIf="i==6">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levels4a3datas;index as level4a3ind">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div style="color: black;">
+										{{leveldata.name}}
+									</div>
+
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+					<ng-container *ngIf="i==7">
+						<ng-container *ngIf="level.expanded">
+							<tr *ngFor="let leveldata of levels5adatas;index as levelind5a">
+								<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+									<div *ngIf="leveldata.Padding_left!='120px'" style="color: blue;"
+										(click)="treelevelsDatas(i,levelind5a,leveldata,levels5adatas)">
+										{{leveldata.name}}
+									</div>
+									<div *ngIf="leveldata.Padding_left==='120px'" title="Sub Category"
+										(click)="treelevelsDatas(i,levelind5a,leveldata,levels5adatas)">
+										{{leveldata.name}}</div>
+
+								</td>
+
+								<td>
+
+									<div>{{leveldata.Apr}}</div>
+								</td>
+								<td align="right">
+
+									<div>{{leveldata.May}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Jun}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jul}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Aug}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Sep}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Oct}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Nov}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Dec}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div> {{leveldata.Jan}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Feb}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<div>{{leveldata.Mar}}</div>
+								</td>
+								<td style="text-align: right;">
+
+									<!-- <a href="" class="ng-binding"> -->{{leveldata.YTD}}
+									<!-- </a> -->
+									<!-- </div> -->
+								</td>
+
+
+							</tr>
+
+						</ng-container>
+					</ng-container>
+
+				</ng-container>
+				<!-- </tr>	 -->
+			</tbody>
+
+		</table>
+		<div>
+
+			<table class="table table-bordered" id="commonstyle" fixed-header>
+
+				<thead style="top:0;position: sticky;" [hidden]=headercheck>
+					<tr>
+						<th rowspan="2">Name</th>
+						<th colspan="3" style="text-align: center;">YTD </th>
+						<th colspan="3" style="text-align: center;">Quarterly-1 </th>
+						<th colspan="3" style="text-align: center;">Quarterly-2</th>
+						<th colspan="3" style="text-align: center;">Quarterly-3</th>
+						<th colspan="3" style="text-align: center;">Quarterly-4 </th>
+
+					</tr>
+
+				</thead>
+				<tbody [hidden]=headercheck *ngFor="let q_level of levelslist ;let q_ind =index">
+
+					<ng-container>
+						<tr>
+							<!-- <td colspan="2" *ngIf="q_level.name=='Level 2'"
+						style="background-color: #ffff0045; text-align: center;"
+						>
+							Direct Cost
+						</td> -->
+						<td colspan="1" *ngIf="q_level.name=='Level 2'"
+						style="background-color: #ffff0045; text-align: center;font-size: 16px;"
+						>
+							Direct Cost
+						</td>
+						<td colspan="1" *ngIf="q_level.name=='Level 0-Income'"
+						style="background-color: #ffff0045; text-align: center;font-size: 16px;"
+						>
+							Income
+						</td>
+						<td colspan="1" *ngIf="q_level.name=='Level 1-HR Cost' || q_level.name=='Level 3' || q_level.name=='Level 4.A.1-Rentals'||q_level.name=='Level 4.A.2-Electricity'|| q_level.name=='Level 4.A.3-Security' || q_level.name=='Level 4(B)-Technology'"
+						style="background-color: #ffff0045; text-align: center;"
+						>
+							
+						</td>
+							<td (click)="expant_level(q_ind,q_level)" colspan="14"
+								style="background-color: #ffff0045; text-align: center;"
+								(click)="q_level.expanded = !q_level.expanded"> 
+								<a style="color: blue;">{{q_level.name}}</a>
+
+
+							</td>
+
+						</tr>
+						<ng-container *ngIf="q_ind==0">
+							<ng-container *ngIf="q_level.expanded">
+								<tr *ngFor="let leveldata of levelsdatas;index as j">
+									<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+										<div rowspan="2" *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"
+											title="{{leveldata.title}}">
+
+											<a
+												(click)="treelevelsDatas(q_ind,j,leveldata,levelsdatas)">{{leveldata.name}}</a>
+										</div>
+										<div rowspan="2" *ngIf="leveldata.Padding_left==='200px'" style="color: black;">
+											<a (click)="treelevelsDatas(q_ind,j,leveldata,levelsdatas)"
+												title="Sub Category">{{leveldata.name}}</a>
+										</div>
+
+									</td>
+
+									<td colspan="3">
+
+										<div>{{leveldata.YTD}}</div>
+									</td>
+									<td align="right" colspan="3">
+
+										<div>{{leveldata.Quarterly_1}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_2}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div> {{leveldata.Quarterly_3}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_4}}</div>
+									</td>
+
+
+
+								</tr>
+
+							</ng-container>
+						</ng-container>
+						<ng-container *ngIf="q_ind==1">
+							<ng-container *ngIf="q_level.expanded">
+								<tr *ngFor="let leveldata of levelsonedatas;index as j">
+									<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+										<div rowspan="2" *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"
+											title="{{leveldata.title}}">
+
+											<a
+												(click)="treelevelsDatas(q_ind,j,leveldata,levelsonedatas)">{{leveldata.name}}</a>
+										</div>
+										<div rowspan="2" *ngIf="leveldata.Padding_left==='200px'" style="color: black;">
+											<a (click)="treelevelsDatas(q_ind,j,leveldata,levelsonedatas)"
+												title="Sub Category">{{leveldata.name}}</a>
+										</div>
+
+									</td>
+
+									<td colspan="3">
+
+										<div>{{leveldata.YTD}}</div>
+									</td>
+									<td align="right" colspan="3">
+
+										<div>{{leveldata.Quarterly_1}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_2}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div> {{leveldata.Quarterly_3}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_4}}</div>
+									</td>
+
+
+
+								</tr>
+
+							</ng-container>
+						</ng-container>
+						<ng-container *ngIf="q_ind==2">
+							<ng-container *ngIf="q_level.expanded">
+								<tr *ngFor="let leveldata of levelstwodatas;index as j">
+									<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+										<div rowspan="2" *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"
+											title="{{leveldata.title}}">
+
+											<a
+												(click)="treelevelsDatas(q_ind,j,leveldata,levelstwodatas)">{{leveldata.name}}</a>
+										</div>
+										<div rowspan="2" *ngIf="leveldata.Padding_left==='200px'" style="color: black;">
+											<a (click)="treelevelsDatas(q_ind,j,leveldata,levelstwodatas)"
+												title="Sub Category">{{leveldata.name}}</a>
+										</div>
+
+									</td>
+
+									<td colspan="3">
+
+										<div>{{leveldata.YTD}}</div>
+									</td>
+									<td align="right" colspan="3">
+
+										<div>{{leveldata.Quarterly_1}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_2}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div> {{leveldata.Quarterly_3}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_4}}</div>
+									</td>
+
+
+
+								</tr>
+
+							</ng-container>
+						</ng-container>
+						<ng-container *ngIf="q_ind==4">
+							<ng-container *ngIf="q_level.expanded">
+								<tr *ngFor="let leveldata of levels4adatas;index as j">
+									<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+										<div rowspan="2" style="color: black;" title="{{leveldata.title}}">
+
+											<a>{{leveldata.name}}</a>
+										</div>
+
+
+									</td>
+
+									<td colspan="3">
+
+										<div>{{leveldata.YTD}}</div>
+									</td>
+									<td align="right" colspan="3">
+
+										<div>{{leveldata.Quarterly_1}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_2}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div> {{leveldata.Quarterly_3}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_4}}</div>
+									</td>
+
+
+
+								</tr>
+
+							</ng-container>
+						</ng-container>
+						<ng-container *ngIf="q_ind==5">
+							<ng-container *ngIf="q_level.expanded">
+								<tr *ngFor="let leveldata of levels5adatas;index as j">
+									<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+										<div rowspan="2" *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"
+											title="{{leveldata.title}}">
+
+											<a
+												(click)="treelevelsDatas(q_ind,j,leveldata,levels5adatas)">{{leveldata.name}}</a>
+										</div>
+										<div rowspan="2" *ngIf="leveldata.Padding_left==='200px'" style="color: black;">
+											<a (click)="treelevelsDatas(q_ind,j,leveldata,levels5adatas)"
+												title="Sub Category">{{leveldata.name}}</a>
+										</div>
+
+									</td>
+
+									<td colspan="3">
+
+										<div>{{leveldata.YTD}}</div>
+									</td>
+									<td align="right" colspan="3">
+
+										<div>{{leveldata.Quarterly_1}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_2}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div> {{leveldata.Quarterly_3}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_4}}</div>
+									</td>
+
+
+
+								</tr>
+
+							</ng-container>
+						</ng-container>
+						<ng-container *ngIf="q_ind==6">
+							<ng-container *ngIf="q_level.expanded">
+								<tr *ngFor="let leveldata of levels4a3datas;index as j">
+									<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+										<div rowspan="2" style="color: black;" title="{{leveldata.title}}">
+
+											<a>{{leveldata.name}}</a>
+										</div>
+
+									</td>
+
+									<td colspan="3">
+
+										<div>{{leveldata.YTD}}</div>
+									</td>
+									<td align="right" colspan="3">
+
+										<div>{{leveldata.Quarterly_1}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_2}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div> {{leveldata.Quarterly_3}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_4}}</div>
+									</td>
+
+
+
+								</tr>
+
+							</ng-container>
+						</ng-container>
+						<ng-container *ngIf="q_ind==7">
+							<ng-container *ngIf="q_level.expanded">
+								<tr *ngFor="let leveldata of levels5adatas;index as j">
+									<td [ngStyle]="{'padding':leveldata.Padding,'padding-left':leveldata.Padding_left}">
+
+
+										<div rowspan="2" *ngIf="leveldata.Padding_left!='200px'" style="color: blue;"
+											title="{{leveldata.title}}">
+
+											<a
+												(click)="treelevelsDatas(q_ind,j,leveldata,levels5adatas)">{{leveldata.name}}</a>
+										</div>
+										<div rowspan="2" *ngIf="leveldata.Padding_left==='200px'" style="color: black;">
+											<a (click)="treelevelsDatas(q_ind,j,leveldata,levels5adatas)"
+												title="Sub Category">{{leveldata.name}}</a>
+										</div>
+
+									</td>
+
+									<td colspan="3">
+
+										<div>{{leveldata.YTD}}</div>
+									</td>
+									<td align="right" colspan="3">
+
+										<div>{{leveldata.Quarterly_1}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_2}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div> {{leveldata.Quarterly_3}}</div>
+									</td>
+									<td style="text-align: right;" colspan="3">
+
+										<div>{{leveldata.Quarterly_4}}</div>
+									</td>
+
+
+
+								</tr>
+
+							</ng-container>
+						</ng-container>
+					</ng-container>
+				</tbody>
+			</table>
+
+
+
+
+
+		</div>
+	</div>
+	<div *ngIf="tabcheck_pprbuilder">
+		<app-budget-builder></app-budget-builder>
+	</div>
+	<div *ngIf="variance_analysis">
+		<app-variance-analysis></app-variance-analysis>
+	</div>
+	<div *ngIf="cost_allocation">
+		<app-cost-allocation></app-cost-allocation>
+	</div>
+	<div *ngIf="tabcheck_pprreviewer">
+		<!-- <h1>reviewer</h1> -->
+	</div>
+	<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+		<p style="color: white">Loading... </p>
+	</ngx-spinner>
+	<!-- <pre>
+                    {{pprSearchForm.value | json}}
+                </pre> -->

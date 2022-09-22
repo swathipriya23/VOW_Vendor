@@ -1,0 +1,75 @@
+<div class="container" style="margin-left:5px;margin-top: 5px;">
+    <div class="col-md-12 row" style="margin-left:5px">      
+        <div class="col-md-12" style="margin-left:0px">
+            <button type="button" (click)="getFiles('')" class="btn btn-light" style="width: 150px;height: 44px;text-align: left;">
+                <i class="fa fa-home" style="font-size:25px;color:white;text-shadow:2px 2px 4px #000000;"></i>&nbsp;Home
+            </button>
+            <button type="button" (click)="goBack()" class="btn btn-light" style="width: 135px;height: 44px;text-align: left;">
+                <i class="fa fa-arrow-left" style="font-size:25px;color:white;text-shadow:2px 2px 4px #000000;"></i>&nbsp;Back
+            </button>
+        </div>  
+        <div class="col-md-12" style="margin-left:0px">
+            <mat-form-field style="width:1500px" >
+                <input  matInput [(ngModel)]="filePath" autocomplete="off" readonly > 
+            </mat-form-field>
+        </div>
+      <div class="col-md-12"  *ngFor='let list of fileList; let i = index' style="margin-left:0px">
+        <div *ngIf="list.type=='folder'" >
+            <table style ="width :100%">
+                <tr style="width : 100%">
+                    <td style="width : 5%">
+                        <i class="fa fa-folder" style="font-size:25px;color:yellow;text-shadow:2px 2px 4px #000000;"></i>
+                    </td>
+                    <td style="width : 80%"> 
+                        <mat-form-field style="width: 100%;">
+                            <input  matInput [value]="list.name" autocomplete="off" readonly > 
+                        </mat-form-field>
+                    </td>
+                    <td style="width : 5%">
+                        <span matTooltip="view" class=" fa fa-eye create "
+                            style="color: green;cursor: pointer;padding:10px" (click)="getFiles(list.name)"></span>
+                    </td>
+                    <td style="width : 5%">
+                    </td>
+                </tr>
+            </table>
+            <!-- <button type="button" (click)="getFiles(list.name)" class="btn btn-light" style="width: 1500px;height: 44px;text-align: left;">
+                <i class="fa fa-folder" style="font-size:25px;color:yellow; text-shadow:2px 2px 4px #000000;"></i> &nbsp;&nbsp;&nbsp;{{list.name}}
+            </button> -->
+        </div>
+        <div *ngIf="list.type=='file'">
+            <table style="width : 100%">
+                <tr style="width : 100%">
+                    <td style="width : 5%">
+                        <i class="fa fa-file" style="font-size:25px;color:white;text-shadow:2px 2px 4px #000000;"></i>
+                    </td>
+                    <td style="width : 80%">
+                        <mat-form-field style="width: 100%;">
+                            <input  matInput [value]="list.name" autocomplete="off" readonly > 
+                        </mat-form-field>                        
+                    </td>
+                    <td style="width : 5%" *ngIf="viewDisable[i]">
+                    </td>
+                    <td style="width : 5%" *ngIf="!viewDisable[i]">
+                        <span matTooltip="view" class=" fa fa-eye create "
+                            style="color: green;cursor: pointer;padding:10px" (click)="sftpOpenFile(list.name)"></span>
+                    </td>
+                    <td style="width : 5%">
+                        <button type="button" class="btn btn-outline-success"
+                        (click)="sftpDownloadFile(list.name)"
+                        style="border-radius: 40px;margin-left: 3%;" >
+                        <span class="fa fa-download" matTooltip="Download File">
+                        </span>
+                         </button>
+                    </td>
+                </tr>
+            </table>
+            <!-- <button type="button" class="btn btn-light" style="width: 1500px;height: 44px;text-align: left;">
+                <i class="fa fa-file" style="font-size:25px;color:lightblue; text-shadow:2px 2px 4px #000000;"></i>
+                &nbsp;&nbsp;&nbsp;<pre (click)="sftpOpenFile(list.name)">{{list.name}}</pre>
+                &nbsp;&nbsp;&nbsp;<i matTooltip="Download" class="fa fa-download" aria-hidden="true" (click)="sftpDownloadFile(list.name)"></i>
+            </button> -->
+        </div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="container">
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+            <h3> Changes </h3>
+        </div>
+        <div class="col-md-7 text-right">
+            <button type="button" class="btn btn-light"  style="border-radius: 7px;margin-left: 10px;
+            border-color: black;
+            background-color: white;"
+                (click)="Cancel()">Cancel</button>
+        </div>
+    </div>
+    <div>
+        <div class="timeline">
+            <ul>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+
+                <li>
+                    <div class="content">
+                        <p><code>Activity Details Name</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.detailname!=modificationdata.old_data.detailname'>{{ modificationdata.new_data.detailname}}</span></p>
+                       <p><code>Product Name</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.productname.name!=modificationdata.old_data.productname.name'>{{ modificationdata.new_data.productname.name}}</span></p>
+                       <p><code>Category</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.category.name!=modificationdata.old_data.category.name'>{{ modificationdata.new_data.category.name}}</span></p>
+                       <p><code>Sub Category</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.subcategory.name!=modificationdata.old_data.subcategory.name'>{{ modificationdata.new_data.subcategory.name}}</span></p>
+                       <p><code>Name</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.name!=modificationdata.old_data.name'>{{ modificationdata.new_data.name}}</span></p>
+                       <p><code>Specification</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.specification!=modificationdata.old_data.specification'>{{ modificationdata.new_data.specification}}</span></p>
+                       <p><code>DTS </code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.direct_to!=modificationdata.old_data.direct_to'
+                        *ngIf="modificationdata.new_data.direct_to==true">Yes</span><span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.direct_to!=modificationdata.old_data.direct_to'
+                        *ngIf="modificationdata.new_data.direct_to==false">No</span></p>
+                       <p><code> Size</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.size!=modificationdata.old_data.size'>{{ modificationdata.new_data.size}}</span></p>
+                       <p><code>Remarks</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.remarks!=modificationdata.old_data.remarks'>{{ modificationdata.new_data.remarks}}</span></p>
+                       <p><code>Unitprice</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.unitprice!=modificationdata.old_data.unitprice'>{{ modificationdata.new_data.unitprice}}</span></p>
+                       <p><code>Uom</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.uom.name!=modificationdata.old_data.uom.name'
+                        *ngIf="modificationdata.new_data.uom != null">{{ modificationdata.new_data.uom.name}}</span></p>
+                       <p><code>Packing Price</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.packing_price!=modificationdata.old_data.packing_price'>{{ modificationdata.new_data.packing_price}}</span></p>
+                       <p><code>Valid From</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.fromdate!=modificationdata.old_data.fromdate'>{{ modificationdata.new_data.fromdate | date:'dd-MM-yyyy'}}</span></p>
+                       <p><code>Valid To</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.todate!=modificationdata.old_data.todate'>{{ modificationdata.new_data.todate | date:'dd-MM-yyyy'}}</span></p>
+                       <p><code> Delivery Days</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.delivery_date!=modificationdata.old_data.delivery_date'>{{ modificationdata.new_data.delivery_date}}</span></p>
+                       <p><code>Capacity</code>:&nbsp;<span [class.changes]= 'modificationdata.new_data.modify_status==2 &&  modificationdata.new_data.capacity!=modificationdata.old_data.capacity'>{{ modificationdata.new_data.capacity}}</span></p>
+
+                       
+
+
+
+                    </div>
+                </li>
+                <li>
+                    <div class="content" *ngIf="modificationdata.action==2">
+                        <p><code>Activity Details Name</code>:&nbsp;{{ modificationdata.old_data.detailname}}</p>
+                        <p><code>Product Name</code>:&nbsp;{{ modificationdata.old_data.productname.name}}</p>
+                        <p><code>Category</code>:&nbsp;{{ modificationdata.old_data.category.name}}</p>
+                        <p><code>Sub Category</code>:&nbsp;{{ modificationdata.old_data.subcategory.name}}</p>
+                        <p><code>Name</code>:&nbsp;{{ modificationdata.old_data.name}}</p>
+                        <p><code>Specification</code>:&nbsp;{{ modificationdata.old_data.specification}}</p>
+                        <p><code>DTS </code>:&nbsp;<span
+                                *ngIf="modificationdata.old_data.direct_to==true">Yes</span><span
+                                *ngIf="modificationdata.old_data.direct_to==false">No</span></p>
+                        <p><code> Size</code>:&nbsp;{{ modificationdata.old_data.size}}</p>
+                        <p><code>Remarks</code>:&nbsp;{{ modificationdata.old_data.remarks}}</p>
+                        <p><code>Unitprice</code>:&nbsp;{{ modificationdata.old_data.unitprice}}</p>
+                        <p><code>Uom</code>:&nbsp;
+                            <span
+                                *ngIf="modificationdata.old_data.uom != null">{{ modificationdata.old_data.uom.name}}</span></p>
+                        <p><code>Packing Price</code>:&nbsp;{{ modificationdata.old_data.packing_price}}</p>
+                        <p><code>Valid From</code>:&nbsp;{{ modificationdata.old_data.fromdate | date:'dd-MM-yyyy'}}</p>
+                        <p><code>Valid To</code>:&nbsp;{{ modificationdata.old_data.todate | date:'dd-MM-yyyy'}}</p>
+                        <p><code> Delivery Days</code>:&nbsp;{{ modificationdata.old_data.delivery_date}}</p>
+                        <p><code>Capacity</code>:&nbsp;{{ modificationdata.old_data.capacity}}</p>
+
+
+                    </div>
+                </li>
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </div>
+</div>

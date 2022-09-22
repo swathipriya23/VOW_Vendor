@@ -1,0 +1,45 @@
+<div style="margin-left: 50px;margin-right: 80%;margin-top: 3%; width: 100%;">
+    <h3>
+        Edit Hierarchy Form
+    </h3>
+    <div>
+        <form [formGroup]="hierarchyEditForm" (ngSubmit)="submitForm()">
+            <table>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;">
+                            <mat-label>Layer</mat-label>
+                            <input matInput placeholder="Layer" formControlName="layer" required>
+                        </mat-form-field>
+                    </td>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-left: 50px;">
+                            <mat-label>Order</mat-label>
+                            <input matInput placeholder="Order" formControlName="order" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;">
+                            <mat-label>Remarks</mat-label>
+                            <textarea matInput placeholder="Remarks" formControlName="remarks"></textarea>
+                        </mat-form-field>
+                    </td> 
+                    <td>
+                        <mat-form-field style="width: 175px;margin-top: 20px;margin-left: 50px;">
+                            <mat-label>Flag</mat-label>
+                            <input matInput placeholder="Flag" formControlName="flag" required>
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" style="border-radius: 40px;margin-left: 10px;" class="btn btn-outline-primary"
+                [disabled]="hierarchyEditForm.invalid">Submit</button>
+            <button [routerLink]='"/employeeSummary"' skipLocationChange class="btn btn-outline-primary"
+            style="border-radius: 40px;margin-left: 10px;">Cancel</button>
+        </form>
+    </div>
+</div>
+
+

@@ -1,0 +1,157 @@
+<div class="container">
+    <!-- <h3> Client Changes </h3> -->
+    <div class="col-md-12 row">
+        <div class=" col-md-5 ">
+            <h3> Changes </h3>
+        </div>
+        <div class="col-md-7 text-right">
+            <button type="button" class="btn btn-light"  style="border-radius: 7px;margin-left: 10px;
+            border-color: black;
+            background-color: white;"
+                (click)="Cancel()">Cancel</button>
+            
+        </div>
+    </div>
+
+    <body>
+
+        <div class="timeline">
+            <ul>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>New data</h3>
+                </li>
+                <li *ngIf="modificationdata.action==2">
+                    <h3>Old data</h3>
+                </li>
+
+                <li>
+                    <div class="content">
+                        <p><code>Name</code>:&nbsp;<span
+                            [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.name!=modificationdata.old_data.name'>{{ modificationdata.new_data.name | titlecase}}</span></p>
+                                
+                        <p><code>City</code>:&nbsp;<span  [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.city_id.name!=modificationdata.old_data.address_id.city_id.name'>{{ modificationdata.new_data.address_id.city_id.name | titlecase}}</span></p>
+                        <p><code>District</code>:&nbsp;<span  [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.district_id.name!=modificationdata.old_data.address_id.district_id.name'>{{ modificationdata.new_data.address_id.district_id.name | titlecase}}</span></p>
+                        <p><code>Pincode</code>:&nbsp;<span  [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.pincode_id.no!=modificationdata.old_data.address_id.pincode_id.no'>{{ modificationdata.new_data.address_id.pincode_id.no}}</span></p>
+                        <p><code>State</code>:&nbsp;<span  [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.state_id.name!=modificationdata.old_data.address_id.state_id.name'>{{ modificationdata.new_data.address_id.state_id.name | titlecase}}</span></p>
+                        <p><code>Address</code> :&nbsp;
+                            <span  [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.line1!=modificationdata.old_data.address_id.line1'>{{modificationdata.new_data.address_id.line1 | titlecase}}</span>,
+                            <span  [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.line2!=modificationdata.old_data.address_id.line2'>{{modificationdata.new_data.address_id.line2 | titlecase}}</span>,
+                            <span  [class.changes]='modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.line3!=modificationdata.old_data.address_id.line3'>{{modificationdata.new_data.address_id.line3 | titlecase}}</span>
+                        </p>
+                    </div>
+
+                </li>
+
+                <li>
+                    <div class="content" *ngIf="modificationdata.action==2">
+                        <p><code>Name</code>:{{ modificationdata.old_data.name | titlecase}}</p>
+                        <p><code>City</code>:{{ modificationdata.old_data.address_id.city_id.name | titlecase}}</p>
+                        <p><code>District</code>:{{ modificationdata.old_data.address_id.district_id.name | titlecase}}</p>
+                        <p><code>Pincode</code>:{{ modificationdata.old_data.address_id.pincode_id.no}}</p>
+                        <p><code>State</code>:{{ modificationdata.old_data.address_id.state_id.name | titlecase}}</p>
+                        <p><code>Address</code> :
+                            {{modificationdata.old_data.address_id.line1 | titlecase}},
+                            {{modificationdata.old_data.address_id.line2 | titlecase}},
+                            {{modificationdata.old_data.address_id.line3 | titlecase}}
+                        </p>
+                    </div>
+
+                </li>
+
+
+                <div style="clear:both;"></div>
+            </ul>
+        </div>
+    </body>
+
+
+
+    <!-- <div>
+     <form [formGroup]="clientEditForm">
+            <div class=" row col-md-12">
+                <div class="col-md-3">
+                    <mat-form-field>
+                        <mat-label>Name:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.name!=modificationdata.old_data.name">{{modificationdata.old_data.name}}</code>
+                        </mat-label>
+                        <input matInput placeholder="Name" formControlName="name" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+
+                    <mat-form-field>
+                        <mat-label>Address 1:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.line1!=modificationdata.old_data.address_id.line1">{{modificationdata.old_data.address_id.line1}}</code>
+                        </mat-label>
+
+                        <input matInput placeholder="Name" formControlName="line1" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+
+                    <mat-form-field>
+                        <mat-label>Address 2:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.line2!=modificationdata.old_data.address_id.line2">{{modificationdata.old_data.address_id.line2}}</code>
+                        </mat-label>
+
+                        <input matInput placeholder="Name" formControlName="line2" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+
+                    <mat-form-field>
+                        <mat-label>Address 3:<code
+                                *ngIf="modificationdata.new_data.modify_status==2  && modificationdata.new_data.address_id.line3!=modificationdata.old_data.address_id.line3">{{modificationdata.old_data.address_id.line3}}</code>
+                        </mat-label>
+
+                        <input matInput placeholder="Name" formControlName="line3" autocomplete="off" >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+
+                    <mat-form-field>
+                        <mat-label>Pin Code:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.pincode_id.id!=modificationdata.old_data.address_id.pincode_id.id">{{modificationdata.old_data.address_id.pincode_id.no}}</code>
+                        </mat-label>
+
+                        <input matInput placeholder="Name" formControlName="pincode_id" autocomplete="off"
+                            >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+
+                    <mat-form-field>
+                        <mat-label>City:<code
+                                *ngIf="modificationdata.new_data.modify_status==2  && modificationdata.new_data.address_id.city_id.id!=modificationdata.old_data.address_id.city_id.id">{{modificationdata.old_data.address_id.city_id.name}}</code>
+                        </mat-label>
+
+                        <input matInput placeholder="Name" formControlName="city_id" autocomplete="off"
+                            >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+
+                    <mat-form-field>
+                        <mat-label>District:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.district_id.id!=modificationdata.old_data.address_id.district_id.id">{{modificationdata.old_data.address_id.district_id.name}}</code>
+                        </mat-label>
+
+                        <input matInput placeholder="Name" formControlName="district_id" autocomplete="off"
+                            >
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field>
+                        <mat-label>State:<code
+                                *ngIf="modificationdata.new_data.modify_status==2 && modificationdata.new_data.address_id.state_id.id!=modificationdata.old_data.address_id.state_id.id">{{modificationdata.old_data.address_id.state_id.name}}</code>
+                        </mat-label>
+
+                        <input matInput placeholder="Name" formControlName="state_id" autocomplete="off"
+                            >
+                    </mat-form-field>
+                </div>
+            </div>
+        </form> 
+      
+    </div> -->
+</div>
