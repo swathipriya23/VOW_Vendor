@@ -67,8 +67,9 @@ export class VendordocumentcreateComponent implements OnInit {
 
   ngOnInit(): void {
     
-    let data: any = this.shareService.vendorView.value;
-    this.vendorId = data.id;
+    let data: any = this.shareService.vendorID.value;
+    console.log("vendor document data view create POPUP====>", data)
+    this.vendorId = data;
     let getparticulardata:any = this.shareService.vendorViewHeaderName.value;
     console.log("getparticulardata",getparticulardata)
     // this.orgname = getparticulardata.group.id

@@ -4,7 +4,7 @@
     <div id="mySidenav" class="sidenav" *ngIf="sharedService.isLoggedin === true">
       <div style="background-color:53A95A;cursor: pointer;color: #fff;">
         <img id="LogoTag1" src="./assets/images/Nimbus-Logo-1.png" width="50px">
-        <span *ngIf="sharedService.isSideNav === false"> Northern ARC </span>
+        <span *ngIf="sharedService.isSideNav === false"> VOW </span>
       </div>
       <div *ngIf="!isMasterList ||isTransactionList" class="scrollclass" style="margin-bottom:100px;"  >
         <div *ngFor="let modrow of sharedService.transactionList; let i = index"
@@ -24,13 +24,13 @@
           </div>
         </div>
       </div>
-      <div id="sidenavfoot"  >
+      <!-- <div id="sidenavfoot"  >
         <p (click)="masterData()" style="margin-left: 21px;" ><i class="fa fa-bar-chart-o" style="color: white;" title="Master"></i>
           <span *ngIf="sharedService.isSideNav === false" class="hidden-sm-down" style="margin-left: 10px;" title="Master">Master</span>
         </p>
         <p (click)="homes()" style="margin-left: 21px;" ><i class="fa fa-home" style="color: white;" title="Home "></i> <span *ngIf="sharedService.isSideNav === false" class="hidden-sm-down"
             style="margin-left: 10px;" title="Home ">Home</span></p>
-      </div>
+      </div> -->
     </div>
     <div id="main"  style="margin-left: 12%;">
       <nav class="navbar navbar-light  justify-content-between" style="box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);margin-top: -10px;"
@@ -41,16 +41,19 @@
           {{sharedService.MyModuleName}}
         </span>
 
+        <!-- (click)="backpremise()" -->
         <span *ngIf="headerName =='REMS' ">
-          <i class="fa fa-arrow-left" (click)="backpremise()"></i>
+          <i class="fa fa-arrow-left" ></i>
           {{premiseCode_Name}}
         </span>
-        <span *ngIf="headerName==='vendorView' "><i class=" fa fa-arrow-left" (click)="backVendor()"></i>
+        <!-- (click)="backVendor()" -->
+        <span *ngIf="headerName==='vendorView' ">
+          <!-- <i class=" fa fa-arrow-left" ></i> -->
           {{vendorCode_Name}}
         </span>
-
+        <!-- (click)="backBranchView()" -->
         <span *ngIf="headerName==='branchView' ">
-          <i class="fa fa-arrow-left" (click)="backBranchView()"></i>
+          <i class="fa fa-arrow-left" ></i>
           <a routerLink="/atma/vendorView">
             {{vendorCode_Name}}
           </a>

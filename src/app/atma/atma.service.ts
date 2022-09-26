@@ -6,7 +6,7 @@ import { map, retry } from "rxjs/operators";
 import { HttpHeaders } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
 
-const atmaUrl = environment.apiURL
+const atmaUrl = environment.NACURL
 @Injectable({
   providedIn: 'root'
 })
@@ -26,7 +26,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     // if (taxJsonValue.pay_receivable === "Payable") {
     //   let value: any = {
     //     "code": taxJsonValue.code,
@@ -55,7 +55,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (taxJsonValue.pay_receivable === "payable") {
       let value: any = {
         "code": taxJsonValue.code,
@@ -86,7 +86,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('filter', filter);
@@ -100,7 +100,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -116,7 +116,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let idValue = id;
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.delete<any>(atmaUrl + "venserv/branch/" + mainbid + "/payment/" + idValue, { 'headers': headers })
@@ -126,7 +126,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("SUbTaxJson", subTaxJson)
     return this.http.post<any>(atmaUrl + "mstserv/subtax", subTaxJson, { 'headers': headers })
@@ -137,7 +137,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let idValue = {
       "id": id
@@ -151,7 +151,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('filter', filter);
@@ -165,7 +165,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("SUbTaxtaxRateJsonJson", taxRateJson)
     return this.http.post<any>(atmaUrl + "mstserv/taxrate", taxRateJson, { 'headers': headers })
@@ -175,7 +175,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let idValue = {
       "id": id
@@ -189,7 +189,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('filter', filter);
@@ -202,7 +202,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(CreateList)
     const headers = { 'Authorization': 'Token ' + token }
     console.log("Body", body)
@@ -212,7 +212,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -224,7 +224,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/bank_search?query=' + bankkeyvalue, { 'headers': headers })
   }
@@ -232,7 +232,7 @@ export class AtmaService {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'venserv/getip' , { 'headers': headers })
   }
@@ -248,7 +248,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/bank_search?query=" + query, { 'headers': headers })
   }
@@ -256,7 +256,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     if (ifsc == null || ifsc == '') {
       ifsc = "''"
@@ -268,7 +268,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     console.log("bankEditForm")
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(data)
     let idValue = id;
     let value = {
@@ -283,7 +283,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(CreateList)
     const headers = { 'Authorization': 'Token ' + token }
     console.log("Body", body)
@@ -293,7 +293,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -305,7 +305,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     console.log("paymodeEditForm")
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(data)
     let idValue = id;
     let value = {
@@ -320,7 +320,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/pincode_search', { 'headers': headers })
   }
@@ -328,7 +328,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/new_city_search', { 'headers': headers })
   }
@@ -337,7 +337,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/state_search', { 'headers': headers })
   }
@@ -347,7 +347,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/district_search', { 'headers': headers })
   }
@@ -355,7 +355,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let data = JSON.stringify(branch)
     console.log("bankbrach", data)
     const headers = { 'Authorization': 'Token ' + token }
@@ -366,7 +366,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -378,7 +378,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let url=atmaUrl+'venserv/search'
     let url1=''
@@ -450,7 +450,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("contractorCreateForm", JSON.stringify(contractorJson))
     return this.http.post<any>(atmaUrl + "venserv/vendor/" + vendorId + "/contractor", contractorJson, { 'headers': headers })
@@ -460,7 +460,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("contractorCreateForm", contractorJson)
     let idValue = {
@@ -474,7 +474,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("clientCreateForm", JSON.stringify(clientJson))
     return this.http.post<any>(atmaUrl + "venserv/vendor/" + vendorId + "/client", clientJson, { 'headers': headers })
@@ -484,7 +484,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let idValue = {
       "id": id
@@ -497,7 +497,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     console.log("AL", JSON.stringify(branchJson))
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post<any>(atmaUrl + "venserv/vendor/" + vendorId + "/branch", branchJson, { 'headers': headers })
@@ -506,7 +506,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     console.log("AL", JSON.stringify(branchJson))
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post<any>(atmaUrl + "venserv/vendor/" + vendorId + "/gstnumbercheck", branchJson, { 'headers': headers })
@@ -516,7 +516,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token;
+    let token = tokenValue.vendor_token;
     let idValue = {
       "id": id
     }
@@ -529,7 +529,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("clientCreateForm", JSON.stringify(productJson))
     return this.http.post<any>(atmaUrl + "venserv/vendor/" + vendorId + "/product", productJson, { 'headers': headers })
@@ -539,7 +539,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let idValue = {
       "id": id
@@ -552,7 +552,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/designation', { 'headers': headers })
   }
@@ -560,47 +560,50 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/contacttype', { 'headers': headers })
   }
 
-  public getVendorViewDetails(vendorcode): Observable<any> {
+  public getVendorViewDetails(code, type?:any): Observable<any> {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
-    let vendortoken = tokenValue.vendor_token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
-    return this.http.get<any>(atmaUrl + "venserv/vendor?code=" + vendorcode + "&vendor_token=" + vendortoken, { 'headers': headers })
+    if(type == 'codestatus'){
+      return this.http.get<any>(atmaUrl + "venserv/vendor/0?code="+code+"&status=1", { 'headers': headers })
+    }
+    else{
+      return this.http.get<any>(atmaUrl + "venserv/vendor/0?code=" + code, { 'headers': headers })
+    }
   }
   public getmodificationDetails(modificationId): Observable<any> {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/" + modificationId + "/modication_view", { 'headers': headers })
   }
 
-  public getBranch(pageNumber = 1, pageSize = 10,vendorcode): Observable<any> {
+  public getBranch(vendorId, pageNumber = 1, pageSize = 10): Observable<any> {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
-    let vendortoken = tokenValue.vendor_token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
     params = params.append('pageSize', pageSize.toString());
-    return this.http.get<any>(atmaUrl + "venserv/vendor/branch?page=" + pageNumber + "&code="+ vendorcode +"&vendor_token=" +  vendortoken, { 'headers': headers })
+    return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/branch?page=" + pageNumber, { 'headers': headers })
   }
 
   public getClient(vendorId, pageNumber = 1, pageSize = 10): Observable<any> {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -612,7 +615,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -624,7 +627,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -636,7 +639,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -647,7 +650,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let idValue = bankBranchId
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/bankbranch/" + idValue, { 'headers': headers })
@@ -656,7 +659,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let idValue = productId
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/product/" + idValue, { 'headers': headers })
@@ -666,7 +669,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
 
@@ -676,7 +679,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
 
@@ -686,7 +689,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
 
@@ -696,7 +699,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
 
@@ -706,7 +709,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
 
@@ -716,7 +719,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
 
@@ -726,7 +729,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
 
@@ -739,7 +742,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(data)
     let idValue = id;
     let value = {
@@ -755,7 +758,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/composite_search?query=' + gstkeyvalue, { 'headers': headers })
   }
@@ -763,7 +766,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/group', { 'headers': headers })
   }
@@ -771,7 +774,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/customercategory_search?query=' + vendorkeyvalue, { 'headers': headers })
   }
@@ -779,7 +782,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/type', { 'headers': headers })
   }
@@ -787,7 +790,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/classification', { 'headers': headers })
   }
@@ -795,7 +798,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/org_type_search?query=' + orgkeyvalue, { 'headers': headers })
   }
@@ -803,7 +806,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'usrserv/employee', { 'headers': headers })
   }
@@ -811,7 +814,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(vendor)
     const headers = { 'Authorization': 'Token ' + token }
     console.log("Body", body)
@@ -827,7 +830,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     if (pan == null || pan == '') {
       pan = "''"
@@ -840,7 +843,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
       this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     if (gstno == null || gstno == '') {
       gstno = "''"
@@ -855,7 +858,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     if (ifsc == null || ifsc == '') {
       ifsc = "''"
@@ -871,7 +874,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     if (name == null || name == '') {
       name = "''"
@@ -885,7 +888,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     // if (pan == null || pan == '') {
     //   pan = "''"
@@ -899,7 +902,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId, { 'headers': headers })
   }
@@ -907,7 +910,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + '/branch/' + branchId, { 'headers': headers })
   }
@@ -915,7 +918,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(data)
     let idValue = id;
     let value = {
@@ -935,7 +938,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     console.log("branchacty", JSON.stringify(branchActivity))
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post<any>(atmaUrl + "venserv/branch/" + branchId + "/activity", branchActivity, { 'headers': headers })
@@ -944,7 +947,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     // console.log("branchacty", JSON.stringify(branchActivity))
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post<any>(atmaUrl + "usrserv/employeemobileno", mobiledata, { 'headers': headers })
@@ -953,7 +956,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -966,7 +969,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("customerCatJson", customerCatJson)
     return this.http.post<any>(atmaUrl + "mstserv/customercategory", customerCatJson, { 'headers': headers })
@@ -977,7 +980,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     let idValue = id.id
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/customercategory/' + idValue, { headers })
   }
@@ -985,7 +988,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(data)
     let idValue = id;
     let value = {
@@ -1001,7 +1004,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -1014,7 +1017,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/pdtcat", { 'headers': headers })
   }
@@ -1023,7 +1026,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     if (pan == null || pan == '') {
       pan = "''"
@@ -1035,7 +1038,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'venserv/vendor/' + vendorId + '/branch/' + branchViewId, { 'headers': headers })
   }
@@ -1043,7 +1046,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("productCatJson", productCatJson)
     return this.http.post<any>(atmaUrl + "mstserv/pdtcat", productCatJson, { 'headers': headers })
@@ -1053,7 +1056,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     let idValue = id.id
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/pdtcat/' + idValue, { headers })
   }
@@ -1062,7 +1065,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(data)
     let idValue = id;
     let value = {
@@ -1078,7 +1081,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -1090,7 +1093,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("uomJson", uomJson)
     return this.http.post<any>(atmaUrl + "mstserv/uom", uomJson, { 'headers': headers })
@@ -1100,7 +1103,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     let idValue = id.id
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/uom/' + idValue, { headers })
   }
@@ -1108,7 +1111,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(data)
     let idValue = id;
     let value = {
@@ -1125,7 +1128,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('filter', filter);
@@ -1140,7 +1143,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -1151,7 +1154,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("producttypeJson", producttypeJson)
     return this.http.post<any>(atmaUrl + "mstserv/pdttype", producttypeJson, { 'headers': headers })
@@ -1162,7 +1165,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     let idValue = id.id
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/pdttype/' + idValue, { headers })
   }
@@ -1170,7 +1173,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(data)
     let idValue = id;
     let value = {
@@ -1186,7 +1189,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/documentgroup', { 'headers': headers })
   }
@@ -1196,7 +1199,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("productpost", docgrpJson)
     return this.http.post<any>(atmaUrl + "mstserv/documentgroup", docgrpJson, { 'headers': headers })
@@ -1206,7 +1209,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'venserv/branch/28/suppliertax', { 'headers': headers });
   }
@@ -1215,7 +1218,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let idValue = {
       "id": id
@@ -1230,7 +1233,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams()
       .set('page', pageNumber.toString())
@@ -1244,7 +1247,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let idValue = id;
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.delete<any>(atmaUrl + "mstserv/documentgroup/" + idValue, { 'headers': headers })
@@ -1253,7 +1256,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/product", { 'headers': headers })
   }
@@ -1261,7 +1264,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("productpost", productJson)
     return this.http.post<any>(atmaUrl + "mstserv/product", productJson, { 'headers': headers })
@@ -1272,7 +1275,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let idValue = {
       "id": id
@@ -1286,7 +1289,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/uom", { 'headers': headers })
   }
@@ -1294,7 +1297,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/Apcategory", { 'headers': headers })
   }
@@ -1302,7 +1305,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/Apcategory_search?query=" + q, { 'headers': headers })
   }
@@ -1310,7 +1313,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (q === null) {
       q = "";
     }
@@ -1325,7 +1328,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/Apsubcategory_search?category_id=" + id, { 'headers': headers })
   }
@@ -1333,7 +1336,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/Apsubcategory_search?query=" + q , { 'headers': headers })
   }
@@ -1341,7 +1344,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (q === null) {
       q = "";
     }
@@ -1356,7 +1359,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/Apsubcategory", { 'headers': headers })
   }
@@ -1364,7 +1367,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/pdtcat", { 'headers': headers })
   }
@@ -1372,7 +1375,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/hsn", { 'headers': headers })
   }
@@ -1381,7 +1384,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/hsn?page=' + pageNumber, { 'headers': headers })
   }
@@ -1389,7 +1392,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token };
     if (gstno == null || gstno == '') {
       gstno = "''"
@@ -1400,7 +1403,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/pdttype", { 'headers': headers })
   }
@@ -1408,7 +1411,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams()
       .set('page', pageNumber.toString())
@@ -1423,7 +1426,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let idValue = id;
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.delete<any>(atmaUrl + "mstserv/product/" + idValue, { 'headers': headers })
@@ -1433,7 +1436,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token;
+    let token = tokenValue.vendor_token;
     let formData = new FormData();
     // formData.append("data", JSON.stringify(jsondata))
     // formData.append("file", filedata)
@@ -1446,7 +1449,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("branchPayment", branchPayment)
     return this.http.post<any>(atmaUrl + "venserv/branch/" + id + "/payment", branchPayment, { 'headers': headers })
@@ -1457,7 +1460,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/tax', { 'headers': headers });
   }
@@ -1466,7 +1469,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     if (subtaxkeyvalue === null) {
       subtaxkeyvalue = "";
@@ -1485,7 +1488,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (subtaxkeyvalue === null) {
       subtaxkeyvalue = "";
       console.log('calling empty');
@@ -1505,7 +1508,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
 
 
@@ -1527,7 +1530,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (taxratekeyvalue === null) {
       taxratekeyvalue = "";
       console.log('calling empty');
@@ -1548,7 +1551,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
 
     return this.http.get<any>(atmaUrl + 'venserv/branch/' + id + '/suppliertax?page=' + pageNumber, { headers: headers })
@@ -1560,7 +1563,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let idValue = id;
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.delete<any>(atmaUrl + "venserv/branch/" + branchViewId + "/suppliertax/" + idValue, { 'headers': headers })
@@ -1569,7 +1572,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
 
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/branch/" + branch_id + "/suppliertax/" + id, { 'headers': headers })
@@ -1579,7 +1582,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'venserv/branch/' + branchId + '/activity/' + activityViewId, { 'headers': headers })
   }
@@ -1587,7 +1590,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -1598,7 +1601,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token;
+    let token = tokenValue.vendor_token;
     const headers = { 'Authorization': 'Token ' + token };
     return this.http.delete<any>(atmaUrl + 'venserv/activity/' + activityId + '/supplieractivitydtl/' + supplierId, { 'headers': headers })
   }
@@ -1607,7 +1610,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token;
+    let token = tokenValue.vendor_token;
     let idValue = {
       "id": id
     }
@@ -1621,7 +1624,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     console.log("activitydetail", JSON.stringify(activityDetail))
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post<any>(atmaUrl + "venserv/activity/" + activityId + "/supplieractivitydtl", activityDetail, { 'headers': headers })
@@ -1631,7 +1634,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token;
+    let token = tokenValue.vendor_token;
     let idValue = {
       "id": id
     }
@@ -1645,7 +1648,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/history", { 'headers': headers })
   }
@@ -1654,7 +1657,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let rejectValue = {
       "assign_to": 0,
@@ -1672,7 +1675,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let returnValue = {
       "assign_to": 0,
@@ -1689,7 +1692,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let returnValue = {
       "assign_to": 0,
@@ -1707,7 +1710,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let rejectValue = {
       "assign_to": 0,
@@ -1723,7 +1726,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -1734,7 +1737,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token;
+    let token = tokenValue.vendor_token;
     const headers = { 'Authorization': 'Token ' + token };
     return this.http.delete<any>(atmaUrl + 'venserv/branch/' + branchId + '/activity/' + activityId, { 'headers': headers })
   }
@@ -1742,7 +1745,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token;
+    let token = tokenValue.vendor_token;
     const headers = { 'Authorization': 'Token ' + token };
     return this.http.get<any>(atmaUrl + 'venserv/branch/' + branchId + '/activity/' + activityId, { 'headers': headers })
   }
@@ -1750,7 +1753,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'usrserv/searchemployee?query=' + empkeyvalue, { 'headers': headers })
   }
@@ -1758,7 +1761,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'venserv/dept_rm?query=' + empkeyvalue + '&page=' + pageno, { 'headers': headers })
   }
@@ -1767,7 +1770,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/search_hsn?query=' + empkeyvalue+'&status='+status+'&page='+pageno , { 'headers': headers })
   }
@@ -1778,7 +1781,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     let tokenValue = JSON.parse(getToken);
 
 
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (prokeyvalue === null) {
       prokeyvalue = "";
       console.log('calling empty');
@@ -1797,7 +1800,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     let tokenValue = JSON.parse(getToken);
 
 
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (prokeyvalue === null) {
       prokeyvalue = "";
       console.log('calling empty');
@@ -1816,7 +1819,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     let tokenValue = JSON.parse(getToken);
 
 
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (prokeyvalue === null) {
       prokeyvalue = "";
       console.log('calling empty');
@@ -1835,7 +1838,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('filter', filter);
@@ -1848,7 +1851,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("apCategoryJson", apCategoryJson)
     return this.http.post<any>(atmaUrl + "mstserv/Apcategory", apCategoryJson, { 'headers': headers })
@@ -1857,7 +1860,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     console.log("apsubCategoryJson", apsubCategoryJson)
     return this.http.post<any>(atmaUrl + "mstserv/Apsubcategory", apsubCategoryJson, { 'headers': headers })
@@ -1867,7 +1870,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     // return this.http.get<any>(atmaUrl + "mstserv/Apcategory", { 'headers': headers })
     return this.http.get<any>(atmaUrl + "mstserv/Apcategory_search?query=" + apcatkeyvalue, { 'headers': headers })
@@ -1877,7 +1880,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(data)
     let idValue = id;
     let value = {
@@ -1893,7 +1896,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     let idValue = id.id
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/Apcategory/' + idValue, { headers })
   }
@@ -1901,7 +1904,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(data)
     let idValue = id;
     let value = {
@@ -1917,7 +1920,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     let idValue = id.id
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/Apsubcategory/' + idValue, { headers })
   }
@@ -1926,7 +1929,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/product ", { 'headers': headers })
   }
@@ -1934,7 +1937,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const body = JSON.stringify(CreateList)
     const headers = { 'Authorization': 'Token ' + token }
     console.log("Body", body)
@@ -1944,7 +1947,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let idValue = {
       "id": id
@@ -1957,7 +1960,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -1971,7 +1974,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let idValue = id;
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.delete<any>(atmaUrl + 'venserv/supplieractivitydtl/' + activityDetailId + '/catelog/' + idValue, { 'headers': headers })
@@ -1980,7 +1983,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (prokeyvalue === null) {
       prokeyvalue = "";
       console.log('calling empty');
@@ -1998,7 +2001,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -2012,7 +2015,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/modication_view", { 'headers': headers })
   }
@@ -2021,7 +2024,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/modication_view_type", { 'headers': headers })
   }
@@ -2029,7 +2032,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/modification_request?supplierprocess=" + status, { 'headers': headers })
   }
@@ -2039,7 +2042,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/paymode_search?query=" + query, { 'headers': headers })
   }
@@ -2048,7 +2051,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/designation_search?query=' + desgkeyvalue, { 'headers': headers })
   }
@@ -2056,8 +2059,9 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
+    console.log("rm id", rmId)
     let ApproverValue = {
       
       "assign_to": rmId,
@@ -2075,7 +2079,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/vendorrm_validation",  { 'headers': headers })
 
@@ -2085,7 +2089,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
  
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/pendingbranch",  { 'headers': headers })
 
@@ -2095,7 +2099,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let ApproverValue = {
       "remark": "Header Approve",
@@ -2109,7 +2113,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/contacttype_search?query=' + contactkeyvalue, { 'headers': headers })
   }
@@ -2117,7 +2121,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/new_city_search?query=' + citykeyvalue, { 'headers': headers })
   }
@@ -2125,7 +2129,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/district_search?query=' + districtkeyvalue, { 'headers': headers })
   }
@@ -2133,7 +2137,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/state_search?query=' + statekeyvalue, { 'headers': headers })
   }
@@ -2141,7 +2145,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/pincode_search?query=' + pincodekeyvalue, { 'headers': headers })
   }
@@ -2149,7 +2153,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (empkeyvalue === null) {
       empkeyvalue = "";
       // console.log('calling empty');
@@ -2168,7 +2172,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -2179,7 +2183,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (citykeyvalue === null) {
       citykeyvalue = "";
     }
@@ -2194,7 +2198,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (statekeyvalue === null) {
       statekeyvalue = "";
     }
@@ -2209,7 +2213,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (districtkeyvalue === null) {
       districtkeyvalue = "";
     }
@@ -2224,7 +2228,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (districtkeyvalue === null) {
       districtkeyvalue = "";
     }
@@ -2239,7 +2243,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
 
@@ -2249,7 +2253,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (citykeyvalue === null) {
       citykeyvalue = "";
     }
@@ -2264,7 +2268,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (pincodekeyvalue === null) {
       pincodekeyvalue = "";
     }
@@ -2279,7 +2283,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (dsgkeyvalue === null) {
       dsgkeyvalue = "";
     }
@@ -2294,7 +2298,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (pckeyvalue === null) {
       pckeyvalue = "";
     }
@@ -2309,7 +2313,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/productcat_search?query=" + pckeyvalue, { 'headers': headers })
   }
@@ -2317,7 +2321,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (ptkeyvalue === null) {
       ptkeyvalue = "";
     }
@@ -2332,7 +2336,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/producttype_search?query=" + ptkeyvalue, { 'headers': headers })
   }
@@ -2340,7 +2344,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (contactkeyvalue === null) {
       contactkeyvalue = "";
     }
@@ -2356,7 +2360,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (subtaxkeyvalue === null) {
       subtaxkeyvalue = "";
       console.log('calling empty');
@@ -2375,7 +2379,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (subtaxkeyvalue === null) {
       subtaxkeyvalue = "";
       console.log('calling empty');
@@ -2392,7 +2396,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (subtaxkeyvalue === null) {
       subtaxkeyvalue = "";
       // console.log('calling empty');
@@ -2415,7 +2419,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (subtaxkeyvalue === null) {
       subtaxkeyvalue = "";
       // console.log('calling empty');
@@ -2438,7 +2442,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (subtaxkeyvalue === null) {
       subtaxkeyvalue = "";
       console.log('calling empty');
@@ -2455,7 +2459,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (subtaxkeyvalue === null) {
       subtaxkeyvalue = "";
       console.log('calling empty');
@@ -2473,7 +2477,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (pinkeyvalue === null) {
       pinkeyvalue = "";
       console.log('calling empty');
@@ -2490,7 +2494,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (pinkeyvalue === null) {
       pinkeyvalue = "";
       console.log('calling empty');
@@ -2507,7 +2511,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (citykeyvalue === null) {
       citykeyvalue = "";
       console.log('calling empty');
@@ -2524,7 +2528,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (citykeyvalue === null) {
       citykeyvalue = "";
       console.log('calling empty');
@@ -2544,7 +2548,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (statekeyvalue === null) {
       statekeyvalue = "";
       console.log('calling empty');
@@ -2561,7 +2565,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (statekeyvalue === null) {
       statekeyvalue = "";
       console.log('calling empty');
@@ -2582,7 +2586,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (districtkeyvalue === null) {
       districtkeyvalue = "";
       console.log('calling empty');
@@ -2599,7 +2603,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (districtkeyvalue === null) {
       districtkeyvalue = "";
       console.log('calling empty');
@@ -2617,7 +2621,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/bank_search?query=' + bankkeyvalue + '&page=' + pageno, { 'headers': headers })
   }
@@ -2625,7 +2629,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/uom_search?query=" + uomKey, { 'headers': headers })
   }
@@ -2633,7 +2637,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "mstserv/uom_search?query=" + uomKey+'&page='+page, { 'headers': headers })
   }
@@ -2641,7 +2645,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (uomKey === null) {
       uomKey = "";
     }
@@ -2656,7 +2660,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/supplieractivitydtl/" + activityDetailId + '/catelog/' + catalogEditId, { 'headers': headers })
   }
@@ -2664,7 +2668,7 @@ return this.http.get('https://ifconfig.me/forwarded',{ headers, responseType: 't
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     
     if (parentkeyvalue === null) {
       parentkeyvalue = "";
@@ -2680,7 +2684,7 @@ public getParentDropDown_doc(parentkeyvalue,vendorId): Observable<any> {
   this.reset();
   const getToken = localStorage.getItem("sessionData")
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   if (parentkeyvalue === null) {
     parentkeyvalue = "";
   console.log('calling empty');
@@ -2698,7 +2702,7 @@ public getParentDropDown_doc(parentkeyvalue,vendorId): Observable<any> {
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     
     if (parentkeyvalue === null) {
       parentkeyvalue = "";
@@ -2714,7 +2718,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
   this.reset();
   const getToken = localStorage.getItem("sessionData")
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   if (parentkeyvalue === null) {
     parentkeyvalue = "";
   console.log('calling empty');
@@ -2731,7 +2735,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken = localStorage.getItem("sessionData");
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token;
+    let token = tokenValue.vendor_token;
     // let formData = new FormData();
     
       //  let obj = Object.assign({}, data, vendorId,formdata)
@@ -2754,7 +2758,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     let idValue = id.id
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/vendor/"+vendorId+"/vendordocument/" + idValue, { headers })
          }
@@ -2763,7 +2767,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
         //
         //   const getToken = localStorage.getItem("sessionData")
         //   let tokenValue = JSON.parse(getToken);
-        //   let token = tokenValue.token
+        //   let token = tokenValue.vendor_token
         //   let formData = new FormData();
         
          
@@ -2785,7 +2789,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
             this.reset();
             const getToken = localStorage.getItem("sessionData");
             let tokenValue = JSON.parse(getToken);
-            let token = tokenValue.token;
+            let token = tokenValue.vendor_token;
             let formData = new FormData();
             // if (id != "") {
             //   let idValue = {
@@ -2816,25 +2820,24 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
             { 'headers': headers })
           }
 
-           public getdocumentsummaryy(vendorId,pageNumber = 1,pageSize=10,): Observable<any> {
+           public getdocumentsummaryy(vendorId,pageNumber = 1,pageSize=10): Observable<any> {
             this.reset();
             const getToken = localStorage.getItem("sessionData")
             let tokenValue = JSON.parse(getToken);
-            let token = tokenValue.token
-            let vendortoken = tokenValue.vendor_token
+            let token = tokenValue.vendor_token
             const headers = { 'Authorization': 'Token ' + token }
             let params: any = new HttpParams();
             params = params.append('page', pageNumber.toString());
             params = params.append('pageSize', pageSize.toString());
             console.log(params);
             console.log(headers);
-            return this.http.get<any>(atmaUrl + "venserv/vendor/"+vendorId+"/vendordocument?page=" +pageNumber +  "&vendor_token="+ vendortoken, { 'headers': headers})
+            return this.http.get<any>(atmaUrl + "venserv/vendor/"+vendorId+"/vendordocument", { 'headers': headers, params })
             }
             public deletedocumentform(id: number,VendorId): Observable<any> {
               this.reset();
               const getToken = localStorage.getItem("sessionData")
               let tokenValue = JSON.parse(getToken);
-              let token = tokenValue.token
+              let token = tokenValue.vendor_token
               let idValue = id;
               const headers = { 'Authorization': 'Token ' + token }
               return this.http.delete<any>(atmaUrl + "venserv/vendor/"+VendorId+"/vendordocument/" + idValue, { 'headers': headers })
@@ -2843,7 +2846,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
              
                 const getToken: any = localStorage.getItem('sessionData')
                 let tokenValue = JSON.parse(getToken);
-                let token = tokenValue.token
+                let token = tokenValue.vendor_token
                 if (bankkeyvalue === null) {
                   bankkeyvalue = "";
               }
@@ -2858,7 +2861,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
                 this.reset();
                 const getToken: any = localStorage.getItem('sessionData')
                 let tokenValue = JSON.parse(getToken);
-                let token = tokenValue.token
+                let token = tokenValue.vendor_token
                 if (query === null) {
                   query = "";
               }
@@ -2875,7 +2878,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
                 this.reset();
                 const getToken: any = localStorage.getItem('sessionData')
                 let tokenValue = JSON.parse(getToken);
-                let token = tokenValue.token
+                let token = tokenValue.vendor_token
                 if (query === null) {
                   query = "";
               }
@@ -2891,7 +2894,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
                 this.reset();
                 const getToken = localStorage.getItem("sessionData")
                 let tokenValue = JSON.parse(getToken);
-                let token = tokenValue.token
+                let token = tokenValue.vendor_token
                 let idValue = id;
                 const headers = { 'Authorization': 'Token ' + token }
                 return this.http.delete<any>(atmaUrl + "venserv/vendor_attactments/" + idValue, { 'headers': headers })
@@ -2901,7 +2904,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
                
                   const getToken = localStorage.getItem("sessionData")
                   let tokenValue = JSON.parse(getToken);
-                  let token = tokenValue.token
+                  let token = tokenValue.vendor_token
                   let idValue = id;
                   const headers = { 'Authorization': 'Token ' + token }
                    window.open(atmaUrl+'venserv/vendor_attactments/'+idValue+"?token="+token, '_blank');
@@ -2915,7 +2918,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -2929,7 +2932,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let data = JSON.stringify(apcat)
     console.log("apcat Data", data)
     const headers = { 'Authorization': 'Token ' + token }
@@ -2939,7 +2942,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let data = JSON.stringify(apcatedit)
    // console.log("apcat Data", data)
     const headers = { 'Authorization': 'Token ' + token }
@@ -2949,7 +2952,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let data = apId + '?status=' + status
     //console.log('data check for apcat active inactive', data)
     const headers = { 'Authorization': 'Token ' + token }
@@ -2959,7 +2962,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let names = name
 
@@ -2983,7 +2986,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -2995,7 +2998,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let data = JSON.stringify(apsubcat)
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post<any>(atmaUrl + 'mstserv/Apsubcategory', data, { 'headers': headers })
@@ -3004,7 +3007,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/categoryname_search?query=' + catkeyvalue, { 'headers': headers })
   }
@@ -3012,7 +3015,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/categoryname_search?query=' + catkeyvalue + '&page=' + pageno, { 'headers': headers })
   }
@@ -3020,7 +3023,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -3032,7 +3035,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -3044,7 +3047,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -3056,7 +3059,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -3068,7 +3071,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     let data = JSON.stringify(apsubcatedit)
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post<any>(atmaUrl + 'mstserv/editsubcategory', data, { 'headers': headers })
@@ -3078,7 +3081,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post<any>(atmaUrl + 'mstserv/subcategorysearch', searchapsub, { 'headers': headers })
 }
@@ -3086,7 +3089,7 @@ public getParentDropDown(parentkeyvalue): Observable<any> {
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
   return this.http.get<any>(atmaUrl + 'mstserv/categorytype', { 'headers': headers })
 }
@@ -3094,7 +3097,7 @@ public getexp(expkeyvalue): Observable<any> {
   this.reset();
   const getToken: any = localStorage.getItem('sessionData')
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.get<any>(atmaUrl + 'mstserv/search_expense?query=' + expkeyvalue, { 'headers': headers })
 }
@@ -3102,7 +3105,7 @@ public getexpen(expkeyvalue, pageno): Observable<any> {
   this.reset();
   const getToken: any = localStorage.getItem('sessionData')
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.get<any>(atmaUrl + 'mstserv/search_expense?query=' + expkeyvalue + '&page=' + pageno, { 'headers': headers })
 }
@@ -3111,7 +3114,7 @@ public report(data): Observable<any> {
   this.reset();
   const getToken: any = localStorage.getItem('sessionData')
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.post<any>(atmaUrl + 'venserv/report',data , { 'headers': headers,responseType: 'blob' as 'json'  })
 }
@@ -3121,7 +3124,7 @@ public paymentactive(data): Observable<any> {
   this.reset();
   const getToken: any = localStorage.getItem('sessionData')
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.post<any>(atmaUrl + 'venserv/payment_activeflag',data , { 'headers': headers })
 }
@@ -3129,7 +3132,7 @@ public branchactive(data): Observable<any> {
   this.reset();
   const getToken: any = localStorage.getItem('sessionData')
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.post<any>(atmaUrl + 'venserv/supplieractive',data , { 'headers': headers })
 }
@@ -3137,7 +3140,7 @@ public getproducttypedata(): Observable<any>{
   this.reset();
   const getToken: any = localStorage.getItem('sessionData')
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.get(atmaUrl +'mstserv/productclassification',{'headers':headers});
 }
@@ -3145,7 +3148,7 @@ public getproductcategorydata(id,data,page){
   this.reset();
   const getToken: any = localStorage.getItem('sessionData')
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.get(atmaUrl +'mstserv/productclassification/'+id+'?page='+page+'&data='+data,{'headers':headers});
 }
@@ -3153,7 +3156,7 @@ public getproductsubcategorydata(id,data,page){
   this.reset();
   const getToken: any = localStorage.getItem('sessionData')
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.get(atmaUrl +'mstserv/productcat/'+id+'?page='+page+'&data='+data,{'headers':headers});
 }
@@ -3161,13 +3164,13 @@ public getproductsubcategorydata(id,data,page){
 //   this.reset();
 //   const getToken: any = localStorage.getItem('sessionData')
 //   let tokenValue = JSON.parse(getToken);
-//   let token = tokenValue.token
+//   let token = tokenValue.vendor_token
 //   const headers = { 'Authorization': 'Token ' + token }
 // }
 public createproductcategorydata(data:any){
   const getToken: any = localStorage.getItem('sessionData')
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.post(atmaUrl+'mstserv/pdtcat',data,{'headers':headers});
 }
@@ -3175,21 +3178,21 @@ public createproductsubcategorydata(data:any){
   console.log('call')
   const getToken: any = localStorage.getItem('sessionData')
   let tokenValue = JSON.parse(getToken);
-  let token = tokenValue.token
+  let token = tokenValue.vendor_token
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.post(atmaUrl+'mstserv/pdttype',data,{'headers':headers});
 }
   public createspecificationsdata(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl+'mstserv/productspecificationmtom',data,{'headers':headers});
   }
   public createproductspecification(data:any,query:any,page:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get(atmaUrl +'mstserv/productspecification_data/'+data+'?page='+page+'&data='+query,{'headers':headers});
   
@@ -3197,7 +3200,7 @@ public createproductsubcategorydata(data:any){
   public createhsnproductdetails(data,page){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get(atmaUrl +'mstserv/hsn_data?page='+page+'&data='+data,{'headers':headers});
   
@@ -3205,7 +3208,7 @@ public createproductsubcategorydata(data:any){
   public getbranchdetailsdata(data,page){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get(atmaUrl +'mstserv/bankbranchsummary/'+data+'?page='+page,{'headers':headers});
   
@@ -3213,119 +3216,119 @@ public createproductsubcategorydata(data:any){
   public productactiveinactive(id,data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl +'mstserv/productactiveinactive/'+id,data,{'headers':headers});
   }
   public getaddtaxname(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl +'mstserv/subtax',data,{'headers':headers});
   }
   public getaddtaxnamerate(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl +'mstserv/taxrate',data,{'headers':headers});
   }
   public gettaxnamelist(data:any,page:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get(atmaUrl +'mstserv/taxname?page='+page+'&data='+data,{'headers':headers});
   }
   public getsubtaxnamelist(id:any,data:any,page:any){
     const getToken: any = localStorage.getItem('sessionData');
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get(atmaUrl +'mstserv/subtaxname/'+id+'?page='+page+'&data='+data,{'headers':headers});
   }
   public getsubratetaxnamelist(id:any,data:any,page:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get(atmaUrl +'mstserv/taxratename/'+id+'?page='+page+'&data='+data,{'headers':headers});
   }
   public getactiveinactivetax(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl +'mstserv/taxrate_active_inactive',data,{'headers':headers});
   }
   public getactiveinactivetapcategory(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl +'mstserv/apcategory_active_inactivate',data,{'headers':headers});
   }
   public getactiveinactivetapsubcategory(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl +'mstserv/apsubcategory_active_inactivate',data,{'headers':headers});
   }
   public gettaxsummarydata(data:any,search:any,status:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get(atmaUrl +'mstserv/newtaxsummary?'+'data='+search+'&page='+data+'&status='+status,{'headers':headers});
   }
   public getpaymodeeditsummary(id:any,data:any,code:any,name:any,status){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get(atmaUrl +'mstserv/paymodecreditgl/'+id+'?page='+data+'&code='+code+'&name='+name+'&status'+status,{'headers':headers});
   }
   public getpaymodecreate(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl +'mstserv/paymodedetail_create',data,{'headers':headers});
   }
   public getpaymodeactiveinactive(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl +'mstserv/paymodedetails_active_inactive',data,{'headers':headers});
   }
   public gethsncreate(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl +'mstserv/hsn',data,{'headers':headers});
   }
   public getsgstdropdown(data:any,page:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get(atmaUrl +'mstserv/hsn_taxrateget?page='+page+'&data='+data,{'headers':headers});
   }
   public gethsnid_data(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get(atmaUrl +'mstserv/hsnid/'+data,{'headers':headers});
   }
   public gethsnactiveinactive(data:any){
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post(atmaUrl +'mstserv/hsn_activate_inactivate',data,{'headers':headers});
   }
@@ -3333,7 +3336,7 @@ public createproductsubcategorydata(data:any){
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams()
       .set('page', pageNumber.toString())
@@ -3347,7 +3350,7 @@ public createproductsubcategorydata(data:any){
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     if (dsgkeyvalue === null) {
       dsgkeyvalue = "";
     }
@@ -3362,7 +3365,7 @@ public createproductsubcategorydata(data:any){
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'venserv/vendor?query=' + desgkeyvalue, { 'headers': headers })
   }
@@ -3370,7 +3373,7 @@ public createproductsubcategorydata(data:any){
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/risktype', { 'headers': headers })
   }
@@ -3378,7 +3381,7 @@ public createproductsubcategorydata(data:any){
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/branch/" + branchId + "/activity_dd?query=" + query, { 'headers': headers })
   }
@@ -3386,7 +3389,7 @@ public createproductsubcategorydata(data:any){
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + "venserv/activity/" + activityViewId + "/activitydtl_dd?query=" + query, { 'headers': headers })
   }
@@ -3394,7 +3397,7 @@ public createproductsubcategorydata(data:any){
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/categorysearch_mst?name=' + name + '&no=' + no+'&status='+status+'&page='+page, { 'headers': headers })
   
@@ -3403,7 +3406,7 @@ public createproductsubcategorydata(data:any){
     this.reset();
     const getToken: any = localStorage.getItem('sessionData')
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.get<any>(atmaUrl + 'mstserv/subcategorysearch_mst' +no, { 'headers': headers })
   
@@ -3413,7 +3416,7 @@ public createproductsubcategorydata(data:any){
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     console.log("riskservice", JSON.stringify(branchJson))
     const headers = { 'Authorization': 'Token ' + token }
     return this.http.post<any>(atmaUrl + "venserv/vendor/" + vendorId + "/risk", branchJson, { 'headers': headers })
@@ -3422,7 +3425,7 @@ public createproductsubcategorydata(data:any){
     this.reset();
     const getToken = localStorage.getItem("sessionData")
     let tokenValue = JSON.parse(getToken);
-    let token = tokenValue.token
+    let token = tokenValue.vendor_token
     const headers = { 'Authorization': 'Token ' + token }
     let params: any = new HttpParams();
     params = params.append('page', pageNumber.toString());
@@ -3435,7 +3438,7 @@ public createproductsubcategorydata(data:any){
       this.reset();
       const getToken = localStorage.getItem("sessionData")
       let tokenValue = JSON.parse(getToken);
-      let token = tokenValue.token;
+      let token = tokenValue.vendor_token;
       let idValue = {
         "id": id
       }
@@ -3447,7 +3450,7 @@ public createproductsubcategorydata(data:any){
       this.reset();
       const getToken = localStorage.getItem("sessionData")
       let tokenValue = JSON.parse(getToken);
-      let token = tokenValue.token
+      let token = tokenValue.vendor_token
       const headers = { 'Authorization': 'Token ' + token }
       return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + '/risk/' + riskEditID, { 'headers': headers })
     }
@@ -3455,7 +3458,7 @@ public createproductsubcategorydata(data:any){
       this.reset();
       const getToken = localStorage.getItem("sessionData")
       let tokenValue = JSON.parse(getToken);
-      let token = tokenValue.token
+      let token = tokenValue.vendor_token
       let idValue = id;
       const headers = { 'Authorization': 'Token ' + token }
       return this.http.delete<any>(atmaUrl + "venserv/vendor/"+VendorId+"/risk/" + idValue, { 'headers': headers })
@@ -3465,7 +3468,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/branch_count", { 'headers': headers })
       }
@@ -3475,7 +3478,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'venserv/vendor_attactments/' + id + '?token=' + token,  { responseType: 'blob' as 'json' })
       
@@ -3488,7 +3491,7 @@ public createproductsubcategorydata(data:any){
         const getToken = localStorage.getItem("sessionData");
         if (getToken) {
           let tokenValue = JSON.parse(getToken);
-          token = tokenValue.token
+          token = tokenValue.vendor_token
         }
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'venserv/view_attactments/' + id, { headers, responseType: 'blob' as 'json' })
@@ -3499,7 +3502,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData");
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token;
+        let token = tokenValue.vendor_token;
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.post<any> (atmaUrl+ 'venserv/vendor/'+vendorId+'/kyc', formdata, { 'headers': headers })
       }
@@ -3509,7 +3512,7 @@ public createproductsubcategorydata(data:any){
       this.reset();
       const getToken = localStorage.getItem("sessionData")
       let tokenValue = JSON.parse(getToken);
-      let token = tokenValue.token
+      let token = tokenValue.vendor_token
       const headers = { 'Authorization': 'Token ' + token }
       let params: any = new HttpParams();
       params = params.append('page', pageNumber.toString());
@@ -3524,7 +3527,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         let idValue = id;
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.delete<any>(atmaUrl + "venserv/vendor/"+VendorId+"/kyc/" + idValue, { 'headers': headers })
@@ -3535,7 +3538,7 @@ public createproductsubcategorydata(data:any){
         let idValue = id.id
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + "venserv/vendor/"+vendorId+"/kyc/" + idValue, { headers })
       }
@@ -3546,7 +3549,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData");
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token;
+        let token = tokenValue.vendor_token;
         let formData = new FormData();
        
            let obj = Object.assign({}, kycJson, vendorId)
@@ -3568,7 +3571,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/bcp_question", { 'headers': headers })
       }
@@ -3578,7 +3581,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + "venserv/vendor/" + vendorId + "/due_question", { 'headers': headers })
       }
@@ -3588,7 +3591,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData");
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token;
+        let token = tokenValue.vendor_token;
         const headers = { 'Authorization': 'Token ' + token }
         let bcp = {
           "data": bcplist
@@ -3602,7 +3605,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData");
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token;
+        let token = tokenValue.vendor_token;
         const headers = { 'Authorization': 'Token ' + token }
         let due = {
           "data": duediligenceList
@@ -3615,7 +3618,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_apcategory_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3624,7 +3627,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_apsubcategory_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3633,7 +3636,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_productcat_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3642,7 +3645,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_productype_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3651,7 +3654,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_tax_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3660,7 +3663,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_sub_tax_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3669,7 +3672,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_tax_rate_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3678,7 +3681,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_hsn_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3687,7 +3690,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_uom_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3696,7 +3699,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_paymode_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3705,7 +3708,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_bank_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3714,7 +3717,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_bank_branch_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }
@@ -3723,7 +3726,7 @@ public createproductsubcategorydata(data:any){
         this.reset();
         const getToken = localStorage.getItem("sessionData")
         let tokenValue = JSON.parse(getToken);
-        let token = tokenValue.token
+        let token = tokenValue.vendor_token
         const headers = { 'Authorization': 'Token ' + token }
         return this.http.get<any>(atmaUrl + 'mstserv/get_product_download', { 'headers': headers,responseType: 'blob' as 'json' })
       }

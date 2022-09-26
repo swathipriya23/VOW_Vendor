@@ -140,6 +140,11 @@ export class LoginComponent implements OnInit {
     // this.entityID = data
     this.dataService.login(this.loginForm.value)
       .subscribe(datas => {
+        // code: "INVALID LOGIN", description: "INACTIVE USER"
+        if( datas.code == "INVALID LOGIN" ){
+          this.notification.showWarning(datas.description)
+          return false 
+        }
         this.session_data = datas;
         if (datas.id) {
           this.dataService.Finduserlocation(datas.token, datas.id)

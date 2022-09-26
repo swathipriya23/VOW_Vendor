@@ -10,6 +10,7 @@ import { debounceTime, distinctUntilChanged, tap, filter, switchMap, finalize, t
 import { MatAutocompleteSelectedEvent,MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NgxSpinnerService } from "ngx-spinner";
 import { SharedService } from 'src/app/service/shared.service';
+import { NotificationService } from 'src/app/service/notification.service';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class UserSummaryComponent implements OnInit {
   isUserPagination: boolean;
 
 
-  constructor(private usercreationService: UsercreationService,public sharedService: SharedService) { }
+  constructor(private usercreationService: UsercreationService,public sharedService: SharedService, private notify: NotificationService) { }
 
   ngOnInit(): void {
     this.getUserSummary();
@@ -65,6 +66,17 @@ export class UserSummaryComponent implements OnInit {
       this.getUserSummary(this.presentpage - 1)
     }
 
+}
+
+
+portaluserActiveInactive(status, linedata) {
+  let code = linedata?.code
+  this.usercreationService.portaluserActiveInactive(code, status)
+    .subscribe(results => {
+      console.log("results", results)
+      this.notify.showSuccess("Success")
+      this.getUserSummary(1) 
+    })
 }
 
 }

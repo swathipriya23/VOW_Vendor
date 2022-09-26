@@ -1131,9 +1131,8 @@ export class VendorviewComponent implements OnInit {
         map(value => this._filter(value))
       );
 
-    this.getBranch();
 
-    this.rejectPopup();
+    // this.rejectPopup();
 
 
 
@@ -1274,7 +1273,7 @@ export class VendorviewComponent implements OnInit {
   }
   // ---------------------------------------------------
   getdocumentsummary(pageNumber = 1, pageSize = 10) {
-    this.atmaService.getdocumentsummaryy(pageNumber, pageSize, this.vendorId)
+    this.atmaService.getdocumentsummaryy(this.vendorId,pageNumber, pageSize )
       .subscribe((result) => {
         console.log("document", result)
         let datass = result['data'];
@@ -1504,6 +1503,7 @@ export class VendorviewComponent implements OnInit {
         // }
         this.vendorId = result.id
         this.shareService.vendorDATA.next(this.vendorData)
+        this.getBranch();
         this.vendorViewDetailList = result;
         // this.activeContract = result.activecontract;
         if (result.activecontract == 'True') {
@@ -1516,8 +1516,8 @@ export class VendorviewComponent implements OnInit {
         this.emailDays = result.emaildays;
         this.code = result.code;
         this.companyRegNo = result.comregno;
-        this.contractFrom = result.contractdate_from;
-        this.contractTo = result.contractdate_to;
+        this.contractFrom = result?.contractdate_from;
+        this.contractTo = result?.contractdate_to;
         this.gstNo = result.gstno;
         this.mainStatusName = result.mainstatus_name;
         this.name = result.name;
@@ -1526,7 +1526,8 @@ export class VendorviewComponent implements OnInit {
         this.isOwnerflag = result.isowner
         this.isRmflag = result.is_rm
         this.isHeaderflag= result.is_header
-
+        this.rmId = result.rm_id.id;
+        // this.vendor_flag = result.vendor_flag
         if(this.panNo == ""){
          this.PANNO_FLAG = false;
         }
@@ -2943,7 +2944,7 @@ export class VendorviewComponent implements OnInit {
     // let data: any = this.shareService.vendorView.value;
     // let transactionDetail = data.id
     //vendor id dynamic lines ends
-    // console.log("res", transactionDetail)
+    console.log("this.vendorId============================================================>", this.vendorId)
     this.atmaService.gettransactionsummary(this.vendorId, pageNumber, pageSize)
       .subscribe((result) => {
         console.log("tran", result)
@@ -2974,8 +2975,8 @@ export class VendorviewComponent implements OnInit {
   }
 
   getBranch(pageNumber = 1, pageSize = 10) {
-
-    this.atmaService.getBranch(pageNumber, pageSize,this.vendorcode)
+    console.log("vendorcode vendorcode vendorcode===>", this.vendorcode)
+    this.atmaService.getBranch(this.vendorId, pageNumber, pageSize)
       .subscribe(result => {
         console.log("branchres", result)
         this.getbranchLength = result['data'].length;
@@ -2988,7 +2989,7 @@ export class VendorviewComponent implements OnInit {
         this.branchList = datas;
 
         if (this.branchList.length >= 0) {
-          this.breadcrumbarray.push(this.branchList[0].name)
+          this.breadcrumbarray.push(this.branchList[0]?.name)
           this.branch_next = this.branchPagination.has_next;
           this.branch_previous = this.branchPagination.has_previous;
           this.branchpage = this.branchPagination.index;
@@ -3189,7 +3190,9 @@ export class VendorviewComponent implements OnInit {
   adddocument() {
     this.isDocumentForm = true;
     this.isDocument = false;
-    this.shareService.vendorID.next(this.vendorId)
+    console.log("Vendor ID On document Create", this.vendorId)
+    let data: any  = this.vendorId
+    this.shareService.vendorID.next(data)
   }
 
   addrisk() {
@@ -4449,9 +4452,11 @@ export class VendorviewComponent implements OnInit {
 
           this.notification.showSuccess("Submitted To Approver")
           this.shareService.vendorViewHeaderName.next(result)
-          this.router.navigate(["/atma/vendor"], {
-            skipLocationChange: true
-          })
+          // this.router.navigate(["/atma/vendor"], {
+          //   skipLocationChange: true
+          // })
+          this.vendor_flag = false 
+          this.ngOnInit();
         }
         else if (result.code == "INVALID_BRANCH_ID"){
           this.notification.showError("Branch Count and Supplier Branch Not Match...")
@@ -4484,7 +4489,7 @@ export class VendorviewComponent implements OnInit {
       this.toastr.error('Please Confirm');
       return false;
     }
-    this.atmaService.movetorm(this.vendorId, this.rmId = 0, status,"RM Approved")
+    this.atmaService.movetorm(this.vendorId, 0, status,"RM Approved")
       .subscribe(result => {
         // console.log(result['code'])
         if (result['status'] != undefined || result['status'] == 'success') {
@@ -4509,7 +4514,7 @@ export class VendorviewComponent implements OnInit {
       status = 4
     }
     console.log("level",status)
-    this.atmaService.movetorm(this.vendorId, this.rmId = 0, status,"Cheker Approved")
+    this.atmaService.movetorm(this.vendorId, 0, status,"Cheker Approved")
       .subscribe(result => {
         if (result['status'] != undefined || result['status'] == 'success') {
           this.notification.showSuccess("Submitted To Approver")
@@ -4554,7 +4559,7 @@ export class VendorviewComponent implements OnInit {
 
         })
     } else {
-      this.atmaService.movetorm(this.vendorId, this.rmId = 0, status,"Header Approved")
+      this.atmaService.movetorm(this.vendorId, 0, status,"Header Approved")
         .subscribe(result => {
           if (result['status'] != undefined || result['status'] == 'success') {
             this.notification.showSuccess("Approved Successfully")

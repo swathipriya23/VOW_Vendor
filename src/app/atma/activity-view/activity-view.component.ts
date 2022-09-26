@@ -99,6 +99,7 @@ export class ActivityViewComponent implements OnInit {
 
   ngOnInit(): void {
     let data: any = this.shareService.branchView.value;
+    console.log("data for branch avticvity view ===============>", data )
     this.vendorId = data.vendor_id;
     console.log("vendorid", this.vendorId)
     this.getActivityView()
@@ -503,7 +504,7 @@ export class ActivityViewComponent implements OnInit {
   
   
   getVendorViewDetails() {
-    this.atamaService.getVendorViewDetails(this.vendorId)
+    this.atamaService.getVendorViewDetails(this.vendorId, "codestatus")
       .subscribe(result => {
         this.requestStatusName = result.requeststatus_name;
         this.vendorStatusName = result.vendor_status_name;

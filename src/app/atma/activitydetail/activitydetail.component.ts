@@ -323,16 +323,12 @@ export class ActivitydetailComponent implements OnInit {
       //   this.SpinnerService.hide();
       //   return false;
       // }
-      if (this.ActivityDetailAddForm.value.raisor == "" ||this.ActivityDetailAddForm.value.raisor.id==undefined) {
-        this.toastr.error('Invalid  Raisor Name');
-        this.SpinnerService.hide();
-        return false;
-      }
-      if (this.ActivityDetailAddForm.value.approver == ""||this.ActivityDetailAddForm.value.approver.id==undefined ) {
-        this.toastr.error(' Invalid Approver Name');
-        this.SpinnerService.hide();
-        return false;
-      }
+      // 
+      // if (this.ActivityDetailAddForm.value.approver == ""||this.ActivityDetailAddForm.value.approver.id==undefined ) {
+      //   this.toastr.error(' Invalid Approver Name');
+      //   this.SpinnerService.hide();
+      //   return false;
+      // }
       // if (this.ActivityDetailAddForm.value.remarks === "") {
       //   this.toastr.error('Please Enter Remarks');
       //   this.activityDetailButton = false;

@@ -319,11 +319,11 @@ export class ActivitydetailEditComponent implements OnInit {
       //   this.SpinnerService.hide();
       //   return false;
       // }
-      if (this.ActivityDetailEditForm.value.raisor == "" ||this.ActivityDetailEditForm.value.raisor.id==undefined) {
-        this.toastr.error('Invalid  Raisor Name');
-        this.SpinnerService.hide();
-        return false;
-      }
+      // if (this.ActivityDetailEditForm.value.raisor == "" ||this.ActivityDetailEditForm.value.raisor.id==undefined) {
+      //   this.toastr.error('Invalid  Raisor Name');
+      //   this.SpinnerService.hide();
+      //   return false;
+      // }
       if (this.ActivityDetailEditForm.value.approver == ""||this.ActivityDetailEditForm.value.approver.id==undefined ) {
         this.toastr.error(' Invalid Approver Name');
         this.SpinnerService.hide();
