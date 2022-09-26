@@ -58,8 +58,8 @@ export class KycComponent implements OnInit {
 
   ngOnInit(): void {
     
-    let data: any = this.shareService.vendorView.value;
-    this.vendorId = data.id;
+    let data: any = this.shareService.vendorID.value;
+    this.vendorId = data;
     let getparticulardata:any = this.shareService.vendorViewHeaderName.value;
     console.log("getparticulardata",getparticulardata)
     // this.orgname = getparticulardata.orgtype.text

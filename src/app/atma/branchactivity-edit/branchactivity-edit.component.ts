@@ -213,7 +213,7 @@ export class BranchactivityEditComponent implements OnInit {
       })
   }
   getVendorViewDetails() {
-    this.atmaService.getVendorViewDetails(this.vendorId)
+    this.atmaService.getVendorViewDetails(this.vendorId, 'codestatus')
       .subscribe(result => {
         this.requestStatusName = result.requeststatus_name;
         this.vendorStatusName = result.vendor_status_name;

@@ -109,7 +109,7 @@ export class BranchViewComponent implements OnInit {
   payment_RMView = false;
   docbtn: boolean;
   hide:false;
-
+VendorCode: any 
 
   constructor(private shareService: ShareService,private SpinnerService: NgxSpinnerService, private notification: NotificationService, private router: Router,
     private atamaService: AtmaService,public dialog: MatDialog) { }
@@ -117,6 +117,8 @@ export class BranchViewComponent implements OnInit {
   ngOnInit(): void {
     let data = this.shareService.vendorDATA.value
     this.vendorDetail = data
+    console.log("data from branch view share servoce===============", data)
+    this.VendorCode = data?.code 
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -779,7 +781,7 @@ catelog_view(){
   }
 
   getVendorViewDetails() {
-    this.atamaService.getVendorViewDetails(this.vendorId)
+    this.atamaService.getVendorViewDetails(this.VendorCode)
       .subscribe(result => {
         this.requestStatusName = result.requeststatus_name;
         this.vendorStatusName = result.vendor_status_name;

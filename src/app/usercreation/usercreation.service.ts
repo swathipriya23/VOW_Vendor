@@ -29,7 +29,7 @@ export class UsercreationService {
     let tokenValue = JSON.parse(getToken);
     let token = tokenValue.token
     const headers = { 'Authorization': 'Token ' + token }
-    return this.http.get<any>(userUrl + "usrserv/user_summary?code="+ portal_code + '&page=' + pageno, { 'headers': headers })
+    return this.http.get<any>(userUrl + "usrserv/vow_user_summary?code="+ portal_code + '&page=' + pageno, { 'headers': headers })
 }
 
 
@@ -41,5 +41,14 @@ public userCreationForm(usercreation): Observable<any> {
   console.log("usercreation", JSON.stringify(usercreation))
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.post<any>(userUrl + "usrserv/portal_user", usercreation, { 'headers': headers })
+}
+
+public portaluserActiveInactive(code, status): Observable<any> {
+  this.reset();
+  const getToken = localStorage.getItem("sessionData")
+  let tokenValue = JSON.parse(getToken);
+  let token = tokenValue.token
+  const headers = { 'Authorization': 'Token ' + token }
+  return this.http.get<any>(userUrl + "usrserv/user_disable?code="+code+"&status="+status, { 'headers': headers })
 }
 }
