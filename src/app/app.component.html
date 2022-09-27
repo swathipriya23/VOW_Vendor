@@ -4,7 +4,7 @@
     <div id="mySidenav" class="sidenav" *ngIf="sharedService.isLoggedin === true">
       <div style="background-color:53A95A;cursor: pointer;color: #fff;">
         <img id="LogoTag1" src="./assets/images/Nimbus-Logo-1.png" width="50px">
-        <span *ngIf="sharedService.isSideNav === false"> VOW </span>
+        <span *ngIf="sharedService.isSideNav === false"> VoW </span>
       </div>
       <div *ngIf="!isMasterList ||isTransactionList" class="scrollclass" style="margin-bottom:100px;"  >
         <div *ngFor="let modrow of sharedService.transactionList; let i = index"
@@ -33,7 +33,7 @@
       </div> -->
     </div>
     <div id="main"  style="margin-left: 12%;">
-      <nav class="navbar navbar-light  justify-content-between" style="box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);margin-top: -10px;"
+      <nav class="navbar navbar-light  justify-content-between" style="box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);margin-top: -6px;"
         *ngIf="sharedService.isLoggedin === true">
         <span style="font-size:18px;cursor:pointer"
           *ngIf="headerName !='vendorView' && headerName!='branchView' && headerName!='REMS'"
@@ -75,12 +75,12 @@
           <span id="UserNameContainer" style="margin-right: 10px;font-size: 18px;">{{sharedService.Loginname}}</span>
           <span id="UserNameContainer" style="margin-right: 10px;font-size: 18px;">({{sharedService.entity_Name}})</span>
 
-          <img src="https://cdn-icons-png.flaticon.com/512/152/152360.png" data-toggle="modal"
-          data-target="#entityreloadpopup" (click)="onClickSwitchIcon()" style="width: 25px;cursor: pointer;">&nbsp;
-            <!-- <span  data-toggle="modal"
-            data-target="#entityreloadpopup" class="material-icons">
-            cached
-            </span>&nbsp; -->
+          <!-- <img src="https://cdn-icons-png.flaticon.com/512/152/152360.png" data-toggle="modal"
+          data-target="#entityreloadpopup" (click)="onClickSwitchIcon()" style="width: 25px;cursor: pointer;">&nbsp; -->
+            <span  data-toggle="modal" matTooltip="Change Password" 
+            data-target="#changepopup" (click) ="resetChangepwd()"  class="material-icons">
+            lock
+            </span>&nbsp;
             <span class="material-icons" (click)="logout()">
               logout
               </span>
@@ -178,6 +178,75 @@
             </div>
   </div>
 
+
+
+    <!-- change password -->
+    <div class="modal fade" id="changepopup" role="dialog">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <p class="modal-title">Change Password</p>
+            <button type="button" #changepassword class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form style="width: 10rem;font-family: Montserrat;margin-left: 10%;" [formGroup]="changepwd">
+              
+                  <mat-form-field appearance="outline">
+                    <mat-label>Old Password</mat-label>
+                    <input matInput [type]="hideold ? 'password' : 'text'" formControlName="old_password">
+            <button mat-icon-button matSuffix (click)="hideold = !hideold" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hideold ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+                 </mat-form-field>
+            
+                  
+                  <mat-form-field appearance="outline">
+                    <mat-label>New Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="new_password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+                 </mat-form-field>
+            
+    
+    
+    
+                <mat-form-field appearance="outline">
+                  <mat-label>Confirm Password</mat-label>
+                  <input matInput [type]="hided ? 'password' : 'text'" formControlName="re_password">
+            <button mat-icon-button matSuffix (click)="hided = !hided" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hided ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+               </mat-form-field>
+
+              
+    
+            </form>
+          <div class="modal-footer">
+            <span class="col-md-12 text-center">
+              <button type="submit" style="margin-left: 10px;" class="btn btn-light" id="primarybtn"
+                (click)="change_pwd()">Submit</button>
+              <button type="button" data-dismiss="modal" class="btn btn-light" id="secondarybtn"
+                style="margin-left: 10px;">Close</button>
+            </span>
+          </div> 
+          <!-- <div style="margin-top: 3%; margin-left: 20px; ">
+            <button type="button" class="btn btn-light"
+            style="border-radius: 7px;margin-left: 10px;
+            border-color: black;
+            background-color: white;">Cancel</button>
+            <button type="submit" style="border-radius: 10px;margin-left: 10px;
+            border-color: #f5c68b;
+            background-color: #f5c68b;"
+            class="btn btn-light" (click)="viewDetail_Entityreload()" >Submit</button>
+        </div> -->
+            
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 

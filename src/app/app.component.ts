@@ -11,7 +11,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { NotificationService } from './service/notification.service';
 import { environment } from 'src/environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { FormGroup } from '@angular/forms';
+import { FormGroup,Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorHandlingServiceService } from './service/error-handling-service.service';
 import { AboutComponent } from './about/about.component';
@@ -93,7 +93,12 @@ export class AppComponent implements OnInit {
   // {id:4,value:"Client 4"}]
   entityList:any;
   ReloadForm:FormGroup;
+  changepwd:FormGroup;
+  hide=true;
+  hided = true;
+  hideold = true;
   @ViewChild('closeentityreload')closeentityreload;
+  @ViewChild('changepassword')changepassword;
   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective
   constructor(private idle: Idle, public cookieService: CookieService, private dataService: DataService, private formBuilder: FormBuilder, private notification: NotificationService,
     public sharedService: SharedService, private shareService: ShareService, private SpinnerService: NgxSpinnerService,private errorHandler: ErrorHandlingServiceService,
@@ -171,6 +176,20 @@ export class AppComponent implements OnInit {
     })
     this.ReloadForm = this.formBuilder.group({
       entity: [''],
+    });
+    this.changepwd = this.formBuilder.group({
+      old_password: [''],
+      new_password: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+      ])],
+      re_password: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+      ])],
+      code: ['']
     });
     
 
@@ -846,6 +865,32 @@ export class AppComponent implements OnInit {
     console.log("entity-id", this.entityReloadId)
   }
 
+  resetChangepwd(){
+    this.changepwd = this.formBuilder.group({
+      old_password: [''],
+      new_password: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+      ])],
+      re_password: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+      ])],
+      code: ['']
+    });
+    // this.changepwd.patchValue({
+    //   "old_password": "",
+    //   "new_password": "",
+    //   "re_password":"",
+    //   "code":""
+    // })
+    // this.changepwd.reset();
+          //  this.premisenameForm.reset();
+          //  this.formGroupDirective.resetForm();
+  }
+  
   onClickSwitchIcon(){
     this.ReloadForm.patchValue({
       "entity": ""
@@ -898,6 +943,66 @@ export class AppComponent implements OnInit {
     
     // this.router.navigate(['/verify'], { skipLocationChange: true })
   }
+
+
+  // change pwd
+
+  change_pwd(){
+    this.SpinnerService.show();
+    if (this.ReloadForm.value.old_password === "") {
+      this.toastr.error('', 'Please Enter Old Password', { timeOut: 1500 });
+      this.SpinnerService.hide();
+      return false;
+    }
+    if (this.ReloadForm.value.new_password === "") {
+      this.toastr.error('', 'Please Enter New Password', { timeOut: 1500 });
+      this.SpinnerService.hide();
+      return false;
+    }
+    if (this.ReloadForm.value.re_password === "") {
+      this.toastr.error('', 'Please Enter Confirm Password', { timeOut: 1500 });
+      this.SpinnerService.hide();
+      return false;
+    }
+    const sessionData = localStorage.getItem("sessionData")
+    let logindata = JSON.parse(sessionData);
+    this.login_code = logindata.code;
+    this.changepwd.value.code = this.login_code;
+
+    this.dataService.getchange_pwd(this.changepwd.value)
+      .subscribe((result) => {
+        console.log(result)
+    if (result.status == "success") {
+    this.notification.showSuccess("Password Changed")
+    this.showModal = false;
+    this.idleState = '';
+    this.timedOut = true;
+    this.idle.stop()
+    localStorage.removeItem("sessionData");
+    this.cookieService.delete('my-key', '/');
+    this.sharedService.Loginname = undefined;
+    this.sharedService.isLoggedin = false;
+    this.sharedService.MyModuleName = ""
+    this.headerName = '';
+    this.currentlyClickedCardIndex = 0
+    this.isMasterList = false;
+    this.isTransactionList = false;
+    this.changepassword.nativeElement.click();
+    this.router.navigate(['/verify'], { skipLocationChange: true });
+    this.SpinnerService.hide();
+      } else {
+        this.notification.showError(result.description)
+        this.SpinnerService.hide();
+      } 
+      },
+      error => {
+        this.errorHandler.handleError(error);
+        this.SpinnerService.hide();
+      }
+      )
+    
+  }
+
   // getPremiseData() {
   //   this.remsshareService.premiseBackNavigation.subscribe(result => {
   //     if (result != null) {

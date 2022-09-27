@@ -2805,6 +2805,10 @@ export class VendorviewComponent implements OnInit {
         this.contractor_RMView = false;
         this.product_RMView = false;
         this.document_RMView = false;
+        this.isKYC = false;
+        this.isKYCForm = false;
+        this.isKYCEditForm = false;
+        this.kyc_RMView = false;
         return false
       }else if(this.statusTab=='KYC'){
         this.isKYC = true;

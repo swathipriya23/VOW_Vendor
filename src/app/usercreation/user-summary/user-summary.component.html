@@ -17,6 +17,8 @@
                     <th>Sl.No</th>
                     <th>Code</th>
                     <th>Name</th>
+                    <th>Email Id</th>
+                    <th>Phone No</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -25,10 +27,19 @@
                     <td> {{(presentpage - 1)*pageSize +i+1 }} </td>
                     <td>{{list.code}}</td>
                     <td>{{list.name}}</td>
-                    <td> <span class="material-icons" (click)="portaluserActiveInactive(1, list)" *ngIf="list?.is_active == 0 " >wb_sunny </span>
-                        <span class="material-icons" *ngIf="list?.is_active == 1" style="color: green" (click)="portaluserActiveInactive(0, list)">wb_sunny </span>
+                    <td>{{list.email}}</td>
+                    <td>{{list.phone_no}}</td>
+                    <td> <span class="material-icons" (click)="portaluserActiveInactive(1, list)" *ngIf="list?.is_active == 0 " matTooltip="Click to Active" style="color: red;cursor: pointer;">wb_sunny </span>
+                        <span class="material-icons" *ngIf="list?.is_active == 1" style="color: green;cursor: pointer;" matTooltip="Click to Inactive" (click)="portaluserActiveInactive(0, list)">wb_sunny </span>&nbsp;&nbsp;
                         <span  *ngIf="list?.is_active == 2">-- </span>
+                        <span class="material-icons" *ngIf="list?.is_active == 1" data-toggle="modal" style="cursor: pointer;color: blue;"
+                        data-target="#adminpopup" matTooltip="Change Password" (click)="resetforn(list)">lock_reset</span>
                      </td>
+                     <!-- <td>
+                        <span class="material-icons" *ngIf="list?.is_active == 1" data-toggle="modal"
+                        data-target="#adminpopup"  (click)="resetforn(list)">wb_sunny </span>
+                        <span  *ngIf="list?.is_active == 2||list?.is_active == 0">-- </span>
+                     </td> -->
                 </tr>
             </tbody>
         </table>
@@ -55,3 +66,52 @@
 <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
     <p style="color: white">Please Wait. </p>
 </ngx-spinner>
+
+
+<!-- admin -->
+<div class="modal fade" id="adminpopup" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="modal-title">{{user_summary_name}}</p>
+          <button type="button" #changeadmin class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form style="width: 10rem;font-family: Montserrat;margin-left: 10%;" [formGroup]="adminForm">
+  
+            
+    
+            <mat-form-field appearance="outline">
+              <mat-label>New Password</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+           </mat-form-field>
+      
+
+
+
+          <mat-form-field appearance="outline">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput [type]="hided ? 'password' : 'text'" formControlName="re_password">
+      <button mat-icon-button matSuffix (click)="hided = !hided" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hided ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+         </mat-form-field>
+            
+          </form>
+        <div class="modal-footer">
+          <span class="col-md-12 text-center">
+            <button type="submit" style="margin-left: 10px;" class="btn btn-light" id="primarybtn"
+              (click)="admin_submit()">Submit</button>
+            <button type="button" data-dismiss="modal" class="btn btn-light" id="secondarybtn"
+              style="margin-left: 10px;">Close</button>
+          </span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>

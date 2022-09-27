@@ -33,7 +33,7 @@ export class RiskEditComponent implements OnInit {
     private router: Router,private shareService: ShareService) { }
 
   ngOnInit(): void {
-    let data: any = this.shareService.vendorView.value;
+    let data: any = this.shareService.vendorViewHeaderName.value;
     this.vendorId = data.id;
     this.riskeditForm = this.formBuilder.group({
       risktype_id: ['',Validators.required],

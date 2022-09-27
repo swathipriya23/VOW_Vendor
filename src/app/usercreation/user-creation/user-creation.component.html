@@ -13,7 +13,7 @@
                                 <td>
                                     <mat-label>Username<label style="color: red;" >*</label></mat-label><br>
                                     <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;">
-                                        <input matInput placeholder="Username" formControlName="name" class="matformfieldinputstyle" 
+                                        <input matInput  formControlName="name" class="matformfieldinputstyle" 
                                             autocomplete="off">
                                     </mat-form-field>
 
@@ -21,11 +21,20 @@
                                 <td>
                                     <mat-label style="margin-left: 60px;">Email Id<label style="color: red;" >*</label></mat-label><br>
                                     <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
-                                        <input matInput placeholder="Email Id" formControlName="email" class="matformfieldinputstyle" 
+                                        <!-- <input matInput placeholder="Email Id" formControlName="email" class="matformfieldinputstyle" 
                                             autocomplete="off">
                                             <mat-error *ngIf="UserCreation.controls['email'].hasError('email')">
                                               Email is not Valid!
-                                          </mat-error>
+                                          </mat-error> -->
+                                          <input type="email"  matInput formControlName="email" class="matformfieldinputstyle" autocomplete="off" />
+                                     </mat-form-field>
+
+                                </td>
+                                <td>
+                                    <mat-label style="margin-left: 60px;">Phone No<label style="color: red;" >*</label></mat-label><br>
+                                    <mat-form-field appearance="outline" class="matformfieldstyle" style="width: 250px;margin-left: 60px;">
+                                        <input matInput  formControlName="phone_no" class="matformfieldinputstyle" autocomplete="off"
+                            pattern="\d{10}" (keypress)="numberOnly($event)" maxlength="10">
                                      </mat-form-field>
 
                                 </td>

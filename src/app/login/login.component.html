@@ -129,8 +129,8 @@
             </div>
             
           </form> -->
-          <form [formGroup]="loginForm" class="login-container" style="margin-top: 10%;" (ngSubmit)="login()">
-            <p>VOW Login</p>
+          <form [formGroup]="loginForm" class="login-container" style="margin-top: 10%;">
+            <p>VoW Login</p>
             <mat-form-field appearance="outline" style="width: 300px;">
               <mat-label>Entity</mat-label>
               <mat-select formControlName="entity_id">
@@ -161,16 +161,22 @@
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
            </mat-form-field>
-            <div class="error-messages">
+           <br>
+            <!-- <div class="error-messages">
               <ng-container *ngFor="let error of error_messages.password">
                 <div class="error-message"
                   *ngIf="loginForm.get('password').hasError(error.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
                   {{ error.message }}
                 </div>
               </ng-container>
-            </div>
+            </div> -->
+           
+            <button  class="button-name" (click)="login()"> Login</button>
+            <br>
+            <br>
 
-            <button  class="button-name"> Login</button>
+            <a class="primary tagname" data-toggle="modal"
+            data-target="#forgotpopup"  (click)="resetforgotpwd()">Forgot Password?</a>
             <!-- <div class = "fixed-bottom v1">
               <span>Version - {{version}}</span>
             </div> -->
@@ -207,3 +213,35 @@
 <!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen] = "true" type="ball-spin-clockwise">
   <p style="color: white">Please Wait. </p>
 </ngx-spinner> -->
+
+
+ <!-- forgot password -->
+ <div class="modal fade" id="forgotpopup" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title">Forgot Password</p>
+        <button type="button" #closeforgotpwd (click)="resetforgotpwd()"class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form style="width: 10rem;font-family: Montserrat;margin-left: 10%;" [formGroup]="forgotpwd">
+          <mat-form-field appearance="outline" style="width: 300px;">
+            <mat-label>UserCode/Email</mat-label>
+            <input matInput placeholder="Username/Email" formControlName="user_data"
+                autocomplete="off">
+         </mat-form-field>
+        </form>
+      <div class="modal-footer">
+        <span class="col-md-12 text-center" style="margin-bottom: 5%;">
+          <button type="submit" style="margin-left: 10px;" class="btn btn-light" id="primarybtn"
+            (click)="clickforgotpwd()">Submit</button>
+          <button type="button" data-dismiss="modal" class="btn btn-light" id="secondarybtn"
+            style="margin-left: 10px;">Close</button>
+        </span>
+      </div> 
+      </div>
+    </div>
+  </div>
+</div>

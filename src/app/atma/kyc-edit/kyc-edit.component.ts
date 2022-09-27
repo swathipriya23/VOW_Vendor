@@ -58,7 +58,7 @@ export class KycEditComponent implements OnInit {
 
   ngOnInit(): void {
     
-    let data: any = this.shareService.vendorView.value;
+    let data: any = this.shareService.vendorViewHeaderName.value;
     this.vendorId = data.id;
     let getparticulardata:any = this.shareService.vendorViewHeaderName.value;
     console.log("getparticulardata",getparticulardata)

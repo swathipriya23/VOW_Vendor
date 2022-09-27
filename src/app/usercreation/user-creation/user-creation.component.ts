@@ -27,6 +27,7 @@ export class UserCreationComponent implements OnInit {
     this.UserCreation  = this.fb.group({
       name: [''],
       role: [1],
+      phone_no: [''],
       port_id:[this.sharedService.portal_id],
       email:['', [Validators.email,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
   });
@@ -53,7 +54,7 @@ export class UserCreationComponent implements OnInit {
   
     //user creation
     submit_user_Creation() {
-
+    this.SpinnerService.show();
     this.UsercreationService.userCreationForm(this.UserCreation.value)
       .subscribe((res) => {
         // console.log("user",res)
@@ -86,6 +87,14 @@ export class UserCreationComponent implements OnInit {
     
   }
 
+
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
 
 
   // generatePassword(passwordLength) {

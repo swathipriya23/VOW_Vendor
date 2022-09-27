@@ -249,3 +249,14 @@ input.form-control{
 .error-message {
   color: red;
 }
+
+
+.signupname{
+  font-weight: 600;
+  font-size: medium;
+  margin-top: revert;
+}
+.tagname{
+  text-decoration: none;
+  cursor: pointer;
+}

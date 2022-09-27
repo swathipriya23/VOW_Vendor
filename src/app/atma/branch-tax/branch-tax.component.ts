@@ -192,7 +192,7 @@ export class BranchTaxComponent implements OnInit {
     private shareService: ShareService, private router: Router, private toastr: ToastrService, private atmaService: AtmaService, public datepipe: DatePipe, private notification: NotificationService) {}
 
   ngOnInit(): void {
-    this.vendordata=this.shareService.vendorView.value
+    this.vendordata=this.shareService.vendorViewHeaderName.value
     this.modificationdata = this.shareService.taxdata.value;
     console.log("modfi",this.modificationdata)
 

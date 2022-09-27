@@ -51,4 +51,15 @@ public portaluserActiveInactive(code, status): Observable<any> {
   const headers = { 'Authorization': 'Token ' + token }
   return this.http.get<any>(userUrl + "usrserv/user_disable?code="+code+"&status="+status, { 'headers': headers })
 }
+
+
+public getAdmin(admin): Observable<any> {
+  this.reset();
+  const getToken = localStorage.getItem("sessionData")
+  let tokenValue = JSON.parse(getToken);
+  let token = tokenValue.token
+  console.log("admin", JSON.stringify(admin))
+  const headers = { 'Authorization': 'Token ' + token }
+  return this.http.post<any>(userUrl + "usrserv/forgot_password", admin, { 'headers': headers })
+}
 }

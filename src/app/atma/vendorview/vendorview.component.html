@@ -5,13 +5,13 @@
     <div class="btn-rm-edit">
         <button class="btn btn-success" type="button" style="border-radius: 10px;" *ngIf="isDraft" data-toggle="modal"
             data-target="#exampleModalCenter" (click)="movetorm()">
-            Submit to RM </button>
+            Submit to NAC</button>
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Move To RM Validation</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">Move To NAC Validation</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -98,9 +98,9 @@
         </div>
 
 
-        <!-- <button type="button" mat-button data-toggle="modal" *ngIf="rm_viewscreen" class="btn btn-success"
+        <button type="button" mat-button data-toggle="modal" *ngIf="rm_viewscreen" class="btn btn-success"
             (click)="changes_view()" style="border-radius: 10px;margin-top: 10px;margin-left:10px">
-            View Changes</button> -->
+            View Changes</button>
         
         <button class="btn btn-success" *ngIf="ismodification" type="button" style="border-radius:10px;margin-left:10px"
             (click)="modificationrequest()">

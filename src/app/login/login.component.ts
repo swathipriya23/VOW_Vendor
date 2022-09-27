@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../service/data.service'
@@ -10,6 +10,7 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { environment } from 'src/environments/environment';
 import { data } from 'jquery';
 import { CookieService } from 'ngx-cookie-service';
+import { ErrorHandlingServiceService } from '../service/error-handling-service.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
   count = 100;
   timeout: any;
   mobile_form: FormGroup;
+  forgotpwd: FormGroup;
   ips: any;
   otp2: boolean;
   session_data: any;
@@ -36,9 +38,10 @@ export class LoginComponent implements OnInit {
   hide = true;
   hided = true;
   entityname:any;
+  @ViewChild('closeforgotpwd') closeforgotpwd;
   constructor(private dataService: DataService, private router: Router, private SpinnerService: NgxSpinnerService, private notification: NotificationService,
     private sharedService: SharedService, public cookieService: CookieService,
-    private formBuilder: FormBuilder, private route: ActivatedRoute) {
+    private formBuilder: FormBuilder, private route: ActivatedRoute,private errorHandler: ErrorHandlingServiceService,) {
 
   }
 
@@ -56,7 +59,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.compose([
         Validators.required,
         Validators.minLength(6),
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+        // Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
       ])],
     });
 
@@ -65,6 +68,11 @@ export class LoginComponent implements OnInit {
       otp: [''],
       mobile_num: ['']
     })
+
+    this.forgotpwd = this.formBuilder.group({
+      user_data: [''],
+    })
+
     this.version = this.sharedService.appVersion.value
     // get return url from route parameters or default to '/'
     if (this.redirect_tO_NAC) {
@@ -300,5 +308,47 @@ export class LoginComponent implements OnInit {
       { type: 'minlength', message: 'password length.' },
       { type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number'}
     ],
+  }
+
+    
+  resetforgotpwd(){
+    this.forgotpwd.patchValue({
+      "user_data": ""
+    })
+  }
+
+
+  // change pwd
+
+  clickforgotpwd(){
+    this.SpinnerService.show();
+    // if (this.forgotpwd.value.old_password === "") {
+    //   this.toastr.error('', 'Please Enter Usercode/Email', { timeOut: 1500 });
+    //   this.SpinnerService.hide();
+    //   return false;
+    // }
+    
+
+    // this.sharedService.entity_name.next(this.entityReloadId)
+    // this.formGroupDirective.resetForm();
+    // this.changepassword.nativeElement.click();
+    this.dataService.forgot_pwd(this.forgotpwd.value)
+      .subscribe((result) => {
+        console.log(result)
+      if (result.status == "success") {
+        this.closeforgotpwd.nativeElement.click();
+        this.notification.showSuccess("Mail Sent")
+        this.SpinnerService.hide();
+      } else {
+        this.notification.showError(result.description)
+        this.SpinnerService.hide();
+      } 
+      },
+      error => {
+        this.errorHandler.handleError(error);
+        this.SpinnerService.hide();
+      }
+      )
+    
   }
 }

@@ -1025,6 +1025,31 @@ export class DataService {
     return this.http.post<any>(url + "usrserv/entity_change?query=" + entityReloadId, {}, { 'headers': headers })
   }
 
+  public getchange_pwd(changepwd): Observable<any> {
+    this.reset();
+    const getToken = localStorage.getItem("sessionData")
+    let tokenValue = JSON.parse(getToken);
+    let token = tokenValue.token;
+    // let idValue = {
+    //   "id": id
+    // }
+    // let branchEditJson = Object.assign({}, idValue, branchJson)
+    const headers = { 'Authorization': 'Token ' + token }
+    return this.http.post<any>(url + "usrserv/change_pass",changepwd,  { 'headers': headers })
+  }
+  public forgot_pwd(forgotpwd): Observable<any> {
+    this.reset();
+    // const getToken = localStorage.getItem("sessionData")
+    // let tokenValue = JSON.parse(getToken);
+    // let token = tokenValue.token;
+    // let idValue = {
+    //   "id": id
+    // }
+    // let branchEditJson = Object.assign({}, idValue, branchJson)
+    // const headers = { 'Authorization': 'Token ' + token }
+    return this.http.post<any>(url + "usrserv/forgot_user_pass",forgotpwd)
+  }
+
   public authResponse(urllink: any): Observable<any> {
     console.log("calling authresponse");
     console.log(urllink);
