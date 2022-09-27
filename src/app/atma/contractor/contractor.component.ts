@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
-import { threadId } from 'worker_threads';
+// import { threadId } from 'worker_threads';
 import { AtmaService } from '../atma.service'
 import { NotificationService } from '../notification.service'
 import { ShareService } from '../share.service'
