@@ -3,7 +3,10 @@
     
     <div id="mySidenav" class="sidenav" *ngIf="sharedService.isLoggedin === true">
       <div style="background-color:53A95A;cursor: pointer;color: #fff;">
-        <img id="LogoTag1" src="./assets/images/Nimbus-Logo-1.png" width="50px">
+        <!-- <img id="LogoTag1" src="./assets/images/Nimbus-Logo-1.png" width="50px"> -->
+        <!-- <img src="./assets/images/Northern Arc - Logo 1.jpg" width="50px"> -->
+        <img src="./../assets/images/Northern Arc - Logo 1.jpg" width="70px">
+
         <span *ngIf="sharedService.isSideNav === false"> VoW </span>
       </div>
       <div *ngIf="!isMasterList ||isTransactionList" class="scrollclass" style="margin-bottom:100px;"  >
@@ -95,7 +98,7 @@
           <div class="footer" >
             <span>
               <span  style="margin-left: 28rem;font-size: 15px;">
-                &#169;2021 -Vsolv Engineering India Pvt Ltd.
+                &#169;2022 -Vsolv Engineering India Pvt Ltd.
               </span>
             </span>
           </div>

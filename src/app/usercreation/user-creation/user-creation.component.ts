@@ -6,6 +6,7 @@ import { SharedService } from 'src/app/service/shared.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ErrorHandlingServiceService } from 'src/app/service/error-handling-service.service';
 import { NotificationService } from 'src/app/service/notification.service'; 
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class UserCreationComponent implements OnInit {
 
   constructor(private fb: FormBuilder,private UsercreationService: UsercreationService,private router: Router,
     public sharedService: SharedService,private errorHandler: ErrorHandlingServiceService,private SpinnerService: NgxSpinnerService,
-    private notification: NotificationService,) { }
+    private notification: NotificationService,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.UserCreation  = this.fb.group({
@@ -55,17 +56,24 @@ export class UserCreationComponent implements OnInit {
     //user creation
     submit_user_Creation() {
     this.SpinnerService.show();
+    if (this.UserCreation.value.name === "") {
+      this.toastr.error('', 'Please Enter Username', { timeOut: 1500 });
+      this.SpinnerService.hide();
+      return false;
+    }
+    if (this.UserCreation.value.email === "") {
+      this.toastr.error('', 'Please Enter email Id', { timeOut: 1500 });
+      this.SpinnerService.hide();
+      return false;
+    }
+    if (this.UserCreation.value.phone_no === "") {
+      this.toastr.error('', 'Please Enter Phone No', { timeOut: 1500 });
+      this.SpinnerService.hide();
+      return false;
+    }
+
     this.UsercreationService.userCreationForm(this.UserCreation.value)
       .subscribe((res) => {
-        // console.log("user",res)
-        // if(res.code)  {
-        //   this.notification.showSuccess("Created Successfully!...");
-        //   this.router.navigate(['branchdetails/branchsummary']);
-        // }else{
-        //     this.notification.showError(res.description)
-        //     return false;
-          
-        // }
         if(res.id === undefined){
           this.notification.showError(res.description)
           this.SpinnerService.hide();

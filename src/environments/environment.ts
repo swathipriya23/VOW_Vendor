@@ -3,14 +3,14 @@
 // The list of file replacements can be found in `angular.json`.
 export const environment = {
   production: false,
-  apiURL: 'http://192.168.1.3:8000/',
+  apiURL: 'http://192.168.1.4:8000/',
   nacFEURL:'http://10.91.20.15:81/',
   redirect_TO_NAC: false,
   isSkipLocationChange:true,
   TimeoutGreen:2700,
   TimeoutYellow:900,
   TimeoutRed:300,
-  NACURL: 'http://192.168.1.3:8001/',
+  NACURL: 'http://192.168.1.4:8001/',
 };
 /*
  * For easier debugging in development mode, you can import the following file
