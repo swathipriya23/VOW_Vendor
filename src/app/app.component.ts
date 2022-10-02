@@ -949,17 +949,17 @@ export class AppComponent implements OnInit {
 
   change_pwd(){
     this.SpinnerService.show();
-    if (this.ReloadForm.value.old_password === "") {
+    if (this.changepwd.value.old_password === "") {
       this.toastr.error('', 'Please Enter Old Password', { timeOut: 1500 });
       this.SpinnerService.hide();
       return false;
     }
-    if (this.ReloadForm.value.new_password === "") {
+    if (this.changepwd.value.new_password === "") {
       this.toastr.error('', 'Please Enter New Password', { timeOut: 1500 });
       this.SpinnerService.hide();
       return false;
     }
-    if (this.ReloadForm.value.re_password === "") {
+    if (this.changepwd.value.re_password === "") {
       this.toastr.error('', 'Please Enter Confirm Password', { timeOut: 1500 });
       this.SpinnerService.hide();
       return false;
